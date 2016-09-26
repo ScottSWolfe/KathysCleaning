@@ -1,12 +1,16 @@
 Things to Do
 
 
-**tweak time doc filter so only allows real times** (or maybe this should be a focus listener)
+Create save feature where user can save an incomplete report and continue it later.
+Also, user can look at past reports in the app gui.
+
+**tweak time doc filter so only allows real times** (or when focus shifts away..)
 
 create Schedule printout with place to write times worked at houses / corrections / who worked
-(create app to enter all of this on mom's mobile phone??)
 
-generate worker lists by reading excel template??
+create app to enter all of this on smart phone?
+
+generate worker lists by reading excel template
 
 add in some headers to make what's going on more clear
 
@@ -21,7 +25,5 @@ create a Kari's Wedding color scheme
 have a way to show user that an exception has been submitted for a house panel
 
 read from txt file into objects at beginning of program instead of straight into GUI when radio button selected? 
-
-If write in house name (eg Sue), it autopopulates amount paid
 
 make each day of week a slightly different color or shade of color
