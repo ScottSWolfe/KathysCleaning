@@ -232,7 +232,7 @@ public class WeekendPanel extends JPanel {
 			customer_combobox.setFont( customer_combobox.getFont().deriveFont(DayPanel.FONT_SIZE) );
 			customer_combobox.setEditable(true);
 			customer_combobox.addItem("");
-			String[] s1 = new DefaultWorkerData("WeekendWorkSaveFile").default_workers;
+			String[] s1 = new DefaultWorkerData(DefaultWorkerData.WEEKEND_WORKERS).default_workers;
 			for (int i=0; i<s1.length; i++) {
 				customer_combobox.addItem( s1[i] );
 			}
@@ -249,7 +249,7 @@ public class WeekendPanel extends JPanel {
 			employee_combobox.setFont( employee_combobox.getFont().deriveFont(DayPanel.FONT_SIZE) );
 			employee_combobox.setEditable(true);
 			employee_combobox.addItem("");
-			String[] s2 = new DefaultWorkerData("WorkerSaveFile").default_workers;
+			String[] s2 = new DefaultWorkerData(DefaultWorkerData.HOUSE_WORKERS).default_workers;
 			for (int i=0; i<s2.length; i++) {
 				employee_combobox.addItem( s2[i] );
 			}
@@ -676,13 +676,11 @@ public class WeekendPanel extends JPanel {
 				//Reading Default Worker Data from save file
 				DefaultWorkerData dwd_house = null;
 				try {
-					dwd_house = new DefaultWorkerData( "HouseWorkerSaveFile" );
+					dwd_house = new DefaultWorkerData( DefaultWorkerData.HOUSE_WORKERS);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
-				//DefaultWorkerData dwd_cov = new DefaultWorkerData( "CovenantWorkerSaveFile" );	
-				
+				}				
 				
 				TabbedPane tp = new TabbedPane();
 				tp.setFont( tp.getFont().deriveFont( DayPanel.TAB_FONT_SIZE ) );

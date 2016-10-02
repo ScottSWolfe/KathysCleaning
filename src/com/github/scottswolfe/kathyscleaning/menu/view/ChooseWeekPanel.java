@@ -398,13 +398,10 @@ public class ChooseWeekPanel extends JPanel {
 			//Reading Default Worker Data from save file
 			DefaultWorkerData dwd_house = null;
 			try {
-				dwd_house = new DefaultWorkerData( "HouseWorkerSaveFile" );
+				dwd_house = new DefaultWorkerData( DefaultWorkerData.HOUSE_WORKERS);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
-			//DefaultWorkerData dwd_cov = new DefaultWorkerData( "CovenantWorkerSaveFile" );	
-			
+			}			
 			
 			TabbedPane tp = new TabbedPane();
 			tp.setFont( tp.getFont().deriveFont( DayPanel.TAB_FONT_SIZE ) );

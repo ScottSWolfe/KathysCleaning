@@ -38,7 +38,7 @@ public class MenuPanel extends JPanel {
 	
 	// OTHER FIELDS
 	JFrame menu_frame;
-	Image img = new ImageIcon("Galapagos Island.jpg").getImage();
+	Image img = new ImageIcon( System.getProperty("user.dir") + "\\lib\\Galapagos Island.jpg").getImage();
 	
 	
 	// CONSTRUCTOR
@@ -48,7 +48,7 @@ public class MenuPanel extends JPanel {
 		
 		
 		setLayout( new MigLayout("", "[250]", "[][][][][]100") );
-		setBackground( new Color(175,238,238) );
+		setBackground( new Color(1,187,244) );
 		//setPreferredSize( new Dimension(250,400) );
 
 		
@@ -105,10 +105,11 @@ public class MenuPanel extends JPanel {
 	
 	
 	// PUBLIC METHODS
+	/*
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
 	}
-	
+	*/
 	
 	
 	// PRIVATE METHODS

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Scanner;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -30,6 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
@@ -62,7 +64,7 @@ public class SettingsPanel extends JPanel {
 	
 	JFrame frame;
 	JFrame menu_frame;
-	public static File settings_save_file = new File( System.getProperty("user.dir") + "\\SettingsSaveFile" );
+	public static File settings_save_file = new File( System.getProperty("user.dir") + "\\save\\SettingsSaveFile" );
 	
 	public static File excel_template_file;
 	public static File save_location_file;
@@ -78,14 +80,15 @@ public class SettingsPanel extends JPanel {
 	public static final int WEEK_B = 1;
 	public static final int NEITHER = 2;
 	
-	public static final File SUBMIT_WEEK_A = new File(System.getProperty("user.dir") + "\\WeekASubmitWeekSaveFile");
-	public static final File NEXT_WEEK_A = new File(System.getProperty("user.dir") + "\\WeekANextWeekSaveFile");
-	public static final File WEEKEND_WEEK_A = new File(System.getProperty("user.dir") + "\\WeekAWeekendSaveFile");
-	public static final File SUBMIT_WEEK_B = new File(System.getProperty("user.dir") + "\\WeekBSubmitWeekSaveFile");
-	public static final File NEXT_WEEK_B = new File(System.getProperty("user.dir") + "\\WeekBNextWeekSaveFile");
-	public static final File WEEKEND_WEEK_B = new File(System.getProperty("user.dir") + "\\WeekBWeekendSaveFile");
+	public static final File SUBMIT_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekASubmitWeekSaveFile");
+	public static final File NEXT_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekANextWeekSaveFile");
+	public static final File WEEKEND_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekAWeekendSaveFile");
+	public static final File SUBMIT_WEEK_B = new File(System.getProperty("user.dir") + "\\save\\WeekBSubmitWeekSaveFile");
+	public static final File NEXT_WEEK_B = new File(System.getProperty("user.dir") + "\\save\\WeekBNextWeekSaveFile");
+	public static final File WEEKEND_WEEK_B = new File(System.getProperty("user.dir") + "\\save\\WeekBWeekendSaveFile");
 	
-	public static final File SAVED_SCHEDULE = new File(System.getProperty("user.dir") + "\\SavedSchedule");
+	public static final File SAVED_SCHEDULE = new File(System.getProperty("user.dir") + "\\save\\SavedSchedule");
+	public static final File COV_WORKER_SAVE = new File(System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
 	
 	public static final int FONT_SIZE_BASE = 12;
 	public static final int HEADER_FONT_SIZE_BASE = 20;
@@ -192,6 +195,7 @@ public class SettingsPanel extends JPanel {
 		
 		JScrollPane sp = new JScrollPane(scroll_panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		sp.setBackground( DayPanel.BACKGROUND_COLOR );
+		sp.setBorder(BorderFactory.createEmptyBorder());
 		
 		//sp.add(scroll_panel);
 		add(sp, "wrap, grow");
@@ -663,12 +667,11 @@ public class SettingsPanel extends JPanel {
 			//Reading Default Worker Data from save file
 			DefaultWorkerData dwd = null;
 			try {
-				dwd = new DefaultWorkerData( "HouseWorkerSaveFile" );
+				dwd = new DefaultWorkerData(DefaultWorkerData.HOUSE_WORKERS);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			//DefaultWorkerData dwd_cov = new DefaultWorkerData( "CovenantWorkerSaveFile" );	
 			
 			TabbedPane tp = new TabbedPane();
 			tp.setFont( tp.getFont().deriveFont( DayPanel.TAB_FONT_SIZE ) );

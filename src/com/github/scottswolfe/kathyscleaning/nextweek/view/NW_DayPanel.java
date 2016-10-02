@@ -122,7 +122,7 @@ public class NW_DayPanel extends JPanel{
 		for(int i=0; i<DayPanel.NUM_HOUSE_PANELS; i++) {
 			house_panel[i] = new NW_HousePanel(dwd,this,frame);
 		}
-		cov_panel = new NW_CovenantPanel( this, new DefaultWorkerData( "CovenantWorkerSaveFile" ), frame );
+		cov_panel = new NW_CovenantPanel( this, new DefaultWorkerData( DefaultWorkerData.COVENANT_WORKERS ), frame );
 		
 		
 		// creating scroll pane and adding house panels

@@ -1,9 +1,6 @@
 Things to Do
 
 
-create folder for save files, rewrite save file paths appropriately
-
-add libraries to github
 
 Create save feature where user can save an incomplete report and continue it later.
 Also, user can look at past reports in the app gui.

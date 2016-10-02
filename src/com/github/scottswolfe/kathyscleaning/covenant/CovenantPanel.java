@@ -71,7 +71,7 @@ public class CovenantPanel extends JPanel{
 	public final static int ROWS = 12;
 	int rows = ROWS;
 	
-	private final static File COVENANT_EARNED_SAVE_FILE = new File( System.getProperty("user.dir") + "\\CovenantEarnedSaveFile" );
+	private final static File COVENANT_EARNED_SAVE_FILE = new File( System.getProperty("user.dir") + "\\save\\CovenantEarnedSaveFile" );
 	
 	String[] day = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
 	
@@ -111,7 +111,7 @@ public class CovenantPanel extends JPanel{
 		this.wk = wk;
 		
 		
-		this.dwd = new DefaultWorkerData("CovenantWorkerSaveFile");
+		this.dwd = new DefaultWorkerData( SettingsPanel.COV_WORKER_SAVE.getPath() );//System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
 		
 		setLayout( new MigLayout() );
 		setBackground( DayPanel.BACKGROUND_COLOR );
@@ -752,7 +752,7 @@ public class CovenantPanel extends JPanel{
 			// saving chosen workers into CovenantWorkerSaveFile
 			try {
 
-				FileWriter fw = new FileWriter( new File("CovenantWorkerSaveFile") );
+				FileWriter fw = new FileWriter( SettingsPanel.COV_WORKER_SAVE.getPath() ); //new File(System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile") );
 				BufferedWriter bw = new BufferedWriter( fw );
 				
 				for (int i=0; i<rows; i++) {

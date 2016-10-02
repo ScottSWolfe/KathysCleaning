@@ -15,8 +15,9 @@ public class DefaultWorkerData {
 //  FIELDS
 	
 	public String[] default_workers;
-	public static final String HOUSE_WORKERS = "HouseWorkerSaveFile";
-	public static final String COVENANT_WORKERS = "CovenantWorkerSaveFile";
+	public static final String HOUSE_WORKERS = (System.getProperty("user.dir") + "\\save\\HouseWorkerSaveFile");
+	public static final String COVENANT_WORKERS = (System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
+	public static final String WEEKEND_WORKERS = (System.getProperty("user.dir") + "\\save\\WeekendWorkSaveFile");
 	
 	
 //  CONSTRUCTORS

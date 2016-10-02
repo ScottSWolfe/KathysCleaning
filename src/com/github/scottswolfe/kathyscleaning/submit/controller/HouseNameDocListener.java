@@ -14,7 +14,7 @@ public class HouseNameDocListener implements DocumentListener {
 
 	HousePanel hp;
 	
-	public final static File HOUSE_PAY_FILE = new File( System.getProperty("user.dir") + "\\HousePay");
+	public final static File HOUSE_PAY_FILE = new File( System.getProperty("user.dir") + "\\save\\HousePay");
 	
 	public HouseNameDocListener( HousePanel hp ) {
 		this.hp = hp;

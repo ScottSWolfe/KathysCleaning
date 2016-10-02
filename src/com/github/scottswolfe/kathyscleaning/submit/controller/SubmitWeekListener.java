@@ -179,7 +179,7 @@ public class SubmitWeekListener implements ActionListener {
 		cov_frame.setResizable(false);
 		cov_frame.addWindowListener( new MainWindowListener() );
 		
-		CovenantPanel cov_panel = new CovenantPanel(cov_frame, new DefaultWorkerData("CovenantWorkerSaveFile"), date, mode, wk );
+		CovenantPanel cov_panel = new CovenantPanel(cov_frame, new DefaultWorkerData(DefaultWorkerData.COVENANT_WORKERS), date, mode, wk );
 		
 		cov_frame.add(cov_panel);
 		cov_frame.pack();
