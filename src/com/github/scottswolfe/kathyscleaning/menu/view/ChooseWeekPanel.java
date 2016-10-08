@@ -812,7 +812,7 @@ public class ChooseWeekPanel extends JPanel {
 				// skip meet_location_box and meet_time_field save items
 				input.nextLine();
 				input.nextLine();
-				
+				System.out.println("num exceptions: " + NW_ExceptionPanel.NUM_EXCEPTIONS);
 				//BeginExceptionData[] bed = new BeginExceptionData[NW_ExceptionPanel.NUM_EXCEPTIONS];
 				for (int i=0; i<NW_ExceptionPanel.NUM_EXCEPTIONS; i++) {
 					
@@ -824,6 +824,12 @@ public class ChooseWeekPanel extends JPanel {
 					input.nextLine();  //bed[i].setNote( input.nextLine() );
 					
 				}
+				
+				// late edit trying to make 1.1.4 work
+				// possibly erroneous
+				input.nextLine(); //consuming ??covenant workers?? line
+				
+				
 				//dp.setBeginExceptionData(bed);
 				
 				// reading covenant workers
@@ -862,7 +868,7 @@ public class ChooseWeekPanel extends JPanel {
 				//tp.nw_day_panel[d].covenant_note_data = new NoteData( NW_ExceptionPanel.NUM_EXCEPTIONS );
 				//tp.nw_day_panel[d].covenant_note_data.name_box_data = new String[NW_NotePanel.ROWS];
 				//tp.nw_day_panel[d].covenant_note_data.note_field_data = new String[NW_NotePanel.ROWS];
-				
+				System.out.println("notepanel rows: " + NW_NotePanel.ROWS);
 				for (int i=0; i<NW_NotePanel.ROWS; i++) {
 					
 					input.nextLine(); //tp.nw_day_panel[d].covenant_note_data.name_box_data[i] = input.nextLine();
