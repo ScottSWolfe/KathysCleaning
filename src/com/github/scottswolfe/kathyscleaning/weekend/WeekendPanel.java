@@ -66,6 +66,8 @@ public class WeekendPanel extends JPanel {
 	int mode;
 	int wk;
 	
+	public static final int NUM_JOBS_CAP = 3;
+	
 	
 	// COMPONENTS
 	JLabel heading_label;
@@ -450,7 +452,7 @@ public class WeekendPanel extends JPanel {
 			Row row;
 			boolean found_row;
 			boolean found_worker;
-			int num_jobs_cap = 2;
+			int num_jobs_cap = NUM_JOBS_CAP;
 			int unchecked = 0;
 			int job_num;
 			int repeat = 0;
