@@ -3,8 +3,6 @@ package com.github.scottswolfe.kathyscleaning.menu.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,19 +10,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
 
+@SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4379504716346245298L;
 	
+    /**
+     * Controller that controls this panel.
+     */
+    MenuPanelController controller;
+    
 	
 	// COMPONENT FIELDS
 	JLabel compname_label;
@@ -45,12 +44,10 @@ public class MenuPanel extends JPanel {
 		
 		this.menu_frame = menu_frame;
 		
+		controller = new MenuPanelController(this, menu_frame);
 		
 		setLayout( new MigLayout("", "[250]", "[][][][][]100") );
 		setBackground( new Color(1,187,244) );
-		//setPreferredSize( new Dimension(250,400) );
-
-		
 		
 		compname_label = new JLabel();
 		compname_label.setText("Kathy's Cleaning");
@@ -71,27 +68,21 @@ public class MenuPanel extends JPanel {
 		
 		start_button = new JButton();
 		start_button.setText( "Start" );
-		//start_button.setBackground(Settings.MAIN_COLOR);
 		start_button.setFont( start_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		start_button.setPreferredSize( preferred_size );
-		//start_button.setForeground( Settings.FOREGROUND_COLOR );
-		start_button.addActionListener( new StartListener() );
+		start_button.addActionListener(controller.new StartListener());
 		
 		settings_button = new JButton();
 		settings_button.setText( "Settings" );
-		//settings_button.setBackground(Settings.MAIN_COLOR);
 		settings_button.setFont( settings_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		settings_button.setPreferredSize( preferred_size );
-		//settings_button.setForeground( Settings.FOREGROUND_COLOR );
-		settings_button.addActionListener( new SettingsListener() );
+		settings_button.addActionListener(controller.new SettingsListener());
 		
 		close_button = new JButton();
 		close_button.setText( "Close" );
-		//close_button.setBackground(Settings.MAIN_COLOR);
 		close_button.setFont( close_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		close_button.setPreferredSize( preferred_size );
-		//close_button.setForeground( Settings.FOREGROUND_COLOR );
-		close_button.addActionListener( new CloseListener( ) );
+		close_button.addActionListener(controller.new CloseListener());
 		
 		add(compname_label, "center, wrap 0 ");
 		add(subname_label, "wrap 50, center");
@@ -99,90 +90,16 @@ public class MenuPanel extends JPanel {
 		add(start_button, "wrap 20, gapleft 50, gapright 50, center");
 		add(settings_button, "wrap 20, gapleft 50, gapright 50, center");
 		add(close_button, "wrap, gapleft 50, gapright 50, center");
-		
 	}
 	
 	
-	// PUBLIC METHODS
-	/*
-	public void paintComponent(Graphics g) {
-		g.drawImage(img, 0, 0, null);
-	}
-	*/
 	
 	
-	// PRIVATE METHODS
+/* GETTERS/SETTERS ========================================================== */
 	
 	
-	
-	// LISTENERS
-	private class SettingsListener implements ActionListener {
-		
-		// Action Listener
-		public void actionPerformed( ActionEvent e ) {
-			
-			
-			/*
-			This doesn't work
-			
-			SettingsPanel sp = new SettingsPanel( menu_frame );
-
-			menu_frame.removeAll();
-			menu_frame.add( sp );
-			menu_frame.pack();
-			menu_frame.revalidate();
-			menu_frame.repaint();
-			*/
-			
-			JFrame f = new JFrame();
-			f.setResizable( false );
-			
-			SettingsPanel sp = new SettingsPanel( f, menu_frame );
-			
-			f.add(sp);
-			f.pack();
-			f.setLocationRelativeTo( null );
-			f.setVisible(true);
-			
-		}
-		
-	}
-	
-	
-	private class StartListener implements ActionListener {
-		
-		// Action Listener
-		public void actionPerformed( ActionEvent e )  {
-			
-			
-			JFrame choose_week_frame = new JFrame();
-			choose_week_frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			choose_week_frame.setResizable(false);
-			choose_week_frame.addWindowListener( new MainWindowListener() );
-			
-			ChooseWeekPanel cwp = new ChooseWeekPanel( menu_frame, choose_week_frame, ChooseWeekPanel.PREVIOUS_WEEK, SettingsPanel.NEITHER );
-			
-			choose_week_frame.add(cwp);
-			choose_week_frame.pack();
-			choose_week_frame.setLocationRelativeTo( null );
-			choose_week_frame.setVisible( true );
-			
-		}
-		
-	}
-	
-	
-	private class CloseListener implements ActionListener {
-		
-		public void actionPerformed( ActionEvent e ) {
-			
-			menu_frame.setVisible( false );
-			menu_frame.dispose();
-			
-			System.exit(0);
-			
-		}
-		
+	public void setController(MenuPanelController controller) {
+	    this.controller = controller;
 	}
 	
 	
