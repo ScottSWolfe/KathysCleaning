@@ -23,6 +23,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListen
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_ExceptionPanel;
@@ -94,7 +95,7 @@ public class ChooseWeekPanel extends JPanel {
 		this.wk = wk;
 		
 		setLayout( new MigLayout("insets 0") );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground( Settings.BACKGROUND_COLOR );
 		//setBorder( new LineBorder(null,1));
 		
 		add( ChooseDatePanel(), "wrap 20, grow" );
@@ -112,7 +113,7 @@ public class ChooseWeekPanel extends JPanel {
 		this.week = week;
 		
 		setLayout( new MigLayout("insets 0") );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground( Settings.BACKGROUND_COLOR );
 		add( ChooseDatePanel(), "wrap 20, grow" );
 		//add( new JSeparator(SwingConstants.HORIZONTAL), "growx, wrap" );
 		add( SelectWeekPanel(), "wrap 30" );
@@ -127,33 +128,33 @@ public class ChooseWeekPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("fill", "[]15[][][]", "") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		choose_date_label = new JLabel();
 		choose_date_label.setText( "Monday's Date: " );
-		choose_date_label.setFont( choose_date_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		choose_date_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		choose_date_label.setFont( choose_date_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		choose_date_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		month_label = new JLabel();
 		month_label.setText( "Month" );
-		month_label.setFont( month_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		month_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		month_label.setFont( month_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		month_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		day_label = new JLabel();
 		day_label.setText( "Day" );
-		day_label.setFont( day_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		day_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		day_label.setFont( day_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		day_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		year_label = new JLabel();
 		year_label.setText( "Year" );
-		year_label.setFont( year_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		year_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		year_label.setFont( year_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		year_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		date = getStartDate(week);
 		
 		month_box = new JComboBox<String>();
-		month_box.setFont( month_box.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		month_box.setBackground( DayPanel.BACKGROUND_COLOR );
+		month_box.setFont( month_box.getFont().deriveFont(Settings.FONT_SIZE) );
+		month_box.setBackground( Settings.BACKGROUND_COLOR );
 		for (int i=1; i<13; i++){
 			month_box.addItem( String.valueOf(i) );
 		}
@@ -161,8 +162,8 @@ public class ChooseWeekPanel extends JPanel {
 		month_box.addActionListener( new ComboBoxListener() );
 		
 		day_box = new JComboBox<String>();
-		day_box.setFont( day_box.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		day_box.setBackground( DayPanel.BACKGROUND_COLOR );
+		day_box.setFont( day_box.getFont().deriveFont(Settings.FONT_SIZE) );
+		day_box.setBackground( Settings.BACKGROUND_COLOR );
 		Calendar temp_date = Calendar.getInstance();
 		// beginning at first of month and adding all mondays
 		temp_date.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), 1);
@@ -176,8 +177,8 @@ public class ChooseWeekPanel extends JPanel {
 		day_box.addActionListener( new ComboBoxListener() );
 		
 		year_box = new JComboBox<String>();
-		year_box.setFont( year_box.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		year_box.setBackground( DayPanel.BACKGROUND_COLOR );
+		year_box.setFont( year_box.getFont().deriveFont(Settings.FONT_SIZE) );
+		year_box.setBackground( Settings.BACKGROUND_COLOR );
 		for (int i=-1; i<2; i++){
 			year_box.addItem( String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+i) );
 		}
@@ -201,33 +202,33 @@ public class ChooseWeekPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("", "[]15[]15[]15[]", "") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 
 		choose_week_label = new JLabel();
 		choose_week_label.setText( "Choose Week:" );
-		choose_week_label.setFont( choose_week_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		choose_week_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		choose_week_label.setFont( choose_week_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		choose_week_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		week_A_rbutton = new JRadioButton();
 		week_A_rbutton.setText( "Week A" );
-		week_A_rbutton.setFont( week_A_rbutton.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		week_A_rbutton.setBackground( DayPanel.BACKGROUND_COLOR );
+		week_A_rbutton.setFont( week_A_rbutton.getFont().deriveFont(Settings.FONT_SIZE) );
+		week_A_rbutton.setBackground( Settings.BACKGROUND_COLOR );
 		
 		week_B_rbutton = new JRadioButton();
 		week_B_rbutton.setText( "Week B" );
-		week_B_rbutton.setFont( week_B_rbutton.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		week_B_rbutton.setBackground( DayPanel.BACKGROUND_COLOR );
+		week_B_rbutton.setFont( week_B_rbutton.getFont().deriveFont(Settings.FONT_SIZE) );
+		week_B_rbutton.setBackground( Settings.BACKGROUND_COLOR );
 		
 		neither_rbutton = new JRadioButton();
 		neither_rbutton.setText( "Neither" );
-		neither_rbutton.setFont( neither_rbutton.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		neither_rbutton.setBackground( DayPanel.BACKGROUND_COLOR );
+		neither_rbutton.setFont( neither_rbutton.getFont().deriveFont(Settings.FONT_SIZE) );
+		neither_rbutton.setBackground( Settings.BACKGROUND_COLOR );
 		
 		button_group = new ButtonGroup();
 		button_group.add( week_A_rbutton );
 		button_group.add( week_B_rbutton );
 		button_group.add( neither_rbutton );
-		button_group.setSelected( neither_rbutton.getModel(), true ); // TODO choose based on last weeks data
+		button_group.setSelected(neither_rbutton.getModel(), true);
 		
 		panel.add(choose_week_label);
 		panel.add(week_A_rbutton);
@@ -241,20 +242,20 @@ public class ChooseWeekPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("align right") );
-		panel.setBackground( DayPanel.HEADER_BACKGROUND );
+		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
 		cancel_button = new JButton();
 		cancel_button.setText( "Cancel" );
-		cancel_button.setFont( cancel_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		cancel_button.setBackground( DayPanel.MAIN_COLOR );
-		cancel_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		cancel_button.setFont( cancel_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		cancel_button.setBackground(Settings.MAIN_COLOR);
+		cancel_button.setForeground( Settings.FOREGROUND_COLOR );
 		cancel_button.addActionListener( new CancelListener() );
 		
 		submit_button = new JButton();
 		submit_button.setText( "Submit" );
-		submit_button.setFont( submit_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		submit_button.setFont( submit_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		submit_button.addActionListener( new SubmitListener(week_A_rbutton, week_B_rbutton) );
 		
 		panel.add(cancel_button);
@@ -268,22 +269,22 @@ public class ChooseWeekPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("fill") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 
 		choose_autofill_label = new JLabel();
 		choose_autofill_label.setText( "Autofill:" );
-		choose_autofill_label.setFont( choose_autofill_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		choose_autofill_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		choose_autofill_label.setFont( choose_autofill_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		choose_autofill_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		autofill_rbutton = new JRadioButton();
 		autofill_rbutton.setText( "Saved Schedule" );
-		autofill_rbutton.setFont( autofill_rbutton.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		autofill_rbutton.setBackground( DayPanel.BACKGROUND_COLOR );
+		autofill_rbutton.setFont( autofill_rbutton.getFont().deriveFont(Settings.FONT_SIZE) );
+		autofill_rbutton.setBackground( Settings.BACKGROUND_COLOR );
 		
 		default_rbutton = new JRadioButton();
 		default_rbutton.setText( "Default" );
-		default_rbutton.setFont( default_rbutton.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		default_rbutton.setBackground( DayPanel.BACKGROUND_COLOR );
+		default_rbutton.setFont( default_rbutton.getFont().deriveFont(Settings.FONT_SIZE) );
+		default_rbutton.setBackground( Settings.BACKGROUND_COLOR );
 		
 		autofill_button_group = new ButtonGroup();
 		autofill_button_group.add( autofill_rbutton );
@@ -292,7 +293,7 @@ public class ChooseWeekPanel extends JPanel {
 		
 		JPanel p = new JPanel();
 		p.setLayout( new MigLayout("") );
-		p.setBackground( DayPanel.BACKGROUND_COLOR );
+		p.setBackground( Settings.BACKGROUND_COLOR );
 		p.add(autofill_rbutton, "");
 		p.add(default_rbutton, "gap left 15");
 		
@@ -355,22 +356,7 @@ public class ChooseWeekPanel extends JPanel {
 				choose_week_frame.dispose();
 				
 			}
-			/*
-			else {
-			 
-				TODO int selection = JOption warning message;
-				
-				if ( selection == continue ) {
-				 	TODO generate excel doc without next week's schedule and display on screen
-					choose_week_frame.setVisible( false );
-					choose_week_frame.dispose();
-				}
-				else {
-					// do nothing
-				}
-				
-			}
-			*/
+			
 		}
 		
 	}
@@ -404,8 +390,8 @@ public class ChooseWeekPanel extends JPanel {
 			}			
 			
 			TabbedPane tp = new TabbedPane();
-			tp.setFont( tp.getFont().deriveFont( DayPanel.TAB_FONT_SIZE ) );
-			//tp.setBackground( DayPanel.BACKGROUND_COLOR );
+			tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
+			//tp.setBackground( Settings.BACKGROUND_COLOR );
 			
 			// creating array of dates
 			Calendar[] day = new Calendar[5];
@@ -465,7 +451,7 @@ public class ChooseWeekPanel extends JPanel {
 				//tp.addTab("Covenant", );
 				// END TEST
 				*/
-				frame.setBackground(DayPanel.BACKGROUND_COLOR);
+				frame.setBackground(Settings.BACKGROUND_COLOR);
 				
 				frame.add(tp);
 				frame.pack();
@@ -562,7 +548,7 @@ public class ChooseWeekPanel extends JPanel {
 				tp.addChangeListener( new NW_TabChangeListener(tp, frame) );
 				
 				
-				frame.setBackground(DayPanel.BACKGROUND_COLOR);
+				frame.setBackground(Settings.BACKGROUND_COLOR);
 				
 				frame.add(tp);
 				frame.pack();
@@ -701,9 +687,7 @@ public class ChooseWeekPanel extends JPanel {
 								house.exception_data.time_begin[i] = input.nextLine();
 								house.exception_data.time_end[i] = input.nextLine();
 							}
-							house.exception_data.edited = true;
-							// TODO make sure this isn't overwritten
-							
+							house.exception_data.edited = true;							
 							
 							// 4. making sure there is a correct number of house panels available to fill
 
@@ -812,7 +796,7 @@ public class ChooseWeekPanel extends JPanel {
 				// skip meet_location_box and meet_time_field save items
 				input.nextLine();
 				input.nextLine();
-				System.out.println("num exceptions: " + NW_ExceptionPanel.NUM_EXCEPTIONS);
+
 				//BeginExceptionData[] bed = new BeginExceptionData[NW_ExceptionPanel.NUM_EXCEPTIONS];
 				for (int i=0; i<NW_ExceptionPanel.NUM_EXCEPTIONS; i++) {
 					
@@ -868,7 +852,7 @@ public class ChooseWeekPanel extends JPanel {
 				//tp.nw_day_panel[d].covenant_note_data = new NoteData( NW_ExceptionPanel.NUM_EXCEPTIONS );
 				//tp.nw_day_panel[d].covenant_note_data.name_box_data = new String[NW_NotePanel.ROWS];
 				//tp.nw_day_panel[d].covenant_note_data.note_field_data = new String[NW_NotePanel.ROWS];
-				System.out.println("notepanel rows: " + NW_NotePanel.ROWS);
+
 				for (int i=0; i<NW_NotePanel.ROWS; i++) {
 					
 					input.nextLine(); //tp.nw_day_panel[d].covenant_note_data.name_box_data[i] = input.nextLine();

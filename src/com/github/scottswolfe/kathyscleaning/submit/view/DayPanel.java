@@ -1,6 +1,5 @@
 package com.github.scottswolfe.kathyscleaning.submit.view;
 
-import java.awt.Color;
 import java.util.Calendar;
 
 import javax.swing.JFrame;
@@ -10,6 +9,7 @@ import javax.swing.JScrollPane;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.model.DayData;
 
 import net.miginfocom.swing.MigLayout;
@@ -39,21 +39,9 @@ public class DayPanel extends JPanel{
 	public final static int PANEL_PADDING = 6;
 	public final static int TOP_INSET = 5;
 	
-	public static float FONT_SIZE = 20;
-	public static float HEADER_FONT_SIZE = 28;
-	public static float TAB_FONT_SIZE = 20;
-	
 	public final static int NUM_HOUSE_PANELS = 3;
 	
-	public final static Color BACKGROUND_COLOR = Color.WHITE;
-	public final static Color MAIN_COLOR = new Color(105,139,105).darker(); // dark sea green
-	//public final static Color MAIN_COLOR = new Color(100,	149,	237);
-	public final static Color FOREGROUND_COLOR = Color.WHITE;
-	public static final Color HEADER_BACKGROUND = new Color(245,245,245);             // new Color(193,255,193); lighter sea green
-	public static final Color CHANGE_DAY_COLOR = new Color (100,	149,	237);
-	//public static final Color MOVE_COLOR = new Color (192,	255,	62);
-	public static final Color ADD_HOUSE_COLOR = new Color (113,	198,	113).brighter() ;
-	public static final Color DELETE_HOUSE_COLOR = new Color (240,	128,	128) ;
+
 
 
 	
@@ -73,7 +61,7 @@ public class DayPanel extends JPanel{
 		
 		jsp_panel = new JPanel();
 		jsp_panel.setLayout( new MigLayout() );
-		jsp_panel.setBackground( BACKGROUND_COLOR );
+		jsp_panel.setBackground(Settings.BACKGROUND_COLOR);
 		
 		house_panel = new HousePanel[DayPanel.NUM_HOUSE_PANELS];
 		for(int i=0; i<DayPanel.NUM_HOUSE_PANELS; i++) {
@@ -84,7 +72,7 @@ public class DayPanel extends JPanel{
 		addFlexibleFocusListeners();
 		
 		setLayout( new MigLayout( /*new String("insets " + TOP_INSET + " 5 0 5"),"",""*/) );
-		setBackground( BACKGROUND_COLOR );
+		setBackground(Settings.BACKGROUND_COLOR);
 		
 		add(header_panel, "dock north"); //new String("wrap " + PANEL_PADDING + ", growx") );
 		
@@ -94,7 +82,7 @@ public class DayPanel extends JPanel{
 		jsp_panel.add(house_panel[house_panel.length-1], new String("wrap " + PANEL_PADDING + ", grow") );
 		
 		jsp = new JScrollPane( jsp_panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-		jsp.setBackground(BACKGROUND_COLOR);
+		jsp.setBackground(Settings.BACKGROUND_COLOR);
 		
 		add(jsp, "grow");
 		
@@ -226,5 +214,6 @@ public class DayPanel extends JPanel{
 		
 	}
 	
-
+	
+	
 }

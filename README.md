@@ -1,4 +1,12 @@
 # KathysCleaning
 Java Application for Payroll and Schedule Data Entry for Kathy's Cleaning
 
-I wrote this program as a learning process for my mother's cleaning business. I wrote this without much of an introduction to object-oriented programming and little experience with Java or other programming languages. I was inexperienced with many of the classes and features used in this application and had to spend a lot of time reading online, studying the Java documentation, stack overflow, and anywhere I could find helpful information.
+I wrote this program both as a way to help myself learn Java and to help make my
+ mother's weekly payroll and scheduling data entry much more efficient.
+ 
+My father had created an Excel Template ("TemplateA.xlsx" in lib) for my mother 
+to input all of her weekly payroll and scheduling data. The weekly process would
+take her multiple hours. This application optimizes the process. The app is a 
+GUI that allows her to enter the data much more quickly and safely due to 
+various autofill features, textfield filters, convenient key traversals, and 
+other features. 

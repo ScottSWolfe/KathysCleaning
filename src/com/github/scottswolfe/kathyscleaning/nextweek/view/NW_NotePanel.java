@@ -13,9 +13,9 @@ import javax.swing.JTextField;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_NoteListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.NoteData;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -79,17 +79,17 @@ public class NW_NotePanel extends JPanel {
 		//column_format = new String(column_format + "[grow]");
 		
 		setLayout( new MigLayout("", "[grow]15[grow]", "") );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground( Settings.BACKGROUND_COLOR );
 		
 		name_label = new JLabel();
 		name_label.setText("Name");
-		name_label.setFont( name_label.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		name_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		name_label.setFont( name_label.getFont().deriveFont( Settings.FONT_SIZE ) );
+		name_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		note_label = new JLabel();
 		note_label.setText("Note");
-		note_label.setFont( note_label.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		note_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		note_label.setFont( note_label.getFont().deriveFont( Settings.FONT_SIZE ) );
+		note_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		name_box = new JComboBox[ROWS];
 		note_field = new JTextField[ROWS];
@@ -100,15 +100,15 @@ public class NW_NotePanel extends JPanel {
 			name_box[i] = new JComboBox<String>();
 			name_box[i].setEditable(true);
 			name_box[i].setSize(7, UNDEFINED_CONDITION);
-			name_box[i].setFont( name_box[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
-			name_box[i].setBackground( DayPanel.BACKGROUND_COLOR );
+			name_box[i].setFont( name_box[i].getFont().deriveFont( Settings.FONT_SIZE ) );
+			name_box[i].setBackground( Settings.BACKGROUND_COLOR );
 			name_box[i].addItem("");	// empty choice
 			for(int k=0; k<dwd.default_workers.length; k++){
 				name_box[i].addItem( dwd.default_workers[k] );
 			}
 			
 			note_field[i] = new JTextField(15);
-			note_field[i].setFont( note_field[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			note_field[i].setFont( note_field[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 			// Setting Values if NoteData exists
 			if(note_data != null){
@@ -121,16 +121,16 @@ public class NW_NotePanel extends JPanel {
 		}
 		
 		cancel_button = new JButton("Cancel");
-		cancel_button.setFont( cancel_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		cancel_button.setFont( cancel_button.getFont().deriveFont( Settings.FONT_SIZE ) );
 		cancel_button.addActionListener( new CancelListener(frame) );
-		cancel_button.setBackground( DayPanel.MAIN_COLOR );
-		cancel_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		cancel_button.setBackground(Settings.MAIN_COLOR);
+		cancel_button.setForeground( Settings.FOREGROUND_COLOR );
 		
 		submit_button = new JButton("Submit");
-		submit_button.setFont( submit_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
 		submit_button.addActionListener( new SubmitListener() );
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		
 		addFlexibleFocusListeners();
 		
@@ -144,7 +144,7 @@ public class NW_NotePanel extends JPanel {
 		
 		JPanel p = new JPanel();
 		p.setLayout( new MigLayout("align right"));
-		p.setBackground( DayPanel.BACKGROUND_COLOR );
+		p.setBackground( Settings.BACKGROUND_COLOR );
 		p.add(cancel_button, "");
 		p.add(submit_button, "");
 		

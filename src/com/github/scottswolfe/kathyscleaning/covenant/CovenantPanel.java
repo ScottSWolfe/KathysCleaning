@@ -7,13 +7,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,13 +14,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
-import com.github.scottswolfe.kathyscleaning.submit.controller.HousePayDocFilter;
-import com.github.scottswolfe.kathyscleaning.submit.controller.SubmitWeekListener;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 import java.util.Calendar;
 import java.util.Scanner;
-import com.github.scottswolfe.kathyscleaning.weekend.WeekendPanel;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -45,6 +33,19 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
+import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
+import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
+import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
+import com.github.scottswolfe.kathyscleaning.submit.controller.HousePayDocFilter;
+import com.github.scottswolfe.kathyscleaning.submit.controller.SubmitWeekListener;
+import com.github.scottswolfe.kathyscleaning.weekend.WeekendPanel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -114,7 +115,7 @@ public class CovenantPanel extends JPanel{
 		this.dwd = new DefaultWorkerData( SettingsPanel.COV_WORKER_SAVE.getPath() );//System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
 		
 		setLayout( new MigLayout() );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground( Settings.BACKGROUND_COLOR );
 		
 		// getting number of rows based on number of workers
 		
@@ -143,8 +144,8 @@ public class CovenantPanel extends JPanel{
 			else {
 				name_label[i].setText("");
 			}
-			name_label[i].setFont( name_label[i].getFont().deriveFont( DayPanel.HEADER_FONT_SIZE ));
-			name_label[i].setBackground( DayPanel.BACKGROUND_COLOR );
+			name_label[i].setFont( name_label[i].getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
+			name_label[i].setBackground( Settings.BACKGROUND_COLOR );
 
 			
 			if ( i > 0 ) {
@@ -160,7 +161,7 @@ public class CovenantPanel extends JPanel{
 		
 		amount_earned_label = new JLabel();
 		amount_earned_label.setText("Earned: ");
-		amount_earned_label.setFont( amount_earned_label.getFont().deriveFont(DayPanel.HEADER_FONT_SIZE) );
+		amount_earned_label.setFont( amount_earned_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
 		
 		add( amount_earned_label, new String("cell "+ (0) + " " + (rows+1) + ", align right, gapy 10, wrap") );
 		
@@ -177,8 +178,8 @@ public class CovenantPanel extends JPanel{
 			
 			day_label[i] = new JLabel();
 			day_label[i].setText( day[i] );
-			day_label[i].setFont( day_label[i].getFont().deriveFont( DayPanel.HEADER_FONT_SIZE ));
-			day_label[i].setBackground( DayPanel.BACKGROUND_COLOR );
+			day_label[i].setFont( day_label[i].getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
+			day_label[i].setBackground( Settings.BACKGROUND_COLOR );
 			
 			
 			layout_format = new String("cell "+ (i+1+num_v_sep) + " " + (0) + ", center, wrap");
@@ -188,8 +189,8 @@ public class CovenantPanel extends JPanel{
 				
 				begin_time_field[j][i] = new JTextField();
 				begin_time_field[j][i].setColumns( 5 );
-				begin_time_field[j][i].setFont( begin_time_field[j][i].getFont().deriveFont(DayPanel.FONT_SIZE) );
-				begin_time_field[j][i].setBackground( DayPanel.BACKGROUND_COLOR );
+				begin_time_field[j][i].setFont( begin_time_field[j][i].getFont().deriveFont(Settings.FONT_SIZE) );
+				begin_time_field[j][i].setBackground( Settings.BACKGROUND_COLOR );
 					begin_doc[j][i] = (AbstractDocument) begin_time_field[j][i].getDocument();
 					begin_tdf[j][i] = new TimeDocFilter( begin_time_field[j][i] );
 					begin_doc[j][i].setDocumentFilter( begin_tdf[j][i] );
@@ -198,8 +199,8 @@ public class CovenantPanel extends JPanel{
 				
 				end_time_field[j][i] = new JTextField();
 				end_time_field[j][i].setColumns( 5 );
-				end_time_field[j][i].setFont( end_time_field[j][i].getFont().deriveFont(DayPanel.FONT_SIZE) );
-				end_time_field[j][i].setBackground( DayPanel.BACKGROUND_COLOR );
+				end_time_field[j][i].setFont( end_time_field[j][i].getFont().deriveFont(Settings.FONT_SIZE) );
+				end_time_field[j][i].setBackground( Settings.BACKGROUND_COLOR );
 					end_doc[j][i] = (AbstractDocument) end_time_field[j][i].getDocument();
 					end_tdf[j][i] = new TimeDocFilter( end_time_field[j][i] );
 					end_doc[j][i].setDocumentFilter( end_tdf[j][i] );
@@ -212,7 +213,7 @@ public class CovenantPanel extends JPanel{
 			}
 			
 			amount_earned_field[i] = new JTextField();
-			amount_earned_field[i].setFont( amount_earned_field[i].getFont().deriveFont(DayPanel.FONT_SIZE) );
+			amount_earned_field[i].setFont( amount_earned_field[i].getFont().deriveFont(Settings.FONT_SIZE) );
 			amount_earned_field[i].setColumns(7);
 			AbstractDocument amount_earned_doc = (AbstractDocument) amount_earned_field[i].getDocument();
 			amount_earned_doc.setDocumentFilter( new HousePayDocFilter() );
@@ -252,8 +253,8 @@ public class CovenantPanel extends JPanel{
 		/*
 		other_label = new JLabel();
 		other_label.setText( "Other $$" );
-		other_label.setFont( other_label.getFont().deriveFont( DayPanel.HEADER_FONT_SIZE ));
-		other_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		other_label.setFont( other_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
+		other_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		layout_format = new String("cell "+ (5+1+num_v_sep) + " " + (0) + ", center, wrap");
 		add( other_label, layout_format );
@@ -265,8 +266,8 @@ public class CovenantPanel extends JPanel{
 			
 			other_field[j] = new JTextField();
 			other_field[j].setColumns( 5 );
-			other_field[j].setFont( other_field[j].getFont().deriveFont(DayPanel.FONT_SIZE) );
-			other_field[j].setBackground( DayPanel.BACKGROUND_COLOR );
+			other_field[j].setFont( other_field[j].getFont().deriveFont(Settings.FONT_SIZE) );
+			other_field[j].setBackground( Settings.BACKGROUND_COLOR );
 				other_doc[j] = (AbstractDocument) other_field[j].getDocument();
 				filter[j] = new HousePayDocFilter();
 				other_doc[j].setDocumentFilter( filter[j] );
@@ -293,22 +294,22 @@ public class CovenantPanel extends JPanel{
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("align right", "", "") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		edit_button = new JButton();
 		edit_button.setText("Edit Workers");
-		edit_button.setFont( edit_button.getFont().deriveFont(DayPanel.FONT_SIZE));
-		edit_button.setBackground( DayPanel.MAIN_COLOR );
-		edit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		edit_button.setFont( edit_button.getFont().deriveFont(Settings.FONT_SIZE));
+		edit_button.setBackground(Settings.MAIN_COLOR);
+		edit_button.setForeground( Settings.FOREGROUND_COLOR );
 		edit_button.addActionListener( new EditListener( this ) );
 		
 		/* TODO add cancel_button */
 		
 		submit_button = new JButton();
 		submit_button.setText("Submit Week");
-		submit_button.setFont( submit_button.getFont().deriveFont(DayPanel.FONT_SIZE));
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		submit_button.setFont( submit_button.getFont().deriveFont(Settings.FONT_SIZE));
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		submit_button.addActionListener( new SubmitListener() );
 		
 		panel.add(edit_button, "");

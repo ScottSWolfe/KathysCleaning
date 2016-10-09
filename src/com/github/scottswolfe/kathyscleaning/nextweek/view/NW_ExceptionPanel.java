@@ -17,8 +17,8 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusLis
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.BeginExceptionData;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -72,20 +72,20 @@ public class NW_ExceptionPanel extends JPanel {
 		this.dp = dp;
 		
 		setLayout( new MigLayout() );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground( Settings.BACKGROUND_COLOR );
 		
 		employee_label = new JLabel();
 		employee_label.setText("Employee");
-		employee_label.setFont( employee_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		employee_label.setBackground( DayPanel.MAIN_COLOR );
+		employee_label.setFont( employee_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		employee_label.setBackground(Settings.MAIN_COLOR);
 		
 		employee_combobox = new JComboBox[NUM_EXCEPTIONS];
 		for(int i=0; i<NUM_EXCEPTIONS; i++) {
 			employee_combobox[i] = new JComboBox<String>();
-			employee_combobox[i].setBackground( DayPanel.BACKGROUND_COLOR );
+			employee_combobox[i].setBackground( Settings.BACKGROUND_COLOR );
 			employee_combobox[i].setEditable(true);
 			employee_combobox[i].setSize(8, UNDEFINED_CONDITION);
-			employee_combobox[i].setFont( employee_combobox[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			employee_combobox[i].setFont( employee_combobox[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 			employee_combobox[i].addItem("");   // empty choice
 			for(int k=0; k<dwd.default_workers.length; k++){
@@ -104,16 +104,16 @@ public class NW_ExceptionPanel extends JPanel {
 		
 		location_label = new JLabel();
 		location_label.setText("Location");
-		location_label.setFont( location_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		location_label.setBackground( DayPanel.MAIN_COLOR );
+		location_label.setFont( location_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		location_label.setBackground(Settings.MAIN_COLOR);
 		
 		location_combobox = new JComboBox[NUM_EXCEPTIONS];
 		for(int i=0; i<NUM_EXCEPTIONS; i++) {
 			location_combobox[i] = new JComboBox<String>();
-			location_combobox[i].setBackground( DayPanel.BACKGROUND_COLOR );
+			location_combobox[i].setBackground( Settings.BACKGROUND_COLOR );
 			location_combobox[i].setEditable(true);
 			//location_combobox[i].setSize(8, );
-			location_combobox[i].setFont( location_combobox[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			location_combobox[i].setFont( location_combobox[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 			location_combobox[i].addItem("");   // empty choice
 			// TODO: add choices based on day's schedule if workers join after first house.
@@ -127,16 +127,16 @@ public class NW_ExceptionPanel extends JPanel {
 		
 		time_label = new JLabel();
 		time_label.setText("Time");
-		time_label.setFont( time_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		time_label.setBackground( DayPanel.MAIN_COLOR );
+		time_label.setFont( time_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		time_label.setBackground(Settings.MAIN_COLOR);
 		
 		time_textfield = new JTextField[NUM_EXCEPTIONS];
 		AbstractDocument[] time_textfield_doc = new AbstractDocument[NUM_EXCEPTIONS];
 		for(int i=0; i<NUM_EXCEPTIONS; i++) {
 			time_textfield[i] = new JTextField();
-			time_textfield[i].setBackground( DayPanel.BACKGROUND_COLOR );
+			time_textfield[i].setBackground( Settings.BACKGROUND_COLOR );
 			time_textfield[i].setColumns(6);
-			time_textfield[i].setFont( time_textfield[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			time_textfield[i].setFont( time_textfield[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 				time_textfield_doc[i] = (AbstractDocument) time_textfield[i].getDocument();
 				TimeDocFilter tdf = new TimeDocFilter( time_textfield[i] );
 				time_textfield_doc[i].setDocumentFilter(tdf);
@@ -147,16 +147,16 @@ public class NW_ExceptionPanel extends JPanel {
 		
 		note_label = new JLabel();
 		note_label.setText("Note");
-		note_label.setFont( note_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		note_label.setBackground( DayPanel.MAIN_COLOR );
+		note_label.setFont( note_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		note_label.setBackground(Settings.MAIN_COLOR);
 		
 		note_textfield = new JTextField[NUM_EXCEPTIONS];
 		AbstractDocument[] note_textfield_doc = new AbstractDocument[NUM_EXCEPTIONS];
 		for(int i=0; i<NUM_EXCEPTIONS; i++) {
 			note_textfield[i] = new JTextField();
-			note_textfield[i].setBackground( DayPanel.BACKGROUND_COLOR );
+			note_textfield[i].setBackground( Settings.BACKGROUND_COLOR );
 			note_textfield[i].setColumns(15);
-			note_textfield[i].setFont( note_textfield[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			note_textfield[i].setFont( note_textfield[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			note_textfield_doc[i] = (AbstractDocument) note_textfield[i].getDocument();
 			// TODO: note_textfield[i].setDocumentFilter( new NoteDocFilter( note_textfield[i] ) );
 		
@@ -165,17 +165,17 @@ public class NW_ExceptionPanel extends JPanel {
 		
 		cancel_button = new JButton();
 		cancel_button.setText("Cancel");
-		cancel_button.setBackground( DayPanel.MAIN_COLOR );
-		cancel_button.setForeground( DayPanel.FOREGROUND_COLOR );
-		cancel_button.setFont( cancel_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		cancel_button.setBackground(Settings.MAIN_COLOR);
+		cancel_button.setForeground( Settings.FOREGROUND_COLOR );
+		cancel_button.setFont( cancel_button.getFont().deriveFont( Settings.FONT_SIZE ) );
 		cancel_button.addActionListener( new NW_CancelExceptionListener( frame ) );
 		
 		
 		submit_button = new JButton();
 		submit_button.setText("Submit");
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
-		submit_button.setFont( submit_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground( Settings.FOREGROUND_COLOR );
+		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
 		submit_button.addActionListener( new NW_SubmitExceptionListener( frame, dp ) );
 		
 		addFlexibleFocusListeners();
@@ -196,7 +196,7 @@ public class NW_ExceptionPanel extends JPanel {
 		
 		JPanel p = new JPanel();
 		p.setLayout( new MigLayout("align right"));
-		p.setBackground( DayPanel.BACKGROUND_COLOR );
+		p.setBackground( Settings.BACKGROUND_COLOR );
 		p.add(cancel_button, "");
 		p.add(submit_button, "");
 		

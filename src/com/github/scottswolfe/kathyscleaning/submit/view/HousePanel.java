@@ -17,6 +17,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.controller.AddHouseListener;
 import com.github.scottswolfe.kathyscleaning.submit.controller.DeleteHouseListener;
 import com.github.scottswolfe.kathyscleaning.submit.controller.ExceptionListener;
@@ -82,18 +83,18 @@ public class HousePanel extends JPanel {
 		this.exception_data = new ExceptionData();
 		
 		setLayout(new MigLayout("insets 0","[grow][grow][grow][grow][grow][grow]","[]"));
-		setBackground( DayPanel.BACKGROUND_COLOR );
-		setBorder(BorderFactory.createTitledBorder( new String() ));
+		setBackground(Settings.BACKGROUND_COLOR);
+		setBorder(BorderFactory.createTitledBorder(new String()));
 		
 		JPanel house_name_panel = houseNamePanel();
 		JPanel pay_panel = payPanel();
 		JPanel time_panel = timePanel();
-		worker_panel = new DefaultWorkerPanel( dwd, DayPanel.BACKGROUND_COLOR, time_end_txt, exceptions );
+		worker_panel = new DefaultWorkerPanel( dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions );
 		//JPanel exceptions_panel = exceptionsPanel();
 		JPanel button_panel = buttonPanel();
 		
 		exceptions = new JButton("Exceptions");
-		exceptions.setFont( exceptions.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		exceptions.setFont( exceptions.getFont().deriveFont( Settings.FONT_SIZE ) );
 		exceptions.addActionListener( new ExceptionListener( this, dwd, frame ) );
 
 		
@@ -124,13 +125,13 @@ public class HousePanel extends JPanel {
 		JPanel panel = new JPanel();
 		
 		panel.setLayout(new MigLayout("insets 0, ay 50%"));
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		house_name_label = new JLabel("House Name");
-		house_name_label.setFont( house_name_label.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		house_name_label.setFont( house_name_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		house_name_txt = new JTextField(10);
-		house_name_txt.setFont( house_name_txt.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		house_name_txt.setFont( house_name_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
 		house_name_txt.getDocument().addDocumentListener( new HouseNameDocListener( this ) );
 		
 		/*
@@ -153,16 +154,16 @@ public class HousePanel extends JPanel {
 		JPanel panel = new JPanel();
 		
 		pay_label = new JLabel("$ Earned");
-		pay_label.setFont( pay_label.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		pay_label.setFont( pay_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		pay_txt = new JTextField(7);
-		pay_txt.setFont( pay_txt.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		pay_txt.setFont( pay_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		AbstractDocument pay_txt_doc = (AbstractDocument)pay_txt.getDocument();
 		pay_txt_doc.setDocumentFilter( new HousePayDocFilter() );
 		
 		panel.setLayout( new MigLayout("insets 0, ay 50%") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		panel.add(pay_label, "wrap, gap 3");
 		panel.add(pay_txt);
@@ -177,10 +178,10 @@ public class HousePanel extends JPanel {
 		JPanel panel = new JPanel();
 		
 		time_label = new JLabel("Time");
-		time_label.setFont( time_label.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		time_label.setFont( time_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		time_begin_txt = new JTextField( 5 );
-		time_begin_txt.setFont( time_begin_txt.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		time_begin_txt.setFont( time_begin_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
 			AbstractDocument time_begin_doc = (AbstractDocument)time_begin_txt.getDocument();
 			TimeDocFilter tdf_begin = new TimeDocFilter(time_begin_txt );
 		time_begin_doc.setDocumentFilter( tdf_begin );
@@ -189,7 +190,7 @@ public class HousePanel extends JPanel {
 		
 		
 		time_end_txt = new JTextField(5);
-		time_end_txt.setFont( time_end_txt.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		time_end_txt.setFont( time_end_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
 			AbstractDocument time_end_doc = (AbstractDocument)time_end_txt.getDocument();
 			TimeDocFilter tdf_end = new TimeDocFilter(time_end_txt );
 		time_end_doc.setDocumentFilter( tdf_end );
@@ -199,7 +200,7 @@ public class HousePanel extends JPanel {
 		
 		
 		panel.setLayout( new MigLayout("insets 0, ay 50%") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		/*
 		panel.add(time_label, "cell 0 0 2 1, wrap, ax 50%");
@@ -238,27 +239,27 @@ public class HousePanel extends JPanel {
 		JPanel panel = new JPanel();
 		
 		move_up = new JButton("Up");
-		move_up.setFont( move_up.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		move_up.setFont( move_up.getFont().deriveFont( Settings.FONT_SIZE ) );
 		//move_up.setBackground( DayPanel.MOVE_COLOR );
-		//move_up.setForeground( DayPanel.FOREGROUND_COLOR );
+		//move_up.setForeground( Settings.FOREGROUND_COLOR );
 		
 		move_down = new JButton("Down");
-		move_down.setFont( move_down.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		move_down.setFont( move_down.getFont().deriveFont( Settings.FONT_SIZE ) );
 		//move_down.setBackground( DayPanel.MOVE_COLOR );
-		//move_down.setForeground( DayPanel.FOREGROUND_COLOR );
+		//move_down.setForeground( Settings.FOREGROUND_COLOR );
 		
 		add_house = new JButton("Add");
-		add_house.setFont( add_house.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		add_house.setFont( add_house.getFont().deriveFont( Settings.FONT_SIZE ) );
 		//add_house.setBackground( DayPanel.ADD_HOUSE_COLOR );
-		//add_house.setForeground( DayPanel.FOREGROUND_COLOR );
+		//add_house.setForeground( Settings.FOREGROUND_COLOR );
 		
 		delete_house = new JButton("Delete");
-		delete_house.setFont( delete_house.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		delete_house.setFont( delete_house.getFont().deriveFont( Settings.FONT_SIZE ) );
 		//delete_house.setBackground( DayPanel.DELETE_HOUSE_COLOR );
-		//delete_house.setForeground( DayPanel.FOREGROUND_COLOR );
+		//delete_house.setForeground( Settings.FOREGROUND_COLOR );
 		
 		panel.setLayout( new MigLayout("insets 0") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		panel.add(move_up, "growx");
 		panel.add(add_house,"wrap, growx");

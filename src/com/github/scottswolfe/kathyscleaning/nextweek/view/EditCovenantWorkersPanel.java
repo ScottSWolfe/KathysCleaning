@@ -13,7 +13,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusLis
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -58,7 +58,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 				worker_combo[i][j] = new JComboBox<String>();
 				worker_combo[i][j].setEditable(true);
 				worker_combo[i][j].setSize(10, UNDEFINED_CONDITION);
-				worker_combo[i][j].setFont( worker_combo[i][j].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+				worker_combo[i][j].setFont( worker_combo[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 				worker_combo[i][j].addItem(null);   // empty choice
 				for(int k=0; k<dwd.default_workers.length; k++){
@@ -74,7 +74,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 		addFlexibleFocusListeners();
 
 		setLayout( new MigLayout("insets 5","[]6[]6[]6[]","[]6[]6[]") );
-		setBackground(DayPanel.BACKGROUND_COLOR);
+		setBackground(Settings.BACKGROUND_COLOR);
 		
 		for (int i=0; i<rows; i++) {
 			for (int j=0; j<columns; j++) {
@@ -91,21 +91,21 @@ public class EditCovenantWorkersPanel extends JPanel {
 		}
 		
 		cancel_button = new JButton("Cancel");
-		cancel_button.setFont( cancel_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		cancel_button.setBackground(DayPanel.MAIN_COLOR);
-		cancel_button.setForeground(DayPanel.FOREGROUND_COLOR);
+		cancel_button.setFont( cancel_button.getFont().deriveFont( Settings.FONT_SIZE ) );
+		cancel_button.setBackground(Settings.MAIN_COLOR);
+		cancel_button.setForeground(Settings.FOREGROUND_COLOR);
 		
 		submit_button = new JButton("Submit");
-		submit_button.setFont( submit_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		submit_button.setBackground(DayPanel.MAIN_COLOR);
-		submit_button.setForeground(DayPanel.FOREGROUND_COLOR);
+		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground(Settings.FOREGROUND_COLOR);
 		
 		cancel_button.addActionListener( new CancelListener( frame ) );
 		submit_button.addActionListener( new SubmitListener(frame, cov_panel, this) );
 		
 		JPanel p = new JPanel();
 		p.setLayout( new MigLayout("align right"));
-		p.setBackground( DayPanel.BACKGROUND_COLOR );
+		p.setBackground( Settings.BACKGROUND_COLOR );
 		p.add(cancel_button, "");
 		p.add(submit_button, "");
 		

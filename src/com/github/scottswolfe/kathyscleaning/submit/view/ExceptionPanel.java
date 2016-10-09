@@ -16,6 +16,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusLis
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.model.ExceptionData;
 
 import net.miginfocom.swing.MigLayout;
@@ -60,13 +61,13 @@ public class ExceptionPanel extends JPanel {
 		}
 		
 		setLayout( new MigLayout("insets 5", temp, "[grow]3[grow]6[grow]6[grow]") );
-		setBackground(DayPanel.BACKGROUND_COLOR);
+		setBackground(Settings.BACKGROUND_COLOR);
 		
 		name_label = new JLabel("Name");
-		name_label.setFont( name_label.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		name_label.setFont( name_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		time_label = new JLabel("Time");
-		time_label.setFont( time_label.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		time_label.setFont( time_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		name_box = new JComboBox[EXCEPTION_ROWS];
 		
@@ -81,7 +82,7 @@ public class ExceptionPanel extends JPanel {
 			name_box[i] = new JComboBox<String>();
 			name_box[i].setEditable(true);
 			name_box[i].setSize(10, UNDEFINED_CONDITION);
-			name_box[i].setFont( name_box[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			name_box[i].setFont( name_box[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 			
 			name_box[i].addItem("");   // empty choice
@@ -91,7 +92,7 @@ public class ExceptionPanel extends JPanel {
 			
 			
 			time_begin[i] = new JTextField(5);
-			time_begin[i].setFont( time_begin[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			time_begin[i].setFont( time_begin[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			time_begin_doc[i] = (AbstractDocument)time_begin[i].getDocument();
 				TimeDocFilter tdf_begin = new TimeDocFilter(time_begin[i] );
 			time_begin_doc[i].setDocumentFilter( tdf_begin );
@@ -99,7 +100,7 @@ public class ExceptionPanel extends JPanel {
 			//time_begin[i].addFocusListener(  );
 			
 			time_end[i] = new JTextField(5);
-			time_end[i].setFont( time_end[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			time_end[i].setFont( time_end[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			time_end_doc[i] = (AbstractDocument)time_end[i].getDocument();
 				TimeDocFilter tdf_end = new TimeDocFilter(time_end[i] );
 			time_end_doc[i].setDocumentFilter( tdf_end );
@@ -121,16 +122,16 @@ public class ExceptionPanel extends JPanel {
 		}
 		
 		cancel_button = new JButton("Cancel");
-		cancel_button.setFont( cancel_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		cancel_button.setFont( cancel_button.getFont().deriveFont( Settings.FONT_SIZE ) );
 		cancel_button.addActionListener( new CancelListener(frame) );
-		cancel_button.setBackground( DayPanel.MAIN_COLOR );
-		cancel_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		cancel_button.setBackground(Settings.MAIN_COLOR);
+		cancel_button.setForeground( Settings.FOREGROUND_COLOR );
 		
 		submit_button = new JButton("Submit");
-		submit_button.setFont( submit_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
 		submit_button.addActionListener( new SubmitListener(frame, this, hp) );
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		
 		addFlexibleFocusListeners();
 		
@@ -145,7 +146,7 @@ public class ExceptionPanel extends JPanel {
 		
 		JPanel p = new JPanel();
 		p.setLayout( new MigLayout("align right"));
-		p.setBackground( DayPanel.BACKGROUND_COLOR );
+		p.setBackground( Settings.BACKGROUND_COLOR );
 		p.add(cancel_button, "");
 		p.add(submit_button, "");
 		
@@ -265,10 +266,7 @@ public class ExceptionPanel extends JPanel {
 			
 		//  LISTENER
 			public void actionPerformed(ActionEvent e){
-				
-				// TODO: possible JOptionPane message asking if sure they want to submit
-				
-				
+
 				// create ExceptionData
 				
 				String[] workers = new String[EXCEPTION_ROWS];

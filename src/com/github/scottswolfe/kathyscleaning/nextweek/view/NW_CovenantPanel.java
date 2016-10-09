@@ -17,8 +17,8 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListen
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_NoteListener;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -52,7 +52,7 @@ public class NW_CovenantPanel extends JPanel {
 		this.container_frame = container_frame;
 		
 		setLayout( new MigLayout( "insets 10, fillx", "[]10[]10[]10[]30[]", "[grow]" ) );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground( Settings.BACKGROUND_COLOR );
 		//setBorder( BorderFactory.createLineBorder( null ));
 		/*
 		Border border = BorderFactory.createLineBorder(null,1);
@@ -73,23 +73,23 @@ public class NW_CovenantPanel extends JPanel {
 		
 		header_label = new JLabel();
 		header_label.setText( "Covenant" );
-		header_label.setFont( header_label.getFont().deriveFont( DayPanel.HEADER_FONT_SIZE ));
+		header_label.setFont( header_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
 		
-		dwp = new DefaultWorkerPanel( dwd, DayPanel.BACKGROUND_COLOR, DefaultWorkerPanel.COV_ROWS, DefaultWorkerPanel.COV_COLUMNS,
+		dwp = new DefaultWorkerPanel( dwd, Settings.BACKGROUND_COLOR, DefaultWorkerPanel.COV_ROWS, DefaultWorkerPanel.COV_COLUMNS,
 										null, null);
 		
 		edit_button = new JButton();
 		edit_button.setText( "Edit");
-		//edit_button.setBackground( DayPanel.MAIN_COLOR);
-		edit_button.setFont( edit_button.getFont().deriveFont(DayPanel.FONT_SIZE));
-		//edit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		//edit_button.setBackground( Settings.MAIN_COLOR);
+		edit_button.setFont( edit_button.getFont().deriveFont(Settings.FONT_SIZE));
+		//edit_button.setForeground( Settings.FOREGROUND_COLOR );
 		edit_button.addActionListener( new EditWorkersListener(this, dwd, dwp) );
 		
 		covenant_note_button = new JButton();
 		covenant_note_button.setText( "Note");
-		//covenant_note_button.setBackground( DayPanel.MAIN_COLOR);
-		covenant_note_button.setFont( covenant_note_button.getFont().deriveFont(DayPanel.FONT_SIZE));
-		//covenant_note_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		//covenant_note_button.setBackground( Settings.MAIN_COLOR);
+		covenant_note_button.setFont( covenant_note_button.getFont().deriveFont(Settings.FONT_SIZE));
+		//covenant_note_button.setForeground( Settings.FOREGROUND_COLOR );
 		covenant_note_button.addActionListener( new NW_NoteListener( day_panel, dwd, day_panel.covenant_note_data, NW_NotePanel.COVENANT_NOTE, container_frame ) );
 		
 		

@@ -1,7 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.menu.view;
 
 import java.awt.Desktop;
-import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -31,7 +30,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
@@ -39,6 +37,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListen
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.controller.TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 
@@ -50,8 +49,8 @@ public class SettingsPanel extends JPanel {
 	/**
 	 * This panel allows the user to adjust various settings:
 	 * 		-Default Excel Template
-	 * 		-Default Save Location for generated Excel Docs
-	 * 		-Default Week Auto-Entry Data
+	 * 		-Default Save Location for generated Excel Document
+	 * 		-Default Auto-Entry Data
 	 * 		-Font Size
 	 * 		-Color Theme
 	 */
@@ -63,8 +62,8 @@ public class SettingsPanel extends JPanel {
 	// FIELDS
 	
 	JFrame frame;
-	JFrame menu_frame;
-	public static File settings_save_file = new File( System.getProperty("user.dir") + "\\save\\SettingsSaveFile" );
+	JFrame menuFrame;
+	public static final File SETTINGS_SAVE_FILE = new File( System.getProperty("user.dir") + "\\save\\SettingstingsSaveFile" );
 	
 	public static File excel_template_file;
 	public static File save_location_file;
@@ -89,10 +88,6 @@ public class SettingsPanel extends JPanel {
 	
 	public static final File SAVED_SCHEDULE = new File(System.getProperty("user.dir") + "\\save\\SavedSchedule");
 	public static final File COV_WORKER_SAVE = new File(System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
-	
-	public static final int FONT_SIZE_BASE = 12;
-	public static final int HEADER_FONT_SIZE_BASE = 20;
-	public static final int FONT_SIZE_MULTIPLIER = 4;
 	
 	public static final int HOUSES_WORKERS = 0;
 	public static final int COVENANT_WORKERS = 1;
@@ -143,20 +138,21 @@ public class SettingsPanel extends JPanel {
 	
 	
 	// CONSTRUCTOR
-	public SettingsPanel( JFrame frame, JFrame menu_frame ) {
+	public SettingsPanel( JFrame frame, JFrame menuFrame ) {
 		
 		this.frame = frame;
-		this.menu_frame = menu_frame;
+		this.menuFrame = menuFrame;
 		
 		
-		readSettingsSaveFile();		// read SettingsSaveFile for saved settings
+		readSettingstingsSaveFile();		// read SettingstingsSaveFile for saved settings
 		
 		setLayout( new MigLayout("insets 0") );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground( Settings.BACKGROUND_COLOR );
 		
 		header_label = new JLabel();
-		header_label.setText( "Settings" );
-		header_label.setFont( header_label.getFont().deriveFont(DayPanel.HEADER_FONT_SIZE) );
+		header_label.setText("Settingstings");
+		header_label.setFont(
+		        header_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE));
 		
 		JPanel excel_panel = createExcelPanel();
 		JPanel save_loc_panel = createSaveLocPanel();
@@ -177,7 +173,7 @@ public class SettingsPanel extends JPanel {
 		
 		JPanel scroll_panel = new JPanel();
 		scroll_panel.setLayout(new MigLayout());
-		scroll_panel.setBackground(DayPanel.BACKGROUND_COLOR);
+		scroll_panel.setBackground(Settings.BACKGROUND_COLOR);
 		
 		scroll_panel.add(excel_panel, "wrap 10, growx");
 		scroll_panel.add(hseparator1, "wrap 10, growx");
@@ -194,7 +190,7 @@ public class SettingsPanel extends JPanel {
         scroll_panel.add(continue_panel, "growx");
 		
 		JScrollPane sp = new JScrollPane(scroll_panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		sp.setBackground( DayPanel.BACKGROUND_COLOR );
+		sp.setBackground( Settings.BACKGROUND_COLOR );
 		sp.setBorder(BorderFactory.createEmptyBorder());
 		
 		//sp.add(scroll_panel);
@@ -216,30 +212,30 @@ public class SettingsPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout() );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		excel_tag_label = new JLabel();
 		excel_tag_label.setText( "Excel Template: " );
-		excel_tag_label.setFont( excel_tag_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		excel_tag_label.setFont( excel_tag_label.getFont().deriveFont(Settings.FONT_SIZE) );
 		
 		excel_selection_field = new JTextField();
 		excel_selection_field.setText( excel_template_file.getName() );
-		excel_selection_field.setFont( excel_selection_field.getFont().deriveFont(DayPanel.FONT_SIZE) ); // TODO need a lighter, smaller font...
+		excel_selection_field.setFont( excel_selection_field.getFont().deriveFont(Settings.FONT_SIZE) ); // TODO need a lighter, smaller font...
 		excel_selection_field.setEditable( false );
 		excel_selection_field.setColumns(15);
 		
 		excel_view_button = new JButton();
 		excel_view_button.setText( "View" );
-		excel_view_button.setFont( excel_view_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		//excel_view_button.setBackground( DayPanel.MAIN_COLOR );
-		//excel_view_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		excel_view_button.setFont( excel_view_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		//excel_view_button.setBackground(Settings.MAIN_COLOR);
+		//excel_view_button.setForeground( Settings.FOREGROUND_COLOR );
 		excel_view_button.addActionListener( new ViewExcelListener() );
 		
 		excel_edit_button = new JButton();
 		excel_edit_button.setText( "Change" );
-		excel_edit_button.setFont( excel_view_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		//excel_edit_button.setBackground( DayPanel.MAIN_COLOR );
-		//excel_edit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		excel_edit_button.setFont( excel_view_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		//excel_edit_button.setBackground(Settings.MAIN_COLOR);
+		//excel_edit_button.setForeground( Settings.FOREGROUND_COLOR );
 		excel_edit_button.addActionListener( new ChangeFileListener( ) );
 		
 		panel.add(excel_tag_label, "cell 0 0, growx");
@@ -254,30 +250,30 @@ public class SettingsPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout() );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		save_tag_label = new JLabel();
 		save_tag_label.setText( "Save Location: " );
-		save_tag_label.setFont( save_tag_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		save_tag_label.setFont( save_tag_label.getFont().deriveFont(Settings.FONT_SIZE) );
 		
 		save_selection_field = new JTextField();
 		save_selection_field.setText( save_location_file.getName() );
-		save_selection_field.setFont( save_selection_field.getFont().deriveFont(DayPanel.FONT_SIZE) ); // TODO need a lighter, smaller font...
+		save_selection_field.setFont( save_selection_field.getFont().deriveFont(Settings.FONT_SIZE) ); // TODO need a lighter, smaller font...
 		save_selection_field.setEditable( false );
 		save_selection_field.setColumns(15);
 		
 		save_view_button = new JButton();
 		save_view_button.setText( "View" );
-		save_view_button.setFont( save_view_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		//save_view_button.setBackground( DayPanel.MAIN_COLOR );
-		//save_view_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		save_view_button.setFont( save_view_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		//save_view_button.setBackground(Settings.MAIN_COLOR);
+		//save_view_button.setForeground( Settings.FOREGROUND_COLOR );
 		save_view_button.addActionListener( new ViewFolderListener( ) );
 		
 		save_edit_button = new JButton();
 		save_edit_button.setText( "Change" );
-		save_edit_button.setFont( save_edit_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		//save_edit_button.setBackground( DayPanel.MAIN_COLOR );
-		//save_edit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		save_edit_button.setFont( save_edit_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		//save_edit_button.setBackground(Settings.MAIN_COLOR);
+		//save_edit_button.setForeground( Settings.FOREGROUND_COLOR );
 		save_edit_button.addActionListener( new ChangeFolderListener() );
 		
 		panel.add(save_tag_label, "cell 0 0, growx");
@@ -292,24 +288,24 @@ public class SettingsPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("fill") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		edit_week_label = new JLabel();
 		edit_week_label.setText( "Edit Default Week Data: ");
-		edit_week_label.setFont( edit_week_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		edit_week_label.setFont( edit_week_label.getFont().deriveFont(Settings.FONT_SIZE) );
 		
 		edit_wkA_button = new JButton();
 		edit_wkA_button.setText( "Week A" );
-		edit_wkA_button.setFont( edit_wkA_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		//edit_wkA_button.setBackground( DayPanel.MAIN_COLOR );
-		//edit_wkA_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		edit_wkA_button.setFont( edit_wkA_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		//edit_wkA_button.setBackground(Settings.MAIN_COLOR);
+		//edit_wkA_button.setForeground( Settings.FOREGROUND_COLOR );
 		edit_wkA_button.addActionListener( new EditWeekListener( WEEK_A ) );
 		
 		edit_wkB_button = new JButton();
 		edit_wkB_button.setText( "Week B" );
-		edit_wkB_button.setFont( edit_wkB_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		//edit_wkB_button.setBackground( DayPanel.MAIN_COLOR );
-		//edit_wkB_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		edit_wkB_button.setFont( edit_wkB_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		//edit_wkB_button.setBackground(Settings.MAIN_COLOR);
+		//edit_wkB_button.setForeground( Settings.FOREGROUND_COLOR );
 		edit_wkB_button.addActionListener( new EditWeekListener( WEEK_B ) );
 		
 		panel.add(edit_week_label, "span 2, wrap, growx");
@@ -323,20 +319,20 @@ public class SettingsPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("fill") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		edit_worker_label = new JLabel();
 		edit_worker_label.setText( "Edit Default Workers: ");
-		edit_worker_label.setFont( edit_worker_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		edit_worker_label.setFont( edit_worker_label.getFont().deriveFont(Settings.FONT_SIZE) );
 		
 		edit_houses_button = new JButton();
 		edit_houses_button.setText( "Houses" );
-		edit_houses_button.setFont( edit_houses_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		edit_houses_button.setFont( edit_houses_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		edit_houses_button.addActionListener( new EditWorkerListener( HOUSES_WORKERS, frame ) );
 		
 		edit_covenant_button = new JButton();
 		edit_covenant_button.setText( "Covenant" );
-		edit_covenant_button.setFont( edit_covenant_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		edit_covenant_button.setFont( edit_covenant_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		edit_covenant_button.addActionListener( new EditWorkerListener( COVENANT_WORKERS, frame ) );
 		
 		panel.add(edit_worker_label, "span 2, wrap, growx");
@@ -349,42 +345,26 @@ public class SettingsPanel extends JPanel {
 	private JPanel createAppearancePanel() {
 		
 		JPanel panel = new JPanel();
-		panel.setLayout( new MigLayout("center") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setLayout(new MigLayout("center"));
+		panel.setBackground(Settings.BACKGROUND_COLOR);
 		
 		font_size_tag_label = new JLabel();
-		font_size_tag_label.setText( "Font Size: ");
-		font_size_tag_label.setFont( font_size_tag_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		font_size_tag_label.setText("Font Size: ");
+		font_size_tag_label.setFont(font_size_tag_label.getFont().deriveFont(
+		        Settings.FONT_SIZE));
 		
 		font_size_slider = new JSlider();
-		font_size_slider.setBackground( DayPanel.BACKGROUND_COLOR );
+		font_size_slider.setBackground( Settings.BACKGROUND_COLOR );
 		font_size_slider.setMaximum(5);
 		font_size_slider.setMinimum(1);
-		font_size_slider.setValue( font_size );
+		font_size_slider.setValue(font_size);
 		font_size_slider.setOrientation(SwingConstants.HORIZONTAL);
 		font_size_slider.setSnapToTicks(true);
 		font_size_slider.setMajorTickSpacing(1);
 		font_size_slider.setPaintTicks(true);
-		// TODO font_size_slider.addChangeListener( new FontSliderListener() );
 		
-		color_label = new JLabel();
-		color_label.setText( "Color Theme: ");
-		color_label.setFont( color_label.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		
-		color_combobox = new JComboBox<String>();
-		color_combobox.setFont( color_combobox.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		color_combobox.setBackground( DayPanel.BACKGROUND_COLOR );
-		for(int i=0; i<color_theme.length; i++){
-			color_combobox.addItem( color_theme[i] );
-		}
-		color_combobox.setSelectedItem( color_theme_selection );
-		// TODO color_combobox.addActionListener( new ColorComboListener() );
-		
-		panel.add(font_size_tag_label, "growx, split 2, wrap");
-		// TODO panel.add(demonstration_label, "growx");
-		panel.add(font_size_slider, "growx, wrap 10");
-		panel.add(color_label, "growx, split 2");
-		panel.add(color_combobox, "growx");
+		panel.add(font_size_tag_label, "growx, wrap");
+		panel.add(font_size_slider, "center, growx");
 		
 		return panel;		
 	}
@@ -392,20 +372,22 @@ public class SettingsPanel extends JPanel {
 	private JPanel createContinuePanel() {
 		
 		JPanel panel = new JPanel();
-		panel.setLayout( new MigLayout("align right") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setLayout(new MigLayout("align right"));
+		panel.setBackground(Settings.BACKGROUND_COLOR);
 		
 		cancel_button = new JButton();
-		cancel_button.setBackground( DayPanel.MAIN_COLOR );
-		cancel_button.setForeground( DayPanel.FOREGROUND_COLOR );
-		cancel_button.setFont( cancel_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		cancel_button.setBackground(Settings.MAIN_COLOR);
+		cancel_button.setForeground(Settings.FOREGROUND_COLOR);
+		cancel_button.setFont(cancel_button.getFont().deriveFont(
+		        Settings.FONT_SIZE));
 		cancel_button.setText("Cancel");
 		cancel_button.addActionListener( new CancelButtonListener() );
 		
 		submit_button = new JButton();
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
-		submit_button.setFont( submit_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground(Settings.FOREGROUND_COLOR);
+		submit_button.setFont(submit_button.getFont().deriveFont(
+		        Settings.FONT_SIZE));
 		submit_button.setText("Submit");
 		submit_button.addActionListener( new SubmitButtonListener() );
 		
@@ -419,29 +401,16 @@ public class SettingsPanel extends JPanel {
 	
 	// PRIVATE METHODS
 	
-	// read Settings_IO for saved files and file locations
-	private void readSettingsSaveFile () {
+	// read Settingstings_IO for saved files and file locations
+	private void readSettingstingsSaveFile () {
 
 		try {
-			Scanner input = new Scanner( settings_save_file );
+			Scanner input = new Scanner( SETTINGS_SAVE_FILE );
 									
 			excel_template_file = new File( input.nextLine() );
 			save_location_file = new File( input.nextLine() );
-			font_size = input.nextInt(); // TODO check if this consumes the carriage return
+			font_size = input.nextInt();
 			input.nextLine();
-			color_theme_selection = input.nextLine();
-			/*
-			int i=0;
-			String[] array = new String[50]; // 50 is arbitrarily large number 
-			while(input.hasNextLine()){
-				array[i] = input.nextLine();
-				i++;
-			}
-			color_theme = new String[i];
-			for(int j=0; j<i; j++) {
-				color_theme[j] = array[j];
-			}
-			*/
 			input.close();
 		}
 		catch ( Exception e ) {
@@ -462,7 +431,7 @@ public class SettingsPanel extends JPanel {
 		
 		File excel_template_file;
 		try {
-			Scanner input = new Scanner( settings_save_file );
+			Scanner input = new Scanner(SETTINGS_SAVE_FILE);
 			excel_template_file = new File( input.nextLine() );
 			input.close();
 		}
@@ -479,7 +448,7 @@ public class SettingsPanel extends JPanel {
 		
 		File default_save_location;
 		try {
-			Scanner input = new Scanner( settings_save_file );
+			Scanner input = new Scanner(SETTINGS_SAVE_FILE);
 			input.nextLine();
 			default_save_location = new File( input.nextLine() );
 			input.close();
@@ -655,8 +624,8 @@ public class SettingsPanel extends JPanel {
 		
 		public void actionPerformed( ActionEvent e ) {
 			
-			menu_frame.setVisible(false);
-			menu_frame.dispose();
+			menuFrame.setVisible(false);
+			menuFrame.dispose();
 			
 			JFrame nframe = new JFrame();
 			nframe.setResizable( false );
@@ -674,8 +643,8 @@ public class SettingsPanel extends JPanel {
 			}
 			
 			TabbedPane tp = new TabbedPane();
-			tp.setFont( tp.getFont().deriveFont( DayPanel.TAB_FONT_SIZE ) );
-			tp.setBackground( DayPanel.BACKGROUND_COLOR );
+			tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
+			tp.setBackground(Settings.BACKGROUND_COLOR);
 			
 			// getting dates from Monday to Friday
 			Calendar date = Calendar.getInstance();
@@ -791,63 +760,57 @@ public class SettingsPanel extends JPanel {
 		
 		public void actionPerformed( ActionEvent e ) {
 			
-			
-			
-			// write all data to SettingsSaveFile
-			BufferedWriter bw = null;
+			// Write all settings data to SettingsSaveFile
+			BufferedWriter buffWriter;
 			try {
 				
-				FileWriter fw = new FileWriter( settings_save_file );
-				bw = new BufferedWriter( fw );
+				FileWriter fileWriter = new FileWriter(SETTINGS_SAVE_FILE);
+				buffWriter = new BufferedWriter(fileWriter);
 				
-				bw.write( excel_template_file.getAbsolutePath() );				bw.newLine();
-				bw.write( save_location_file.getAbsolutePath() );				bw.newLine();
-				bw.write( String.valueOf( font_size_slider.getValue() ) ); 		bw.newLine();
-				bw.write( color_theme_selection );
+				buffWriter.write(excel_template_file.getAbsolutePath());
+				buffWriter.newLine();
+				buffWriter.write(save_location_file.getAbsolutePath());
+				buffWriter.newLine();
+				buffWriter.write(String.valueOf( font_size_slider.getValue()));
+				buffWriter.newLine();
+				buffWriter.write(color_theme_selection);
 				
-				bw.close();
+				buffWriter.close();
 				
 			} catch (IOException e1) {
 				System.out.println("i/o error");
+				e1.printStackTrace();
 			}
 			
 			// changing the font size (if changed)
-			try {
-				int size = font_size_slider.getValue();
+			int textSizeFactor = font_size_slider.getValue();
 				
-				DayPanel.FONT_SIZE = FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*size;
-				DayPanel.HEADER_FONT_SIZE = HEADER_FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*size;
-				DayPanel.TAB_FONT_SIZE = FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*size;
+			Settings.setFontSize(textSizeFactor);
+            Settings.setHeaderFontSize(textSizeFactor);
+            Settings.setTabFontSize(textSizeFactor);
+								
+			menuFrame.setVisible(false);
+			menuFrame.dispose();
 				
-				UIManager.put("OptionPane.messageFont", new Font("System", Font.PLAIN, 12+size*4));
-				UIManager.put("OptionPane.buttonFont", new Font("System", Font.PLAIN, 12+size*4));
+			JFrame newMenuFrame = new JFrame();
+			MenuPanel menuPanel = new MenuPanel( newMenuFrame );
 				
-				menu_frame.setVisible(false);
-				menu_frame.dispose();
+			newMenuFrame.add(menuPanel);
+			newMenuFrame.setResizable(false);
+			newMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
-				JFrame new_menu_frame = new JFrame();
-				MenuPanel menu_panel = new MenuPanel( new_menu_frame );
-				
-				new_menu_frame.add( menu_panel );
-				new_menu_frame.setResizable( false );
-				new_menu_frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-				
-				new_menu_frame.pack();
+			newMenuFrame.pack();
 
 				
-				new_menu_frame.setLocationRelativeTo( null );
-				new_menu_frame.setVisible( true );
-			}
-			catch (Exception exc) {
-				JOptionPane.showMessageDialog(new JFrame(), "Error: Failed to Change Font Size", null, JOptionPane.ERROR_MESSAGE);
-			}
+			newMenuFrame.setLocationRelativeTo(null);
+			newMenuFrame.setVisible(true);
+
 			
 			// close Settings Frame
-			frame.setVisible( false );
+			frame.setVisible(false);
 			frame.dispose();
 			
-			
-			
+
 		}
 		
 	}

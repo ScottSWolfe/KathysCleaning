@@ -20,6 +20,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListe
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_CopyWorkersListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_EditDefaultWorkersListener;
@@ -28,7 +29,6 @@ import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_SubmitWeekLi
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_WeekListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.NW_DayData;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.NW_HeaderData;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -94,8 +94,8 @@ public class NW_HeaderPanel extends JPanel {
 		
 		setLayout( new MigLayout("gap 0 px, insets 1","[grow][grow][grow]","[grow]") );
 		setBorder(BorderFactory.createLineBorder(null, 2));
-		setBackground(DayPanel.BACKGROUND_COLOR);
-		setBackground(DayPanel.HEADER_BACKGROUND);
+		setBackground(Settings.BACKGROUND_COLOR);
+		setBackground(Settings.HEADER_BACKGROUND);
 		
 		JPanel date_panel = datePanel(date);
 		JPanel choose_week_panel = chooseWeekPanel();
@@ -103,7 +103,7 @@ public class NW_HeaderPanel extends JPanel {
 		JPanel change_day_panel = changeDayPanel();
 		JPanel submit_schedule_panel = submitSchedulePanel();
 		
-		int day_panel_width_min = 133 + (int) DayPanel.FONT_SIZE; // temp fix
+		int day_panel_width_min = 133 + (int) Settings.FONT_SIZE; // temp fix
 		
 		add(date_panel, new String("growy, growx, wmin " + day_panel_width_min +", ay center"));
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
@@ -130,7 +130,7 @@ public class NW_HeaderPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2","[grow]","[grow][grow]") );
-		panel.setBackground( DayPanel.HEADER_BACKGROUND );
+		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
 		
 		String weekDay;
@@ -140,11 +140,11 @@ public class NW_HeaderPanel extends JPanel {
 		
 		day_label = new JLabel();
 		day_label.setText( weekDay );
-		day_label.setFont( day_label.getFont().deriveFont( DayPanel.HEADER_FONT_SIZE ) );
+		day_label.setFont( day_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ) );
 		
 		if (mode == SettingsPanel.TRUE_MODE) {
 			date_label = new JLabel( ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
-			date_label.setFont( date_label.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+			date_label.setFont( date_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		}
 		
 		panel.add(this.day_label, "wrap, ax center");
@@ -161,31 +161,31 @@ public class NW_HeaderPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2") );
-		panel.setBackground(DayPanel.BACKGROUND_COLOR);
-		panel.setBackground(DayPanel.HEADER_BACKGROUND);
+		panel.setBackground(Settings.BACKGROUND_COLOR);
+		panel.setBackground(Settings.HEADER_BACKGROUND);
 		
 		week_A = new JRadioButton("Week A");
 		week_B = new JRadioButton("Week B");
 		neither = new JRadioButton("Neither");
 		
-		week_A.setFont( week_A.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		week_A.setFont( week_A.getFont().deriveFont( Settings.FONT_SIZE ) );
 		week_A.setOpaque(false);
-		week_A.setBackground(DayPanel.HEADER_BACKGROUND);
+		week_A.setBackground(Settings.HEADER_BACKGROUND);
 		week_A.addActionListener( new NW_WeekListener( tp, SettingsPanel.WEEK_A ) );
 		
-		week_B.setFont( week_B.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		week_B.setFont( week_B.getFont().deriveFont( Settings.FONT_SIZE ) );
 		week_B.setOpaque(false);
-		week_B.setBackground(DayPanel.HEADER_BACKGROUND);
+		week_B.setBackground(Settings.HEADER_BACKGROUND);
 		week_B.addActionListener( new NW_WeekListener( tp, SettingsPanel.WEEK_B ) );
 		
-		neither.setFont( neither.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		neither.setFont( neither.getFont().deriveFont( Settings.FONT_SIZE ) );
 		neither.setOpaque(false);
-		neither.setBackground(DayPanel.HEADER_BACKGROUND);
+		neither.setBackground(Settings.HEADER_BACKGROUND);
 		neither.addActionListener( new NW_NeitherRadioListener( tp, frame ) );
 		
-		week_A.setBackground(DayPanel.BACKGROUND_COLOR);
-		week_B.setBackground(DayPanel.BACKGROUND_COLOR);
-		neither.setBackground(DayPanel.BACKGROUND_COLOR);
+		week_A.setBackground(Settings.BACKGROUND_COLOR);
+		week_B.setBackground(Settings.BACKGROUND_COLOR);
+		neither.setBackground(Settings.BACKGROUND_COLOR);
 		
 		button_group = new ButtonGroup();
 		button_group.add(week_A);
@@ -210,18 +210,18 @@ public class NW_HeaderPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2") );
-		panel.setBackground(DayPanel.BACKGROUND_COLOR);
-		panel.setBackground(DayPanel.HEADER_BACKGROUND);
+		panel.setBackground(Settings.BACKGROUND_COLOR);
+		panel.setBackground(Settings.HEADER_BACKGROUND);
 			
-		dwp = new DefaultWorkerPanel(dwd, DayPanel.HEADER_BACKGROUND, null, null );
+		dwp = new DefaultWorkerPanel(dwd, Settings.HEADER_BACKGROUND, null, null );
 		
 		edit_default_workers = new JButton("Edit");
 		edit_default_workers.addActionListener( new NW_EditDefaultWorkersListener(dwd, day_panel, frame) );
-		edit_default_workers.setFont( edit_default_workers.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		edit_default_workers.setFont( edit_default_workers.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		copy_workers = new JButton("Copy");
 		copy_workers.addActionListener( new NW_CopyWorkersListener(tp, day_data, day_panel) );
-		copy_workers.setFont( copy_workers.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		copy_workers.setFont( copy_workers.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		panel.add(dwp, "span 1 2, push y");
 		panel.add(copy_workers, "push y, growx");
@@ -238,21 +238,21 @@ public class NW_HeaderPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2","[][]","[grow]") );
-		panel.setBackground( DayPanel.HEADER_BACKGROUND );
+		panel.setBackground( Settings.HEADER_BACKGROUND );
 
 		previous_day = new JButton("Previous");
-		previous_day.setFont( previous_day.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		previous_day.setFont( previous_day.getFont().deriveFont( Settings.FONT_SIZE ) );
 		previous_day.addActionListener( new PreviousDayListener(tp,frame) );
 		previous_day.setPreferredSize(new Dimension(100,40));
-		previous_day.setBackground(DayPanel.CHANGE_DAY_COLOR);
-		previous_day.setForeground(DayPanel.FOREGROUND_COLOR);
+		previous_day.setBackground(Settings.CHANGE_DAY_COLOR);
+		previous_day.setForeground(Settings.FOREGROUND_COLOR);
 
 		next_day = new JButton("  Next  ");
-		next_day.setFont( next_day.getFont().deriveFont( DayPanel.FONT_SIZE ) );
+		next_day.setFont( next_day.getFont().deriveFont( Settings.FONT_SIZE ) );
 		next_day.addActionListener( new NextDayListener(tp,frame) );
 		next_day.setPreferredSize(new Dimension(100,40));
-		next_day.setBackground(DayPanel.CHANGE_DAY_COLOR); 
-		next_day.setForeground(DayPanel.FOREGROUND_COLOR);
+		next_day.setBackground(Settings.CHANGE_DAY_COLOR); 
+		next_day.setForeground(Settings.FOREGROUND_COLOR);
 		
 		
 		panel.add(previous_day, "");
@@ -266,12 +266,12 @@ public class NW_HeaderPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2","[]","[grow]") );
-		panel.setBackground( DayPanel.HEADER_BACKGROUND );
+		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
 		submit_schedule = new JButton("Submit");
-		submit_schedule.setFont( submit_schedule.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		submit_schedule.setBackground( DayPanel.MAIN_COLOR );
-		submit_schedule.setForeground( DayPanel.FOREGROUND_COLOR );
+		submit_schedule.setFont( submit_schedule.getFont().deriveFont( Settings.FONT_SIZE ) );
+		submit_schedule.setBackground(Settings.MAIN_COLOR);
+		submit_schedule.setForeground( Settings.FOREGROUND_COLOR );
 		submit_schedule.setPreferredSize(new Dimension(100,40));
 		submit_schedule.addActionListener( new NW_SubmitWeekListener(tp, frame, mode, wk) );
 		

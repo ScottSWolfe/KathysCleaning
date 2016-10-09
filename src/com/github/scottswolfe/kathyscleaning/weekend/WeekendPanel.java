@@ -39,23 +39,23 @@ import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListen
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.submit.controller.SubmitWeekListener;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * Panel in which user can enter other cleaning jobs.
+ * 
+ */
+@SuppressWarnings("serial")
 public class WeekendPanel extends JPanel {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1857485379438846999L;
 
-	
 	// FIELDS
 	
 	JFrame frame;
@@ -66,7 +66,7 @@ public class WeekendPanel extends JPanel {
 	int mode;
 	int wk;
 	
-	public static final int NUM_JOBS_CAP = 3;
+	public static final int NUM_JOBS_CAP = 4;
 	
 	
 	// COMPONENTS
@@ -101,7 +101,7 @@ public class WeekendPanel extends JPanel {
 		
 		
 		setLayout( new MigLayout() );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground(Settings.BACKGROUND_COLOR);
 		
 		add( createHeaderPanel(), "grow, wrap 0" );
 		add( createJobsWorkedPanel(), "grow" );
@@ -116,35 +116,35 @@ public class WeekendPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("fill") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		//panel.setBorder( new LineBorder(null,1) );
 		
 		heading_label = new JLabel();
 		heading_label.setText( "Weekend Work" );
-		heading_label.setFont( heading_label.getFont().deriveFont(DayPanel.HEADER_FONT_SIZE) );
-		heading_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		heading_label.setFont( heading_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
+		heading_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		date_label = new JLabel();
 		String s = new String( "Week of " +
 				( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) +
 				"/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
 		date_label.setText(s);
-		date_label.setFont(date_label.getFont().deriveFont( DayPanel.FONT_SIZE ));
-		date_label.setBackground( DayPanel.BACKGROUND_COLOR );
+		date_label.setFont(date_label.getFont().deriveFont( Settings.FONT_SIZE ));
+		date_label.setBackground( Settings.BACKGROUND_COLOR );
 		
 		weekA_button = new JRadioButton("Week A");
-		weekA_button.setFont( weekA_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		weekA_button.setBackground( DayPanel.BACKGROUND_COLOR );
+		weekA_button.setFont( weekA_button.getFont().deriveFont( Settings.FONT_SIZE ) );
+		weekA_button.setBackground( Settings.BACKGROUND_COLOR );
 		weekA_button.addActionListener( new WeekListener( ) );
 
 		weekB_button = new JRadioButton("Week B");
-		weekB_button.setFont( weekB_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		weekB_button.setBackground( DayPanel.BACKGROUND_COLOR );
+		weekB_button.setFont( weekB_button.getFont().deriveFont( Settings.FONT_SIZE ) );
+		weekB_button.setBackground( Settings.BACKGROUND_COLOR );
 		weekB_button.addActionListener( new WeekListener( ) );
 
 		neither_button = new JRadioButton("Neither");
-		neither_button.setFont( neither_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		neither_button.setBackground( DayPanel.BACKGROUND_COLOR );
+		neither_button.setFont( neither_button.getFont().deriveFont( Settings.FONT_SIZE ) );
+		neither_button.setBackground( Settings.BACKGROUND_COLOR );
 		neither_button.addActionListener( new NeitherListener() );
 		
 		bg = new ButtonGroup();
@@ -154,9 +154,9 @@ public class WeekendPanel extends JPanel {
 		
 		submit_button = new JButton();
 		submit_button.setText( "Submit" );
-		submit_button.setFont( submit_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		submit_button.addActionListener( new SubmitListener() );
 		
 		
@@ -164,7 +164,7 @@ public class WeekendPanel extends JPanel {
 		
 		JPanel p = new JPanel();
 		p.setLayout( new MigLayout("fill") );
-		p.setBackground( DayPanel.HEADER_BACKGROUND );
+		p.setBackground( Settings.HEADER_BACKGROUND );
 		p.setBorder(new LineBorder(null,1));
 		
 		
@@ -188,7 +188,7 @@ public class WeekendPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout() );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		jp = new JobPanel[NUM_JOB_PANELS];
 		for (int i=0; i<NUM_JOB_PANELS; i++) {
@@ -221,74 +221,65 @@ public class WeekendPanel extends JPanel {
 		private JobPanel() {
 				
 			setLayout( new MigLayout("fill", "[]20[]20[]20[]20[]") );
-			setBackground( DayPanel.BACKGROUND_COLOR );
+			setBackground( Settings.BACKGROUND_COLOR );
 			//setBorder( new LineBorder(null,1));
 			setBorder(BorderFactory.createTitledBorder( new String() ));
 
 			
 			worked_checkbox = new JCheckBox();
-			worked_checkbox.setBackground( DayPanel.BACKGROUND_COLOR );
+			worked_checkbox.setBackground( Settings.BACKGROUND_COLOR );
 			worked_checkbox.setText("");
 			
 			customer_combobox = new JComboBox<String>();
-			customer_combobox.setFont( customer_combobox.getFont().deriveFont(DayPanel.FONT_SIZE) );
+			customer_combobox.setFont( customer_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
 			customer_combobox.setEditable(true);
 			customer_combobox.addItem("");
 			String[] s1 = new DefaultWorkerData(DefaultWorkerData.WEEKEND_WORKERS).default_workers;
 			for (int i=0; i<s1.length; i++) {
 				customer_combobox.addItem( s1[i] );
 			}
-			//TODO: customer_combobox.setSelectedItem();
 			
 			jobpaid_field = new JTextField();
 			jobpaid_field.setColumns( 5 );
-			// TODO: jobpaid_field.setText(  );
-			jobpaid_field.setFont( jobpaid_field.getFont().deriveFont(DayPanel.FONT_SIZE) );
-			//jobpaid_field.add
-			// TODO: document listener
+			jobpaid_field.setFont( jobpaid_field.getFont().deriveFont(Settings.FONT_SIZE) );
 			
 			employee_combobox = new JComboBox<String>();
-			employee_combobox.setFont( employee_combobox.getFont().deriveFont(DayPanel.FONT_SIZE) );
+			employee_combobox.setFont( employee_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
 			employee_combobox.setEditable(true);
 			employee_combobox.addItem("");
 			String[] s2 = new DefaultWorkerData(DefaultWorkerData.HOUSE_WORKERS).default_workers;
 			for (int i=0; i<s2.length; i++) {
 				employee_combobox.addItem( s2[i] );
 			}
-			//TODO: employee_combobox.setSelectedItem();
 			
 			workerpaid_field = new JTextField();
 			workerpaid_field.setColumns( 5 );
-			// TODO: workerpaid_field.setText(  );
-			workerpaid_field.setFont( workerpaid_field.getFont().deriveFont(DayPanel.FONT_SIZE) );
-			//workerpaid_field.add
-			// TODO: document listener
-			
+			workerpaid_field.setFont( workerpaid_field.getFont().deriveFont(Settings.FONT_SIZE) );			
 
 			JLabel worked_label = new JLabel();
 			worked_label.setText("Worked?");
-			worked_label.setFont(worked_label.getFont().deriveFont(DayPanel.FONT_SIZE));
-			worked_label.setBackground(DayPanel.BACKGROUND_COLOR);
+			worked_label.setFont(worked_label.getFont().deriveFont(Settings.FONT_SIZE));
+			worked_label.setBackground(Settings.BACKGROUND_COLOR);
 			
 			JLabel customer_label = new JLabel();
 			customer_label.setText("Customer");
-			customer_label.setFont(customer_label.getFont().deriveFont(DayPanel.FONT_SIZE));
-			customer_label.setBackground(DayPanel.BACKGROUND_COLOR);
+			customer_label.setFont(customer_label.getFont().deriveFont(Settings.FONT_SIZE));
+			customer_label.setBackground(Settings.BACKGROUND_COLOR);
 			
 			JLabel job_paid_label = new JLabel();
 			job_paid_label.setText("$ Job");
-			job_paid_label.setFont(job_paid_label.getFont().deriveFont(DayPanel.FONT_SIZE));
-			job_paid_label.setBackground(DayPanel.BACKGROUND_COLOR);
+			job_paid_label.setFont(job_paid_label.getFont().deriveFont(Settings.FONT_SIZE));
+			job_paid_label.setBackground(Settings.BACKGROUND_COLOR);
 			
 			JLabel worker_label = new JLabel();
 			worker_label.setText("Employee");
-			worker_label.setFont(worker_label.getFont().deriveFont(DayPanel.FONT_SIZE));
-			worker_label.setBackground(DayPanel.BACKGROUND_COLOR);
+			worker_label.setFont(worker_label.getFont().deriveFont(Settings.FONT_SIZE));
+			worker_label.setBackground(Settings.BACKGROUND_COLOR);
 			
 			JLabel worker_paid_label = new JLabel();
 			worker_paid_label.setText("$ Paid");
-			worker_paid_label.setFont(worker_paid_label.getFont().deriveFont(DayPanel.FONT_SIZE));
-			worker_paid_label.setBackground(DayPanel.BACKGROUND_COLOR);
+			worker_paid_label.setFont(worker_paid_label.getFont().deriveFont(Settings.FONT_SIZE));
+			worker_paid_label.setBackground(Settings.BACKGROUND_COLOR);
 			
 			add(worked_label, "");
 			add(customer_label, "");
@@ -560,7 +551,6 @@ public class WeekendPanel extends JPanel {
 			
 			}
 			catch(Exception e1){
-				// TODO
 				JOptionPane.showMessageDialog(new JFrame(), "Error", null, JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
@@ -680,13 +670,12 @@ public class WeekendPanel extends JPanel {
 				try {
 					dwd_house = new DefaultWorkerData( DefaultWorkerData.HOUSE_WORKERS);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}				
 				
 				TabbedPane tp = new TabbedPane();
-				tp.setFont( tp.getFont().deriveFont( DayPanel.TAB_FONT_SIZE ) );
-				tp.setBackground( DayPanel.BACKGROUND_COLOR );
+				tp.setFont( tp.getFont().deriveFont(Settings.TAB_FONT_SIZE) );
+				tp.setBackground( Settings.BACKGROUND_COLOR );
 				
 				
 				Calendar date = Calendar.getInstance();
@@ -715,7 +704,7 @@ public class WeekendPanel extends JPanel {
 				tp.changePreviousTab(0);
 				tp.addChangeListener( new NW_TabChangeListener(tp, nwframe) );
 				
-				nwframe.setBackground(DayPanel.BACKGROUND_COLOR);
+				nwframe.setBackground(Settings.BACKGROUND_COLOR);
 				
 				nwframe.add(tp);
 				nwframe.pack();

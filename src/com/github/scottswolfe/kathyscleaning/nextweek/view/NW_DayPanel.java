@@ -27,6 +27,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_NoteListener;
@@ -113,7 +114,7 @@ public class NW_DayPanel extends JPanel{
 		//day_note_data = new NoteData( NW_NotePanel.ROWS );
 		
 		setLayout( new MigLayout() ); //( new String("insets " + DayPanel.TOP_INSET + " 5 0 5"),"","") );
-		setBackground(DayPanel.BACKGROUND_COLOR);
+		setBackground(Settings.BACKGROUND_COLOR);
 		
 
 		header_panel = new NW_HeaderPanel(tp, dwd, this, date, frame, mode, wk);
@@ -128,7 +129,7 @@ public class NW_DayPanel extends JPanel{
 		// creating scroll pane and adding house panels
 		jsp_panel = new JPanel();
 		jsp_panel.setLayout( new MigLayout("fillx") );
-		jsp_panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		jsp_panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		for(int i=0; i<house_panel.length - 1; i++) {
 			jsp_panel.add(house_panel[i], new String("wrap " + DayPanel.PANEL_PADDING + ", grow") );
@@ -138,7 +139,7 @@ public class NW_DayPanel extends JPanel{
 		
 		jsp = new JScrollPane(jsp_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				   ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-		jsp.setBackground( DayPanel.BACKGROUND_COLOR );
+		jsp.setBackground( Settings.BACKGROUND_COLOR );
 		
 		//Border border = BorderFactory.createLineBorder(null,2);
 				MatteBorder mborder2 = BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK);
@@ -175,7 +176,7 @@ public class NW_DayPanel extends JPanel{
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout( "insets 10, fill" ) );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 
 		//Border border = BorderFactory.createLineBorder(null,2);
 		MatteBorder mborder = BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK);
@@ -185,23 +186,23 @@ public class NW_DayPanel extends JPanel{
 		
 		JLabel header_label = new JLabel();
 		header_label.setText( "Begin Information");
-		header_label.setFont( header_label.getFont().deriveFont( DayPanel.HEADER_FONT_SIZE ));
+		header_label.setFont( header_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
 		
 		meet_location_label = new JLabel("Meet Location:");
-		meet_location_label.setFont( meet_location_label.getFont().deriveFont(DayPanel.FONT_SIZE));
-		meet_location_label.setForeground( DayPanel.MAIN_COLOR);
+		meet_location_label.setFont( meet_location_label.getFont().deriveFont(Settings.FONT_SIZE));
+		meet_location_label.setForeground( Settings.MAIN_COLOR);
 		
 		meet_location_box = new JComboBox<String>();
 		meet_location_box.setEditable(true);
-		meet_location_box.setFont( meet_location_box.getFont().deriveFont( DayPanel.FONT_SIZE ));
+		meet_location_box.setFont( meet_location_box.getFont().deriveFont( Settings.FONT_SIZE ));
 		// TODO stuff about gathering in options
 		
 		meet_time_label = new JLabel("Meet Time:");
-		meet_time_label.setFont( meet_time_label.getFont().deriveFont(DayPanel.FONT_SIZE));
-		meet_time_label.setForeground( DayPanel.MAIN_COLOR );
+		meet_time_label.setFont( meet_time_label.getFont().deriveFont(Settings.FONT_SIZE));
+		meet_time_label.setForeground(Settings.MAIN_COLOR);
 		
 		meet_time_field = new JTextField();
-		meet_time_field.setFont( meet_time_field.getFont().deriveFont(DayPanel.FONT_SIZE));
+		meet_time_field.setFont( meet_time_field.getFont().deriveFont(Settings.FONT_SIZE));
 		meet_time_field.setColumns( 7 );
 			TimeDocFilter tdf = new TimeDocFilter( meet_time_field );
 			AbstractDocument ad = (AbstractDocument) meet_time_field.getDocument();
@@ -210,16 +211,16 @@ public class NW_DayPanel extends JPanel{
 		
 		exception_button = new JButton();
 		exception_button.setText("Exceptions");
-		//exception_button.setBackground( DayPanel.MAIN_COLOR);
-		exception_button.setFont( exception_button.getFont().deriveFont(DayPanel.FONT_SIZE));
-		//exception_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		//exception_button.setBackground( Settings.MAIN_COLOR);
+		exception_button.setFont( exception_button.getFont().deriveFont(Settings.FONT_SIZE));
+		//exception_button.setForeground( Settings.FOREGROUND_COLOR );
 		exception_button.addActionListener( new NW_ExceptionListener( this, dwd, frame ) );
 		
 		note_button = new JButton();
 		note_button.setText( "Note");
-		//note_button.setBackground( DayPanel.MAIN_COLOR);
-		note_button.setFont( note_button.getFont().deriveFont(DayPanel.FONT_SIZE));
-		//note_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		//note_button.setBackground( Settings.MAIN_COLOR);
+		note_button.setFont( note_button.getFont().deriveFont(Settings.FONT_SIZE));
+		//note_button.setForeground( Settings.FOREGROUND_COLOR );
 		note_button.addActionListener( new NW_NoteListener( this, dwd, day_note_data, NW_NotePanel.DAY_NOTE, frame ) );
 		
 		// Adding Elements onto Panel

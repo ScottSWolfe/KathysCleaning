@@ -2,7 +2,6 @@ package com.github.scottswolfe.kathyscleaning.menu.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -55,43 +54,43 @@ public class MenuPanel extends JPanel {
 		
 		compname_label = new JLabel();
 		compname_label.setText("Kathy's Cleaning");
-		compname_label.setForeground(DayPanel.FOREGROUND_COLOR);
+		compname_label.setForeground(Settings.FOREGROUND_COLOR);
 		compname_label.setFont( compname_label.getFont().deriveFont( (float) 40 ) );
 		
 		subname_label = new JLabel();
 		subname_label.setText("Payroll and Schedule Data Entry");
-		subname_label.setFont( subname_label.getFont().deriveFont(DayPanel.HEADER_FONT_SIZE) );
-		subname_label.setForeground(DayPanel.FOREGROUND_COLOR);
+		subname_label.setFont( subname_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
+		subname_label.setForeground(Settings.FOREGROUND_COLOR);
 		
 		menu_label = new JLabel();
 		menu_label.setText("Menu");
-		menu_label.setFont( menu_label.getFont().deriveFont(DayPanel.HEADER_FONT_SIZE) );
-		menu_label.setForeground(DayPanel.FOREGROUND_COLOR);
+		menu_label.setFont( menu_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
+		menu_label.setForeground(Settings.FOREGROUND_COLOR);
 		
 		Dimension preferred_size = new Dimension(200,50);
 		
 		start_button = new JButton();
 		start_button.setText( "Start" );
-		//start_button.setBackground( DayPanel.MAIN_COLOR );
-		start_button.setFont( start_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		//start_button.setBackground(Settings.MAIN_COLOR);
+		start_button.setFont( start_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		start_button.setPreferredSize( preferred_size );
-		//start_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		//start_button.setForeground( Settings.FOREGROUND_COLOR );
 		start_button.addActionListener( new StartListener() );
 		
 		settings_button = new JButton();
 		settings_button.setText( "Settings" );
-		//settings_button.setBackground( DayPanel.MAIN_COLOR );
-		settings_button.setFont( settings_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		//settings_button.setBackground(Settings.MAIN_COLOR);
+		settings_button.setFont( settings_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		settings_button.setPreferredSize( preferred_size );
-		//settings_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		//settings_button.setForeground( Settings.FOREGROUND_COLOR );
 		settings_button.addActionListener( new SettingsListener() );
 		
 		close_button = new JButton();
 		close_button.setText( "Close" );
-		//close_button.setBackground( DayPanel.MAIN_COLOR );
-		close_button.setFont( close_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
+		//close_button.setBackground(Settings.MAIN_COLOR);
+		close_button.setFont( close_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		close_button.setPreferredSize( preferred_size );
-		//close_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		//close_button.setForeground( Settings.FOREGROUND_COLOR );
 		close_button.addActionListener( new CloseListener( ) );
 		
 		add(compname_label, "center, wrap 0 ");

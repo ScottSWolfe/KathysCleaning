@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -66,8 +66,8 @@ public class DefaultWorkerPanel extends JPanel {
 				}
 				
 				
-				//worker[i][j].( DayPanel.MAIN_COLOR );
-				worker[i][j].setFont( worker[i][j].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+				//worker[i][j].(Settings.MAIN_COLOR);
+				worker[i][j].setFont( worker[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
 				worker[i][j].setBackground(color);
 				
 				if(i<columns-1 && j>columns-2) {
@@ -109,8 +109,8 @@ public class DefaultWorkerPanel extends JPanel {
 					worker[i][j] = new JCheckBox( "" );
 				}
 				
-				//worker[i][j].( DayPanel.MAIN_COLOR );
-				worker[i][j].setFont( worker[i][j].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+				//worker[i][j].(Settings.MAIN_COLOR);
+				worker[i][j].setFont( worker[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
 				worker[i][j].setBackground(color);
 				
 				if(i<rows-1 && j>columns-2) {

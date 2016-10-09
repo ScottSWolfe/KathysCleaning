@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -49,11 +49,11 @@ public class ConfirmFrame extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 0") );
-		panel.setBackground( DayPanel.BACKGROUND_COLOR );
+		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
 		JLabel message = new JLabel();
 		message.setText(s);
-		message.setFont( message.getFont().deriveFont( DayPanel.FONT_SIZE ));
+		message.setFont( message.getFont().deriveFont( Settings.FONT_SIZE ));
 		
 		System.out.println("test 2");
 		System.out.println(s);
@@ -72,20 +72,20 @@ public class ConfirmFrame extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("align right") );
-		panel.setBackground( DayPanel.HEADER_BACKGROUND );
+		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
 		JButton cancel_button = new JButton();
 		cancel_button.setText( "Cancel" );
-		cancel_button.setFont( cancel_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		cancel_button.setBackground( DayPanel.MAIN_COLOR );
-		cancel_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		cancel_button.setFont( cancel_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		cancel_button.setBackground(Settings.MAIN_COLOR);
+		cancel_button.setForeground( Settings.FOREGROUND_COLOR );
 		cancel_button.addActionListener( new CancelListener( f ) );
 		
 		JButton submit_button = new JButton();
 		submit_button.setText( "Confirm" );
-		submit_button.setFont( submit_button.getFont().deriveFont(DayPanel.FONT_SIZE) );
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		submit_button.setFont( submit_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		submit_button.addActionListener( new SubmitListener( f ) );
 		
 		panel.add(cancel_button);

@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -50,7 +50,7 @@ public class EditWorkersPanel extends JPanel {
 				worker_combo[i] = new JComboBox<String>();
 				worker_combo[i].setEditable(true);
 				worker_combo[i].setSize(10, UNDEFINED_CONDITION);
-				worker_combo[i].setFont( worker_combo[i].getFont().deriveFont( DayPanel.FONT_SIZE ) );
+				worker_combo[i].setFont( worker_combo[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 				worker_combo[i].addItem("");   // empty choice
 				for(int k=0; k<dwd.default_workers.length; k++){
@@ -66,7 +66,7 @@ public class EditWorkersPanel extends JPanel {
 		addFlexibleFocusListeners();
 
 		setLayout( new MigLayout() );
-		setBackground( DayPanel.BACKGROUND_COLOR );
+		setBackground( Settings.BACKGROUND_COLOR );
 		
 		for (int i=0; i<rows; i++) {
 
@@ -83,15 +83,15 @@ public class EditWorkersPanel extends JPanel {
 		}
 		
 		cancel_button = new JButton("Cancel");
-		cancel_button.setFont( cancel_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		cancel_button.setBackground( DayPanel.MAIN_COLOR );
-		cancel_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		cancel_button.setFont( cancel_button.getFont().deriveFont( Settings.FONT_SIZE ) );
+		cancel_button.setBackground(Settings.MAIN_COLOR);
+		cancel_button.setForeground( Settings.FOREGROUND_COLOR );
 		cancel_button.addActionListener( new CancelListener() );
 
 		submit_button = new JButton("Submit");
-		submit_button.setFont( submit_button.getFont().deriveFont( DayPanel.FONT_SIZE ) );
-		submit_button.setBackground( DayPanel.MAIN_COLOR );
-		submit_button.setForeground( DayPanel.FOREGROUND_COLOR );
+		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
+		submit_button.setBackground(Settings.MAIN_COLOR);
+		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		submit_button.addActionListener( new SubmitListener() );
 		
 		add(cancel_button, "split 2");
