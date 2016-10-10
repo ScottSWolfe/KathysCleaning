@@ -11,16 +11,26 @@ import javax.swing.JOptionPane;
 
 public class DefaultWorkerData {
 	
+/* CONSTANTS ================================================================ */
+    
+    public static final String HOUSE_WORKERS = (System.getProperty("user.dir") + "\\save\\HouseWorkerSaveFile");
+    public static final String COVENANT_WORKERS = (System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
+    public static final String WEEKEND_WORKERS = (System.getProperty("user.dir") + "\\save\\WeekendWorkSaveFile");
+
+    
+    
+    
+/* FIELDS =================================================================== */
 	
-//  FIELDS
-	
-	public String[] default_workers;
-	public static final String HOUSE_WORKERS = (System.getProperty("user.dir") + "\\save\\HouseWorkerSaveFile");
-	public static final String COVENANT_WORKERS = (System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
-	public static final String WEEKEND_WORKERS = (System.getProperty("user.dir") + "\\save\\WeekendWorkSaveFile");
+    /**
+     * Array of workers.
+     */
+	private String[] default_workers;
 	
 	
-//  CONSTRUCTORS
+	
+	
+/* CONSTRUCTOR ============================================================== */
 	
 	public DefaultWorkerData( String filename ) {
 		this.default_workers = readWorkers( filename );	
@@ -32,9 +42,9 @@ public class DefaultWorkerData {
 	
 	
 	
-//METHODS
+/* PRIVATE METHODS ========================================================== */
 	
-	public String[] readWorkers(String filename) {
+	private String[] readWorkers(String filename) {
 		
 		try {
 			
@@ -69,8 +79,23 @@ public class DefaultWorkerData {
 		}
 		
 	}
+
 	
+/* GETTERS/SETTERS ========================================================== */
 	
+    /**
+     * @return the default_workers
+     */
+    public String[] getDefault_workers() {
+        return default_workers;
+    }
+
+    /**
+     * @param default_workers the default_workers to set
+     */
+    public void setDefault_workers(String[] default_workers) {
+        this.default_workers = default_workers;
+    }
 	
 	
 }

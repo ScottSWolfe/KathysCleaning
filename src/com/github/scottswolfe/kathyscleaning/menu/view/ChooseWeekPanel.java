@@ -194,6 +194,23 @@ public class ChooseWeekPanel extends JPanel {
 		panel.add( day_box, "cell 2 1, center");
 		panel.add( year_box, "cell 3 1, center");
 		
+		/*
+		
+		TODO Add some sort of date picker instead of comboboxes
+		
+		UtilDateModel model = new UtilDateModel();
+		// model.setDate(20,04,2014);
+		// Need this...
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		// Don't know about the formatter, but there it is...
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
+		
+		panel.add(datePicker, "");
+		*/
 		
 		return panel;
 	}
@@ -419,7 +436,7 @@ public class ChooseWeekPanel extends JPanel {
 				
 				DayPanel[] day_panel = new DayPanel[5];
 				for(int i=0; i<5; i++){
-					day_panel[i] = new DayPanel(tp, dwd_house, day[i], frame, SettingsPanel.TRUE_MODE, wk);
+					day_panel[i] = new DayPanel(tp, dwd_house, day[i], frame, Settings.TRUE_MODE, wk);
 				}
 				tp.day_panel = day_panel;
 				
@@ -533,7 +550,7 @@ public class ChooseWeekPanel extends JPanel {
 				
 				NW_DayPanel[] day_panel = new NW_DayPanel[5];
 				for(int i=0; i<5; i++){
-					day_panel[i] = new NW_DayPanel(tp, dwd_house, day[i], frame, SettingsPanel.TRUE_MODE, wk);
+					day_panel[i] = new NW_DayPanel(tp, dwd_house, day[i], frame, Settings.TRUE_MODE, wk);
 				}
 				tp.nw_day_panel = day_panel;
 				
@@ -597,10 +614,10 @@ public class ChooseWeekPanel extends JPanel {
 						
 				File file;
 				if (wk == SettingsPanel.WEEK_A) {
-					file = SettingsPanel.SUBMIT_WEEK_A;
+					file = Settings.SUBMIT_WEEK_A;
 				}
 				else {
-					file = SettingsPanel.SUBMIT_WEEK_B;
+					file = Settings.SUBMIT_WEEK_B;
 				}
 						
 				Scanner input;
@@ -753,7 +770,7 @@ public class ChooseWeekPanel extends JPanel {
 	
 	public static void fillSavedSchedule ( TabbedPane tp, JFrame frame, int wk ) {
 		
-		File file = SettingsPanel.SAVED_SCHEDULE;
+		File file = Settings.SAVED_SCHEDULE;
 		
 		Scanner input;
 		Scanner counter;

@@ -36,10 +36,6 @@ public class SettingsPanel extends JPanel {
      * The frame containing this panel.
      */
 	JFrame settingsFrame;
-
-	public static final int WEEK_A = 0;
-	public static final int WEEK_B = 1;
-	public static final int NEITHER = 2;
 	
 
 	/**

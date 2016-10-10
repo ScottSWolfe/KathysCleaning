@@ -1,4 +1,4 @@
-package com.github.scottswolfe.kathyscleaning.covenant;
+package com.github.scottswolfe.kathyscleaning.covenant.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -40,10 +41,9 @@ public class EditWorkersPanel extends JPanel {
 		this.frame = frame;
 		this.cp = cp;
 		
-		rows = cp.rows; // TODO make safe
+		rows = CovenantPanel.ROWS;
 		
 		worker_combo = new JComboBox[rows];
-		DefaultWorkerData dwd = new DefaultWorkerData( DefaultWorkerData.COVENANT_WORKERS );
 		
 		for (int i=0; i<rows; i++) {
 			
@@ -53,11 +53,11 @@ public class EditWorkersPanel extends JPanel {
 				worker_combo[i].setFont( worker_combo[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 				worker_combo[i].addItem("");   // empty choice
-				for(int k=0; k<dwd.default_workers.length; k++){
-					worker_combo[i].addItem( dwd.default_workers[k] );
+				for(int k=0; k<cp.getController().getCovModel().getDwd().getDefault_workers().length; k++){
+					worker_combo[i].addItem(cp.getController().getCovModel().getDwd().getDefault_workers()[k]);
 				}
 			
-				worker_combo[i].setSelectedItem( cp.name_label[i].getText() );
+				worker_combo[i].setSelectedItem(cp.getNameLabels()[i].getText());
 				
 			
 		
@@ -140,14 +140,10 @@ public class EditWorkersPanel extends JPanel {
 	private class CancelListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
-			
-			// TODO possible JOptionPane message asking if sure they want to cancel
-		
+					
 			frame.setVisible(false);
 			frame.dispose();
-			
 		}
-		
 	}
 	
 	
@@ -174,12 +170,11 @@ public class EditWorkersPanel extends JPanel {
 			
 			DefaultWorkerData dwd = new DefaultWorkerData( s );
 			
-			
 			// change workers on CovenantPanel
-			cp.dwd = dwd;
+			cp.getController().getCovModel().getDwd().setDefault_workers(dwd.getDefault_workers());
 			
 			for (int i=0; i<s.length; i++) {
-				cp.name_label[i].setText( s[i] );
+				cp.getNameLabels()[i].setText( s[i] );
 			}
 			
 			cp.getParent().revalidate();
@@ -193,6 +188,29 @@ public class EditWorkersPanel extends JPanel {
 		
 	}
 	
+	
+/* PUBLIC METHODS =========================================================== */
+	
+	/**
+	 * Initialize and load edit workers panel and frame and freeze Covenant
+	 * Panel.
+	 */
+	public static void initializePanelFrame(CovenantPanel covPanel) {
+	    
+	    JFrame editWorkerFrame = new JFrame();
+	    editWorkerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    editWorkerFrame.setResizable(false);
+	    editWorkerFrame.addWindowListener(
+	            new FrameCloseListener(covPanel.getCovFrame()));
+        
+        EditWorkersPanel editWorkersPanel =
+                new EditWorkersPanel(editWorkerFrame, covPanel);
+        
+        editWorkerFrame.add(editWorkersPanel);
+        editWorkerFrame.pack();
+        StaticMethods.findSetLocation(editWorkerFrame);
+        editWorkerFrame.setVisible(true);
+	}
 	
 }	
 

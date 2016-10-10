@@ -60,51 +60,60 @@ public class Settings {
     public static final File WEEKEND_WEEK_B = new File(System.getProperty("user.dir") + "\\save\\WeekBWeekendSaveFile");
     public static final File SAVED_SCHEDULE = new File(System.getProperty("user.dir") + "\\save\\SavedSchedule");
     public static final File COV_WORKER_SAVE = new File(System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
-    
+    public static final File COVENANT_EARNED_SAVE_FILE = new File( System.getProperty("user.dir") + "\\save\\CovenantEarnedSaveFile" );
+
     /**
-     * Default Excel Template
+     * Default Excel Template.
      */
     public static final File DEFAULT_EXCEL_TEMPLATE = 
             new File(System.getProperty("user.dir") + "\\lib\\Template A.xlsx");
     
     /**
-     * Default Save Location
+     * Default Save Location.
      */
     public static final File DEFAULT_EXCEL_SAVE_LOCATION = 
             new File(System.getProperty("user.home") + "\\Desktop");
     
     /**
-     * Default Text Size Factor
+     * Default Text Size Factor.
      */
     public static final int DEFAULT_TEXT_SIZE_FACTOR = 2;
 
     /**
-     *  Flags for whether editing default data or submitting new data. 
+     *  Flags for whether editing default autofill data or submitting new data. 
      */
     public static final int TRUE_MODE = 0;
     public static final int EDIT_MODE = 1;
     
     /**
-     * Flags for whether editing house workers or covenant workers
+     * Flags for whether editing house workers or covenant workers.
      */
     public static final int HOUSES_WORKERS = 0;
     public static final int COVENANT_WORKERS = 1;
+    
+    /**
+     * Flags for whether week A, B, or Neither.
+     */
+    public static final int WEEK_A = 0;
+    public static final int WEEK_B = 1;
+    public static final int NEITHER = 2;
+
     
     
 /* FIELDS =================================================================== */
 
     /**
-     * Saved Excel Template File
+     * Saved Excel Template File.
      */
     public static File excelTemplateFile;
     
     /**
-     * Saved Excel Template Save Location
+     * Saved Excel Template Save Location.
      */
     public static File excelSaveLocation;
     
     /**
-     * Saved Font Size Factor
+     * Saved Font Size Factor.
      */
     public static int fontSizeFactor;
     
