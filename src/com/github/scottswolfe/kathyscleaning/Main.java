@@ -1,10 +1,9 @@
 package com.github.scottswolfe.kathyscleaning;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
 
 
 /**
@@ -21,16 +20,7 @@ public class Main {
 		SwingUtilities.invokeLater( new Runnable() {
 			
 			public void run() {				
-				JFrame menuFrame = new JFrame();
-				MenuPanel menuPanel = new MenuPanel(menuFrame);
-								
-				menuFrame.add(menuPanel);
-				menuFrame.setResizable(false);
-				menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
-				menuFrame.pack();
-				menuFrame.setLocationRelativeTo(null);
-				menuFrame.setVisible(true);
+			    MenuPanelController.initializeMenuPanelFrame();
 			}
 			
 		});

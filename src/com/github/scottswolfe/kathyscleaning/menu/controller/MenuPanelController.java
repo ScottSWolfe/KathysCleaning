@@ -52,17 +52,7 @@ public class MenuPanelController {
             menuFrame.setVisible(false);
             menuFrame.dispose();
             
-            JFrame settingsFrame = new JFrame();
-            settingsFrame.setResizable(false);
-            
-            SettingsPanel settingsPanel = 
-                    new SettingsPanel(settingsFrame, menuFrame);
-            
-            settingsFrame.add(settingsPanel);
-            settingsFrame.pack();
-
-            settingsFrame.setLocationRelativeTo( null );
-            settingsFrame.setVisible(true);
+            SettingsPanelController.initializeSettingsPanelFrame();
         }
     }
     
@@ -104,10 +94,35 @@ public class MenuPanelController {
     }
     
     
+
+    
+/* PUBLIC METHODS =========================================================== */
+    
+    /**
+     * Initializes and launches a frame with a menu panel.
+     */
+    public static void initializeMenuPanelFrame() {
+        
+        JFrame frame = new JFrame();
+        MenuPanel menuPanel = new MenuPanel(frame);
+        
+        menuPanel.getMenuFrame().add(menuPanel);
+        menuPanel.getMenuFrame().setResizable(false);
+        menuPanel.getMenuFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        menuPanel.getMenuFrame().pack();
+        menuPanel.getMenuFrame().setLocationRelativeTo(null);
+        menuPanel.getMenuFrame().setVisible(true);
+    }
+    
+    
     
     
 /* GETTERS/SETTERS ========================================================== */
     
+    /**
+     * Set the menuPanel.
+     */
     public void setPanel(MenuPanel panel) {
         menuPanel = panel;
     }

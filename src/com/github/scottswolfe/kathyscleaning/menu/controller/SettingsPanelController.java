@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -374,6 +376,73 @@ public class SettingsPanelController {
 
         }
         
+    }
+    
+    
+    /**
+     * Window listener for SettingsPanel.
+     */
+    public class SettingsPanelWindowListener implements WindowListener {
+
+        @Override
+        public void windowActivated(WindowEvent e) {
+            
+        }
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+            
+        }
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+            MenuPanelController.initializeMenuPanelFrame();
+        }
+
+        @Override
+        public void windowDeactivated(WindowEvent e) {
+            
+        }
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+            
+        }
+
+        @Override
+        public void windowIconified(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowOpened(WindowEvent e) {
+            
+        }
+        
+    }
+    
+    
+    
+/* PUBLIC METHODS =========================================================== */
+    
+    /**
+     * Initializes and launches a frame with a settings panel.
+     */
+    public static void initializeSettingsPanelFrame() {
+        
+        JFrame frame = new JFrame();
+        SettingsPanel settingsPanel = new SettingsPanel(frame);
+
+        settingsPanel.getSettingsFrame().setResizable(false);
+        settingsPanel.getSettingsFrame().addWindowListener(
+                settingsPanel.getController().new
+                SettingsPanelWindowListener());
+        
+        settingsPanel.getSettingsFrame().add(settingsPanel);
+        settingsPanel.getSettingsFrame().pack();
+
+        settingsPanel.getSettingsFrame().setLocationRelativeTo( null );
+        settingsPanel.getSettingsFrame().setVisible(true);
     }
     
     

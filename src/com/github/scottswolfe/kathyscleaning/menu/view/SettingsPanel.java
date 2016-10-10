@@ -30,9 +30,12 @@ import net.miginfocom.swing.MigLayout;
 public class SettingsPanel extends JPanel {	
 	
 	
-	// FIELDS
-	JFrame frame;
-	JFrame menuFrame;
+/* FIELDS =================================================================== */
+    
+    /**
+     * The frame containing this panel.
+     */
+	JFrame settingsFrame;
 
 	public static final int WEEK_A = 0;
 	public static final int WEEK_B = 1;
@@ -45,7 +48,9 @@ public class SettingsPanel extends JPanel {
 	SettingsPanelController controller;
 	
 	
-	// COMPONENT FIELDS
+	
+	
+/* COMPONENTS =============================================================== */
 	
 	JTabbedPane jtp;
 	JScrollPane[] jsp;
@@ -88,13 +93,13 @@ public class SettingsPanel extends JPanel {
 	
 	
 	
-	// CONSTRUCTOR
-	public SettingsPanel( JFrame frame, JFrame menuFrame ) {
+/* CONSTRUCTOR ============================================================== */
+	
+	public SettingsPanel(JFrame frame) {
 		
-		this.frame = frame;
-		this.menuFrame = menuFrame;
+		settingsFrame = frame;
 		
-		controller = new SettingsPanelController(this, frame);
+		controller = new SettingsPanelController(this, settingsFrame);
 				
 		setLayout( new MigLayout("insets 0") );
 		setBackground( Settings.BACKGROUND_COLOR );
@@ -149,7 +154,7 @@ public class SettingsPanel extends JPanel {
 	}
 	
 	
-	// PRIVATE CONSTRUCTION METHDOS
+/* PRIVATE CONSTRUCTION METHDOS ============================================= */
 	
 	private JPanel createExcelPanel() {
 		
@@ -278,7 +283,7 @@ public class SettingsPanel extends JPanel {
 		        edit_houses_button.getFont().deriveFont(Settings.FONT_SIZE));
 		edit_houses_button.addActionListener(
 		        controller.new EditWorkerListener(
-		                Settings.HOUSES_WORKERS, frame));
+		                Settings.HOUSES_WORKERS, settingsFrame));
 		
 		edit_covenant_button = new JButton();
 		edit_covenant_button.setText( "Covenant" );
@@ -286,7 +291,7 @@ public class SettingsPanel extends JPanel {
 		        edit_covenant_button.getFont().deriveFont(Settings.FONT_SIZE) );
 		edit_covenant_button.addActionListener(
 		        controller.new EditWorkerListener(
-		                Settings.COVENANT_WORKERS, frame));
+		                Settings.COVENANT_WORKERS, settingsFrame));
 		
 		panel.add(edit_worker_label, "span 2, wrap, growx");
 		panel.add(edit_houses_button, "growx");
@@ -310,7 +315,6 @@ public class SettingsPanel extends JPanel {
 		font_size_slider.setBackground( Settings.BACKGROUND_COLOR );
 		font_size_slider.setMaximum(5);
 		font_size_slider.setMinimum(1);
-		System.out.println(Settings.getFontSizeFactor());
 		font_size_slider.setValue(Settings.getFontSizeFactor());
 		font_size_slider.setOrientation(SwingConstants.HORIZONTAL);
 		font_size_slider.setSnapToTicks(true);
@@ -353,6 +357,11 @@ public class SettingsPanel extends JPanel {
 
 	
 	
+
+
+	
+	
+	
 	
 /* GETTERS/SETTERS ========================================================== */
 	
@@ -371,9 +380,38 @@ public class SettingsPanel extends JPanel {
 	}
 	
 	/**
-	 * Gets the value of the font size slider
+	 * Get the value of the font size slider
 	 */
 	public int getFontSizeSliderValue() {
 	    return font_size_slider.getValue();
 	}
+	
+	/**
+	 * Set the settingsFrame.
+	 */
+	public void setSettingsFrame(JFrame frame) {
+	    settingsFrame = frame;
+	}
+	
+	/**
+     * Get the settingsFrame.
+     */
+    public JFrame getSettingsFrame() {
+        return settingsFrame;
+    }
+    
+    /**
+     * Set the controller.
+     */
+    public void setController(SettingsPanelController controller) {
+        this.controller = controller;
+    }
+    
+    /**
+     * Get the controller for this panel.
+     */
+    public SettingsPanelController getController() {
+        return controller;
+    }
+	
 }

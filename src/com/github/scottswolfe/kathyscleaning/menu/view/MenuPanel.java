@@ -2,9 +2,7 @@ package com.github.scottswolfe.kathyscleaning.menu.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,36 +13,50 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
-
+/**
+ * This is the first panel the user sees on startup. This panel allows the user
+ * to route to different parts of the program:
+ *      -start
+ *      -settings
+ *      -close
+ */
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
 	
+    
+/* FIELDS =================================================================== */
+    
     /**
      * Controller that controls this panel.
      */
     MenuPanelController controller;
     
+    /**
+     * Frame that contains this panel.
+     */
+    JFrame menuFrame;
 	
-	// COMPONENT FIELDS
-	JLabel compname_label;
+    
+    
+    
+/* COMPONENTS =============================================================== */
+	
+    JLabel compname_label;
 	JLabel subname_label;
 	JLabel menu_label;
 	JButton start_button;
 	JButton settings_button;
 	JButton close_button;
 	
-	
-	// OTHER FIELDS
-	JFrame menu_frame;
-	Image img = new ImageIcon( System.getProperty("user.dir") + "\\lib\\Galapagos Island.jpg").getImage();
-	
-	
-	// CONSTRUCTOR
-	public MenuPanel( JFrame menu_frame ) {
 		
-		this.menu_frame = menu_frame;
+	
+/* CONSTRUCTOR ============================================================== */
+	
+	public MenuPanel(JFrame menuFrame) {
 		
-		controller = new MenuPanelController(this, menu_frame);
+		this.menuFrame = menuFrame;
+		
+		controller = new MenuPanelController(this, menuFrame);
 		
 		setLayout( new MigLayout("", "[250]", "[][][][][]100") );
 		setBackground( new Color(1,187,244) );
@@ -97,10 +109,33 @@ public class MenuPanel extends JPanel {
 	
 /* GETTERS/SETTERS ========================================================== */
 	
-	
+	/**
+     * Set the controller for this panel. 
+     */
 	public void setController(MenuPanelController controller) {
 	    this.controller = controller;
 	}
+	
+	/**
+	 * Get the controller for this panel.
+	 */
+	public MenuPanelController getController() {
+        return controller;
+    }
+	
+	/**
+     * Set the menuFrame.
+     */
+    public void setMenuFrame(JFrame frame) {
+        menuFrame = frame;
+    }
+    
+    /**
+     * Get the menuFrame.
+     */
+    public JFrame getMenuFrame() {
+        return menuFrame;
+    }
 	
 	
 }
