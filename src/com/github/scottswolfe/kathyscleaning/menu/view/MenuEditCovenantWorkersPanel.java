@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
@@ -40,7 +40,7 @@ public class MenuEditCovenantWorkersPanel extends JPanel {
 		this.frame = frame;
 		
 		worker_combo = new JComboBox[rows];
-		DefaultWorkerData dwd = new DefaultWorkerData( DefaultWorkerData.COVENANT_WORKERS );
+		WorkerList dwd = new WorkerList( WorkerList.COVENANT_WORKERS );
 		
 		for (int i=0; i<rows; i++) {
 			
@@ -50,11 +50,11 @@ public class MenuEditCovenantWorkersPanel extends JPanel {
 				worker_combo[i].setFont( worker_combo[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 				worker_combo[i].addItem("");   // empty choice
-				for(int k=0; k<dwd.default_workers.length; k++){
-					worker_combo[i].addItem( dwd.default_workers[k] );
+				for(String worker : dwd){
+					worker_combo[i].addItem(worker);
 				}
 			
-				worker_combo[i].setSelectedItem( dwd.default_workers[i] );
+				worker_combo[i].setSelectedItem(dwd.get(i));
 		
 		}
 		
@@ -174,7 +174,7 @@ public class MenuEditCovenantWorkersPanel extends JPanel {
 						
 			try {
 
-				FileWriter fw = new FileWriter( DefaultWorkerData.COVENANT_WORKERS );
+				FileWriter fw = new FileWriter( WorkerList.COVENANT_WORKERS );
 				BufferedWriter bw = new BufferedWriter( fw );
 				
 				int rows = ROWS;
@@ -188,14 +188,14 @@ public class MenuEditCovenantWorkersPanel extends JPanel {
 				
 				/*
 				boolean match;
-				if (dwd.default_workers != null) {
-				for (int i=0; i<dwd.default_workers.length; i++) {
+				if (dwd.getDefaultWorkers() != null) {
+				for (int i=0; i<dwd.getDefaultWorkers().length; i++) {
 					
 					match = false;
 					
 					for (int j=0; j<name_label.length; j++) {
 					
-						if ( dwd.default_workers[i].equals( name_label[j].getText() ) ) {
+						if ( dwd.getDefaultWorkers()[i].equals( name_label[j].getText() ) ) {
 							match = true;
 							break;
 						}
@@ -203,7 +203,7 @@ public class MenuEditCovenantWorkersPanel extends JPanel {
 					}
 					
 					if (match == false) {
-						bw.write(dwd.default_workers[i]);
+						bw.write(dwd.getDefaultWorkers()[i]);
 						bw.newLine();
 					}
 					

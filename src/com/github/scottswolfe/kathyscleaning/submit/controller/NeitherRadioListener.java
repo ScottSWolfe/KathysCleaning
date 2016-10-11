@@ -60,7 +60,7 @@ public class NeitherRadioListener implements ActionListener {
 			
 			for(int m=0; m<rows; m++){
 				for(int j=0; j<columns; j++){
-					hp.worker_panel.worker[m][j].setSelected(false);
+					hp.worker_panel.workerCheckBoxes[m][j].setSelected(false);
 				}
 			}
 			

@@ -22,7 +22,7 @@ import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControl
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.controller.HousePayDocFilter;
 
@@ -121,7 +121,7 @@ public class CovenantPanel extends JPanel{
 	
 /* CONSTRUCTOR ============================================================== */
 
-	public CovenantPanel(JFrame frame, DefaultWorkerData dwd2,
+	public CovenantPanel(JFrame frame, WorkerList dwd2,
 	        Calendar date, int mode, int wk) {
 		
 		covFrame = frame;
@@ -147,10 +147,10 @@ public class CovenantPanel extends JPanel{
 		for(int i=0; i<rows; i++){
 			
 			nameLabels[i] = new JLabel();
-			if (controller.getCovModel().getDwd().getDefault_workers() != null &&
-			        i<controller.getCovModel().getDwd().getDefault_workers().length &&
-			        controller.getCovModel().getDwd().getDefault_workers()[i] != null) {
-				nameLabels[i].setText( controller.getCovModel().getDwd().getDefault_workers()[i] );
+			if (controller.getCovModel().getDwd().getWorkers() != null &&
+			        i<controller.getCovModel().getDwd().size() &&
+			        controller.getCovModel().getDwd().get(i) != null) {
+				nameLabels[i].setText(controller.getCovModel().getDwd().get(i) );
 			}
 			else {
 				nameLabels[i].setText("");

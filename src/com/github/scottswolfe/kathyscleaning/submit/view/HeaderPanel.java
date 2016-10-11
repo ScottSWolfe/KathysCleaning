@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 import com.github.scottswolfe.kathyscleaning.general.controller.EditDefaultWorkersListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -40,7 +40,7 @@ public class HeaderPanel extends JPanel {
 	
 	TabbedPane tp;
 	JFrame frame;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	DayPanel day_panel;
 	DayData day_data;
 	public Calendar date;
@@ -73,7 +73,7 @@ public class HeaderPanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public HeaderPanel( TabbedPane tp, DefaultWorkerData dwd, DayPanel day_panel, Calendar date, JFrame frame, int mode, int wk ) {
+	public HeaderPanel( TabbedPane tp, WorkerList dwd, DayPanel day_panel, Calendar date, JFrame frame, int mode, int wk ) {
 		
 		this.tp = tp;
 		this.frame = frame;
@@ -186,7 +186,7 @@ public class HeaderPanel extends JPanel {
 	}
 	
 	
-	private JPanel workerPanel( DefaultWorkerData dwd ){
+	private JPanel workerPanel( WorkerList dwd ){
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2") );

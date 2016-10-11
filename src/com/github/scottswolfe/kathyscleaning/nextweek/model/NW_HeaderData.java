@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.nextweek.model;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
 public class NW_HeaderData {
 
@@ -8,13 +8,13 @@ public class NW_HeaderData {
 //  FIELDS
 	
 	String week;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	
 	
 	
 //  CONSTRUCTOR
 	
-	public NW_HeaderData(String week, DefaultWorkerData dwd) {
+	public NW_HeaderData(String week, WorkerList dwd) {
 		
 		this.week = week;
 		this.dwd = dwd;
@@ -27,7 +27,7 @@ public class NW_HeaderData {
 	/*
 	public boolean[] isSelected(){
 		
-		for(int i=0; i < dwd.default_workers.length; i++){
+		for(int i=0; i < dwd.getDefaultWorkers().length; i++){
 			
 			
 			
@@ -39,7 +39,7 @@ public class NW_HeaderData {
 		this.week = week;
 	}
 	
-	public void setDWD(DefaultWorkerData dwd) {
+	public void setDWD(WorkerList dwd) {
 		this.dwd = dwd;
 	}
 	
@@ -48,7 +48,7 @@ public class NW_HeaderData {
 		return week;
 	}
 	
-	public DefaultWorkerData getDWD() {
+	public WorkerList getDWD() {
 		return dwd;
 	}
 	

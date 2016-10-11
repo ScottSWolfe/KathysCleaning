@@ -111,7 +111,7 @@ public class WeekRadioListener implements ActionListener {
 				// a) unselecting any selected workers
 				for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 					for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
-						tp.day_panel[day].house_panel[h].worker_panel.worker[l][m].setSelected(false);		
+						tp.day_panel[day].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);		
 					}
 				}
 						
@@ -122,8 +122,8 @@ public class WeekRadioListener implements ActionListener {
 					for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 						for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
 							//tp.day_panel[0].house_panel[i].worker_panel.worker[l][m].setSelected(false);
-							if (worker.equals( tp.day_panel[day].house_panel[h].worker_panel.worker[l][m].getText() ) ){
-								tp.day_panel[day].house_panel[h].worker_panel.worker[l][m].setSelected(true);
+							if (worker.equals( tp.day_panel[day].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText() ) ){
+								tp.day_panel[day].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);
 								break;
 							}
 						}

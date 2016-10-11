@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -193,25 +193,7 @@ public class ChooseWeekPanel extends JPanel {
 		panel.add( month_box, "cell 1 1, center");
 		panel.add( day_box, "cell 2 1, center");
 		panel.add( year_box, "cell 3 1, center");
-		
-		/*
-		
-		TODO Add some sort of date picker instead of comboboxes
-		
-		UtilDateModel model = new UtilDateModel();
-		// model.setDate(20,04,2014);
-		// Need this...
-		Properties p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		// Don't know about the formatter, but there it is...
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
-		
-		panel.add(datePicker, "");
-		*/
-		
+				
 		return panel;
 	}
 	
@@ -399,9 +381,9 @@ public class ChooseWeekPanel extends JPanel {
 					
 					
 			//Reading Default Worker Data from save file
-			DefaultWorkerData dwd_house = null;
+			WorkerList dwd_house = null;
 			try {
-				dwd_house = new DefaultWorkerData( DefaultWorkerData.HOUSE_WORKERS);
+				dwd_house = new WorkerList( WorkerList.HOUSE_WORKERS);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}			
@@ -425,13 +407,13 @@ public class ChooseWeekPanel extends JPanel {
 			if( week == PREVIOUS_WEEK ) {
 				
 				if ( week_A_rbutton.isSelected() ) {
-					wk = SettingsPanel.WEEK_A;
+					wk = Settings.WEEK_A;
 				}
 				else if ( week_B_rbutton.isSelected() ) {
-					wk = SettingsPanel.WEEK_B;
+					wk = Settings.WEEK_B;
 				}
 				else {
-					wk = SettingsPanel.NEITHER;
+					wk = Settings.NEITHER;
 				}
 				
 				DayPanel[] day_panel = new DayPanel[5];
@@ -509,22 +491,22 @@ public class ChooseWeekPanel extends JPanel {
 				// if autofill saved schedule is selected
 				if ( autofill_rbutton.isSelected() ) {
 					if ( week_A_rbutton.isSelected() ) {
-						fillSavedSchedule( tp, frame, SettingsPanel.WEEK_A );
+						fillSavedSchedule( tp, frame, Settings.WEEK_A );
 					}
 					else if ( week_B_rbutton.isSelected() ) {
-						fillSavedSchedule( tp, frame, SettingsPanel.WEEK_B );
+						fillSavedSchedule( tp, frame, Settings.WEEK_B );
 					}
 					else {
-						fillSavedSchedule( tp, frame, SettingsPanel.NEITHER );
+						fillSavedSchedule( tp, frame, Settings.NEITHER );
 					}
 				}
 				// if autofill default data is selected
 				else {
 					if ( week_A_rbutton.isSelected() ) {
-						fillWeek( tp, frame, SettingsPanel.WEEK_A );
+						fillWeek( tp, frame, Settings.WEEK_A );
 					}
 					else if ( week_B_rbutton.isSelected() ) {
-						fillWeek( tp, frame, SettingsPanel.WEEK_B );
+						fillWeek( tp, frame, Settings.WEEK_B );
 					}
 					else {
 						// do nothing
@@ -539,13 +521,13 @@ public class ChooseWeekPanel extends JPanel {
 			else {
 				
 				if ( week_A_rbutton.isSelected() ) {
-					wk = SettingsPanel.WEEK_A;
+					wk = Settings.WEEK_A;
 				}
 				else if ( week_B_rbutton.isSelected() ) {
-					wk = SettingsPanel.WEEK_B;
+					wk = Settings.WEEK_B;
 				}
 				else {
-					wk = SettingsPanel.NEITHER;
+					wk = Settings.NEITHER;
 				}
 				
 				NW_DayPanel[] day_panel = new NW_DayPanel[5];
@@ -585,10 +567,10 @@ public class ChooseWeekPanel extends JPanel {
 				
 				// filling fields
 				if ( week_A_rbutton.isSelected() ) {
-					NW_DayPanel.fillWeek(tp, frame, SettingsPanel.WEEK_A);
+					NW_DayPanel.fillWeek(tp, frame, Settings.WEEK_A);
 				}
 				else if ( week_B_rbutton.isSelected() ) {
-					NW_DayPanel.fillWeek(tp, frame, SettingsPanel.WEEK_B);
+					NW_DayPanel.fillWeek(tp, frame, Settings.WEEK_B);
 				}
 				else {
 					// do nothing
@@ -613,7 +595,7 @@ public class ChooseWeekPanel extends JPanel {
 	public static void fillWeek ( TabbedPane tp, JFrame frame, int wk ) {
 						
 				File file;
-				if (wk == SettingsPanel.WEEK_A) {
+				if (wk == Settings.WEEK_A) {
 					file = Settings.SUBMIT_WEEK_A;
 				}
 				else {
@@ -678,7 +660,7 @@ public class ChooseWeekPanel extends JPanel {
 							// a) unselecting any selected workers
 							for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 								for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
-									tp.day_panel[d].house_panel[h].worker_panel.worker[l][m].setSelected(false);		
+									tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);		
 								}
 							}
 									
@@ -689,8 +671,8 @@ public class ChooseWeekPanel extends JPanel {
 								for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 									for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
 										//tp.day_panel[0].house_panel[i].worker_panel.worker[l][m].setSelected(false);
-										if (worker.equals( tp.day_panel[d].house_panel[h].worker_panel.worker[l][m].getText() ) ){
-											tp.day_panel[d].house_panel[h].worker_panel.worker[l][m].setSelected(true);
+										if (worker.equals( tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText() ) ){
+											tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);
 											break;
 										}
 									}
@@ -893,7 +875,7 @@ public class ChooseWeekPanel extends JPanel {
 						// unselecting any selected workers
 						for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 							for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
-								tp.day_panel[d].house_panel[h].worker_panel.worker[l][m].setSelected(false);
+								tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);
 							}
 						}
 						
@@ -904,8 +886,8 @@ public class ChooseWeekPanel extends JPanel {
 							for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 								for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
 									//tp.day_panel[0].house_panel[i].worker_panel.worker[l][m].setSelected(false);
-									if (worker.equals( tp.day_panel[d].house_panel[h].worker_panel.worker[l][m].getText() ) ){
-										tp.day_panel[d].house_panel[h].worker_panel.worker[l][m].setSelected(true);
+									if (worker.equals( tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText() ) ){
+										tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);
 										break;
 									}
 								}
@@ -961,12 +943,12 @@ public class ChooseWeekPanel extends JPanel {
 			tp.day_panel[j].header_panel.weekSelected = wk;
 		}
 		
-		if ( wk == SettingsPanel.WEEK_A ) {
+		if ( wk == Settings.WEEK_A ) {
 			for (int j=0; j<5; j++) {
 				tp.day_panel[j].header_panel.week_A.setSelected(true);
 			}
 		}
-		else if ( wk == SettingsPanel.WEEK_B ){
+		else if ( wk == Settings.WEEK_B ){
 			for (int j=0; j<5; j++) {
 				tp.day_panel[j].header_panel.week_B.setSelected(true);
 			}

@@ -6,10 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 
+/**
+ * Controller that controls the MenuPanel. 
+ */
 public class MenuPanelController {
 
 /* FIELDS =================================================================== */
@@ -57,29 +60,33 @@ public class MenuPanelController {
     }
     
     
+    /**
+     * Listener for the Start button.
+     */
     public class StartListener implements ActionListener {
         
         // Action Listener
         public void actionPerformed( ActionEvent e )  {
-            
             
             JFrame choose_week_frame = new JFrame();
             choose_week_frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             choose_week_frame.setResizable(false);
             choose_week_frame.addWindowListener( new MainWindowListener() );
             
-            ChooseWeekPanel cwp = new ChooseWeekPanel( menuFrame, choose_week_frame, ChooseWeekPanel.PREVIOUS_WEEK, SettingsPanel.NEITHER );
+            ChooseWeekPanel cwp = new ChooseWeekPanel(menuFrame, choose_week_frame, ChooseWeekPanel.PREVIOUS_WEEK, Settings.NEITHER);
             
             choose_week_frame.add(cwp);
             choose_week_frame.pack();
             choose_week_frame.setLocationRelativeTo( null );
             choose_week_frame.setVisible( true );
-            
         }
         
     }
     
     
+    /**
+     * Listener for the Close button.
+     */
     public class CloseListener implements ActionListener {
         
         public void actionPerformed( ActionEvent e ) {

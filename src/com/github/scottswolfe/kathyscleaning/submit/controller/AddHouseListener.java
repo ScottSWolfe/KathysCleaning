@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.submit.view.HousePanel;
@@ -20,7 +20,7 @@ public class AddHouseListener implements ActionListener {
 	
 	DayPanel day_panel;
 	HousePanel house_panel;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	JFrame frame;
 	TabbedPane tp;
 	
@@ -28,7 +28,7 @@ public class AddHouseListener implements ActionListener {
 	
 //  CONSTRUCTOR
 	
-	public AddHouseListener(DayPanel day_panel, HousePanel house_panel, DefaultWorkerData dwd, JFrame frame, TabbedPane tp) {
+	public AddHouseListener(DayPanel day_panel, HousePanel house_panel, WorkerList dwd, JFrame frame, TabbedPane tp) {
 		this.day_panel = day_panel;
 		this.house_panel = house_panel;
 		this.dwd = dwd;

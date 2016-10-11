@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_HousePanel;
@@ -21,7 +21,7 @@ public class MoveUpListener implements ActionListener {
 	NW_DayPanel nw_day_panel;
 	HousePanel house_panel;
 	NW_HousePanel nw_house_panel;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	JFrame frame;
 	TabbedPane tp;
 	
@@ -29,7 +29,7 @@ public class MoveUpListener implements ActionListener {
 	
 //  CONSTRUCTOR
 	
-	public MoveUpListener(DayPanel day_panel, HousePanel house_panel, DefaultWorkerData dwd, JFrame frame, TabbedPane tp) {
+	public MoveUpListener(DayPanel day_panel, HousePanel house_panel, WorkerList dwd, JFrame frame, TabbedPane tp) {
 		this.day_panel = day_panel;
 		this.house_panel = house_panel;
 		this.dwd = dwd;
@@ -37,7 +37,7 @@ public class MoveUpListener implements ActionListener {
 		this.tp = tp;
 	}
 	
-	public MoveUpListener(NW_DayPanel day_panel, NW_HousePanel house_panel, DefaultWorkerData dwd, JFrame frame, TabbedPane tp) {
+	public MoveUpListener(NW_DayPanel day_panel, NW_HousePanel house_panel, WorkerList dwd, JFrame frame, TabbedPane tp) {
 		this.nw_day_panel = day_panel;
 		this.nw_house_panel = house_panel;
 		this.dwd = dwd;

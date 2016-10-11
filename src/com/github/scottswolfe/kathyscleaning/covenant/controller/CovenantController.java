@@ -22,7 +22,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
-import com.github.scottswolfe.kathyscleaning.covenant.view.EditWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.TimeMethods;
@@ -62,7 +61,7 @@ public class CovenantController {
         public void actionPerformed ( ActionEvent e ) {
            
             covPanel.getCovFrame().setEnabled(false);
-            EditWorkersPanel.initializePanelFrame(covPanel);
+            EditWorkersController.initializePanelFrame(covPanel);
         }
     }
     
@@ -324,14 +323,14 @@ public class CovenantController {
                 }
                 
                 boolean match;
-                if (covModel.getDwd().getDefault_workers() != null) {
-                for (int i=0; i<covModel.getDwd().getDefault_workers().length; i++) {
+                if (covModel.getDwd().getWorkers() != null) {
+                for (int i=0; i<covModel.getDwd().size(); i++) {
                     
                     match = false;
                     
                     for (int j=0; j<covPanel.getNameLabels().length; j++) {
                     
-                        if (covModel.getDwd().getDefault_workers()[i].equals(covPanel.getNameLabels()[j].getText())) {
+                        if (covModel.getDwd().get(i).equals(covPanel.getNameLabels()[j].getText())) {
                             match = true;
                             break;
                         }
@@ -339,7 +338,7 @@ public class CovenantController {
                     }
                     
                     if (match == false) {
-                        bw.write(covModel.getDwd().getDefault_workers()[i]);
+                        bw.write(covModel.getDwd().get(i));
                         bw.newLine();
                     }
                     

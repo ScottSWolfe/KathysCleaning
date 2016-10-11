@@ -2,7 +2,7 @@ package com.github.scottswolfe.kathyscleaning.covenant.model;
 
 import java.util.Calendar;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 /**
@@ -22,7 +22,7 @@ public class CovenantModel {
     /**
      * Container for the default workers.
      */
-    private DefaultWorkerData dwd;
+    private WorkerList dwd;
     
     /**
      * Monday's date.
@@ -42,7 +42,7 @@ public class CovenantModel {
 
     
     
-    public CovenantModel(DefaultWorkerData dwd2,
+    public CovenantModel(WorkerList dwd2,
             Calendar date, int mode, int wk) {
     
         this.dwd = dwd2;
@@ -50,7 +50,7 @@ public class CovenantModel {
         this.mode = mode;
         this.wk = wk;
         
-        this.dwd = new DefaultWorkerData(Settings.COV_WORKER_SAVE.getPath());
+        this.dwd = new WorkerList(Settings.COV_WORKER_SAVE);
     }
 
     
@@ -59,14 +59,14 @@ public class CovenantModel {
     /**
      * @return the dwd
      */
-    public DefaultWorkerData getDwd() {
+    public WorkerList getDwd() {
         return dwd;
     }
 
     /**
      * @param dwd the dwd to set
      */
-    public void setDwd(DefaultWorkerData dwd) {
+    public void setDwd(WorkerList dwd) {
         this.dwd = dwd;
     }
 

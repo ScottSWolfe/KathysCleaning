@@ -15,7 +15,7 @@ import javax.swing.border.MatteBorder;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_NoteListener;
@@ -35,7 +35,7 @@ public class NW_CovenantPanel extends JPanel {
 	
 	// FIELDS
 	JLabel header_label;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	public DefaultWorkerPanel dwp;
 	JButton edit_button;
 	JButton covenant_note_button;
@@ -45,7 +45,7 @@ public class NW_CovenantPanel extends JPanel {
 	
 	
 	// CONSTRUCTOR
-	public NW_CovenantPanel( NW_DayPanel day_panel, DefaultWorkerData dwd, JFrame container_frame ) {
+	public NW_CovenantPanel( NW_DayPanel day_panel, WorkerList dwd, JFrame container_frame ) {
 		
 		this.day_panel = day_panel;
 		this.dwd = dwd;
@@ -106,7 +106,7 @@ public class NW_CovenantPanel extends JPanel {
 	
 	// PUBLIC METHODS
 	
-	public void changeWorkerPanel( DefaultWorkerData new_dwd ) throws Exception{
+	public void changeWorkerPanel( WorkerList new_dwd ) throws Exception{
 		
 		day_panel.changeCovenantWorkerPanel( new_dwd );
 		
@@ -124,13 +124,13 @@ public class NW_CovenantPanel extends JPanel {
 		
 		// FIELDS
 		NW_CovenantPanel cov_panel;
-		DefaultWorkerData dwd;
+		WorkerList dwd;
 		DefaultWorkerPanel dwp;
 		
 		
 		// CONSTRUCTOR
 		
-		private EditWorkersListener(NW_CovenantPanel cov_panel, DefaultWorkerData dwd, DefaultWorkerPanel dwp) {
+		private EditWorkersListener(NW_CovenantPanel cov_panel, WorkerList dwd, DefaultWorkerPanel dwp) {
 			this.cov_panel = cov_panel;
 			this.dwd = dwd;
 			this.dwp = dwp;

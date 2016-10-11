@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -27,7 +27,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 	private static final long serialVersionUID = -3244919183803930036L;
 	
 	
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	DefaultWorkerPanel dwp;
 	JFrame frame;
 	NW_CovenantPanel cov_panel;
@@ -41,7 +41,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public EditCovenantWorkersPanel( NW_CovenantPanel cov_panel, JFrame frame, DefaultWorkerData dwd, DefaultWorkerPanel dwp   ) throws Exception {
+    public EditCovenantWorkersPanel( NW_CovenantPanel cov_panel, JFrame frame, WorkerList dwd, DefaultWorkerPanel dwp   ) throws Exception {
 		
 		this.dwd = dwd;
 		this.dwp = dwp;
@@ -61,11 +61,11 @@ public class EditCovenantWorkersPanel extends JPanel {
 				worker_combo[i][j].setFont( worker_combo[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 				worker_combo[i][j].addItem(null);   // empty choice
-				for(int k=0; k<dwd.default_workers.length; k++){
-					worker_combo[i][j].addItem( dwd.default_workers[k] );
+				for(int k=0; k<dwd.getDefaultWorkers().length; k++){
+					worker_combo[i][j].addItem( dwd.getDefaultWorkers()[k] );
 				}
 			
-				worker_combo[i][j].setSelectedItem( dwp.worker[i][j].getText() );
+				worker_combo[i][j].setSelectedItem( dwp.workerCheckBoxes[i][j].getText() );
 				
 			}
 		
@@ -248,7 +248,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 				}
 			}
 			
-			DefaultWorkerData dwd = new DefaultWorkerData( tempString );
+			WorkerList dwd = new WorkerList( tempString );
 			
 			
 			// change workers on Covenant Panel's worker panel

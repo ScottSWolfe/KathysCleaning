@@ -12,7 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.text.AbstractDocument;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_AddHouseListener;
@@ -36,7 +36,7 @@ public class NW_HousePanel extends JPanel {
 // FIELDS
 	
 	NW_DayPanel day_panel;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	JFrame frame;
 	
 	AbstractDocument abdoc;
@@ -61,7 +61,7 @@ public class NW_HousePanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public NW_HousePanel( DefaultWorkerData dwd, NW_DayPanel day_panel, JFrame frame ) {
+	public NW_HousePanel( WorkerList dwd, NW_DayPanel day_panel, JFrame frame ) {
 		
 		this.day_panel = day_panel;
 		this.dwd = dwd;
@@ -164,8 +164,8 @@ public class NW_HousePanel extends JPanel {
 		int columns = DefaultWorkerPanel.NORM_COLUMNS;
 		for(int i=0; i<rows; i++){
 			for(int j=0; j<columns; j++){
-				if(this.worker_panel.worker[i][j].isSelected()){
-					new_panel.worker_panel.worker[i][j].setSelected(true);
+				if(this.worker_panel.workerCheckBoxes[i][j].isSelected()){
+					new_panel.worker_panel.workerCheckBoxes[i][j].setSelected(true);
 				}
 			}
 		}
@@ -180,7 +180,7 @@ public class NW_HousePanel extends JPanel {
 	
 	
 	
-	public NW_HousePanel changeHouseWorkers( DefaultWorkerData dwd ) {
+	public NW_HousePanel changeHouseWorkers( WorkerList dwd ) {
 		
 		NW_HousePanel new_panel = new NW_HousePanel( dwd, this.day_panel, this.frame);
 		

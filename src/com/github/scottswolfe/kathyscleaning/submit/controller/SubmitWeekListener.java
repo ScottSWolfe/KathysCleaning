@@ -25,7 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.submit.model.Data;
@@ -179,7 +179,7 @@ public class SubmitWeekListener implements ActionListener {
 		cov_frame.setResizable(false);
 		cov_frame.addWindowListener( new MainWindowListener() );
 		
-		CovenantPanel cov_panel = new CovenantPanel(cov_frame, new DefaultWorkerData(DefaultWorkerData.COVENANT_WORKERS), date, mode, wk );
+		CovenantPanel cov_panel = new CovenantPanel(cov_frame, new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk );
 		
 		cov_frame.add(cov_panel);
 		cov_frame.pack();

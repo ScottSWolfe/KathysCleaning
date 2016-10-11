@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_ExceptionPanel;
 
@@ -16,12 +16,12 @@ public class NW_ExceptionListener implements ActionListener {
 	
 	// FIELDS
 	NW_DayPanel dp;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	JFrame mainframe;
 	
 	
 	// CONSTRUCTOR
-	public NW_ExceptionListener( NW_DayPanel dp, DefaultWorkerData dwd, JFrame frame ){
+	public NW_ExceptionListener( NW_DayPanel dp, WorkerList dwd, JFrame frame ){
 		this.dp = dp;
 		this.dwd = dwd;
 		this.mainframe = frame;

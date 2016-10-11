@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -19,10 +20,10 @@ import net.miginfocom.swing.MigLayout;
 
 
 @SuppressWarnings("serial")
-public class MenuEditHousesWorkersPanel extends JPanel {
+public class MenuEditHouseWorkersPanel extends JPanel {
 
 	JFrame frame;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	
 	int rows = DefaultWorkerPanel.NORM_ROWS;
 	int columns = DefaultWorkerPanel.NORM_COLUMNS;
@@ -33,12 +34,12 @@ public class MenuEditHousesWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public MenuEditHousesWorkersPanel( JFrame frame ) {
+    public MenuEditHouseWorkersPanel( JFrame frame ) {
 	
 		this.frame = frame;
 		
 		worker_combo = new JComboBox[rows][columns];
-		DefaultWorkerData dwd = new DefaultWorkerData( DefaultWorkerData.HOUSE_WORKERS );
+		WorkerList dwd = new WorkerList( WorkerList.HOUSE_WORKERS );
 		
 		for (int i=0; i<rows; i++) {
 			
@@ -47,17 +48,16 @@ public class MenuEditHousesWorkersPanel extends JPanel {
 				worker_combo[i][j] = new JComboBox<String>();
 				worker_combo[i][j].setEditable(true);
 				worker_combo[i][j].setSize(10, UNDEFINED_CONDITION);
-				worker_combo[i][j].setFont( worker_combo[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
+				worker_combo[i][j].setFont(worker_combo[i][j].getFont().
+				        deriveFont(Settings.FONT_SIZE));
 			
 				worker_combo[i][j].addItem("");   // empty choice
-				for(int k=0; k<dwd.default_workers.length; k++){
-					worker_combo[i][j].addItem( dwd.default_workers[k] );
+				for(String worker : dwd){
+					worker_combo[i][j].addItem(worker);
 				}
 			
-				worker_combo[i][j].setSelectedItem( dwd.default_workers[i*columns + j] );
-				
+				worker_combo[i][j].setSelectedItem(dwd.get(i*columns + j));
 			}
-		
 		}
 		
 
@@ -225,7 +225,7 @@ public class MenuEditHousesWorkersPanel extends JPanel {
 			// save to file
 			try {
 
-				FileWriter fw = new FileWriter( DefaultWorkerData.HOUSE_WORKERS );
+				FileWriter fw = new FileWriter( WorkerList.HOUSE_WORKERS );
 				BufferedWriter bw = new BufferedWriter( fw );
 				
 				for (int i=0; i<tempString.length; i++) {
@@ -237,14 +237,14 @@ public class MenuEditHousesWorkersPanel extends JPanel {
 				
 				/*
 				boolean match;
-				if (dwd.default_workers != null) {
-				for (int i=0; i<dwd.default_workers.length; i++) {
+				if (dwd.getDefaultWorkers() != null) {
+				for (int i=0; i<dwd.getDefaultWorkers().length; i++) {
 					
 					match = false;
 					
 					for (int j=0; j<name_label.length; j++) {
 					
-						if ( dwd.default_workers[i].equals( name_label[j].getText() ) ) {
+						if ( dwd.getDefaultWorkers()[i].equals( name_label[j].getText() ) ) {
 							match = true;
 							break;
 						}
@@ -252,7 +252,7 @@ public class MenuEditHousesWorkersPanel extends JPanel {
 					}
 					
 					if (match == false) {
-						bw.write(dwd.default_workers[i]);
+						bw.write(dwd.getDefaultWorkers()[i]);
 						bw.newLine();
 					}
 					

@@ -46,7 +46,7 @@ public class CopyWorkersListener implements ActionListener {
 		boolean[][] bool = new boolean[rows][columns];
 		for(int i=0; i<rows; i++){
 			for(int j=0; j<columns; j++){
-				if ( day_panel.header_panel.dwp.worker[i][j].isSelected() ){
+				if ( day_panel.header_panel.dwp.workerCheckBoxes[i][j].isSelected() ){
 					bool[i][j] = true;
 				}
 				else{
@@ -60,10 +60,10 @@ public class CopyWorkersListener implements ActionListener {
 			for(int i=0; i<rows; i++){
 				for(int j=0; j<columns; j++){
 					if (bool[i][j]) {
-						day_panel.house_panel[k].worker_panel.worker[i][j].setSelected(true);
+						day_panel.house_panel[k].worker_panel.workerCheckBoxes[i][j].setSelected(true);
 					}
 					else {
-						day_panel.house_panel[k].worker_panel.worker[i][j].setSelected(false);
+						day_panel.house_panel[k].worker_panel.workerCheckBoxes[i][j].setSelected(false);
 					}
 				}
 			}

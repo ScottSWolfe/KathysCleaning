@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.submit.model;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
 public class HeaderData {
 
@@ -8,13 +8,13 @@ public class HeaderData {
 //  FIELDS
 	
 	String week;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	
 	
 	
 //  CONSTRUCTOR
 	
-	public HeaderData(String week, DefaultWorkerData dwd) {
+	public HeaderData(String week, WorkerList dwd) {
 		
 		this.week = week;
 		this.dwd = dwd;
@@ -27,7 +27,7 @@ public class HeaderData {
 	/*
 	public boolean[] isSelected(){
 		
-		for(int i=0; i < dwd.default_workers.length; i++){
+		for(int i=0; i < dwd.getDefaultWorkers().length; i++){
 			
 			
 			
@@ -39,7 +39,7 @@ public class HeaderData {
 		this.week = week;
 	}
 	
-	public void setDWD(DefaultWorkerData dwd) {
+	public void setDWD(WorkerList dwd) {
 		this.dwd = dwd;
 	}
 	
@@ -48,7 +48,7 @@ public class HeaderData {
 		return week;
 	}
 	
-	public DefaultWorkerData getDWD() {
+	public WorkerList getDWD() {
 		return dwd;
 	}
 	

@@ -217,8 +217,8 @@ public class NW_SubmitWeekListener implements ActionListener {
 				// if current worker is selected on Covenant panel
 				for (int k=0; k<dp.cov_panel.dwp.rows; k++) {
 					for (int l=0; l<dp.cov_panel.dwp.columns; l++) {
-						if ( ws[w].getName().equals(dp.cov_panel.dwp.worker[k][l].getText()) &&
-							 dp.cov_panel.dwp.worker[k][l].isSelected() ) {
+						if ( ws[w].getName().equals(dp.cov_panel.dwp.workerCheckBoxes[k][l].getText()) &&
+							 dp.cov_panel.dwp.workerCheckBoxes[k][l].isSelected() ) {
 							
 							ws[w].working_covenant = true;
 						}

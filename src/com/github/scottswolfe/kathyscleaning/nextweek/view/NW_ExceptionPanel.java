@@ -16,7 +16,7 @@ import javax.swing.text.AbstractDocument;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.BeginExceptionData;
 
@@ -64,7 +64,7 @@ public class NW_ExceptionPanel extends JPanel {
 	// CONSTRUCTOR
 	
 	@SuppressWarnings("unchecked")
-    public NW_ExceptionPanel( JFrame frame, NW_DayPanel dp, DefaultWorkerData dwd ){
+    public NW_ExceptionPanel( JFrame frame, NW_DayPanel dp, WorkerList dwd ){
 		
 		// TODO: if user has already entered information... read that info into appropriate places
 		
@@ -88,8 +88,8 @@ public class NW_ExceptionPanel extends JPanel {
 			employee_combobox[i].setFont( employee_combobox[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 			employee_combobox[i].addItem("");   // empty choice
-			for(int k=0; k<dwd.default_workers.length; k++){
-				employee_combobox[i].addItem( dwd.default_workers[k] );
+			for(int k=0; k<dwd.getDefaultWorkers().length; k++){
+				employee_combobox[i].addItem( dwd.getDefaultWorkers()[k] );
 			}
 			
 			// TODO: if an employee is not selected at first house but is selected at another house

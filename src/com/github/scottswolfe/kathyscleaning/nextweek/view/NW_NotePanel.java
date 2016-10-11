@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_NoteListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.NoteData;
@@ -32,7 +32,7 @@ public class NW_NotePanel extends JPanel {
 	// FIELDS
 	JFrame frame;
 	NW_DayPanel day_panel;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	NW_NoteListener listener;
 	
 	JLabel name_label;
@@ -55,7 +55,7 @@ public class NW_NotePanel extends JPanel {
 //  CONSTRUCTOR
 	
 	@SuppressWarnings("unchecked")
-    public NW_NotePanel( JFrame frame, NW_DayPanel day_panel, DefaultWorkerData dwd,
+    public NW_NotePanel( JFrame frame, NW_DayPanel day_panel, WorkerList dwd,
 						 String[] selected_workers, NoteData note_data, int note_type, NW_NoteListener listener ) {
 		
 		this.frame = frame;
@@ -103,8 +103,8 @@ public class NW_NotePanel extends JPanel {
 			name_box[i].setFont( name_box[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			name_box[i].setBackground( Settings.BACKGROUND_COLOR );
 			name_box[i].addItem("");	// empty choice
-			for(int k=0; k<dwd.default_workers.length; k++){
-				name_box[i].addItem( dwd.default_workers[k] );
+			for(int k=0; k<dwd.getDefaultWorkers().length; k++){
+				name_box[i].addItem( dwd.getDefaultWorkers()[k] );
 			}
 			
 			note_field[i] = new JTextField(15);

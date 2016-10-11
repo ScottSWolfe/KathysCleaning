@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.submit.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.submit.view.HousePanel;
 
@@ -17,14 +17,14 @@ public class ExceptionListener implements ActionListener {
 //  FIELDS
 	
 	HousePanel house_panel;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	JFrame frame;
 	JFrame local_frame;
 	
 	
 //  CONSTRUCTOR	
 	
-	public ExceptionListener( HousePanel house_panel, DefaultWorkerData dwd, JFrame frame ) {
+	public ExceptionListener( HousePanel house_panel, WorkerList dwd, JFrame frame ) {
 		
 		this.house_panel = house_panel;
 		this.dwd = dwd;

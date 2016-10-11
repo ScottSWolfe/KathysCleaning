@@ -7,50 +7,76 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
 
-
+/**
+ * Allows the user to select the workers who worked.
+ */
+@SuppressWarnings("serial")
 public class DefaultWorkerPanel extends JPanel {
+		
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6634101189352792441L;
-	
-	
-	// FIELDS
+/* CONSTANTS ================================================================ */
 	
 	public static final int NORM_ROWS = 2;
 	public static final int NORM_COLUMNS = 5;
 	
 	public final static int COV_ROWS = 2;
 	public final static int COV_COLUMNS = 6;
-	// TODO repair this so ROWS and COLUMNS can be changed to any number and program still works
+		
 	
-	public JCheckBox[][] worker;
-	DefaultWorkerData dwd;
 	
+	
+/* FIELDS =================================================================== */
+	
+	/**
+	 * List of avilable workers.
+	 */
+	WorkerList workers;
+
+	/**
+	 * Number of rows of workers on this panel.
+	 */
 	public int rows;
+	
+	/**
+     * Number of columns of workers on this panel.
+     */
 	public int columns;
 	
-	Component left_component; // for focus listener
+	
+	
+	
+/* COMPONENTS =============================================================== */
+	
+	/**
+	 * Checkboxes for each worker.
+	 */
+	public JCheckBox[][] workerCheckBoxes;
+
+	/*
+	 * Components for focus listener.
+	 */
+	Component left_component;
 	Component right_component;
 	
 	
-	//CONSTRUCTOR
-	public DefaultWorkerPanel( DefaultWorkerData dwd, Color color, Component left_component, Component right_component ) {
+/* CONSTRUCTOR ============================================================== */
+	
+	public DefaultWorkerPanel(WorkerList workers, Color color,
+	        Component left_component, Component right_component) {
 		
-		this.dwd = dwd;
+		this.workers = workers;
 		this.rows = NORM_ROWS;
 		this.columns = NORM_COLUMNS;
 		this.left_component = left_component;
 		this.right_component = right_component;
 		
-		worker = new JCheckBox[rows][columns];
+		workerCheckBoxes = new JCheckBox[rows][columns];
 		
 		setLayout( new MigLayout("insets 0") );
 		setBackground(color);
@@ -58,23 +84,23 @@ public class DefaultWorkerPanel extends JPanel {
 		for(int i=0; i < rows; i++) {
 			for(int j=0; j < columns; j++) {
 				
-				if (columns*i + j < dwd.default_workers.length) {
-					worker[i][j] = new JCheckBox( dwd.default_workers[ columns*i + j ] ); 
+				if (columns*i + j < workers.size()) {
+					workerCheckBoxes[i][j] =
+					        new JCheckBox(workers.get(columns*i + j)); 
 				}
 				else {
-					worker[i][j] = new JCheckBox( "" );
+					workerCheckBoxes[i][j] = new JCheckBox("");
 				}
 				
-				
-				//worker[i][j].(Settings.MAIN_COLOR);
-				worker[i][j].setFont( worker[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
-				worker[i][j].setBackground(color);
+				workerCheckBoxes[i][j].setFont(workerCheckBoxes[i][j].getFont()
+				        .deriveFont(Settings.FONT_SIZE));
+				workerCheckBoxes[i][j].setBackground(color);
 				
 				if(i<columns-1 && j>columns-2) {
-					add(worker[i][j], "grow, wrap");
+					add(workerCheckBoxes[i][j], "grow, wrap");
 				}
 				else {
-					add(worker[i][j], "grow");
+					add(workerCheckBoxes[i][j], "grow");
 				}
 				
 			}
@@ -85,15 +111,17 @@ public class DefaultWorkerPanel extends JPanel {
 	}
 	
 	
-	public DefaultWorkerPanel( DefaultWorkerData dwd, Color color, int rows, int columns, Component left_component, Component right_component ) {
+	public DefaultWorkerPanel(WorkerList workers, Color color,
+	        int rows, int columns,
+	        Component left_component, Component right_component) {
 		
-		this.dwd = dwd;
+		this.workers = workers;
 		this.rows = rows;
 		this.columns = columns;
 		this.left_component = left_component;
 		this.right_component = right_component;
 		
-		worker = new JCheckBox[rows][columns];
+		workerCheckBoxes = new JCheckBox[rows][columns];
 		
 		
 		setLayout( new MigLayout("insets 0") );
@@ -102,22 +130,24 @@ public class DefaultWorkerPanel extends JPanel {
 		for(int i=0; i < rows; i++) {
 			for(int j=0; j < columns; j++) {
 				
-				if (columns*i + j < dwd.default_workers.length) {
-					worker[i][j] = new JCheckBox( dwd.default_workers[ columns*i + j ] ); 
+				if (columns*i + j < workers.size()) {
+					workerCheckBoxes[i][j] =
+					        new JCheckBox(workers.get(columns*i + j)); 
 				}
 				else {
-					worker[i][j] = new JCheckBox( "" );
+					workerCheckBoxes[i][j] = new JCheckBox("");
 				}
 				
 				//worker[i][j].(Settings.MAIN_COLOR);
-				worker[i][j].setFont( worker[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
-				worker[i][j].setBackground(color);
+				workerCheckBoxes[i][j].setFont(workerCheckBoxes[i][j].getFont()
+				        .deriveFont(Settings.FONT_SIZE));
+				workerCheckBoxes[i][j].setBackground(color);
 				
 				if(i<rows-1 && j>columns-2) {
-					add(worker[i][j], "grow, wrap");
+					add(workerCheckBoxes[i][j], "grow, wrap");
 				}
 				else {
-					add(worker[i][j], "grow");
+					add(workerCheckBoxes[i][j], "grow");
 				}
 				
 			}
@@ -143,43 +173,43 @@ public class DefaultWorkerPanel extends JPanel {
 				Component enter_box = null;
 				
 				if ( j > 0 ) {
-					left_box = worker[i][j-1];
+					left_box = workerCheckBoxes[i][j-1];
 				}
 				else if ( j <= 0 ) {
 					left_box = left_component;
 				}
 				if ( j < columns - 1 ) {
-					right_box = worker[i][j+1];
+					right_box = workerCheckBoxes[i][j+1];
 				}
 				else if ( j >= columns - 1 ) {
 					right_box = right_component;
 				}
 				
 				if ( i > 0 ) {
-					up_box = worker[i-1][j];
+					up_box = workerCheckBoxes[i-1][j];
 				}
 				else if ( i <= 0 ) {
 					up_box = null;
 				}
 				if ( i < rows - 1 ) {
-					down_box = worker[i+1][j];
+					down_box = workerCheckBoxes[i+1][j];
 				}
 				else if ( i >= rows - 1 ) {
 					down_box = null;
 				}
 				
 				if ( i < rows - 1  && j >= columns - 1 ) {
-					enter_box = worker[i+1][0];
+					enter_box = workerCheckBoxes[i+1][0];
 				}
 
 				
-				FlexibleFocusListener ffl = new FlexibleFocusListener( worker[i][j], 
+				FlexibleFocusListener ffl = new FlexibleFocusListener( workerCheckBoxes[i][j], 
 						FlexibleFocusListener.CHECKBOX,
 						left_box, right_box,
 						up_box, down_box,
 						enter_box);
 				
-				worker[i][j].addFocusListener( ffl );
+				workerCheckBoxes[i][j].addFocusListener( ffl );
 				
 			}
 		}
@@ -192,12 +222,12 @@ public class DefaultWorkerPanel extends JPanel {
 	
 	public void setSelected(String[] sel_workers) {
 		
-		for(int i=0; i < worker.length; i++){
-			for(int j=0; j < worker[i].length; j++) {
+		for(int i=0; i < workerCheckBoxes.length; i++){
+			for(int j=0; j < workerCheckBoxes[i].length; j++) {
 				for(int k=0; k < sel_workers.length; k++) {
 				
-					if (sel_workers[k].equals( worker[i][j].getText() )) {
-						worker[i][j].setSelected(true);
+					if (sel_workers[k].equals( workerCheckBoxes[i][j].getText() )) {
+						workerCheckBoxes[i][j].setSelected(true);
 						break;
 					}
 					
@@ -214,8 +244,8 @@ public class DefaultWorkerPanel extends JPanel {
 		int k=0;
 		for(int i=0; i<rows; i++){
 			for(int j=0; j<columns; j++){
-				if(worker[i][j].isSelected()){
-					selected_workers[k] = worker[i][j].getText();
+				if(workerCheckBoxes[i][j].isSelected()){
+					selected_workers[k] = workerCheckBoxes[i][j].getText();
 					k++;
 				}
 			}

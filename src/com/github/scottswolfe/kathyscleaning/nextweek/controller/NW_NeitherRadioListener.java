@@ -60,7 +60,7 @@ public class NW_NeitherRadioListener implements ActionListener {
 				
 			for(int m=0; m<rows; m++){
 				for(int j=0; j<columns; j++){
-					hp.worker_panel.worker[m][j].setSelected(false);
+					hp.worker_panel.workerCheckBoxes[m][j].setSelected(false);
 				}
 			}
 					
@@ -70,7 +70,7 @@ public class NW_NeitherRadioListener implements ActionListener {
 		int columns = DefaultWorkerPanel.COV_COLUMNS;
 		for(int m=0; m<rows; m++){
 			for(int j=0; j<columns; j++){
-				tp.nw_day_panel[day].cov_panel.dwp.worker[m][j].setSelected(false);
+				tp.nw_day_panel[day].cov_panel.dwp.workerCheckBoxes[m][j].setSelected(false);
 			}
 		}
 		

@@ -37,7 +37,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
@@ -234,7 +234,7 @@ public class WeekendPanel extends JPanel {
 			customer_combobox.setFont( customer_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
 			customer_combobox.setEditable(true);
 			customer_combobox.addItem("");
-			String[] s1 = new DefaultWorkerData(DefaultWorkerData.WEEKEND_WORKERS).default_workers;
+			String[] s1 = new WorkerList(WorkerList.WEEKEND_WORKERS).default_workers;
 			for (int i=0; i<s1.length; i++) {
 				customer_combobox.addItem( s1[i] );
 			}
@@ -247,7 +247,7 @@ public class WeekendPanel extends JPanel {
 			employee_combobox.setFont( employee_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
 			employee_combobox.setEditable(true);
 			employee_combobox.addItem("");
-			String[] s2 = new DefaultWorkerData(DefaultWorkerData.HOUSE_WORKERS).default_workers;
+			String[] s2 = new WorkerList(WorkerList.HOUSE_WORKERS).default_workers;
 			for (int i=0; i<s2.length; i++) {
 				employee_combobox.addItem( s2[i] );
 			}
@@ -666,9 +666,9 @@ public class WeekendPanel extends JPanel {
 				
 				
 				//Reading Default Worker Data from save file
-				DefaultWorkerData dwd_house = null;
+				WorkerList dwd_house = null;
 				try {
-					dwd_house = new DefaultWorkerData( DefaultWorkerData.HOUSE_WORKERS);
+					dwd_house = new WorkerList( WorkerList.HOUSE_WORKERS);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}				

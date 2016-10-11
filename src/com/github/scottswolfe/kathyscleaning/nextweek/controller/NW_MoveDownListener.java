@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_HousePanel;
 
@@ -19,7 +19,7 @@ public class NW_MoveDownListener implements ActionListener {
 	
 	NW_DayPanel day_panel;
 	NW_HousePanel house_panel;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	JFrame frame;
 	
 	
@@ -27,7 +27,7 @@ public class NW_MoveDownListener implements ActionListener {
 //  CONSTRUCTOR
 	
 	
-	public NW_MoveDownListener(NW_DayPanel day_panel, NW_HousePanel house_panel, DefaultWorkerData dwd, JFrame frame) {
+	public NW_MoveDownListener(NW_DayPanel day_panel, NW_HousePanel house_panel, WorkerList dwd, JFrame frame) {
 		this.day_panel = day_panel;
 		this.house_panel = house_panel;
 		this.dwd = dwd;

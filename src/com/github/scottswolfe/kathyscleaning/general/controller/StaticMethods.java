@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.ConfirmFrame;
 
 
@@ -119,21 +120,17 @@ public class StaticMethods {
 	// isRepeatWorker takes in combobox[] and returns true
 	// if there is a repeat selected item and false otherwise
 	
-	public static boolean isRepeatWorker( JComboBox<String>[] box ) {
+	public static boolean isRepeatWorker(WorkerList workers) {
 		
 		// for each combobox
-		for (int i=0; i<box.length; i++) {
+		for (String worker1 : workers) {
 			
 			// compare it to each combobox except itself
-			for (int j=0; j<box.length; j++) {
+			for (String worker2 : workers) {
 				
 				// if name matches return true
-				if ( i != j &&
-						String.valueOf(box[i].getSelectedItem()).equals(
-						String.valueOf(box[j].getSelectedItem())) &&
-						!String.valueOf(box[i].getSelectedItem()).equals("")) {
-					
-					return true;
+				if (worker1 != worker2 && worker1.equals(worker2)) {
+				    return true;
 				}
 				
 			}

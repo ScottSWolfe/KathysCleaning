@@ -131,7 +131,7 @@ public class NW_WeekListener implements ActionListener {
 			int columns = tp.nw_day_panel[d].cov_panel.dwp.columns;
 			for(int l=0; l<rows; l++){
 				for(int m=0; m<columns; m++){
-					tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].setSelected(false);
+					tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].setSelected(false);
 				}
 			}
 			
@@ -141,8 +141,8 @@ public class NW_WeekListener implements ActionListener {
 				
 				for(int l=0; l<rows; l++){
 					for(int m=0; m<columns; m++){
-						if (worker.equals( tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].getText() ) ){
-							tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].setSelected(true);
+						if (worker.equals( tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].getText() ) ){
+							tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].setSelected(true);
 							break;
 						}
 					}
@@ -180,7 +180,7 @@ public class NW_WeekListener implements ActionListener {
 					// unselecting any selected workers
 					for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 						for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
-							tp.nw_day_panel[d].house_panel[i].worker_panel.worker[l][m].setSelected(false);
+							tp.nw_day_panel[d].house_panel[i].worker_panel.workerCheckBoxes[l][m].setSelected(false);
 						}
 					}
 					
@@ -191,8 +191,8 @@ public class NW_WeekListener implements ActionListener {
 						for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 							for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
 								//tp.day_panel[0].house_panel[i].worker_panel.worker[l][m].setSelected(false);
-								if (worker.equals( tp.nw_day_panel[d].house_panel[i].worker_panel.worker[l][m].getText() ) ){
-									tp.nw_day_panel[d].house_panel[i].worker_panel.worker[l][m].setSelected(true);
+								if (worker.equals( tp.nw_day_panel[d].house_panel[i].worker_panel.workerCheckBoxes[l][m].getText() ) ){
+									tp.nw_day_panel[d].house_panel[i].worker_panel.workerCheckBoxes[l][m].setSelected(true);
 									break;
 								}
 							}

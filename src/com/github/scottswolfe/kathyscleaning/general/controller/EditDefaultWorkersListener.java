@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.submit.view.EditDefaultWorkersPanel;
 
@@ -15,7 +15,7 @@ public class EditDefaultWorkersListener implements ActionListener {
 
 //  FIELDS
 	
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	DayPanel day_panel;
 	JFrame container_frame;
 	
@@ -24,7 +24,7 @@ public class EditDefaultWorkersListener implements ActionListener {
 	
 //  CONSTRUCTOR
 	
-	public EditDefaultWorkersListener(DefaultWorkerData dwd, DayPanel day_panel, JFrame container_frame ) {
+	public EditDefaultWorkersListener(WorkerList dwd, DayPanel day_panel, JFrame container_frame ) {
 		this.dwd = dwd;
 		this.day_panel = day_panel;
 		this.container_frame = container_frame;

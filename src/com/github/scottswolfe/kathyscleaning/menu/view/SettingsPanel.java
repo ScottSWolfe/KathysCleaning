@@ -244,17 +244,21 @@ public class SettingsPanel extends JPanel {
 		
 		edit_wkA_button = new JButton();
 		edit_wkA_button.setText( "Week A" );
-		edit_wkA_button.setFont( edit_wkA_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		edit_wkA_button.setFont(edit_wkA_button.getFont().deriveFont(
+		        Settings.FONT_SIZE) );
 		//edit_wkA_button.setBackground(Settings.MAIN_COLOR);
 		//edit_wkA_button.setForeground( Settings.FOREGROUND_COLOR );
-		edit_wkA_button.addActionListener(controller.new EditWeekListener( WEEK_A ) );
+		edit_wkA_button.addActionListener(controller.new
+		        EditWeekListener(Settings.WEEK_A));
 		
 		edit_wkB_button = new JButton();
 		edit_wkB_button.setText( "Week B" );
-		edit_wkB_button.setFont( edit_wkB_button.getFont().deriveFont(Settings.FONT_SIZE) );
+		edit_wkB_button.setFont(edit_wkB_button.getFont().deriveFont(
+		        Settings.FONT_SIZE) );
 		//edit_wkB_button.setBackground(Settings.MAIN_COLOR);
 		//edit_wkB_button.setForeground( Settings.FOREGROUND_COLOR );
-		edit_wkB_button.addActionListener(controller.new EditWeekListener( WEEK_B ) );
+		edit_wkB_button.addActionListener(controller.new
+		        EditWeekListener(Settings.WEEK_B));
 		
 		panel.add(edit_week_label, "span 2, wrap, growx");
 		panel.add(edit_wkA_button, "growx");

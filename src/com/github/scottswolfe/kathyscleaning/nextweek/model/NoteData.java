@@ -1,16 +1,16 @@
 package com.github.scottswolfe.kathyscleaning.nextweek.model;
 
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
 public class NoteData {
 	
 	// FIELDS
 	public String[] name_box_data;
 	public String[] note_field_data;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	
 	// CONSTRUCTOR
-	public NoteData ( String[] name_box_data, String[] note_field_data, DefaultWorkerData dwd ) {
+	public NoteData ( String[] name_box_data, String[] note_field_data, WorkerList dwd ) {
 		this.name_box_data = name_box_data;
 		this.note_field_data = note_field_data;
 		this.dwd = dwd;

@@ -14,7 +14,7 @@ import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -41,7 +41,7 @@ public class HousePanel extends JPanel {
 	
 	
 	DayPanel day_panel;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	JFrame frame;
 	TabbedPane tp;
 	
@@ -73,7 +73,7 @@ public class HousePanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public HousePanel(String title, DefaultWorkerData dwd, DayPanel day_panel, JFrame frame, TabbedPane tp) {
+	public HousePanel(String title, WorkerList dwd, DayPanel day_panel, JFrame frame, TabbedPane tp) {
 		
 		this.day_panel = day_panel;
 		this.dwd = dwd;
@@ -366,8 +366,8 @@ public class HousePanel extends JPanel {
 		int columns = DefaultWorkerPanel.NORM_COLUMNS;
 		for(int i=0; i<rows; i++){
 			for(int j=0; j<columns; j++){
-				if(this.worker_panel.worker[i][j].isSelected()){
-					new_panel.worker_panel.worker[i][j].setSelected(true);
+				if(this.worker_panel.workerCheckBoxes[i][j].isSelected()){
+					new_panel.worker_panel.workerCheckBoxes[i][j].setSelected(true);
 				}
 			}
 		}
@@ -377,7 +377,7 @@ public class HousePanel extends JPanel {
 	}
 	
 	
-	public HousePanel changeHouseWorkers( DefaultWorkerData dwd ) {
+	public HousePanel changeHouseWorkers( WorkerList dwd ) {
 		
 		HousePanel new_panel = new HousePanel(this.title, dwd, this.day_panel, this.frame, this.tp);
 		

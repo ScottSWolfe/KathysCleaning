@@ -15,7 +15,7 @@ import javax.swing.text.AbstractDocument;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.model.ExceptionData;
 
@@ -27,7 +27,7 @@ import net.miginfocom.swing.MigLayout;
 public class ExceptionPanel extends JPanel {
 
 	JFrame frame;
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	HousePanel hp;
 	
 	JLabel name_label;
@@ -47,7 +47,7 @@ public class ExceptionPanel extends JPanel {
 //  CONSTRUCTOR
 	
 	@SuppressWarnings("unchecked")
-    public ExceptionPanel( JFrame frame, DefaultWorkerData dwd, HousePanel hp ) {
+    public ExceptionPanel( JFrame frame, WorkerList dwd, HousePanel hp ) {
 		
 		this.frame = frame;
 		this.dwd = dwd;
@@ -86,8 +86,8 @@ public class ExceptionPanel extends JPanel {
 			
 			
 			name_box[i].addItem("");   // empty choice
-			for(int k=0; k<dwd.default_workers.length; k++){
-				name_box[i].addItem( dwd.default_workers[k] );
+			for(int k=0; k<dwd.getDefaultWorkers().length; k++){
+				name_box[i].addItem( dwd.getDefaultWorkers()[k] );
 			}
 			
 			

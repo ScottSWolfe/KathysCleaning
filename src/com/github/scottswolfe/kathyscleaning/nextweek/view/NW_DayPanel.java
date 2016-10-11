@@ -24,7 +24,7 @@ import javax.swing.text.AbstractDocument;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -54,7 +54,7 @@ public class NW_DayPanel extends JPanel{
 	public NoteData covenant_note_data;
 	NoteData day_note_data;
 	
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	public BeginExceptionData[] bed;
 	
 	boolean exception_exist = false;
@@ -101,7 +101,7 @@ public class NW_DayPanel extends JPanel{
 	
 	// CONSTRUCTORS
 
-	public NW_DayPanel( TabbedPane tp, DefaultWorkerData dwd, Calendar date, JFrame frame, int mode, int wk ) {
+	public NW_DayPanel( TabbedPane tp, WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ) {
 		
 		this.dwd = dwd;
 		this.date = date;
@@ -123,7 +123,7 @@ public class NW_DayPanel extends JPanel{
 		for(int i=0; i<DayPanel.NUM_HOUSE_PANELS; i++) {
 			house_panel[i] = new NW_HousePanel(dwd,this,frame);
 		}
-		cov_panel = new NW_CovenantPanel( this, new DefaultWorkerData( DefaultWorkerData.COVENANT_WORKERS ), frame );
+		cov_panel = new NW_CovenantPanel( this, new WorkerList( WorkerList.COVENANT_WORKERS ), frame );
 		
 		
 		// creating scroll pane and adding house panels
@@ -242,7 +242,7 @@ public class NW_DayPanel extends JPanel{
 	
 	//  PUBLIC METHODS	
 	
-	public void changeWorkerPanels( DefaultWorkerData new_dwd ){
+	public void changeWorkerPanels( WorkerList new_dwd ){
 		
 		//getting old size
 		int header_width = header_panel.getWidth();
@@ -302,7 +302,7 @@ public class NW_DayPanel extends JPanel{
 	}
 	
 	
-	public void changeCovenantWorkerPanel( DefaultWorkerData dwd ) {
+	public void changeCovenantWorkerPanel( WorkerList dwd ) {
 		
 		//DefaultWorkerData dwd_copy = cov_panel.dwd;
 		//TODO: NoteData ndata_copy = cov_panel.ndata;
@@ -470,19 +470,19 @@ public class NW_DayPanel extends JPanel{
 			
 			for (int j=0; j<cov_panel.dwp.columns; j++) {
 				
-				if (cov_panel.dwp.worker[i][j].isSelected()) {
+				if (cov_panel.dwp.workerCheckBoxes[i][j].isSelected()) {
 					
 					for (int k=0; k<workers.length; k++) {
 						
 						// check that next worker exists and is not null
 						if (workers[k] == null) {
-							workers[k] = cov_panel.dwp.worker[i][j].getText();
+							workers[k] = cov_panel.dwp.workerCheckBoxes[i][j].getText();
 							num++;
 							break;
 						}
 						
 						// if it equals one of the names, break out of the loop, and go on to the next employee
-						else if ( cov_panel.dwp.worker[i][j].getText().equals(workers[k]) ) {
+						else if ( cov_panel.dwp.workerCheckBoxes[i][j].getText().equals(workers[k]) ) {
 							break;
 						}
 						
@@ -547,20 +547,20 @@ public class NW_DayPanel extends JPanel{
 			
 			for (int j=0; j<cov_panel.dwp.columns; j++) {
 				
-				if (cov_panel.dwp.worker[i][j].isSelected()) {
+				if (cov_panel.dwp.workerCheckBoxes[i][j].isSelected()) {
 					
 					
 					for (int k=0; k<workers.length; k++) {
 						
 						// check that next worker exists and is not null
 						if (workers[k] == null) {
-							workers[k] = cov_panel.dwp.worker[i][j].getText();
+							workers[k] = cov_panel.dwp.workerCheckBoxes[i][j].getText();
 							index = k;
 							break;
 						}
 						
 						// if it equals one of the names, break out of the loop, and go on to the next employee
-						else if ( cov_panel.dwp.worker[i][j].getText().equals(workers[k]) ) {
+						else if ( cov_panel.dwp.workerCheckBoxes[i][j].getText().equals(workers[k]) ) {
 							break;
 						}
 						
@@ -659,7 +659,7 @@ public class NW_DayPanel extends JPanel{
 			
 			hp.house_name_txt.addFocusListener( new FlexibleFocusListener(hp.house_name_txt,
 					FlexibleFocusListener.TEXTFIELD,
-					null, hp.worker_panel.worker[0][0],
+					null, hp.worker_panel.workerCheckBoxes[0][0],
 					hp_up.house_name_txt, hp_down.house_name_txt, 
 					null) );
 				
@@ -772,7 +772,7 @@ public class NW_DayPanel extends JPanel{
 				int columns = tp.nw_day_panel[d].cov_panel.dwp.columns;
 				for(int l=0; l<rows; l++){
 					for(int m=0; m<columns; m++){
-						tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].setSelected(false);
+						tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].setSelected(false);
 					}
 				}
 				
@@ -782,8 +782,8 @@ public class NW_DayPanel extends JPanel{
 					
 					for(int l=0; l<rows; l++){
 						for(int m=0; m<columns; m++){
-							if (worker.equals( tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].getText() ) ){
-								tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].setSelected(true);
+							if (worker.equals( tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].getText() ) ){
+								tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].setSelected(true);
 								break;
 							}
 						}
@@ -821,7 +821,7 @@ public class NW_DayPanel extends JPanel{
 						// unselecting any selected workers
 						for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 							for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
-								tp.nw_day_panel[d].house_panel[h].worker_panel.worker[l][m].setSelected(false);
+								tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);
 							}
 						}
 						
@@ -832,8 +832,8 @@ public class NW_DayPanel extends JPanel{
 							for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
 								for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
 									//tp.day_panel[0].house_panel[i].worker_panel.worker[l][m].setSelected(false);
-									if (worker.equals( tp.nw_day_panel[d].house_panel[h].worker_panel.worker[l][m].getText() ) ){
-										tp.nw_day_panel[d].house_panel[h].worker_panel.worker[l][m].setSelected(true);
+									if (worker.equals( tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText() ) ){
+										tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);
 										break;
 									}
 								}

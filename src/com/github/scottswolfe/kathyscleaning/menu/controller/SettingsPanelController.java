@@ -22,12 +22,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditCovenantWorkersPanel;
-import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditHousesWorkersPanel;
+import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditHouseWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.submit.controller.TabChangeListener;
@@ -194,9 +194,9 @@ public class SettingsPanelController {
             
             
             //Reading Default Worker Data from save file
-            DefaultWorkerData dwd = null;
+            WorkerList dwd = null;
             try {
-                dwd = new DefaultWorkerData(DefaultWorkerData.HOUSE_WORKERS);
+                dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -278,7 +278,7 @@ public class SettingsPanelController {
             new_frame.addWindowListener(new FrameCloseListener(container_frame));
 
             if (type == Settings.HOUSES_WORKERS) {
-                MenuEditHousesWorkersPanel panel = new MenuEditHousesWorkersPanel( new_frame );
+                MenuEditHouseWorkersPanel panel = new MenuEditHouseWorkersPanel( new_frame );
                 new_frame.add(panel);
             }
             else {

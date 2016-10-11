@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.model.DefaultWorkerData;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.model.DayData;
@@ -32,7 +32,7 @@ public class DayPanel extends JPanel{
 	public HeaderPanel header_panel;
 	public HousePanel[] house_panel;
 	
-	DefaultWorkerData dwd;
+	WorkerList dwd;
 	
 	public int mode;
 	
@@ -45,7 +45,7 @@ public class DayPanel extends JPanel{
 
 
 	
-	public DayPanel( TabbedPane tp, DefaultWorkerData dwd, Calendar date, JFrame frame, int mode, int wk ){
+	public DayPanel( TabbedPane tp, WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ){
 		
 		
 		this.tp = tp;
@@ -141,7 +141,7 @@ public class DayPanel extends JPanel{
 			
 			hp.time_end_txt.addFocusListener(new FlexibleFocusListener(hp.time_end_txt, 
 					FlexibleFocusListener.TEXTFIELD,
-					hp.time_begin_txt, hp.worker_panel.worker[0][0],
+					hp.time_begin_txt, hp.worker_panel.workerCheckBoxes[0][0],
 					hp_up.time_end_txt, hp_down.time_end_txt,
 					hp_down.time_begin_txt));
 			
@@ -158,7 +158,7 @@ public class DayPanel extends JPanel{
 	
 //  PUBLIC METHODS
 	
-	public void changeWorkerPanels( DefaultWorkerData new_dwd ){
+	public void changeWorkerPanels( WorkerList new_dwd ){
 		
 		//getting old size
 		int header_width = header_panel.getWidth();
