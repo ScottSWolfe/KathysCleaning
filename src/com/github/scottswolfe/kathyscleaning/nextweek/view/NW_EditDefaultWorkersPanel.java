@@ -18,14 +18,8 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
 
-public class NW_EditDefaultWorkersPanel extends JPanel {
-
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7882195672958519636L;
-	
+@SuppressWarnings("serial")
+public class NW_EditDefaultWorkersPanel extends JPanel {	
 	
 	DefaultWorkerPanel dwp;
 	JFrame frame;
@@ -60,8 +54,8 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 				worker_combo[i][j].setBackground(Settings.HEADER_BACKGROUND);
 			
 				worker_combo[i][j].addItem(null);   // empty choice
-				for(int k=0; k<dwd.getDefaultWorkers().length; k++){
-					worker_combo[i][j].addItem( dwd.getDefaultWorkers()[k] );
+				for(int k=0; k<dwd.size(); k++){
+					worker_combo[i][j].addItem( dwd.get(k));
 				}
 			
 				worker_combo[i][j].setSelectedItem( dwp.workerCheckBoxes[i][j].getText() );
@@ -237,26 +231,19 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 			}			
 			
 			// copy workers selected
-			String[] tempString = new String[rows*columns];
-			int k = 0;
-			
+			WorkerList workers = new WorkerList();			
 			for (int i=0; i<rows; i++){
 				for (int j=0; j<columns; j++) {
-					
-					tempString[k] = (String) edwp.worker_combo[i][j].getSelectedItem();
-					k++;
+					workers.add(String.valueOf(
+					        edwp.worker_combo[i][j].getSelectedItem()));
 				}
 			}
 			
-			WorkerList dwd = new WorkerList( tempString );
+			
 			
 			
 			// paste workers selected on header dwp and house panel dwps
-			day_panel.changeWorkerPanels( dwd );
-			
-			
-			// resize frame width
-			
+			day_panel.changeWorkerPanels(workers);
 			
 			// close EditDefaultWorkersPanel
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));

@@ -28,7 +28,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_NoteListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.BeginExceptionData;
@@ -195,7 +194,6 @@ public class NW_DayPanel extends JPanel{
 		meet_location_box = new JComboBox<String>();
 		meet_location_box.setEditable(true);
 		meet_location_box.setFont( meet_location_box.getFont().deriveFont( Settings.FONT_SIZE ));
-		// TODO stuff about gathering in options
 		
 		meet_time_label = new JLabel("Meet Time:");
 		meet_time_label.setFont( meet_time_label.getFont().deriveFont(Settings.FONT_SIZE));
@@ -253,7 +251,6 @@ public class NW_DayPanel extends JPanel{
 		NW_HeaderPanel new_header_panel = new NW_HeaderPanel(tp, new_dwd, this, date, frame, mode, wk);
 		NW_HousePanel[] new_house_panel = new NW_HousePanel[ house_panel.length ];
 		for(int i=0; i<house_panel.length; i++){
-			//TODO String temp = new String("House " + (i+1) );
 			new_house_panel[i] = house_panel[i].changeHouseWorkers(new_dwd);
 		}
 		
@@ -304,12 +301,9 @@ public class NW_DayPanel extends JPanel{
 	
 	public void changeCovenantWorkerPanel( WorkerList dwd ) {
 		
-		//DefaultWorkerData dwd_copy = cov_panel.dwd;
-		//TODO: NoteData ndata_copy = cov_panel.ndata;
 		remove( cov_panel );
 		
 		NW_CovenantPanel new_panel = new NW_CovenantPanel( this, dwd, frame );
-		//TODO: new_panel.ndata = ndata_copy;
 		
 		add( new_panel, "dock south, growx" );
 		cov_panel = new_panel;
@@ -690,11 +684,11 @@ public class NW_DayPanel extends JPanel{
 	public static void fillWeek( TabbedPane tp, JFrame frame, int wk ) {
 		
 		File file;
-		if (wk == SettingsPanel.WEEK_A) {
-			file = SettingsPanel.NEXT_WEEK_A;
+		if (wk == Settings.WEEK_A) {
+			file = Settings.NEXT_WEEK_A;
 		}
 		else {
-			file = SettingsPanel.NEXT_WEEK_B;
+			file = Settings.NEXT_WEEK_B;
 		}
 		
 		
@@ -893,7 +887,7 @@ public class NW_DayPanel extends JPanel{
 			tp.nw_day_panel[j].header_panel.weekSelected = wk;
 		}
 		
-		if ( wk == SettingsPanel.WEEK_A ) {
+		if ( wk == Settings.WEEK_A ) {
 			for (int j=0; j<5; j++) {
 				tp.nw_day_panel[j].header_panel.week_A.setSelected(true);
 			}

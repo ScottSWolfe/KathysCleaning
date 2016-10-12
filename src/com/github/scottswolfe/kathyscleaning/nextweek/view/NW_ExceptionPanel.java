@@ -65,9 +65,7 @@ public class NW_ExceptionPanel extends JPanel {
 	
 	@SuppressWarnings("unchecked")
     public NW_ExceptionPanel( JFrame frame, NW_DayPanel dp, WorkerList dwd ){
-		
-		// TODO: if user has already entered information... read that info into appropriate places
-		
+				
 		this.frame = frame;
 		this.dp = dp;
 		
@@ -88,23 +86,16 @@ public class NW_ExceptionPanel extends JPanel {
 			employee_combobox[i].setFont( employee_combobox[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 			employee_combobox[i].addItem("");   // empty choice
-			for(int k=0; k<dwd.getDefaultWorkers().length; k++){
-				employee_combobox[i].addItem( dwd.getDefaultWorkers()[k] );
+			for(int k=0; k<dwd.size(); k++){
+				employee_combobox[i].addItem(dwd.get(k));
 			}
-			
-			// TODO: if an employee is not selected at first house but is selected at another house
-			// then automatically include employee as selected in combo box
-			/*
-			if () {
-				
-			}
-			*/
 		}
 		
 		
 		location_label = new JLabel();
 		location_label.setText("Location");
-		location_label.setFont( location_label.getFont().deriveFont(Settings.FONT_SIZE) );
+		location_label.setFont(
+		        location_label.getFont().deriveFont(Settings.FONT_SIZE));
 		location_label.setBackground(Settings.MAIN_COLOR);
 		
 		location_combobox = new JComboBox[NUM_EXCEPTIONS];
@@ -112,16 +103,9 @@ public class NW_ExceptionPanel extends JPanel {
 			location_combobox[i] = new JComboBox<String>();
 			location_combobox[i].setBackground( Settings.BACKGROUND_COLOR );
 			location_combobox[i].setEditable(true);
-			//location_combobox[i].setSize(8, );
 			location_combobox[i].setFont( location_combobox[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 			location_combobox[i].addItem("");   // empty choice
-			// TODO: add choices based on day's schedule if workers join after first house.
-			//		 If an employee is not selected at first house but is selected at another house
-			// 		 then automatically second house as selected in combo box
-			/*
-				location_combobox[i].addItem(  );
-			*/
 		}
 		
 		
@@ -157,9 +141,7 @@ public class NW_ExceptionPanel extends JPanel {
 			note_textfield[i].setBackground( Settings.BACKGROUND_COLOR );
 			note_textfield[i].setColumns(15);
 			note_textfield[i].setFont( note_textfield[i].getFont().deriveFont( Settings.FONT_SIZE ) );
-			note_textfield_doc[i] = (AbstractDocument) note_textfield[i].getDocument();
-			// TODO: note_textfield[i].setDocumentFilter( new NoteDocFilter( note_textfield[i] ) );
-		
+			note_textfield_doc[i] = (AbstractDocument) note_textfield[i].getDocument();		
 		}
 		
 		
@@ -299,7 +281,6 @@ public class NW_ExceptionPanel extends JPanel {
 		
 		// ACTION METHOD
 		public void actionPerformed( ActionEvent e ){
-			// TODO: insert JOptionPane asking if they really want to cancel
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
 		
@@ -318,9 +299,7 @@ public class NW_ExceptionPanel extends JPanel {
 		
 		// ACTION METHOD
 		public void actionPerformed( ActionEvent e ) {
-			// TODO: insert JOptionPane asking if they really want to submit
-			// TODO: check input data for inconsistencies...
-			
+		    
 			// check how many exceptions there are
 			int num = 0;					// number of exceptions
 			int[] index = new int[10]; 		// index of exceptions; 10 is arbitrarily large number

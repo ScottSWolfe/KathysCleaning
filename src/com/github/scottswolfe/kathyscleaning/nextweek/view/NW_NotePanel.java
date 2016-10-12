@@ -66,11 +66,6 @@ public class NW_NotePanel extends JPanel {
 		
 		note_data = day_panel.covenant_note_data;
 		
-		//
-		// TODO get selected workers from Covenant, and add each as a possible note receiver
-		//		and change the rows to the number of workers
-		//	this.rows = selected_workers.length;
-		
 		// generating string for migLayout format based on number of rows
 		String column_format = "[grow]";
 		for(int i=1; i<ROWS; i++) {
@@ -103,8 +98,8 @@ public class NW_NotePanel extends JPanel {
 			name_box[i].setFont( name_box[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			name_box[i].setBackground( Settings.BACKGROUND_COLOR );
 			name_box[i].addItem("");	// empty choice
-			for(int k=0; k<dwd.getDefaultWorkers().length; k++){
-				name_box[i].addItem( dwd.getDefaultWorkers()[k] );
+			for(int k=0; k<dwd.size(); k++){
+				name_box[i].addItem(dwd.get(k));
 			}
 			
 			note_field[i] = new JTextField(15);
@@ -115,8 +110,6 @@ public class NW_NotePanel extends JPanel {
 				name_box[i].setSelectedItem(note_data.getNameBoxData()[i]);				
 				note_field[i].setText(note_data.getNoteFieldData()[i]);
 			}
-			
-			// TODO now add in selected_workers (from covenant or houses) which do not already have a note
 			
 		}
 		
@@ -214,8 +207,6 @@ public class NW_NotePanel extends JPanel {
 		
 	//  LISTENER
 		public void actionPerformed(ActionEvent e){
-			
-			// TODO JOptionPane message asking if sure they want to cancel (perhaps only if they've entered info)
 			
 			frame.setVisible(false);
 			frame.dispose();

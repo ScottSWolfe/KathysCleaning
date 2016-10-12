@@ -21,7 +21,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_CopyWorkersListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_EditDefaultWorkersListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_NeitherRadioListener;
@@ -142,13 +141,13 @@ public class NW_HeaderPanel extends JPanel {
 		day_label.setText( weekDay );
 		day_label.setFont( day_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ) );
 		
-		if (mode == SettingsPanel.TRUE_MODE) {
+		if (mode == Settings.TRUE_MODE) {
 			date_label = new JLabel( ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
 			date_label.setFont( date_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		}
 		
 		panel.add(this.day_label, "wrap, ax center");
-		if (mode == SettingsPanel.TRUE_MODE) {
+		if (mode == Settings.TRUE_MODE) {
 			panel.add(this.date_label, "ax center, top push");
 		}
 		
@@ -171,12 +170,12 @@ public class NW_HeaderPanel extends JPanel {
 		week_A.setFont( week_A.getFont().deriveFont( Settings.FONT_SIZE ) );
 		week_A.setOpaque(false);
 		week_A.setBackground(Settings.HEADER_BACKGROUND);
-		week_A.addActionListener( new NW_WeekListener( tp, SettingsPanel.WEEK_A ) );
+		week_A.addActionListener( new NW_WeekListener( tp, Settings.WEEK_A ) );
 		
 		week_B.setFont( week_B.getFont().deriveFont( Settings.FONT_SIZE ) );
 		week_B.setOpaque(false);
 		week_B.setBackground(Settings.HEADER_BACKGROUND);
-		week_B.addActionListener( new NW_WeekListener( tp, SettingsPanel.WEEK_B ) );
+		week_B.addActionListener( new NW_WeekListener( tp, Settings.WEEK_B ) );
 		
 		neither.setFont( neither.getFont().deriveFont( Settings.FONT_SIZE ) );
 		neither.setOpaque(false);

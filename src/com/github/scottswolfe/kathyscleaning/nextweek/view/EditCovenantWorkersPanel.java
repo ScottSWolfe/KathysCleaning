@@ -61,8 +61,8 @@ public class EditCovenantWorkersPanel extends JPanel {
 				worker_combo[i][j].setFont( worker_combo[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 				worker_combo[i][j].addItem(null);   // empty choice
-				for(int k=0; k<dwd.getDefaultWorkers().length; k++){
-					worker_combo[i][j].addItem( dwd.getDefaultWorkers()[k] );
+				for(int k=0; k<dwd.size(); k++){
+					worker_combo[i][j].addItem(dwd.get(k));
 				}
 			
 				worker_combo[i][j].setSelectedItem( dwp.workerCheckBoxes[i][j].getText() );
@@ -191,13 +191,6 @@ public class EditCovenantWorkersPanel extends JPanel {
 		
 		public void actionPerformed(ActionEvent e){
 			
-			// TODO possible JOptionPane message asking if sure they want to cancel
-			
-			/*
-			frame.setVisible(false);
-			frame.dispose();
-			*/
-			
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			
 		}
@@ -237,33 +230,24 @@ public class EditCovenantWorkersPanel extends JPanel {
 			}			
 			
 			// copy workers selected
-			String[] tempString = new String[rows*columns];
-			int k = 0;
-			
+			WorkerList workerList = new WorkerList();
 			for (int i=0; i<rows; i++){
 				for (int j=0; j<columns; j++) {
-					
-					tempString[k] = String.valueOf( ecwp.worker_combo[i][j].getSelectedItem() );
-					k++;
+				    workerList.add(String.valueOf(
+                            ecwp.worker_combo[i][j].getSelectedItem()));
 				}
 			}
 			
-			WorkerList dwd = new WorkerList( tempString );
-			
-			
 			// change workers on Covenant Panel's worker panel
 			try {
-				cov_panel.changeWorkerPanel( dwd );
+				cov_panel.changeWorkerPanel(workerList);
 			} catch (Exception e1) {
-				
+				e1.printStackTrace();
 			}
-			
-			
-			// resize frame width
-			
-			
+
 			// close EditDefaultWorkersPanel
-			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+			frame.dispatchEvent(
+			        new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			
 		}
 		

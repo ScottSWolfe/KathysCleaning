@@ -41,7 +41,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.submit.controller.SubmitWeekListener;
@@ -201,13 +200,7 @@ public class WeekendPanel extends JPanel {
 		return panel;
 	}
 	
-	private class JobPanel extends JPanel {
-		
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 5072210210178433186L;
-		
+	private class JobPanel extends JPanel {		
 		
 		// FIELDS		
 		JCheckBox worked_checkbox;
@@ -234,9 +227,10 @@ public class WeekendPanel extends JPanel {
 			customer_combobox.setFont( customer_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
 			customer_combobox.setEditable(true);
 			customer_combobox.addItem("");
-			String[] s1 = new WorkerList(WorkerList.WEEKEND_WORKERS).default_workers;
-			for (int i=0; i<s1.length; i++) {
-				customer_combobox.addItem( s1[i] );
+			
+			WorkerList weekendWorkers = new WorkerList(WorkerList.WEEKEND_WORKERS);
+			for (String worker : weekendWorkers) {
+				customer_combobox.addItem(worker);
 			}
 			
 			jobpaid_field = new JTextField();
@@ -247,9 +241,9 @@ public class WeekendPanel extends JPanel {
 			employee_combobox.setFont( employee_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
 			employee_combobox.setEditable(true);
 			employee_combobox.addItem("");
-			String[] s2 = new WorkerList(WorkerList.HOUSE_WORKERS).default_workers;
-			for (int i=0; i<s2.length; i++) {
-				employee_combobox.addItem( s2[i] );
+			WorkerList houseWorkers = new WorkerList(WorkerList.HOUSE_WORKERS);
+			for (String worker : houseWorkers) {
+				employee_combobox.addItem(worker);
 			}
 			
 			workerpaid_field = new JTextField();
@@ -323,7 +317,6 @@ public class WeekendPanel extends JPanel {
 			if ( i>0 ) {
 				worked_checkbox_up = jp[i-1].worked_checkbox;
 				customer_combobox_up = jp[i-1].customer_combobox;
-				//TODO ... continue...
 			}
 			
 			jp[i].worked_checkbox.addFocusListener( new FocusListener(jp[i].worked_checkbox,
@@ -347,10 +340,10 @@ public class WeekendPanel extends JPanel {
 			try {
 			Scanner input;
 			if (weekA_button.isSelected()) {
-				input = new Scanner(SettingsPanel.WEEKEND_WEEK_A);
+				input = new Scanner(Settings.WEEKEND_WEEK_A);
 			}
 			else  {
-				input = new Scanner(SettingsPanel.WEEKEND_WEEK_B);
+				input = new Scanner(Settings.WEEKEND_WEEK_B);
 			}
 			//else {
 			//	
@@ -432,7 +425,7 @@ public class WeekendPanel extends JPanel {
 				return;
 			}
 			
-			if (mode == SettingsPanel.TRUE_MODE) {
+			if (mode == Settings.TRUE_MODE) {
 			// reading data and writing to Excel Document
 			try {
 			File f = SubmitWeekListener.new_save;
@@ -579,10 +572,10 @@ public class WeekendPanel extends JPanel {
 			frame.dispose();
 						
 			// set 
-			if ( wk == SettingsPanel.WEEK_A ) {
+			if ( wk == Settings.WEEK_A ) {
 				cwp.week_B_rbutton.setSelected(true);
 			}
-			else if ( wk == SettingsPanel.WEEK_B ) {
+			else if ( wk == Settings.WEEK_B ) {
 				cwp.week_A_rbutton.setSelected(true);
 			}
 			else {
@@ -604,11 +597,11 @@ public class WeekendPanel extends JPanel {
 				
 				
 				File f;
-				if (wk == SettingsPanel.WEEK_A) {
-					f = SettingsPanel.WEEKEND_WEEK_A;
+				if (wk == Settings.WEEK_A) {
+					f = Settings.WEEKEND_WEEK_A;
 				}
 				else {
-					f = SettingsPanel.WEEKEND_WEEK_B;
+					f = Settings.WEEKEND_WEEK_B;
 				}
 				
 				BufferedWriter bw = null;
@@ -691,7 +684,8 @@ public class WeekendPanel extends JPanel {
 				
 				NW_DayPanel[] day_panel = new NW_DayPanel[5];
 				for(int i=0; i<5; i++){
-					day_panel[i] = new NW_DayPanel(tp, dwd_house, day[i], nwframe, SettingsPanel.EDIT_MODE, wk);
+					day_panel[i] = new NW_DayPanel(tp, dwd_house, day[i],
+					        nwframe, Settings.EDIT_MODE, wk);
 				}
 				tp.nw_day_panel = day_panel;
 				
@@ -720,14 +714,14 @@ public class WeekendPanel extends JPanel {
 				frame.dispose();
 				
 				try {
-					if ( wk == SettingsPanel.WEEK_A ) {
-						NW_DayPanel.fillWeek(tp, nwframe, SettingsPanel.WEEK_B);
+					if ( wk == Settings.WEEK_A ) {
+						NW_DayPanel.fillWeek(tp, nwframe, Settings.WEEK_B);
 						for (int j=0; j<5; j++) {
 							tp.nw_day_panel[j].header_panel.week_B.setSelected(true);
 						}
 					}
-					else if ( wk == SettingsPanel.WEEK_B ) {
-						NW_DayPanel.fillWeek(tp, nwframe, SettingsPanel.WEEK_A);
+					else if ( wk == Settings.WEEK_B ) {
+						NW_DayPanel.fillWeek(tp, nwframe, Settings.WEEK_A);
 						for (int j=0; j<5; j++) {
 							tp.nw_day_panel[j].header_panel.week_A.setSelected(true);
 						}
