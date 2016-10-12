@@ -8,6 +8,9 @@ Add validation for bad/empty worker names throughout application.
 Create save feature where user can save an incomplete report and continue it later.
 Also, user can look at past reports in the app gui.
 
+Make it so windows only open with all space in effective screen size
+Eg: settings panel will open with some space hidden under windows toolbar
+
 **tweak time doc filter so only allows real times** (or when focus shifts away..)
 
 create Schedule printout with place to write times worked at houses / corrections / who worked

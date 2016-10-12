@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.BeginExceptionData;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.NoteData;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
@@ -75,17 +75,13 @@ public class NW_NeitherRadioListener implements ActionListener {
 		}
 		
 		// set neither button
-		dp.header_panel.neither.setSelected(true);  // TODO: is this needed??
-		dp.header_panel.weekSelected = SettingsPanel.NEITHER;
+		dp.header_panel.neither.setSelected(true);
+		dp.header_panel.weekSelected = Settings.NEITHER;
 		
 		// delete exception data
-		dp.covenant_note_data = new NoteData(NW_NotePanel.ROWS); 
+		dp.covenant_note_data = new NoteData(NW_NotePanel.ROWS); 		
 		
-		
-		// TODO: add something about adding or deleting panels as needed to get to 3 house panels
-		
-		
-		tp.nw_day_panel[day].header_panel.wk = SettingsPanel.NEITHER;
+		tp.nw_day_panel[day].header_panel.wk = Settings.NEITHER;
 			
 	}
 	

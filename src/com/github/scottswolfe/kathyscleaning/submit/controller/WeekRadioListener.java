@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.submit.view.HousePanel;
 
@@ -49,11 +49,11 @@ public class WeekRadioListener implements ActionListener {
 		else {
 				
 		File file;
-		if (wk == SettingsPanel.WEEK_A) {
-			file = SettingsPanel.SUBMIT_WEEK_A;
+		if (wk == Settings.WEEK_A) {
+			file = Settings.SUBMIT_WEEK_A;
 		}
 		else {
-			file = SettingsPanel.SUBMIT_WEEK_B;
+			file = Settings.SUBMIT_WEEK_B;
 		}
 				
 		Scanner input;
@@ -137,9 +137,7 @@ public class WeekRadioListener implements ActionListener {
 					house.exception_data.time_begin[i] = input.nextLine();
 					house.exception_data.time_end[i] = input.nextLine();
 				}
-				house.exception_data.edited = true;
-				// TODO make sure this isn't overwritten
-				
+				house.exception_data.edited = true;				
 				
 				// 4. making sure there is a correct number of house panels available to fill
 				

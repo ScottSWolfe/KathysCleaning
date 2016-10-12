@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.BeginExceptionData;
@@ -72,7 +73,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 			return;
 		}
 		
-		if (mode == SettingsPanel.TRUE_MODE) {
+		if (mode == Settings.TRUE_MODE) {
 		/* Steps:
 		 * 
 		 * 		1. Read User Input
@@ -224,10 +225,6 @@ public class NW_SubmitWeekListener implements ActionListener {
 						}
 					}
 				}
-
-				
-				// put it all together to make one string to be written on Excel document
-				// TODO: this section can be made into a method in the WorkerSchedule class; "createSchedule()"
 				
 				String s = new String();
 				
@@ -346,7 +343,6 @@ public class NW_SubmitWeekListener implements ActionListener {
 					}
 				}
 				
-				// TODO: this may not be needed anymore...
 				if (s.equals("...")){
 					s = "";
 				}
@@ -373,7 +369,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 		
 		// *** 3a. Write User Data to Text File for next week***
 		try {
-			writeEditWeekData( readEditWeekData(), SettingsPanel.SAVED_SCHEDULE, tp);
+			writeEditWeekData(readEditWeekData(), Settings.SAVED_SCHEDULE, tp);
 		}
 		catch(Exception e2){
 			JOptionPane.showMessageDialog( new JFrame(), "Error: The data did not save to the Text File for next week correctly.", null, JOptionPane.ERROR_MESSAGE);
@@ -479,9 +475,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 				
 				NW_HouseData[] houseData = new NW_HouseData[ tp.nw_day_panel[d].house_panel.length ];		// houses in day 
 				int shift = 0;
-					
-				// TODO: make it so only house panels with data get read into houseData objects
-					
+										
 				for (int h=0; h<houseData.length; h++) {
 						
 					houseData[h-shift] = new NW_HouseData();
@@ -507,11 +501,11 @@ public class NW_SubmitWeekListener implements ActionListener {
 		// *** 2. Open Text File ***
 				
 		File f;
-		if (wk == SettingsPanel.WEEK_A) {
-			f = SettingsPanel.NEXT_WEEK_B;
+		if (wk == Settings.WEEK_A) {
+			f = Settings.NEXT_WEEK_B;
 		}
 		else {
-			f = SettingsPanel.NEXT_WEEK_A;
+			f = Settings.NEXT_WEEK_A;
 		}			
 		
 				
@@ -536,7 +530,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 		menu_frame.setLocationRelativeTo(null);
 		menu_frame.setVisible(true);
 		
-		SettingsPanel sp = new SettingsPanel( newframe, menu_frame );
+		SettingsPanel sp = new SettingsPanel( menu_frame );
 		newframe.add(sp);
 		newframe.pack();
 		newframe.setLocationRelativeTo( null );
@@ -603,9 +597,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 						
 						NW_HouseData[] houseData = new NW_HouseData[ tp.nw_day_panel[d].house_panel.length ];		// houses in day 
 						int shift = 0;
-							
-						// TODO: make it so only house panels with data get read into houseData objects
-							
+														
 						for (int h=0; h<houseData.length; h++) {
 								
 							houseData[h-shift] = new NW_HouseData();
@@ -746,8 +738,6 @@ public class NW_SubmitWeekListener implements ActionListener {
 								drow = sheet2.getRow( dnum );
 								//System.out.println("Row Number: " + dnum);
 								if (nnum > 5000) {
-									// TODO: Joptionerror message
-									// let the user know that a day is wrong on the excel sheet (eg Monday not spelled correctly)
 									d2 = true;
 								}
 							}
@@ -755,11 +745,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 						}
 						nnum++;
 						nrow = sheet2.getRow(nnum);
-						//System.out.println("Row Number: " + nnum);
 						if (nnum > 5000) {
-							// TODO: Joptionerror message
-							// let the user know that one of their worker names does not match
-							// the names in the excel sheet
 							JOptionPane.showMessageDialog(new JFrame(), "Employee " + ws.getName() + " does not match any name in the Excel file");
 							d1 = true;
 						}
@@ -1023,7 +1009,6 @@ public class NW_SubmitWeekListener implements ActionListener {
 				
 				
 				// 4) input house data
-				// TODO: make it so only house panels with data get written into save file
 				
 				for (int h=0; h<day.houseData.length; h++) {
 					

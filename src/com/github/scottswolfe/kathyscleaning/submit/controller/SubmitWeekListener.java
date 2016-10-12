@@ -25,9 +25,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
+import com.github.scottswolfe.kathyscleaning.general.model.TimeMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.model.Data;
 import com.github.scottswolfe.kathyscleaning.submit.model.DayData;
 import com.github.scottswolfe.kathyscleaning.submit.model.ExceptionData;
@@ -72,7 +73,6 @@ public class SubmitWeekListener implements ActionListener {
 	
 	
 //  LISTENER
-	// TODO: condense this method by making parts of the method their own private methods
 	public void actionPerformed(ActionEvent e) {
 		
 		int a = StaticMethods.confirmSubmitWeek();
@@ -81,7 +81,7 @@ public class SubmitWeekListener implements ActionListener {
 		}
 		
 		
-		if (mode == SettingsPanel.TRUE_MODE) {
+		if (mode == Settings.TRUE_MODE) {
 		/* Steps:
 		 * 
 		 * 		1. Read User Input
@@ -100,10 +100,7 @@ public class SubmitWeekListener implements ActionListener {
 				
 			HouseData[] houseData = new HouseData[ tp.day_panel[d].house_panel.length ];		// houses in day 
 			int shift = 0;
-			
-			// TODO: make it so only house panels with data get read into houseData objects
-			// this will cause fewer problems below when writing to excel workbook
-			
+						
 			for (int h=0; h<houseData.length; h++) {
 				
 				
@@ -127,52 +124,20 @@ public class SubmitWeekListener implements ActionListener {
 		
 		data.setDayData( dayData );
 		data.setDate( tp.day_panel[0].header_panel.date );
-		
-		
 
 		// *** 2. Open Excel Sheet ***
-		
-		
-		File template = SettingsPanel.getDefaultExcelFile();
-		
+		File template = Settings.getExcelTemplateFile();
 		
 		
 		// *** 3. Write User Data to Excel Sheet and Save***
-		
-		/*
-		// checking that file is xlsx
-		String ext = FilenameUtils.getExtension(template.getAbsolutePath());
-		if (ext.equals( "xlsx" )) {
-			// do nothing
-		}
-		else {
-			// TODO Joption pane that says the default must be xlsx!!
-			// send program back to menu or settings panel
-		}
-		*/
-		
 		writeDayData( data, template);
-		
-		
 		
 				
 		// *** 4. Close Frame and Create New Frame for Inserting Next Week Schedule ***
 		
 		// closing frame
-		
 		frame.setVisible(false);
 		frame.dispose();
-		//frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-		/*
-		// for testing
-		Desktop dt = Desktop.getDesktop();
-		try {
-			dt.open( new_save );
-		} catch (IOException e1) {
-			JOptionPane.showMessageDialog(new JFrame(), "The Excel document could not be opened automatically.");
-		}
-		// end testing
-		*/
 		
 		JFrame cov_frame = new JFrame();
 		cov_frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -191,7 +156,6 @@ public class SubmitWeekListener implements ActionListener {
 		// else now do submit for settings mode
 		else {
 		
-			// TODO: add in reading data and writing data to save file
 			/* Steps:
 			 * 
 			 * 		1. Read User Input
@@ -208,11 +172,9 @@ public class SubmitWeekListener implements ActionListener {
 			
 			for (int d=0; d<dayData.length; d++) {
 					
-				HouseData[] houseData = new HouseData[ tp.day_panel[d].house_panel.length ];		// houses in day 
-				int shift = 0;
-				
-				// TODO: make it so only house panels with data get read into houseData objects
-				
+				HouseData[] houseData =
+				        new HouseData[tp.day_panel[d].house_panel.length]; 
+				int shift = 0;				
 				
 				for (int h=0; h<houseData.length; h++) {
 					
@@ -243,11 +205,11 @@ public class SubmitWeekListener implements ActionListener {
 			// *** 2. Open Text File ***
 			
 			File f;
-			if (wk == SettingsPanel.WEEK_A) {
-				f = SettingsPanel.SUBMIT_WEEK_A;
+			if (wk == Settings.WEEK_A) {
+				f = Settings.SUBMIT_WEEK_A;
 			}
 			else {
-				f = SettingsPanel.SUBMIT_WEEK_B;
+				f = Settings.SUBMIT_WEEK_B;
 			}			
 			
 			
@@ -258,7 +220,8 @@ public class SubmitWeekListener implements ActionListener {
 			
 			
 			
-			// *** 4. Creating new frame for weekend panel and disposing of current panel
+			// *** 4. Creating new frame for weekend panel
+			//        and disposing of current panel
 			JFrame nwframe = new JFrame();
 			nwframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			nwframe.setResizable(false);
@@ -274,13 +237,13 @@ public class SubmitWeekListener implements ActionListener {
 			frame.dispose();
 			
 			// populate data from save file
-			if ( wk == SettingsPanel.WEEK_A ) {
+			if ( wk == Settings.WEEK_A ) {
 				wp.weekA_button.setSelected(true);
 				ActionEvent event = new ActionEvent(this, 0, "");
 				ActionListener[] al = wp.weekA_button.getActionListeners();
 				al[0].actionPerformed(event);
 			}
-			else if ( wk == SettingsPanel.WEEK_B ) {
+			else if ( wk == Settings.WEEK_B ) {
 				wp.weekB_button.setSelected(true);
 				ActionEvent event = new ActionEvent(this, 0, "");
 				ActionListener[] al = wp.weekB_button.getActionListeners();
@@ -379,9 +342,7 @@ public class SubmitWeekListener implements ActionListener {
 				
 				// for each house
 				for (int h=0; h<data.dayData[d].houseData.length; h++){
-					
-					// TODO: issues here.... about when and what it should do based on how much data given or not given
-					
+										
 					// if the house data is NOT empty
 					if ( !data.dayData[d].houseData[h].getHouseName().isEmpty() &&
 							data.dayData[d].houseData[h].getHours() != 0 ) {
@@ -390,8 +351,8 @@ public class SubmitWeekListener implements ActionListener {
 						int row_num = d*9 + 2 + h;  // this formula gives the correct line in the excel sheet template
 						row = sheet0.getRow( row_num );
 						
-						String s1 = CovenantPanel.convertFormat( data.dayData[d].houseData[h].getTimeBegin(), CovenantPanel.HOUSE_TIME );
-						String s2 = CovenantPanel.convertFormat( data.dayData[d].houseData[h].getTimeEnd(), CovenantPanel.HOUSE_TIME );
+						String s1 = TimeMethods.convertFormat( data.dayData[d].houseData[h].getTimeBegin(), TimeMethods.HOUSE_TIME );
+						String s2 = TimeMethods.convertFormat( data.dayData[d].houseData[h].getTimeEnd(), TimeMethods.HOUSE_TIME );
 						
 						row.getCell(0).setCellValue( DateUtil.convertTime(s1) );
 						row.getCell(1).setCellValue( DateUtil.convertTime(s2) );
@@ -455,9 +416,7 @@ public class SubmitWeekListener implements ActionListener {
 								}
 								else {
 									row.getCell(index).setCellValue( 0 );
-								}
-								// TODO: should redo excel sheet so no blank cells in this area (Cris, Tyler)
-								
+								}								
 							}
 							index++;
 						}
@@ -468,8 +427,6 @@ public class SubmitWeekListener implements ActionListener {
 							 ||
 							 !data.dayData[d].houseData[h].getHouseName().isEmpty() &&
 							 data.dayData[d].houseData[h].getHours() == 0 ) {
-						
-						// TODO: throw an error message??
 					}
 					else {
 						// do nothing
@@ -501,18 +458,15 @@ public class SubmitWeekListener implements ActionListener {
 									if ( name_row.getCell(cell_number).getStringCellValue().equals(exd.worker_name[m]) ) {
 										
 										// calculate hours worked
-										double hours = CovenantPanel.getHours(exd.time_begin[m], exd.time_end[m]);
+										double hours = TimeMethods.getHours(exd.time_begin[m], exd.time_end[m]);
 										
 										// insert data into excel doc
 										Row house_row = sheet0.getRow( d*9 + 2 + h );
-										//if () {
-											String s = house_row.getCell(cell_number).getCellFormula(); // issue with numeric cells??
+
+										    String s = house_row.getCell(cell_number).getCellFormula(); // issue with numeric cells??
 											s = changeFormula(s,hours);
 											house_row.getCell(cell_number).setCellFormula(s);
-										//}
-										//else {
-											// TODO: error message
-										//}
+
 										break;
 										
 									}
@@ -562,18 +516,7 @@ public class SubmitWeekListener implements ActionListener {
 			
 			
 			// 4) write to new file
-			/*
-			String path = new String("C:\\Users\\Scott\\Documents\\MATLAB\\KathysCleaning\\2015");
-			Runtime.getRuntime().exec("explorer.exe /select," + path);
-			*/
-			/*
-			Data.setFile( new File( System.getProperty("user.dir") + "/New.xlsx" ) );
-			//FileOutputStream out = new FileOutputStream(new String (System.getProperty("user.dir") + "/New.xlsx") );
-			FileOutputStream out = new FileOutputStream( Data.new_file );
-			wb.write(out);
-			*/
-			
-			File save_location = SettingsPanel.getDefaultSaveLocation();
+			File save_location = Settings.getExcelSaveLocation();
 			
 			// generate save name
 			String save_name = new String();
@@ -610,13 +553,12 @@ public class SubmitWeekListener implements ActionListener {
 				boolean newfile = false;
 				int count = 0;
 				while( newfile == false ){
-					newfile = true;
+				newfile = true;
 				File folder = new File( save_location.getAbsolutePath() );
 				File[] listOfFiles = folder.listFiles();
 
 				 	for (int i=0; i<listOfFiles.length; i++) {
 				    	if (listOfFiles[i].isFile()) {
-				    		//System.out.println("File " + listOfFiles[i].getName());
 				    		
 				    		if ( pathname.equals( listOfFiles[i].getAbsolutePath() ) ) {
 
@@ -630,7 +572,7 @@ public class SubmitWeekListener implements ActionListener {
 				    						months[copy2.get( Calendar.MONTH )] +
 				    						lastday + "," +
 				    						c.get(Calendar.YEAR) +
-				    						"("+count+")" +					// TODO: temporary quick fix
+				    						"("+count+")" +					
 				    						".xlsx");
 				    			}
 				    			else {
@@ -640,7 +582,7 @@ public class SubmitWeekListener implements ActionListener {
 				    						"-" +
 				    						lastday + "," +
 				    						c.get(Calendar.YEAR) +
-				    						"("+count+")" +					// TODO: temporary quick fix
+				    						"("+count+")" +					
 				    						".xlsx");
 				    			}
 				    			
@@ -663,10 +605,7 @@ public class SubmitWeekListener implements ActionListener {
 			wb.write( out );
 			
 			out.close();
-			wb.close();
-			
-			// TODO: make sure this submit week and the NW submit week are writing to the same file.
-			
+			wb.close();			
 			
 		}catch(Exception exception){
 			exception.printStackTrace();
@@ -706,9 +645,7 @@ public class SubmitWeekListener implements ActionListener {
 				bw.newLine();
 				
 				day = data.dayData[d];
-				
-				// TODO: make it so only house panels with data get written into save file
-				
+								
 				for (int h=0; h<day.houseData.length; h++) {
 					
 					house = day.houseData[h];

@@ -441,7 +441,7 @@ public class SettingsPanelController {
         settingsPanel.getSettingsFrame().add(settingsPanel);
         settingsPanel.getSettingsFrame().pack();
 
-        settingsPanel.getSettingsFrame().setLocationRelativeTo( null );
+        settingsPanel.getSettingsFrame().setLocationRelativeTo(null);
         settingsPanel.getSettingsFrame().setVisible(true);
     }
     

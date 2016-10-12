@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_HousePanel;
 
@@ -66,11 +66,11 @@ public class NW_WeekRadioListener implements ActionListener {
 		else {
 				
 		File file;
-		if (wk == SettingsPanel.WEEK_A) {
-			file = SettingsPanel.NEXT_WEEK_A;
+		if (wk == Settings.WEEK_A) {
+			file = Settings.NEXT_WEEK_A;
 		}
 		else {
-			file = SettingsPanel.NEXT_WEEK_B;
+			file = Settings.NEXT_WEEK_B;
 		}
 				
 		Scanner input;

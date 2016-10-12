@@ -86,8 +86,8 @@ public class ExceptionPanel extends JPanel {
 			
 			
 			name_box[i].addItem("");   // empty choice
-			for(int k=0; k<dwd.getDefaultWorkers().length; k++){
-				name_box[i].addItem( dwd.getDefaultWorkers()[k] );
+			for(int k=0; k<dwd.size(); k++){
+				name_box[i].addItem(dwd.get(k));
 			}
 			
 			

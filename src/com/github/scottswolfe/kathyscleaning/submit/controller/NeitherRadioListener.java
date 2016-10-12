@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.submit.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.submit.view.HousePanel;
@@ -46,10 +46,13 @@ public class NeitherRadioListener implements ActionListener {
 			
 			hp.house_name_txt.setText("");
 			try {
-				hp.pay_txt.getDocument().remove( 0, hp.pay_txt.getText().length() );
+				hp.pay_txt.getDocument().remove(
+				        0, hp.pay_txt.getText().length());
 			}
 			catch(Exception e1){
-				JOptionPane.showMessageDialog(new JFrame(), null, "Error: Failed to delete $ Earned text box.", JOptionPane.ERROR_MESSAGE);;
+				JOptionPane.showMessageDialog(new JFrame(),
+				        null, "Error: Failed to delete $ Earned text box.",
+				        JOptionPane.ERROR_MESSAGE);;
 			}
 			hp.time_begin_txt.setText("");
 			hp.time_end_txt.setText("");
@@ -70,12 +73,9 @@ public class NeitherRadioListener implements ActionListener {
 			
 			// set neither button
 			dp.header_panel.neither.setSelected(true);
-			dp.header_panel.weekSelected = SettingsPanel.NEITHER;
+			dp.header_panel.weekSelected = Settings.NEITHER;
 			
-		}
-		
-		// TODO: add something about adding or deleting panels as needed to get to 3 house panels
-		
+		}		
 		
 	}
 	

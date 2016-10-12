@@ -22,7 +22,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.submit.controller.CopyWorkersListener;
 import com.github.scottswolfe.kathyscleaning.submit.controller.NeitherRadioListener;
 import com.github.scottswolfe.kathyscleaning.submit.controller.SubmitWeekListener;
@@ -127,13 +126,13 @@ public class HeaderPanel extends JPanel {
 		day_label.setText( weekDay );
 		day_label.setFont( day_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ) );
 		
-		if (mode == SettingsPanel.TRUE_MODE) {
+		if (mode == Settings.TRUE_MODE) {
 			date_label = new JLabel( ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
 			date_label.setFont( date_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		}
 		
 		panel.add(this.day_label, "wrap, ax center");
-		if (mode == SettingsPanel.TRUE_MODE) {
+		if (mode == Settings.TRUE_MODE) {
 			panel.add(this.date_label, "ax center, top push");
 		}
 		
@@ -154,27 +153,29 @@ public class HeaderPanel extends JPanel {
 		week_B = new JRadioButton("Week B");
 		neither = new JRadioButton("Neither");
 		
-		week_A.setFont( week_A.getFont().deriveFont( Settings.FONT_SIZE ) );
-		week_B.setFont( week_B.getFont().deriveFont( Settings.FONT_SIZE ) );
-		neither.setFont( neither.getFont().deriveFont( Settings.FONT_SIZE ) );
+		week_A.setFont(week_A.getFont().deriveFont(Settings.FONT_SIZE));
+		week_B.setFont(week_B.getFont().deriveFont(Settings.FONT_SIZE));
+		neither.setFont(neither.getFont().deriveFont(Settings.FONT_SIZE));
 		
 		button_group = new ButtonGroup();
 		button_group.add(week_A);
 		button_group.add(week_B);
 		button_group.add(neither);
-		if ( wk == SettingsPanel.WEEK_A ) {
+		if ( wk == Settings.WEEK_A ) {
 			button_group.setSelected(week_A.getModel(), true);
 		}
-		else if ( wk == SettingsPanel.WEEK_B ) {
+		else if ( wk == Settings.WEEK_B ) {
 			button_group.setSelected(week_B.getModel(), true);	
 		}
 		else {
 			button_group.setSelected(neither.getModel(), true);
 		}
 		
-		week_A.addActionListener( new WeekRadioListener(tp, frame, SettingsPanel.WEEK_A) );
-		week_B.addActionListener( new WeekRadioListener(tp, frame, SettingsPanel.WEEK_B) );
-		neither.addActionListener( new NeitherRadioListener(tp, frame) );
+		week_A.addActionListener(
+		        new WeekRadioListener(tp, frame, Settings.WEEK_A));
+		week_B.addActionListener(
+		        new WeekRadioListener(tp, frame, Settings.WEEK_B));
+		neither.addActionListener(new NeitherRadioListener(tp, frame));
 		
 		panel.add(week_A, "wrap");
 		panel.add(week_B, "wrap");
