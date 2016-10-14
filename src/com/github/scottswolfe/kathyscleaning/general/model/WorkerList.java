@@ -53,11 +53,14 @@ public class WorkerList implements Iterable<String> {
 	    workers = new ArrayList<>();
 	}
 	
+	
 	public WorkerList(ArrayList<String> workers)  {
-		
+	    
+	    this.workers = new ArrayList<String>();
 	    if (workers == null) {
 	        throw new IllegalArgumentException("Argument is null.");
 	    }
+	    //this.workers = workers;
 	    for (String s : workers) {
 	        if (s == null) {
 	            throw new IllegalArgumentException("A string is null.");
@@ -66,8 +69,9 @@ public class WorkerList implements Iterable<String> {
 	    }
 	}
 	
+	
 	public WorkerList(File file) {
-	    this(readWorkers(file));    
+	    this(readWorkers(file));
 	}
 	
 	

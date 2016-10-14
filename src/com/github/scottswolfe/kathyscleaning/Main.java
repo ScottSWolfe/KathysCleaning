@@ -15,6 +15,9 @@ public class Main {
 	    
 		// Loading Saved Settings
 		Settings.initializeSettings();
+		
+		// Loading Model
+		// TODO implement model initialization
 
 		// Launching Menu Panel
 		SwingUtilities.invokeLater( new Runnable() {

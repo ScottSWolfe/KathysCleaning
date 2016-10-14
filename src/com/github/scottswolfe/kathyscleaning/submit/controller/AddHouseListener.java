@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_AddHouseListener;
 import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.submit.view.HousePanel;
 
@@ -42,7 +43,8 @@ public class AddHouseListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){
 		
-		if (day_panel.house_panel.length < 5) {
+		if (day_panel.house_panel.length <
+		        NW_AddHouseListener.MAX_HOUSE_PANELS) {
 		
 		// info for resizing at end of method
 		int panel_height = day_panel.house_panel[0].getHeight() + DayPanel.PANEL_PADDING;

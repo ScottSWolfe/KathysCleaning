@@ -22,13 +22,16 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.TimeMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.controller.SettingsPanelController.SettingsPanelWindowListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.submit.model.Data;
 import com.github.scottswolfe.kathyscleaning.submit.model.DayData;
 import com.github.scottswolfe.kathyscleaning.submit.model.ExceptionData;
@@ -144,13 +147,13 @@ public class SubmitWeekListener implements ActionListener {
 		cov_frame.setResizable(false);
 		cov_frame.addWindowListener( new MainWindowListener() );
 		
-		CovenantPanel cov_panel = new CovenantPanel(cov_frame, new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk );
-		
+		initializeCovenantPanelFrame();
+		/*
 		cov_frame.add(cov_panel);
 		cov_frame.pack();
 		cov_frame.setLocationRelativeTo( null );
 		cov_frame.setVisible(true);
-		
+		*/
 		}
 		// end if mode
 		// else now do submit for settings mode
@@ -827,7 +830,28 @@ public class SubmitWeekListener implements ActionListener {
 	
 	
 	
-		
+    /**
+     * Initializes and launches a frame with a Covenant panel.
+     */
+    public void initializeCovenantPanelFrame() {
+        
+        JFrame frame = new JFrame();
+        
+        CovenantPanel covPanel = new CovenantPanel(frame,
+                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
+        CovenantModel covModel = new CovenantModel(
+                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
+        
+        //TODO temporary hack
+        covPanel.getController().setCovModel(covModel);
+
+        covPanel.getFrame().setResizable(false);
+        covPanel.getFrame().add(covPanel);
+        covPanel.getFrame().pack();
+        covPanel.getFrame().setLocationRelativeTo(null);
+        covPanel.getFrame().setVisible(true);
+    }
+	
 	
 	
 }

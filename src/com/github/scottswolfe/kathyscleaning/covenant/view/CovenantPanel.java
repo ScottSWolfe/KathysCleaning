@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantController;
+import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
@@ -126,11 +127,16 @@ public class CovenantPanel extends JPanel{
 		
 		covFrame = frame;
 		
-		setLayout( new MigLayout() );
-		setBackground( Settings.BACKGROUND_COLOR );
+		controller = new CovenantController(this);
+		//TODO temporary hack
+		CovenantModel covModel = new CovenantModel(
+		        new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk); 
+		controller.setCovModel(covModel);
+		
+		setLayout(new MigLayout());
+		setBackground(Settings.BACKGROUND_COLOR);
 		
 		// getting number of rows based on number of workers
-		
 		dayLabels = new JLabel[day.length];
 		nameLabels = new JLabel[rows];
 		beginTimeTextfield = new JTextField[rows][day.length];
@@ -147,7 +153,9 @@ public class CovenantPanel extends JPanel{
 		for(int i=0; i<rows; i++){
 			
 			nameLabels[i] = new JLabel();
-			if (controller.getCovModel().getDwd().getWorkers() != null &&
+			
+			//TODO this is a temporary hack
+			if (controller.getCovModel() != null && controller.getCovModel().getDwd().getWorkers() != null &&
 			        i<controller.getCovModel().getDwd().size() &&
 			        controller.getCovModel().getDwd().get(i) != null) {
 				nameLabels[i].setText(controller.getCovModel().getDwd().get(i) );
@@ -172,7 +180,7 @@ public class CovenantPanel extends JPanel{
 		earnedLabel.setText("Earned: ");
 		earnedLabel.setFont( earnedLabel.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
 		
-		add( earnedLabel, new String("cell "+ (0) + " " + (rows+1) + ", align right, gapy 10, wrap") );
+		add(earnedLabel, new String("cell "+ (0) + " " + (rows+1) + ", align right, gapy 10, wrap"));
 		
 		
 		//time text fields
@@ -554,6 +562,9 @@ public class CovenantPanel extends JPanel{
 		
 	}
 
+/* PUBLIC METHODS =========================================================== */
+	
+	
 	
 	
 	
@@ -718,5 +729,14 @@ public class CovenantPanel extends JPanel{
     public void setEarnedTextfields(JTextField[] earnedTextfields) {
         this.earnedTextfields = earnedTextfields;
     }
+    
+    /**
+     * Returns the frame that contains this CovenantPanel 
+     * @return
+     */
+    public JFrame getFrame() {
+        return covFrame;
+    }
+    
     
 }

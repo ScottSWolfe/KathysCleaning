@@ -23,6 +23,7 @@ public class NW_AddHouseListener implements ActionListener {
 	WorkerList dwd;
 	JFrame frame;
 	
+	public static final int MAX_HOUSE_PANELS = 5;
 	
 	
 //  CONSTRUCTOR
@@ -41,7 +42,7 @@ public class NW_AddHouseListener implements ActionListener {
 	public void actionPerformed(ActionEvent e){
 		
 		
-		if ( day_panel.house_panel.length < 5 ) {
+		if (day_panel.house_panel.length < MAX_HOUSE_PANELS) {
 			
 		
 		// getting data for resizing at end of method

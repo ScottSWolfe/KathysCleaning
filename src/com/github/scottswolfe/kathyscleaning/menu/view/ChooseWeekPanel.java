@@ -381,12 +381,13 @@ public class ChooseWeekPanel extends JPanel {
 					
 					
 			//Reading Default Worker Data from save file
-			WorkerList dwd_house = null;
+			WorkerList dwd_house = new WorkerList();
 			try {
-				dwd_house = new WorkerList( WorkerList.HOUSE_WORKERS);
+				dwd_house = new WorkerList(WorkerList.HOUSE_WORKERS);
 			} catch (Exception e1) {
+			    System.out.println("failed to read house worker save file");
 				e1.printStackTrace();
-			}			
+			}
 			
 			TabbedPane tp = new TabbedPane();
 			tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));

@@ -51,6 +51,15 @@ public class CovenantController {
     
     
 
+/* FIELDS =================================================================== */
+    
+    public CovenantController(CovenantPanel panel) {
+        covPanel = panel;
+    }
+
+    
+    
+    
 /* LISTENERS ================================================================ */
     
     /**
@@ -96,7 +105,7 @@ public class CovenantController {
                 worker[i] = names[i];
             }
             String[] days = {"Monday", "Tuesday", "Wednesday",
-                    "Thursday", "Friday", "Other"};
+                    "Thursday", "Friday"};
             
             
             // writing data to excel document
