@@ -1,4 +1,4 @@
-package com.github.scottswolfe.kathyscleaning.general.model;
+package com.github.scottswolfe.kathyscleaning.utility;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

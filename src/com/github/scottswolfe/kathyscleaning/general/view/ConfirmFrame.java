@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 import net.miginfocom.swing.MigLayout;
 

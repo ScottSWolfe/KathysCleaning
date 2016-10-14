@@ -2,26 +2,23 @@ package com.github.scottswolfe.kathyscleaning.general.model;
 
 import java.util.ArrayList;
 
-public class ScheduledCleaning extends Cleaning {
+public class ScheduledCovenant extends ScheduledCleaning {
     
 /* FIELDS =================================================================== */
-        
     
     
     
     
 /* CONSTRUCTORS ============================================================= */
         
-     public ScheduledCleaning(String name, ArrayList<Worker> workers) {
-         super(name, workers );
-     }
-     
-     public ScheduledCleaning() {
-         super();
-     }
+    public ScheduledCovenant(String name, ArrayList<Worker> workers) {
+        super(name, workers);
+    }
 
-
- 
+    public ScheduledCovenant() {
+        super("Covenant", new ArrayList<Worker>());
+    }
+        
         
 /* PUBLIC METHODS =========================================================== */
         
@@ -38,5 +35,7 @@ public class ScheduledCleaning extends Cleaning {
 /* GETTERS/SETTERS ========================================================== */
         
         
-     
+        
+        
+
 }

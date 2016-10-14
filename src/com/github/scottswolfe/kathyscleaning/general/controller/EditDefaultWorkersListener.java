@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.submit.view.EditDefaultWorkersPanel;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 
 public class EditDefaultWorkersListener implements ActionListener {

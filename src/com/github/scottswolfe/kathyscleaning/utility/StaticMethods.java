@@ -1,4 +1,4 @@
-package com.github.scottswolfe.kathyscleaning.general.controller;
+package com.github.scottswolfe.kathyscleaning.utility;
 
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;

@@ -14,11 +14,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_NoteListener;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 import net.miginfocom.swing.MigLayout;
 

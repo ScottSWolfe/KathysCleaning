@@ -19,7 +19,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
@@ -34,6 +33,7 @@ import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_HousePanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_NotePanel;
 import com.github.scottswolfe.kathyscleaning.submit.controller.SubmitWeekListener;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 
 public class NW_SubmitWeekListener implements ActionListener {

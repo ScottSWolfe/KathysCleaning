@@ -36,7 +36,6 @@ import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -44,6 +43,7 @@ import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.submit.controller.SubmitWeekListener;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 import net.miginfocom.swing.MigLayout;
 

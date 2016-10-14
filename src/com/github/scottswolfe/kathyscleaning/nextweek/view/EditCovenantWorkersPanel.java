@@ -10,10 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 import net.miginfocom.swing.MigLayout;
 

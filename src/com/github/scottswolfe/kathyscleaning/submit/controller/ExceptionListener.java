@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.submit.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.submit.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 
 public class ExceptionListener implements ActionListener {

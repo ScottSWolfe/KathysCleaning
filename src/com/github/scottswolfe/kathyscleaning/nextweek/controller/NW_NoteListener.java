@@ -6,11 +6,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.nextweek.model.NoteData;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_NotePanel;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 
 public class NW_NoteListener implements ActionListener {

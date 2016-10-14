@@ -1,29 +1,34 @@
 package com.github.scottswolfe.kathyscleaning.general.model;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Represents next week's schedule.
- */
-public class ScheduledItinerary extends Itinerary {
-    
+public class ScheduledCleaningDay extends CleaningDay {
+
 /* FIELDS =================================================================== */
-    
-    private List<ScheduledCleaning> scheduledCleanings;
+
+    private ArrayList<ScheduledCleaning> scheduledCleanings;
     
     
     
     
 /* CONSTRUCTORS ============================================================= */
-        
-    public ScheduledItinerary() {
-        scheduledCleanings = new ArrayList<>();
+    
+    public ScheduledCleaningDay(DayOfWeek day,
+            ArrayList<ScheduledCleaning> scheduledCleanings) {
+        super(day);
+        this.scheduledCleanings = scheduledCleanings;
     }
- 
-    
-    
+
+    public ScheduledCleaningDay(DayOfWeek day) {
+        super(day);
+    }
+
         
+        
+    
+    
+    
 /* PUBLIC METHODS =========================================================== */
         
         
@@ -33,22 +38,23 @@ public class ScheduledItinerary extends Itinerary {
 /* PRIVATE METHODS ========================================================== */
         
         
-       
-    
+        
+        
         
 /* GETTERS/SETTERS ========================================================== */
         
     /**
      * @return the scheduledCleanings
      */
-    public List<ScheduledCleaning> getScheduledCleanings() {
+    public ArrayList<ScheduledCleaning> getScheduledCleanings() {
         return scheduledCleanings;
     }
 
     /**
      * @param scheduledCleanings the scheduledCleanings to set
      */
-    public void setScheduledCleanings(List<ScheduledCleaning> scheduledCleanings) {
+    public void setScheduledCleanings(
+            ArrayList<ScheduledCleaning> scheduledCleanings) {
         this.scheduledCleanings = scheduledCleanings;
     }
 

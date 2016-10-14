@@ -1,5 +1,8 @@
 package com.github.scottswolfe.kathyscleaning.general.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Abstract base class for completed and scheduled cleanings.
  */
@@ -14,6 +17,10 @@ public abstract class Cleaning {
      */
     private String name;
 
+    /**
+     * The employees who will work at this scheduled cleaning.
+     */
+    private List<Worker> workers;
 
     
     
@@ -21,10 +28,18 @@ public abstract class Cleaning {
 /* CONSTRUCTOR ============================================================== */
 
     /**
-     * 
+     * No-arg Constructor.
      */
-    public Cleaning(String name) {
+    public Cleaning() {
+        this("unknown", new ArrayList<Worker>());
+    }
+    
+    /**
+     * Constructor for typical use.
+     */
+    public Cleaning(String name, ArrayList<Worker> workers) {
         this.name = name;
+        this.workers = workers;
     }
     
     
@@ -46,4 +61,18 @@ public abstract class Cleaning {
         this.name = name;
     }
     
+    /**
+     * @return the workers
+     */
+    public List<Worker> getWorkers() {
+        return workers;
+    }
+
+    /**
+     * @param workers the workers to set
+     */
+    public void setWorkers(List<Worker> workers) {
+        this.workers = workers;
+    } 
+
 }

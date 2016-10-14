@@ -1,27 +1,31 @@
 package com.github.scottswolfe.kathyscleaning.general.model;
 
-import java.util.ArrayList;
+import java.time.DayOfWeek;
 
-public class ScheduledCleaning extends Cleaning {
-    
+/**
+ * Abstract base class for completed and scheduled cleaning days.
+ */
+public abstract class CleaningDay {
+
 /* FIELDS =================================================================== */
-        
     
+    /**
+     * The day of the week for this CleaningDay.
+     */
+    DayOfWeek dayOfWeek;
     
     
     
 /* CONSTRUCTORS ============================================================= */
-        
-     public ScheduledCleaning(String name, ArrayList<Worker> workers) {
-         super(name, workers );
-     }
      
-     public ScheduledCleaning() {
-         super();
-     }
+    public CleaningDay(DayOfWeek day) {
+        dayOfWeek = day;
+    }
 
 
- 
+
+        
+        
         
 /* PUBLIC METHODS =========================================================== */
         
@@ -37,6 +41,18 @@ public class ScheduledCleaning extends Cleaning {
         
 /* GETTERS/SETTERS ========================================================== */
         
-        
-     
+    /**
+     * @return the dayOfWeek
+     */
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    /**
+     * @param dayOfWeek the dayOfWeek to set
+     */
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
 }

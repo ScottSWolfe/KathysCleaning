@@ -1,27 +1,22 @@
 package com.github.scottswolfe.kathyscleaning.general.model;
 
-import java.util.ArrayList;
+/**
+ * Represents a day's work at Covenant Academy.
+ */
+public class CompletedCovenant extends CompletedCleaning {
 
-public class ScheduledCleaning extends Cleaning {
-    
 /* FIELDS =================================================================== */
-        
     
     
     
     
 /* CONSTRUCTORS ============================================================= */
         
-     public ScheduledCleaning(String name, ArrayList<Worker> workers) {
-         super(name, workers );
-     }
-     
-     public ScheduledCleaning() {
-         super();
-     }
-
-
- 
+    public CompletedCovenant() {
+        super();
+        this.setName("Covenant");
+    }
+        
         
 /* PUBLIC METHODS =========================================================== */
         
@@ -38,5 +33,6 @@ public class ScheduledCleaning extends Cleaning {
 /* GETTERS/SETTERS ========================================================== */
         
         
-     
+        
+
 }

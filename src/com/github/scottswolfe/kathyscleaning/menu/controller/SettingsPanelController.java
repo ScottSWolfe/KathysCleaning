@@ -21,7 +21,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -32,6 +31,7 @@ import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
 import com.github.scottswolfe.kathyscleaning.submit.controller.TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 /**
  * This class links the Settings class and the SettingsPanel GUI and 
