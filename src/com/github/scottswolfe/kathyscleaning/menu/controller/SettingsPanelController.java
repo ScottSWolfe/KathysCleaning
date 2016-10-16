@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
+import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -29,8 +31,6 @@ import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditCovenantWorkersPa
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditHouseWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
-import com.github.scottswolfe.kathyscleaning.submit.controller.TabChangeListener;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 /**

@@ -19,19 +19,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
+import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
+import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.nextweek.controller.NW_TabChangeListener;
-import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
-import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_ExceptionPanel;
-import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_NotePanel;
-import com.github.scottswolfe.kathyscleaning.submit.controller.TabChangeListener;
-import com.github.scottswolfe.kathyscleaning.submit.view.DayPanel;
-import com.github.scottswolfe.kathyscleaning.submit.view.ExceptionPanel;
-import com.github.scottswolfe.kathyscleaning.submit.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
 
 import net.miginfocom.swing.MigLayout;
 

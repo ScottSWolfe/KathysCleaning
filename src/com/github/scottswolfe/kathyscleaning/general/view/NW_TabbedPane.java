@@ -4,8 +4,8 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import com.github.scottswolfe.kathyscleaning.nextweek.view.NW_DayPanel;
-import com.github.scottswolfe.kathyscleaning.submit.model.DayData;
+import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 
 
 @SuppressWarnings("serial")

@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.HousePayDocFilter;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantController;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
@@ -25,7 +26,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.submit.controller.HousePayDocFilter;
 
 import net.miginfocom.swing.MigLayout;
 
