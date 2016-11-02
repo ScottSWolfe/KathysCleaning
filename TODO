@@ -1,7 +1,13 @@
 Things to Do
 
 
+add window close listener to Covenant Panel
+
+add ScrollPanel to Covenant Panel
+
 Add some date picker to chooseweekpanel.
+
+implement menu bar system
 
 Add validation for bad/empty worker names throughout application.
 

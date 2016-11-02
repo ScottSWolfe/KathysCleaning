@@ -18,7 +18,7 @@ public abstract class Cleaning {
     private String name;
 
     /**
-     * The employees who will work at this scheduled cleaning.
+     * The employees who work this cleaning.
      */
     private List<Worker> workers;
 
