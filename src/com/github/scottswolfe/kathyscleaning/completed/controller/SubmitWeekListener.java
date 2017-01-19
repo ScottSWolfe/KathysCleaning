@@ -99,7 +99,7 @@ public class SubmitWeekListener implements ActionListener {
     		saveStateToTextFile(data, currentSave);
     		
     		// Close Frame and Create New Frame for Inserting Next Week Schedule
-    		frame.setVisible(false);
+    		frame.setVisible(false); 
     		frame.dispose();
     		initializeCovenantPanelFrame();
 		}
