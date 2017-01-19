@@ -40,13 +40,8 @@ import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
 import net.miginfocom.swing.MigLayout;
 
 
+@SuppressWarnings("serial")
 public class ChooseWeekPanel extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7667743799216108924L;
-
 
 	
 	// FIELDS

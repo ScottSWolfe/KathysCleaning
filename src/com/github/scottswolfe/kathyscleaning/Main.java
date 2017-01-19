@@ -20,7 +20,7 @@ public class Main {
 		// TODO implement model initialization
 
 		// Launching Menu Panel
-		SwingUtilities.invokeLater( new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			
 			public void run() {				
 			    MenuPanelController.initializeMenuPanelFrame();

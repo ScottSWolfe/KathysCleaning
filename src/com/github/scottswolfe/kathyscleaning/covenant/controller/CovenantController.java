@@ -82,8 +82,7 @@ public class CovenantController {
         
         public void actionPerformed (ActionEvent e) {
             
-            int a = StaticMethods.confirmSubmitWeek();
-            if (a==0) {
+            if (!StaticMethods.confirmSubmitWeek()) {
                 return;
             }
             

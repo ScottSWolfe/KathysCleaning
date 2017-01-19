@@ -420,8 +420,7 @@ public class WeekendPanel extends JPanel {
 	
 		public void actionPerformed(ActionEvent e) {
 			
-			int integer = StaticMethods.confirmSubmitWeek();
-			if (integer == 0) {
+			if (!StaticMethods.confirmSubmitWeek()) {
 				return;
 			}
 			

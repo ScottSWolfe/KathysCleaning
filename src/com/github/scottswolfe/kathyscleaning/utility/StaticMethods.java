@@ -18,12 +18,16 @@ import com.github.scottswolfe.kathyscleaning.general.view.ConfirmFrame;
 public class StaticMethods {
 
 	
-	public static int confirmSubmitWeek() { 
-		String message = new String( "<html>Are you sure you are ready<br>to submit the week?" );
+	public static boolean confirmSubmitWeek() { 
+		String message = new String("<html>Are you sure you are ready<br>to submit the week?");
 		String[] options = {"Cancel", "Confirm"};
 		JFrame f = new JFrame();
 		StaticMethods.findSetLocation(f);
-		return JOptionPane.showOptionDialog(f, message, null, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 0);
+		int value = JOptionPane.showOptionDialog(f, message, null, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 0);
+		if (value == 0 || value == JOptionPane.CLOSED_OPTION) {
+		    return false;
+		}
+		return true;
 	}
 	
 	

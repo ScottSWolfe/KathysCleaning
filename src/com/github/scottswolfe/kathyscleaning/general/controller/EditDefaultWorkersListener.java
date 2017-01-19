@@ -20,8 +20,7 @@ public class EditDefaultWorkersListener implements ActionListener {
 	DayPanel day_panel;
 	JFrame container_frame;
 	
-	
-	
+
 	
 //  CONSTRUCTOR
 	
@@ -30,8 +29,6 @@ public class EditDefaultWorkersListener implements ActionListener {
 		this.day_panel = day_panel;
 		this.container_frame = container_frame;
 	}
-	
-	
 	
 	
 	

@@ -61,6 +61,7 @@ public class Settings {
     public static final File SAVED_SCHEDULE = new File(System.getProperty("user.dir") + "\\save\\SavedSchedule");
     public static final File COV_WORKER_SAVE = new File(System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
     public static final File COVENANT_EARNED_SAVE_FILE = new File( System.getProperty("user.dir") + "\\save\\CovenantEarnedSaveFile" );
+    
 
     /**
      * Default Excel Template.
@@ -73,6 +74,35 @@ public class Settings {
      */
     public static final File DEFAULT_EXCEL_SAVE_LOCATION = 
             new File(System.getProperty("user.home") + "\\Desktop");
+    
+    /**
+     * Current Completed Houses Save File
+     */
+    public static final File CURRENT_COMPLETED_DATA =
+            new File(System.getProperty("user.dir") +
+                    "\\save\\current\\CurrentCompletedHouseData.txt");
+    
+    /**
+     * Current Covenant Save File
+     */
+    public static final File CURRENT_COVENANT_DATA =
+            new File(System.getProperty("user.dir") +
+                    "\\save\\current\\CurrentCovenantData.txt");
+
+    /**
+     * Current Completed Houses Save File
+     */
+    public static final File CURRENT_SCHEDULED_DATA =
+            new File(System.getProperty("user.dir") +
+                    "\\save\\current\\CurrentScheduledData.txt");
+
+    /**
+     * Current Completed Houses Save File
+     */
+    public static final File CURRENT_WEEKEND_DATA =
+            new File(System.getProperty("user.dir") +
+                    "\\save\\current\\CurrentScheduledData.txt");
+
     
     /**
      * Default Text Size Factor.

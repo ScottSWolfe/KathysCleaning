@@ -50,7 +50,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 	
 //  CONSTRUCTOR
 
-	public NW_SubmitWeekListener( TabbedPane tp, JFrame frame, int mode, int wk ){
+	public NW_SubmitWeekListener(TabbedPane tp, JFrame frame, int mode, int wk){
 		this.tp = tp;
 		this.frame = frame;
 		this.mode = mode;
@@ -68,8 +68,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){
 		
-		int a = StaticMethods.confirmSubmitWeek();
-		if (a==0) {
+		if (!StaticMethods.confirmSubmitWeek()) {
 			return;
 		}
 		
