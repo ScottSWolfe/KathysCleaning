@@ -111,7 +111,7 @@ public class SubmitWeekListener implements ActionListener {
 		
 		    // *** 1. Read User Input ***
 		    Data data = new Data();
-            readUserInput(data);
+		    readUserInput(data);
 			
 			// *** 2. Open Text File ***
 			File f;
