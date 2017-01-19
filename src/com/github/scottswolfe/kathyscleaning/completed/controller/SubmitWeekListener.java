@@ -113,20 +113,20 @@ public class SubmitWeekListener implements ActionListener {
 		    Data data = new Data();
 		    readUserInput(data);
 			
-			// *** 2. Open Text File ***
-			File f;
-			if (wk == Settings.WEEK_A) {
-				f = Settings.SUBMIT_WEEK_A;
-			}
-			else {
-				f = Settings.SUBMIT_WEEK_B;
+		    // *** 2. Open Text File ***
+		    File f;
+		    if (wk == Settings.WEEK_A) {
+		        f = Settings.SUBMIT_WEEK_A;
+		    }
+		    else {
+			    f = Settings.SUBMIT_WEEK_B;
 			}			
 			
-			// *** 3. Write User Data to Text File and Save***
-			writeEditWeekData( data, f );	
+		    // *** 3. Write User Data to Text File and Save***
+		    writeEditWeekData( data, f );	
 			
-			// *** 4. New weekend panel and frame and dispose of current panel
-			initializeWeekendPanelFrame();
+		    // *** 4. New weekend panel and frame and dispose of current panel
+		    initializeWeekendPanelFrame();
 		}
 		
 		// save default amounts that houses pay
