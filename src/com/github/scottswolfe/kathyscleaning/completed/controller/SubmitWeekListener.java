@@ -34,6 +34,7 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -699,11 +700,11 @@ public class SubmitWeekListener implements ActionListener {
     /**
      * Initializes and launches a frame with a Covenant panel.
      * 
-     * TODO move to Covenant Controller??
+     * TODO move to Covenant Controller or View ??
      */
     public void initializeCovenantPanelFrame() {
         
-        JFrame frame = new JFrame();
+        JFrame frame = new MenuFrame();
         
         CovenantPanel covPanel = new CovenantPanel(frame,
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);

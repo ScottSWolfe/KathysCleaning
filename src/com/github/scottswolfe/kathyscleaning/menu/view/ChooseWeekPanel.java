@@ -30,6 +30,7 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
@@ -373,7 +374,7 @@ public class ChooseWeekPanel extends JPanel {
 		
 		public void actionPerformed( ActionEvent e ) {
 			
-			JFrame frame = new JFrame();
+			JFrame frame = new MenuFrame();
 			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			frame.setResizable(false);
 			frame.addWindowListener( new MainWindowListener() );
@@ -388,27 +389,11 @@ public class ChooseWeekPanel extends JPanel {
 				e1.printStackTrace();
 			}
 			
-			/*
-			// TODO implement menu bar system
-			JMenuBar menuBar = new JMenuBar();
-
-		    // File Menu, F - Mnemonic
-		    JMenu fileMenu = new JMenu("File");
-		    fileMenu.setMnemonic(KeyEvent.VK_F);
-		    menuBar.add(fileMenu);
-
-		    // File->New, N - Mnemonic
-		    JMenuItem newMenuItem = new JMenuItem("New", KeyEvent.VK_N);
-		    fileMenu.add(newMenuItem);
-
-		    frame.setJMenuBar(menuBar);			
-			*/
 			
 			TabbedPane tp = new TabbedPane();
 			tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
 			//tp.setBackground( Settings.BACKGROUND_COLOR );
 				        
-	        
 			
 			// creating array of dates
 			Calendar[] day = new Calendar[5];

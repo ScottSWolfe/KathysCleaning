@@ -24,6 +24,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekList
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
@@ -388,18 +389,18 @@ public class CovenantController {
             }
             
             
-            // creating new frame for next week panel and disposing of Covenant panel
-            JFrame nwframe = new JFrame();
-            nwframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            nwframe.setResizable(false);
-            nwframe.addWindowListener(new MainWindowListener());
+            // creating new frame for weekend panel and disposing of Covenant panel
+            JFrame weekendFrame = new MenuFrame();
+            weekendFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            weekendFrame.setResizable(false);
+            weekendFrame.addWindowListener(new MainWindowListener());
             
-            WeekendPanel wp = new WeekendPanel(nwframe,covModel.getDate(),
+            WeekendPanel wp = new WeekendPanel(weekendFrame,covModel.getDate(),
                     covModel.getMode(), covModel.getWk());
             
-            nwframe.add(wp);
-            nwframe.pack();
-            nwframe.setLocationRelativeTo(null);
+            weekendFrame.add(wp);
+            weekendFrame.pack();
+            weekendFrame.setLocationRelativeTo(null);
             
             
             // populate data from save file
@@ -423,7 +424,7 @@ public class CovenantController {
             covPanel.getCovFrame().setVisible(false);
             covPanel.getCovFrame().dispose();
             
-            nwframe.setVisible(true);
+            weekendFrame.setVisible(true);
             
         }
         
