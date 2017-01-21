@@ -390,13 +390,15 @@ public class CovenantController {
             
             
             // creating new frame for weekend panel and disposing of Covenant panel
-            JFrame weekendFrame = new MenuFrame();
+            WeekendPanel wp = new WeekendPanel(covModel.getDate(),
+                    covModel.getMode(), covModel.getWk());
+            
+            JFrame weekendFrame = new MenuFrame(wp);
             weekendFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             weekendFrame.setResizable(false);
             weekendFrame.addWindowListener(new MainWindowListener());
             
-            WeekendPanel wp = new WeekendPanel(weekendFrame,covModel.getDate(),
-                    covModel.getMode(), covModel.getWk());
+            wp.setFrame(weekendFrame);
             
             weekendFrame.add(wp);
             weekendFrame.pack();

@@ -704,13 +704,14 @@ public class SubmitWeekListener implements ActionListener {
      */
     public void initializeCovenantPanelFrame() {
         
-        JFrame frame = new MenuFrame();
-        
-        CovenantPanel covPanel = new CovenantPanel(frame,
+        CovenantPanel covPanel = new CovenantPanel(
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
         CovenantModel covModel = new CovenantModel(
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
         
+        JFrame frame = new MenuFrame(covPanel);
+
+        covPanel.setFrame(frame);
         //TODO temporary hack
         covPanel.getController().setCovModel(covModel);
 
@@ -729,16 +730,18 @@ public class SubmitWeekListener implements ActionListener {
      */
     public void initializeWeekendPanelFrame() {
         
-        JFrame nwframe = new JFrame();
-        nwframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        nwframe.setResizable(false);
-        nwframe.addWindowListener( new MainWindowListener() );
+        WeekendPanel wp = new WeekendPanel(date,mode,wk);
+
+        JFrame weekendFrame = new MenuFrame(wp);
+        weekendFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        weekendFrame.setResizable(false);
+        weekendFrame.addWindowListener( new MainWindowListener() );
         
-        WeekendPanel wp = new WeekendPanel(nwframe,date,mode,wk);
-                    
-        nwframe.add(wp);
-        nwframe.pack();
-        nwframe.setLocationRelativeTo( null );
+        wp.setFrame(weekendFrame);          
+        
+        weekendFrame.add(wp);
+        weekendFrame.pack();
+        weekendFrame.setLocationRelativeTo( null );
                     
         frame.setVisible( false );
         frame.dispose();
@@ -765,7 +768,7 @@ public class SubmitWeekListener implements ActionListener {
         wp.neither_button.setEnabled(false);
 
                     
-        nwframe.setVisible(true);
+        weekendFrame.setVisible(true);
 
     }
 	

@@ -41,6 +41,7 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
+import com.github.scottswolfe.kathyscleaning.persistance.FileManager;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -52,7 +53,7 @@ import net.miginfocom.swing.MigLayout;
  * 
  */
 @SuppressWarnings("serial")
-public class WeekendPanel extends JPanel {
+public class WeekendPanel extends JPanel implements FileManager {
 	
 
 	// FIELDS
@@ -86,9 +87,8 @@ public class WeekendPanel extends JPanel {
 	
 	
 	// CONSTRUCTORS
-	public WeekendPanel (JFrame frame, Calendar date, int mode, int wk) {
+	public WeekendPanel (Calendar date, int mode, int wk) {
 		
-		this.frame = frame;
 		this.date = date;
 		this.mode = mode;
 		this.wk = wk;
@@ -750,6 +750,28 @@ public class WeekendPanel extends JPanel {
 		}
 		
 	}
+
+
+    @Override
+    public boolean saveToFile() {
+        // TODO Auto-generated method stub
+        System.out.println("Weekend Testing: saveToFile()");
+        return false;
+    }
+
+
+
+    @Override
+    public boolean loadFromFile() {
+        // TODO Auto-generated method stub
+        System.out.println("Weekend Testing: loadFromFile()");
+        return false;
+    }
 	
 	
+    // GETTERS/SETTERS
+    public void setFrame(JFrame frame) {
+        this.frame = frame;
+    }
+    
 }

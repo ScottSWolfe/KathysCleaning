@@ -373,13 +373,7 @@ public class ChooseWeekPanel extends JPanel {
 		
 		
 		public void actionPerformed( ActionEvent e ) {
-			
-			JFrame frame = new MenuFrame();
-			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			frame.setResizable(false);
-			frame.addWindowListener( new MainWindowListener() );
-					
-					
+				
 			//Reading Default Worker Data from save file
 			WorkerList dwd_house = new WorkerList();
 			try {
@@ -389,12 +383,9 @@ public class ChooseWeekPanel extends JPanel {
 				e1.printStackTrace();
 			}
 			
-			
 			TabbedPane tp = new TabbedPane();
 			tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
-			//tp.setBackground( Settings.BACKGROUND_COLOR );
 				        
-			
 			// creating array of dates
 			Calendar[] day = new Calendar[5];
 			Calendar temp_date = (Calendar) date.clone();
@@ -406,7 +397,13 @@ public class ChooseWeekPanel extends JPanel {
 				
 			}
 			
+			// Create frame
+			JFrame frame = new MenuFrame(tp);
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            frame.setResizable(false);
+            frame.addWindowListener( new MainWindowListener() );
 			
+            // If DayPanels
 			if( week == PREVIOUS_WEEK ) {
 				
 				if ( week_A_rbutton.isSelected() ) {
@@ -434,25 +431,6 @@ public class ChooseWeekPanel extends JPanel {
 				tp.changePreviousTab(0);
 				tp.addChangeListener( new TabChangeListener( tp, frame ) );
 
-				
-				// TEST
-				/*
-				EditWeekDataPanel[] day_panel = new EditWeekDataPanel[5];
-				//DayData[] day_data = new DayData[5];
-				for(int i=0; i<5; i++){
-					//day_data[i] =  new DayData();
-					day_panel[i] = new EditWeekDataPanel(tp, dwd_house, day[i], frame);
-				}
-				//tp.day_panel = day_panel;
-				
-				tp.addTab("Monday", day_panel[0]);
-				tp.addTab("Tuesday", day_panel[1]);
-				tp.addTab("Wednesday", day_panel[2]);
-				tp.addTab("Thursday", day_panel[3]);
-				tp.addTab("Friday", day_panel[4]);
-				//tp.addTab("Covenant", );
-				// END TEST
-				*/
 				frame.setBackground(Settings.BACKGROUND_COLOR);
 				
 				frame.add(tp);
@@ -472,22 +450,6 @@ public class ChooseWeekPanel extends JPanel {
 				choose_week_frame.setVisible( false );
 				choose_week_frame.dispose();
 				
-				
-				/*
-				if ( week_A_rbutton.isSelected() ) {
-					ActionEvent event = new ActionEvent(this,0,"test");
-					ActionListener[] al = tp.day_panel[0].header_panel.week_A.getActionListeners();
-					al[0].actionPerformed( event );
-				}
-				else if ( week_B_rbutton.isSelected() ) {
-					ActionEvent event = new ActionEvent(this,0,"test");
-					ActionListener[] al = day_panel[0].header_panel.week_B.getActionListeners();
-					al[0].actionPerformed( event );
-				}
-				else {
-					// do nothing
-				}
-				*/
 				
 				// fill in data
 				
@@ -520,7 +482,7 @@ public class ChooseWeekPanel extends JPanel {
 				
 			}
 			
-			// for next week panel
+			// else for next week panel
 			else {
 				
 				if ( week_A_rbutton.isSelected() ) {
@@ -581,10 +543,6 @@ public class ChooseWeekPanel extends JPanel {
 				
 				choose_week_frame.setVisible( false );
 				choose_week_frame.dispose();
-				
-				
-				
-				
 				
 				frame.setVisible(true);
 			}

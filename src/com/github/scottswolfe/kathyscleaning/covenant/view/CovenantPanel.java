@@ -26,6 +26,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.persistance.FileManager;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -35,7 +36,7 @@ import net.miginfocom.swing.MigLayout;
  * workers at Covenant Academy.
  */
 @SuppressWarnings("serial")
-public class CovenantPanel extends JPanel{
+public class CovenantPanel extends JPanel implements FileManager {
 	
 	
 /* FIELDS =================================================================== */
@@ -122,11 +123,9 @@ public class CovenantPanel extends JPanel{
 	
 /* CONSTRUCTOR ============================================================== */
 
-	public CovenantPanel(JFrame frame, WorkerList dwd2,
+	public CovenantPanel(WorkerList dwd2,
 	        Calendar date, int mode, int wk) {
-		
-		covFrame = frame;
-		
+				
 		controller = new CovenantController(this);
 		//TODO temporary hack
 		CovenantModel covModel = new CovenantModel(
@@ -564,7 +563,21 @@ public class CovenantPanel extends JPanel{
 
 /* PUBLIC METHODS =========================================================== */
 	
-	
+    @Override
+    public boolean saveToFile() {
+        // TODO Auto-generated method stub
+        System.out.println("Covenant Testing: saveToFile()");
+        return false;
+    }
+
+
+
+    @Override
+    public boolean loadFromFile() {
+        // TODO Auto-generated method stub
+        System.out.println("Covenant Testing: loadfromFile()");
+        return false;
+    }
 	
 	
 	
@@ -738,5 +751,13 @@ public class CovenantPanel extends JPanel{
         return covFrame;
     }
     
+    /**
+     * Sets the frame that contains this CovenantPanel 
+     * @return
+     */
+    public void setFrame(JFrame frame) {
+        covFrame = frame;
+    }
+
     
 }
