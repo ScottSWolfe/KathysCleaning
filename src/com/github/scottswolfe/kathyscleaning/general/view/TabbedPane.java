@@ -6,12 +6,12 @@ import javax.swing.JTabbedPane;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
-import com.github.scottswolfe.kathyscleaning.persistance.FileManager;
+import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 
 
 @SuppressWarnings("serial")
-public class TabbedPane extends JTabbedPane implements FileManager {
+public class TabbedPane extends JTabbedPane implements Savable {
 
     //  FIELDS	
 	DayData[] day_data;

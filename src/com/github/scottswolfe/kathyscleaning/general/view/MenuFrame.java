@@ -10,12 +10,12 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
-import com.github.scottswolfe.kathyscleaning.persistance.FileManager;
+import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 
 public class MenuFrame extends JFrame {
 
     // INSTANCE VARIABLES
-    FileManager fileManager;
+    Savable savable;
     
     
     // COMPONENTS
@@ -26,9 +26,9 @@ public class MenuFrame extends JFrame {
     
     
     // CONSTRUCTOR
-    public MenuFrame(FileManager fm) {
+    public MenuFrame(Savable fm) {
         super();
-        fileManager = fm;
+        savable = fm;
         createAndAddMenu();
     }
     
@@ -37,7 +37,7 @@ public class MenuFrame extends JFrame {
     private void createAndAddMenu() {
         
         // Create the menu bar controller
-        MenuBarController controller = new MenuBarController(fileManager);
+        MenuBarController controller = new MenuBarController(savable);
         
         // Create the menu bar
         menuBar = new JMenuBar();

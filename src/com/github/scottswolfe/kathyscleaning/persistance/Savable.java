@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.persistance;
 
-public interface FileManager {
+public interface Savable {
 
     /**
      * Saves data to a text file.

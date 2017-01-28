@@ -41,7 +41,7 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
-import com.github.scottswolfe.kathyscleaning.persistance.FileManager;
+import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -53,7 +53,7 @@ import net.miginfocom.swing.MigLayout;
  * 
  */
 @SuppressWarnings("serial")
-public class WeekendPanel extends JPanel implements FileManager {
+public class WeekendPanel extends JPanel implements Savable {
 	
 
 	// FIELDS

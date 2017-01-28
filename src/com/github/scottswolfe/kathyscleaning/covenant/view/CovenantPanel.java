@@ -26,7 +26,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.persistance.FileManager;
+import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -36,7 +36,7 @@ import net.miginfocom.swing.MigLayout;
  * workers at Covenant Academy.
  */
 @SuppressWarnings("serial")
-public class CovenantPanel extends JPanel implements FileManager {
+public class CovenantPanel extends JPanel implements Savable {
 	
 	
 /* FIELDS =================================================================== */
