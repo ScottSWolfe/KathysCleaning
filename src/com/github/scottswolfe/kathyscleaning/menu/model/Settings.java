@@ -68,19 +68,12 @@ public class Settings {
      */
     public static final File DEFAULT_EXCEL_TEMPLATE = 
             new File(System.getProperty("user.dir") + "\\lib\\Template A.xlsx");
-    
+
     /**
      * Default Save Location.
      */
     public static final File DEFAULT_EXCEL_SAVE_LOCATION = 
             new File(System.getProperty("user.home") + "\\Desktop");
-    
-    /**
-     * Current Completed Houses Save File
-     */
-    public static final File CURRENT_COMPLETED_DATA =
-            new File(System.getProperty("user.dir") +
-                    "\\save\\current\\CurrentCompletedHouseData.txt");
     
     /**
      * Current Covenant Save File

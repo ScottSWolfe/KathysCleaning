@@ -56,9 +56,8 @@ public class SubmitWeekListener implements ActionListener {
 	int firstday;
 	int lastday;
 	
-	// for testing
 	public static File new_save;
-	// end testing
+
 	
 	
 //  CONSTRUCTOR
@@ -84,51 +83,37 @@ public class SubmitWeekListener implements ActionListener {
 			return;
 		}
 		
-		// if in TRUE_MODE
-		if (mode == Settings.TRUE_MODE) {
-		
-    		// Read User Input into Model
-    		Data data = new Data();
-    		readUserInput(data);
-    		
-    		// Write data into Excel Sheet
-    		File template = Settings.getExcelTemplateFile();
-    		writeDayData(data, template);
-    		
-    		// Write data into Current Text File
-    		File currentSave = Settings.CURRENT_COMPLETED_DATA;
-    		saveStateToTextFile(data, currentSave);
-    		
-    		// Close Frame and Create New Frame for Inserting Next Week Schedule
-    		frame.setVisible(false); 
-    		frame.dispose();
-    		initializeCovenantPanelFrame();
-		}
-		// end if TRUE_MODE
-		
-		
-		// else in SETTINGS_MODE
-		else {
-		
-		    // *** 1. Read User Input ***
-		    Data data = new Data();
-		    readUserInput(data);
-			
-		    // *** 2. Open Text File ***
-		    File f;
-		    if (wk == Settings.WEEK_A) {
-		        f = Settings.SUBMIT_WEEK_A;
-		    }
-		    else {
-			    f = Settings.SUBMIT_WEEK_B;
-			}			
-			
-		    // *** 3. Write User Data to Text File and Save***
-		    writeEditWeekData( data, f );	
-			
-		    // *** 4. New weekend panel and frame and dispose of current panel
-		    initializeWeekendPanelFrame();
-		}
+		// Read User Input into Model
+        Data data = new Data();
+        readUserInput(data);
+        
+        File file;
+        if (mode == Settings.TRUE_MODE) {
+            // Write data into Current Text File
+            CompletedPersistanceManager.saveToFile(data);
+            
+            // Write data into Excel Sheet
+            file = Settings.getExcelTemplateFile();
+            writeDayData(data, file);
+            
+            // Close Frame and Create New Frame for Inserting Next Week Schedule
+            initializeCovenantPanelFrame();      
+            
+        } else {
+            // Write User Data to Text File
+            if (wk == Settings.WEEK_A) {
+                file = Settings.SUBMIT_WEEK_A;
+            }
+            else {
+                file = Settings.SUBMIT_WEEK_B;
+            }            
+            writeEditWeekData(data, file);
+            
+
+            // New weekend panel and frame and dispose of current panel
+            initializeWeekendPanelFrame();
+
+        }
 		
 		// save default amounts that houses pay
 		writeHousePay();
@@ -139,7 +124,7 @@ public class SubmitWeekListener implements ActionListener {
 // PRIVATE METHODS
 	
 	/**
-	 * writes the input data into an excel template
+	 * writes the model into an excel template
 	 * 
 	 * TODO this needs a lot of work to simplify
 	 * TODO also could make this compatible with older excel files?
@@ -704,17 +689,20 @@ public class SubmitWeekListener implements ActionListener {
      */
     public void initializeCovenantPanelFrame() {
         
+        frame.setVisible(false); 
+        frame.dispose();
+        
         CovenantPanel covPanel = new CovenantPanel(
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
         CovenantModel covModel = new CovenantModel(
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
         
-        JFrame frame = new MenuFrame(covPanel);
+        JFrame menuFrame = new MenuFrame(covPanel);
 
-        covPanel.setFrame(frame);
+        
         //TODO temporary hack
+        covPanel.setFrame(frame);
         covPanel.getController().setCovModel(covModel);
-
         covPanel.getFrame().setResizable(false);
         covPanel.getFrame().add(covPanel);
         covPanel.getFrame().addWindowListener(new MainWindowListener());
@@ -814,109 +802,5 @@ public class SubmitWeekListener implements ActionListener {
         data.setDayData(dayData);
         data.setDate(tp.day_panel[0].header_panel.date);
     }
-    
-    
-    /**
-     * Saves the current state to a text file
-     * 
-     * @param data
-     * @param f
-     */
-    private void saveStateToTextFile(Data data, File f) {
-        
-        try {
-            
-            FileWriter fw = new FileWriter(f);
-            BufferedWriter bw = new BufferedWriter(fw);
-            
-            // input house data
-            DayData day;
-            HouseData house;
-            
-            for (int d=0; d<data.dayData.length; d++) {
-                
-                day = data.dayData[d];
-                
-                // write day number starting at 0
-                bw.write("Day " + d);
-                bw.newLine();
-                
-                // write date and day
-                Calendar date = day.getHeaderData().getDate();
-                String dateString = (Integer.parseInt(String.valueOf(date.get(Calendar.MONTH))) + 1) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR);
-                bw.write(dateString);
-                bw.newLine();
-                String weekDay;
-                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
-                weekDay = dayFormat.format(date.getTime());
-                bw.write(weekDay);
-                bw.newLine();
-                
-                // write selected week
-                bw.write(String.valueOf(day.getHeaderData().getWeekSelected()));
-                bw.newLine();
-                
-                // for each house
-                for (int h = 0; h < day.houseData.length; h++) {
-                    
-                    house = day.houseData[h];
-                    
-                    // write house number starting at 0
-                    bw.write("House " + h);
-                    bw.newLine();
-                    
-                    // write name
-                    bw.write(house.getHouseName());
-                    bw.newLine();
-                    
-                    // write house pay
-                    bw.write(String.valueOf(house.getHousePay()));
-                    bw.newLine();
-                    
-                    // write begin time
-                    bw.write(house.getTimeBegin());
-                    bw.newLine();
-                    
-                    // write end time
-                    bw.write(house.getTimeEnd());
-                    bw.newLine();
-                    
-                    // write selected workers
-                    String s = "";
-                    for (int i=0; i<house.getSelectedWorkers().length; i++) {
-                        s = new String(s + house.getSelectedWorkers()[i] + " ");
-                    }
-                    bw.write(s);
-                    bw.newLine();
-                    
-                    // write exceptions
-                    ExceptionData ex = house.getExceptionData();
-                    for (int i = 0; i < ex.worker_name.length; i++) {
-                        
-                        // write worker name
-                        bw.write(ex.worker_name[i]);
-                        bw.newLine();
-                        
-                        // write begin time
-                        bw.write(ex.time_begin[i]);
-                        bw.newLine();
-                        
-                        // write end time
-                        bw.write(ex.time_end[i]);
-                        bw.newLine();
-                    }
-                
-                } // end houses
-                
-            }  // end days
-            
-            bw.close();
-            
-        }catch(Exception exception){
-            exception.printStackTrace();
-            JOptionPane.showMessageDialog(new JFrame(), "Error: Saved data was not created properly.");
-        }
-        
-    }
-	
+    	
 }

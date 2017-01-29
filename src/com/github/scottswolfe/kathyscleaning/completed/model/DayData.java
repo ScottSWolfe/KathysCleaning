@@ -28,8 +28,14 @@ public class DayData {
 	
 	
 	
-//  METHODS
+	//  METHODS
 	
+	
+	
+	
+	
+	
+	// GETTERS and SETTERS 
 	public HeaderData getHeaderData( HeaderPanel header_panel ) {
 		return header_panel.getHeaderData();
 	}
