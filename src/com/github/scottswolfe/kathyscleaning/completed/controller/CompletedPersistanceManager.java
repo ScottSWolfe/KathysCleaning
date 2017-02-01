@@ -1,11 +1,15 @@
 package com.github.scottswolfe.kathyscleaning.completed.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,6 +18,12 @@ import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
+import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
 
 public class CompletedPersistanceManager {
     
@@ -127,8 +137,213 @@ public class CompletedPersistanceManager {
 
     
     public boolean loadFromFile() {
-        // TODO Auto-generated method stub
-        return false;
+
+                
+        Scanner input;
+        Scanner counter;
+        
+        try {    
+            input = new Scanner(CURRENT_COMPLETED_DATA);
+            
+            // iterate through each day
+            for (int d=0; d<5; d++) {
+                
+                DayPanel dp = tp.day_panel[d];
+                
+                input = new Scanner(file);
+                counter = new Scanner(file);
+                
+                String s = input.nextLine();
+                counter.nextLine();
+                
+                // find current day
+                while ( !s.equals("Day " + d) && input.hasNextLine() ) {
+                    s = input.nextLine();
+                    counter.nextLine();
+                }
+                                        
+                // find out how many houses for current day
+                String t = counter.nextLine();
+                int num_houses = 0;
+                while ( !t.equals("Day " + (d+1) ) && counter.hasNextLine() ) {
+                    if ( t.equals("House " + num_houses) ) {
+                        num_houses++;
+                    }
+                    t = counter.nextLine();
+                }
+                counter.close();
+    
+                
+                // reading begin data and covenant data
+                
+                // skip meet_location_box and meet_time_field save items
+                input.nextLine();
+                input.nextLine();
+
+                //BeginExceptionData[] bed = new BeginExceptionData[NW_ExceptionPanel.NUM_EXCEPTIONS];
+                for (int i=0; i<NW_ExceptionPanel.NUM_EXCEPTIONS; i++) {
+                    
+                    //bed[i] = new BeginExceptionData();
+                    
+                    input.nextLine();  //bed[i].setName( input.nextLine() );
+                    input.nextLine();  //bed[i].setMeetLocation( input.nextLine() );
+                    input.nextLine();  //bed[i].setTime( input.nextLine() );
+                    input.nextLine();  //bed[i].setNote( input.nextLine() );
+                    
+                }
+                
+                // late edit trying to make 1.1.4 work
+                // possibly erroneous
+                input.nextLine(); //consuming ??covenant workers?? line
+                
+                
+                //dp.setBeginExceptionData(bed);
+                
+                // reading covenant workers
+                //String line = input.nextLine();
+                //Scanner parser1 = new Scanner(line);
+                //parser1.useDelimiter(" ");
+                    
+                /*      
+                // unselecting any selected workers
+                int rows = tp.day_panel[d].cov_panel.dwp.rows;
+                int columns = tp.nw_day_panel[d].cov_panel.dwp.columns;
+                for(int l=0; l<rows; l++){
+                    for(int m=0; m<columns; m++){
+                        tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].setSelected(false);
+                    }
+                }
+                
+                // selecting saved workers
+                while (parser1.hasNext() ) {
+                    String worker = parser1.next();
+                    
+                    for(int l=0; l<rows; l++){
+                        for(int m=0; m<columns; m++){
+                            if (worker.equals( tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].getText() ) ){
+                                tp.nw_day_panel[d].cov_panel.dwp.worker[l][m].setSelected(true);
+                                break;
+                            }
+                        }
+                    }   
+                }
+                parser1.close();
+                */
+                
+                // notes
+                
+                //tp.nw_day_panel[d].covenant_note_data = new NoteData( NW_ExceptionPanel.NUM_EXCEPTIONS );
+                //tp.nw_day_panel[d].covenant_note_data.name_box_data = new String[NW_NotePanel.ROWS];
+                //tp.nw_day_panel[d].covenant_note_data.note_field_data = new String[NW_NotePanel.ROWS];
+
+                for (int i=0; i<NW_NotePanel.ROWS; i++) {
+                    
+                    input.nextLine(); //tp.nw_day_panel[d].covenant_note_data.name_box_data[i] = input.nextLine();
+                    input.nextLine(); //tp.nw_day_panel[d].covenant_note_data.note_field_data[i] = input.nextLine();
+                    
+                }
+                
+                            
+                
+                // iterate through houses
+                for ( int h=0; h<num_houses; h++ ) {
+                    
+                    input.nextLine(); // burn "House i"
+                    
+                    tp.day_panel[d].house_panel[h].house_name_txt.setText( input.nextLine() );
+                                        
+                    String line = input.nextLine();
+                    Scanner parser = new Scanner(line);
+                    parser.useDelimiter(" ");
+                                
+                        // unselecting any selected workers
+                        for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
+                            for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
+                                tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);
+                            }
+                        }
+                        
+                        // selecting saved workers
+                        while (parser.hasNext() ) {
+                            String worker = parser.next();
+                            
+                            for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
+                                for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
+                                    //tp.day_panel[0].house_panel[i].worker_panel.worker[l][m].setSelected(false);
+                                    if (worker.equals( tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText() ) ){
+                                        tp.day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                        }
+                        parser.close();
+                        
+                        // 4. making sure there is a correct number of house panels available to fill
+                        
+                        // if there are more empty house panels and there are more houses to fill in
+                        if ( h < (num_houses - 1) && (h+1) < dp.house_panel.length ) {
+                            // do nothing
+                        }
+                        // if there are no more empty house panels and there are more houses to fill in
+                        else if ( h+1 >= tp.day_panel[d].house_panel.length && h < (num_houses - 1) ){
+                            ActionEvent event = new ActionEvent(tp.day_panel[d],0,"test");
+                            ActionListener[] al = tp.day_panel[d].house_panel[h].add_house.getActionListeners();
+                            al[0].actionPerformed( event );
+                        }
+                        // if there are more empty house panels and there are no more houses to fill in
+                        else if ( (h+1) < tp.day_panel[d].house_panel.length && h >= (num_houses - 1 ) ) {
+                            int numrepeat = tp.day_panel[d].house_panel.length-h-1;
+                            for (int k=h; k<numrepeat+h; k++) {
+                                ActionEvent event = new ActionEvent(tp.day_panel[d],0,"test");
+                                ActionListener[] al = tp.day_panel[d].house_panel[h+1].delete_house.getActionListeners();
+                                al[0].actionPerformed( event );
+                            }
+                        }
+                        // no empty house panels and there are no more houses to fill in
+                        else if (h+1 >= tp.day_panel[d].house_panel.length && h >= (num_houses - 1 )) {
+                            // do nothing
+                        }
+                        
+                            
+                                
+                }
+
+            }
+            input.close();
+            
+                    
+            
+        } catch (FileNotFoundException e1) {
+            JOptionPane.showMessageDialog(new JFrame(), "Error: Could not read saved schedule file correctly", null, JOptionPane.ERROR_MESSAGE);
+            e1.printStackTrace();
+        }
+    
+        
+        TabChangeListener.resize(tp, frame, 4, 0); // resizing from final tab (friday) to first tab (monday)
+        
+        for (int j=0; j<5; j++) {
+            tp.day_panel[j].header_panel.weekSelected = wk;
+        }
+        
+        if ( wk == Settings.WEEK_A ) {
+            for (int j=0; j<5; j++) {
+                tp.day_panel[j].header_panel.week_A.setSelected(true);
+            }
+        }
+        else if ( wk == Settings.WEEK_B ){
+            for (int j=0; j<5; j++) {
+                tp.day_panel[j].header_panel.week_B.setSelected(true);
+            }
+        }
+        else {
+            for (int j=0; j<5; j++) {
+                tp.day_panel[j].header_panel.neither.setSelected(true);
+            }
+        }
+        
+        return false; // TODO change this
     }
 
 }

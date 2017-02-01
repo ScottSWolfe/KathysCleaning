@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedController;
 import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
@@ -32,8 +33,10 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
+import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledController;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
@@ -406,6 +409,9 @@ public class ChooseWeekPanel extends JPanel {
             // If DayPanels
 			if( week == PREVIOUS_WEEK ) {
 				
+			    Controller controller = new CompletedController();
+			    tp.setController(controller);
+			    
 				if ( week_A_rbutton.isSelected() ) {
 					wk = Settings.WEEK_A;
 				}
@@ -485,6 +491,9 @@ public class ChooseWeekPanel extends JPanel {
 			// else for next week panel
 			else {
 				
+			    Controller controller = new ScheduledController();
+                tp.setController(controller);
+
 				if ( week_A_rbutton.isSelected() ) {
 					wk = Settings.WEEK_A;
 				}

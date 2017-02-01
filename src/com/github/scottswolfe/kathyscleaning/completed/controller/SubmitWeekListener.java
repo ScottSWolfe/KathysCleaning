@@ -9,9 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -45,7 +43,7 @@ import com.github.scottswolfe.kathyscleaning.weekend.WeekendPanel;
 public class SubmitWeekListener implements ActionListener {
 
 //  FIELDS
-	
+	CompletedController controller;
 	TabbedPane tp;
 	JFrame frame;
 	Calendar date;
@@ -62,8 +60,9 @@ public class SubmitWeekListener implements ActionListener {
 	
 //  CONSTRUCTOR
 
-	public SubmitWeekListener( TabbedPane tp, JFrame frame, Calendar date, int mode, int wk ){
-		this.tp = tp;
+	public SubmitWeekListener(CompletedController controller, TabbedPane tp, JFrame frame, Calendar date, int mode, int wk ){
+		this.controller = controller;
+	    this.tp = tp;
 		this.frame = frame;
 		this.date = date;
 		this.mode = mode;
@@ -84,9 +83,8 @@ public class SubmitWeekListener implements ActionListener {
 		}
 		
 		// Read User Input into Model
-        Data data = new Data();
-        readUserInput(data);
-        
+        Data data = controller.readUserInput();
+                
         File file;
         if (mode == Settings.TRUE_MODE) {
             // Write data into Current Text File
@@ -760,47 +758,5 @@ public class SubmitWeekListener implements ActionListener {
 
     }
 	
-	
-    /**
-     * Reads the data that the user has input in the given Data object
-     * 
-     * @param data
-     */
-    private void readUserInput(Data data) {
-        
-        DayData[] dayData = new DayData[5]; // 5 days in week
-        
-        // for each day
-        for (int d = 0; d < dayData.length; d++) {
-            
-            // Header for day
-            HeaderData headerData = new HeaderData();
-            headerData.setDate(tp.day_panel[d].header_panel.date);
-            headerData.setWeekSelected(tp.day_panel[d].header_panel.getWeekSelected());
-            headerData.setDWD(tp.day_panel[d].header_panel.getWorkers());
-            
-            // Houses in day
-            HouseData[] houseData = new HouseData[tp.day_panel[d].house_panel.length];
-            
-            // for each house panel in the day
-            for (int h = 0; h < houseData.length; h++) {
-                houseData[h] = new HouseData();
-                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].house_name_txt.getText());                       //read house name
-                houseData[h].setHousePay( tp.day_panel[d].house_panel[h].pay_txt.getText() );         //read house pay
-                houseData[h].setTimeBegin( tp.day_panel[d].house_panel[h].time_begin_txt.getText() ); //read begin time
-                houseData[h].setTimeEnd( tp.day_panel[d].house_panel[h].time_end_txt.getText() ); //read end time
-                houseData[h].setSelectedWorkers( tp.day_panel[d].house_panel[h].worker_panel.getSelected() );                                                     //get selected workers
-                houseData[h].setExceptionData( tp.day_panel[d].house_panel[h].exception_data.getExceptionData() );                                                    //get exception info
-            } // end house panels
-            
-            dayData[d] = new DayData();
-            dayData[d].setHouseData(houseData);
-            dayData[d].setHeader(headerData);
-            
-        }  // end day panels
-        
-        data.setDayData(dayData);
-        data.setDate(tp.day_panel[0].header_panel.date);
-    }
     	
 }

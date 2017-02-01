@@ -113,17 +113,13 @@ public class HouseData {
 	
 	
 	public double getHours(){
-		
 		double hours;
-		
-		if ( !this.time_end.isEmpty() && !this.time_begin.isEmpty() ) {
+		if (!this.time_end.isEmpty() && !this.time_begin.isEmpty()) {
 			int minutes = convertToMinutes( this.time_end ) - convertToMinutes( this.time_begin );
 			hours = convertToHours( minutes );
-		}
-		else {
+		} else {
 			hours = 0;
 		}
-		
 		return hours;
 	}
 	

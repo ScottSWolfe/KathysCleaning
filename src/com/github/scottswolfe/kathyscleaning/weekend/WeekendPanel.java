@@ -43,6 +43,7 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
+import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledController;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
@@ -665,7 +666,8 @@ public class WeekendPanel extends JPanel implements Savable {
 					e1.printStackTrace();
 				}				
 				
-				TabbedPane tp = new TabbedPane();
+				ScheduledController controller = new ScheduledController();
+				TabbedPane tp = new TabbedPane(controller);
 				tp.setFont( tp.getFont().deriveFont(Settings.TAB_FONT_SIZE) );
 				tp.setBackground( Settings.BACKGROUND_COLOR );
 				
