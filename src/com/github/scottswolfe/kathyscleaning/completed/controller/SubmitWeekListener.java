@@ -31,6 +31,7 @@ import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.general.helper.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
@@ -268,7 +269,7 @@ public class SubmitWeekListener implements ActionListener {
 								}
 								else if (row.getCell(index) != null && row.getCell(index).getCellType() == Cell.CELL_TYPE_FORMULA) {
 									String s = row.getCell(index).getCellFormula();
-									s = changeFormula(s,(double)0);
+									s = ExcelHelper.changeFormula(s,(double)0);
 									row.getCell(index).setCellFormula( s );
 								}
 								else {
@@ -321,7 +322,7 @@ public class SubmitWeekListener implements ActionListener {
 										Row house_row = sheet0.getRow( d*9 + 2 + h );
 
 										    String s = house_row.getCell(cell_number).getCellFormula(); // issue with numeric cells??
-											s = changeFormula(s,hours);
+											s = ExcelHelper.changeFormula(s,hours);
 											house_row.getCell(cell_number).setCellFormula(s);
 
 										break;
@@ -639,46 +640,6 @@ public class SubmitWeekListener implements ActionListener {
 			e1.printStackTrace();
 		}
 	}
-	
-	
-	public static String changeFormula(String s, Double hours) {
-		
-		// change double to 3 digits after decimal
-		DecimalFormat numberFormat = new DecimalFormat("#.000");
-		String insert = numberFormat.format(hours);
-		int skip = 0;		
-		
-		// parse the string and change (capital letter,number) (eg A5) to double
-		char[] c = s.toCharArray();
-		
-		//int count = 0;
-		for (int i=1; i<c.length; i++) {
-			if (c[i] == '*') {
-				break;
-			}
-			else {
-				skip++;
-			}
-		}
-		
-		char[] k = new char[ c.length - skip + insert.length() ];
-		
-		// formuals come in the form: +C6*PAY!$C$7
-		// I want to send them out as: +1.362*PAY!$C$7
-		
-		int shift = 0;
-		k[0] = c[0];
-		for (int i=1; i<insert.length()+1; i++) {
-			k[i] = insert.toCharArray()[i-1];
-			shift++;
-		}
-		for (int i=1+shift; i<k.length; i++) {
-			k[i] = c[i-shift + skip];
-		}
-		return String.valueOf(k);
-	}
-	
-	
 	
     /**
      * Initializes and launches a frame with a Covenant panel.
