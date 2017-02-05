@@ -19,67 +19,39 @@ import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
-import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
-import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
-import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.general.helper.DateHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 
-public class CompletedController implements Controller {
+public class CompletedController implements Controller, Savable {
 
+/* INSTANCE VARIABLES ======================================================= */
+    
+    /**
+     * The view this controller controls
+     */
     TabbedPane tp;
+    
+    /**
+     * The model this controller controls
+     */
     Data data;
     
     
-    public CompletedController() {
-        
-    }
-    
 
+    
+/* PUBLIC METHODS =========================================================== */
+    
     /**
      * Reads the user's input into a Data object
      */
     public Data readUserInput() {
-        
-        data = new Data();
-        DayData[] dayData = new DayData[5]; // 5 days in week
-        
-        // for each day
-        for (int d = 0; d < dayData.length; d++) {
-            
-            // Header for day
-            HeaderData headerData = new HeaderData();
-            headerData.setDate(tp.day_panel[d].header_panel.date);
-            headerData.setWeekSelected(tp.day_panel[d].header_panel.getWeekSelected());
-            headerData.setDWD(tp.day_panel[d].header_panel.getWorkers());
-            
-            // Houses in day
-            HouseData[] houseData = new HouseData[tp.day_panel[d].house_panel.length];
-            
-            // for each house panel in the day
-            for (int h = 0; h < houseData.length; h++) {
-                houseData[h] = new HouseData();
-                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].house_name_txt.getText());                       //read house name
-                houseData[h].setHousePay( tp.day_panel[d].house_panel[h].pay_txt.getText() );         //read house pay
-                houseData[h].setTimeBegin( tp.day_panel[d].house_panel[h].time_begin_txt.getText() ); //read begin time
-                houseData[h].setTimeEnd( tp.day_panel[d].house_panel[h].time_end_txt.getText() ); //read end time
-                houseData[h].setSelectedWorkers( tp.day_panel[d].house_panel[h].worker_panel.getSelected() );                                                     //get selected workers
-                houseData[h].setExceptionData( tp.day_panel[d].house_panel[h].exception_data.getExceptionData() );                                                    //get exception info
-            } // end house panels
-            
-            dayData[d] = new DayData();
-            dayData[d].setHouseData(houseData);
-            dayData[d].setHeader(headerData);
-            
-        }  // end day panels
-        
-        data.setDayData(dayData);
-        data.setDate(tp.day_panel[0].header_panel.date);
+        data = CompletedControllerHelper.readUserInput(tp);
         return data;
     }
     
@@ -91,6 +63,22 @@ public class CompletedController implements Controller {
         writeDayData(data, file);
     }
     
+    @Override
+    public void saveToFile() {
+        data = readUserInput();
+        CompletedControllerHelper.saveToFile(data);
+    }
+
+    @Override
+    public void loadFromFile() {
+        System.out.println("Completed Cleaning Testing: loadFromFile()");
+        // TODO: implement method
+    }
+    
+    
+    
+    
+/* PRIVATE METHODS ========================================================== */
     
     private void writeDayData(Data data, File file){     
         try{

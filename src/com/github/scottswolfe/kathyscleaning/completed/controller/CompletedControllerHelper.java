@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
+import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
@@ -25,7 +26,7 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
 
-public class CompletedPersistanceManager {
+public class CompletedControllerHelper {
     
     /**
      * Current Completed Houses Save File
@@ -35,6 +36,52 @@ public class CompletedPersistanceManager {
                     "\\save\\current\\CurrentCompletedHouseData.txt");
 
 
+    
+    /**
+     * Reads User's input from the Completed GUI into a Data object 
+     * 
+     * @param data the Data object to read the data into
+     * @param tp the TabbedPane containing the user input
+     * @return the updated Data object
+     */
+    public static Data readUserInput(TabbedPane tp) {
+        Data data = new Data();
+        DayData[] dayData = new DayData[5]; // 5 days in week
+        
+        // for each day
+        for (int d = 0; d < dayData.length; d++) {
+            
+            // Header for day
+            HeaderData headerData = new HeaderData();
+            headerData.setDate(tp.day_panel[d].header_panel.date);
+            headerData.setWeekSelected(tp.day_panel[d].header_panel.getWeekSelected());
+            headerData.setDWD(tp.day_panel[d].header_panel.getWorkers());
+            
+            // Houses in day
+            HouseData[] houseData = new HouseData[tp.day_panel[d].house_panel.length];
+            
+            // for each house panel in the day
+            for (int h = 0; h < houseData.length; h++) {
+                houseData[h] = new HouseData();
+                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].house_name_txt.getText());                       //read house name
+                houseData[h].setHousePay( tp.day_panel[d].house_panel[h].pay_txt.getText() );         //read house pay
+                houseData[h].setTimeBegin( tp.day_panel[d].house_panel[h].time_begin_txt.getText() ); //read begin time
+                houseData[h].setTimeEnd( tp.day_panel[d].house_panel[h].time_end_txt.getText() ); //read end time
+                houseData[h].setSelectedWorkers( tp.day_panel[d].house_panel[h].worker_panel.getSelected() );                                                     //get selected workers
+                houseData[h].setExceptionData( tp.day_panel[d].house_panel[h].exception_data.getExceptionData() );                                                    //get exception info
+            } // end house panels
+            
+            dayData[d] = new DayData();
+            dayData[d].setHouseData(houseData);
+            dayData[d].setHeader(headerData);
+            
+        }  // end day panels
+        
+        data.setDayData(dayData);
+        data.setDate(tp.day_panel[0].header_panel.date);
+        return data;
+    }
+    
     
     public static boolean saveToFile(Data data) {
 
