@@ -21,11 +21,9 @@ public class Main {
 
 		// Launching Menu Panel
 		SwingUtilities.invokeLater(new Runnable() {
-			
 			public void run() {				
 			    MenuPanelController.initializeMenuPanelFrame();
 			}
-			
 		});
 		
 	}
