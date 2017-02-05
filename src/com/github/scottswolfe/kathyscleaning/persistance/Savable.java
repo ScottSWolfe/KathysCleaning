@@ -7,13 +7,13 @@ public interface Savable {
      * 
      * @return true if successful save, false otherwise
      */
-    public boolean saveToFile();
+    public void saveToFile();
     
     /**
      * Loads data from a text file.
      * 
      * @return true if successful load, false otherwise
      */
-    public boolean loadFromFile();
+    public void loadFromFile();
     
 }

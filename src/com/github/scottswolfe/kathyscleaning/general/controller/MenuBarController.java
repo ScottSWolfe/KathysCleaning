@@ -12,14 +12,13 @@ public class MenuBarController {
     
     
     // CONSTRUCTOR
-    public MenuBarController(Savable fm) {
-        savable = fm;
+    public MenuBarController(Savable savable) {
+        this.savable = savable;
     }
     
     
     // LISTENERS
     public class SaveMenuItemListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             savable.saveToFile();
@@ -27,7 +26,6 @@ public class MenuBarController {
     }
     
     public class LoadMenuItemListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             savable.loadFromFile();

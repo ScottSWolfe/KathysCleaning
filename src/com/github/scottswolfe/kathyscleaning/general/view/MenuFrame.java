@@ -2,6 +2,7 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -9,14 +10,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
 import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 
-public class MenuFrame extends JFrame {
-
-    // INSTANCE VARIABLES
-    Savable savable;
-    
+public class MenuFrame extends JFrame {    
     
     // COMPONENTS
     JMenuBar menuBar;
@@ -26,15 +24,15 @@ public class MenuFrame extends JFrame {
     
     
     // CONSTRUCTOR
-    public MenuFrame(Savable fm) {
+    public MenuFrame(Savable savable) {
         super();
-        savable = fm;
-        createAndAddMenu();
+        createAndAddMenu(savable);
+        addWindowListener();
     }
     
     
     // PRIVATE METHODS
-    private void createAndAddMenu() {
+    private void createAndAddMenu(Savable savable) {
         
         // Create the menu bar controller
         MenuBarController controller = new MenuBarController(savable);
@@ -64,6 +62,11 @@ public class MenuFrame extends JFrame {
 
         // Add the menu bar to the frame
         this.setJMenuBar(menuBar);
+    }
+    
+    private void addWindowListener() {
+        WindowListener listener = new MainWindowListener();
+        this.addWindowListener(listener);
     }
 
 }

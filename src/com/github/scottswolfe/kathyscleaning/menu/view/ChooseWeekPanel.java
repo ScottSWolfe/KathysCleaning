@@ -35,6 +35,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledController;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
@@ -399,18 +400,15 @@ public class ChooseWeekPanel extends JPanel {
 				temp_date.add(Calendar.DATE, 1);
 				
 			}
-			
-			// Create frame
-			JFrame frame = new MenuFrame(tp);
-            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.setResizable(false);
-            frame.addWindowListener( new MainWindowListener() );
+						
 			
             // If DayPanels
 			if( week == PREVIOUS_WEEK ) {
 				
 			    Controller controller = new CompletedController();
 			    tp.setController(controller);
+			    
+			    JFrame frame = createFrame((CompletedController)controller);
 			    
 				if ( week_A_rbutton.isSelected() ) {
 					wk = Settings.WEEK_A;
@@ -493,6 +491,9 @@ public class ChooseWeekPanel extends JPanel {
 				
 			    Controller controller = new ScheduledController();
                 tp.setController(controller);
+                                
+                JFrame frame = createFrame((ScheduledController)controller);
+
 
 				if ( week_A_rbutton.isSelected() ) {
 					wk = Settings.WEEK_A;
@@ -987,6 +988,15 @@ public class ChooseWeekPanel extends JPanel {
 			
 		}
 		
+	}
+	
+	
+	private JFrame createFrame(Savable savable) {
+	    JFrame frame = new MenuFrame(savable);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setResizable(false);
+        //frame.addWindowListener(new MainWindowListener());
+        return frame;
 	}
 	
 }
