@@ -84,16 +84,16 @@ public class SubmitWeekListener implements ActionListener {
 		}
 		
 		// Read User Input into Model
-        Data data = controller.readUserInput();
+        controller.readUserInput();
                 
         File file;
         if (mode == Settings.TRUE_MODE) {
             // Write data into Current Text File
-            CompletedPersistanceManager.saveToFile(data);
+            controller.saveToFile();
             
             // Write data into Excel Sheet
             file = Settings.getExcelTemplateFile();
-            writeDayData(data, file);
+            writeDayData(controller.getData(), file);
             
             // Close Frame and Create New Frame for Inserting Next Week Schedule
             initializeCovenantPanelFrame();      
@@ -106,9 +106,8 @@ public class SubmitWeekListener implements ActionListener {
             else {
                 file = Settings.SUBMIT_WEEK_B;
             }            
-            writeEditWeekData(data, file);
+            writeEditWeekData(controller.getData(), file);
             
-
             // New weekend panel and frame and dispose of current panel
             initializeWeekendPanelFrame();
 
@@ -116,7 +115,6 @@ public class SubmitWeekListener implements ActionListener {
 		
 		// save default amounts that houses pay
 		writeHousePay();
-		
 	}
 	
 	

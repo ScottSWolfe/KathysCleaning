@@ -33,6 +33,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
+import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledController;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 
@@ -40,15 +41,10 @@ import net.miginfocom.swing.MigLayout;
 
 
 
-public class NW_DayPanel extends JPanel{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2486547027126980271L;
-	
+public class NW_DayPanel extends JPanel{	
 	
 	//  FIELDS
+    ScheduledController controller;
 	
 	public NoteData covenant_note_data;
 	NoteData day_note_data;
@@ -100,8 +96,10 @@ public class NW_DayPanel extends JPanel{
 	
 	// CONSTRUCTORS
 
-	public NW_DayPanel( TabbedPane tp, WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ) {
+	public NW_DayPanel(ScheduledController controller, TabbedPane tp,
+	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ) {
 		
+	    this.controller = controller;
 		this.dwd = dwd;
 		this.date = date;
 		this.frame = frame;

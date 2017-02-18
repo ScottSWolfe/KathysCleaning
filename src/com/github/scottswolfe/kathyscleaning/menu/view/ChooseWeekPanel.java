@@ -422,7 +422,9 @@ public class ChooseWeekPanel extends JPanel {
 				
 				DayPanel[] day_panel = new DayPanel[5];
 				for(int i=0; i<5; i++){
-					day_panel[i] = new DayPanel(tp, dwd_house, day[i], frame, Settings.TRUE_MODE, wk);
+					day_panel[i] = new DayPanel((CompletedController)controller,
+					        tp, dwd_house, day[i],
+					        frame, Settings.TRUE_MODE, wk);
 				}
 				tp.day_panel = day_panel;
 				
@@ -507,7 +509,9 @@ public class ChooseWeekPanel extends JPanel {
 				
 				NW_DayPanel[] day_panel = new NW_DayPanel[5];
 				for(int i=0; i<5; i++){
-					day_panel[i] = new NW_DayPanel(tp, dwd_house, day[i], frame, Settings.TRUE_MODE, wk);
+					day_panel[i] = new NW_DayPanel(
+					        (ScheduledController) controller, tp, dwd_house,
+					        day[i], frame, Settings.TRUE_MODE, wk);
 				}
 				tp.nw_day_panel = day_panel;
 				

@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedController;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -18,8 +19,9 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class DayPanel extends JPanel{
 	
-//  FIELDS
-	
+// FIELDS ------------------------------------------------------------------- */
+    
+    CompletedController controller;
 	TabbedPane tp;
 	public JScrollPane jsp;
 	public JPanel jsp_panel;
@@ -45,9 +47,10 @@ public class DayPanel extends JPanel{
 
 
 	
-	public DayPanel( TabbedPane tp, WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ){
+	public DayPanel(CompletedController controller, TabbedPane tp,
+	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk) {
 		
-		
+	    this.controller = controller;
 		this.tp = tp;
 		this.dwd = dwd;
 		this.date = date;
@@ -55,7 +58,8 @@ public class DayPanel extends JPanel{
 		this.mode = mode;
 		this.wk = wk;
 		
-		header_panel = new HeaderPanel(tp, dwd, this, date, frame, mode, wk);
+		header_panel = new HeaderPanel(controller, tp, dwd, this,
+		                                date, frame, mode, wk);
 		
 		// System.out.println
 		
@@ -158,14 +162,14 @@ public class DayPanel extends JPanel{
 	
 //  PUBLIC METHODS
 	
-	public void changeWorkerPanels( WorkerList new_dwd ){
+	public void changeWorkerPanels(WorkerList new_dwd){
 		
 		//getting old size
 		int header_width = header_panel.getWidth();
 		int house_panel_width = house_panel[0].getWidth();
 		
 		//copy and edit old panels
-		HeaderPanel new_header_panel = new HeaderPanel(tp, new_dwd, this, date, frame, mode, wk);
+		HeaderPanel new_header_panel = new HeaderPanel(controller, tp, new_dwd, this, date, frame, mode, wk);
 		HousePanel[] new_house_panel = new HousePanel[ house_panel.length ];
 		for(int i=0; i<house_panel.length; i++){
 			new_house_panel[i] = house_panel[i].changeHouseWorkers(new_dwd);

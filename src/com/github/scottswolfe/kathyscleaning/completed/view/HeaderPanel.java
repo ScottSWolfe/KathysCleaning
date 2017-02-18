@@ -15,6 +15,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedController;
 import com.github.scottswolfe.kathyscleaning.completed.controller.CopyWorkersListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.NeitherRadioListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
@@ -72,7 +73,9 @@ public class HeaderPanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public HeaderPanel( TabbedPane tp, WorkerList dwd, DayPanel day_panel, Calendar date, JFrame frame, int mode, int wk ) {
+	public HeaderPanel(CompletedController controller, TabbedPane tp,
+	        WorkerList dwd, DayPanel day_panel, Calendar date,
+	        JFrame frame, int mode, int wk ) {
 		
 		this.tp = tp;
 		this.frame = frame;
@@ -90,7 +93,7 @@ public class HeaderPanel extends JPanel {
 		JPanel choose_week_panel = chooseWeekPanel();
 		JPanel worker_panel = workerPanel(dwd);
 		JPanel change_day_panel = changeDayPanel();
-		JPanel submit_week_panel = submitWeekPanel();
+		JPanel submit_week_panel = submitWeekPanel(controller);
 		
 		int day_panel_width_min = 133 + (int) Settings.FONT_SIZE; // temp fix
 		
@@ -242,7 +245,7 @@ public class HeaderPanel extends JPanel {
 		return panel;
 	}
 	
-	private JPanel submitWeekPanel() {
+	private JPanel submitWeekPanel(CompletedController controller) {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2","[]","[grow]") );
@@ -251,7 +254,7 @@ public class HeaderPanel extends JPanel {
 		submit_week = new JButton("Submit Week");
 		submit_week.setFont( submit_week.getFont().deriveFont( Settings.FONT_SIZE ) );
 		submit_week.setPreferredSize(new Dimension(100,40));
-		submit_week.addActionListener( new SubmitWeekListener(tp, frame, date, mode, wk) );
+		submit_week.addActionListener( new SubmitWeekListener(controller, tp, frame, date, mode, wk) );
 		submit_week.setBackground(Settings.MAIN_COLOR);
 		submit_week.setForeground( Settings.FOREGROUND_COLOR );
 		

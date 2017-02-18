@@ -13,6 +13,18 @@ public class ScheduledController implements Controller, Savable {
     public ScheduledController() {
         
     }
+
+    @Override
+    public void saveToFile() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void loadFromFile() {
+        // TODO Auto-generated method stub
+        
+    }
     
     
 }
