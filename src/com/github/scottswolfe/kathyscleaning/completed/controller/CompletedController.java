@@ -35,12 +35,12 @@ public class CompletedController implements Controller, Savable {
     /**
      * The view this controller controls
      */
-    TabbedPane tp;
+    private TabbedPane tp;
     
     /**
      * The model this controller controls
      */
-    Data data;
+    private Data data;
     
     
 
@@ -66,13 +66,13 @@ public class CompletedController implements Controller, Savable {
     @Override
     public void saveToFile() {
         data = readUserInput();
-        CompletedControllerHelper.saveToFile(data);
+        CompletedControllerHelper.saveToFileJSON(data);
     }
 
     @Override
     public void loadFromFile() {
         System.out.println("Completed Cleaning Testing: loadFromFile()");
-        // TODO: implement method
+        data = CompletedControllerHelper.loadFromFileJSON();
     }
     
     
@@ -325,5 +325,23 @@ public class CompletedController implements Controller, Savable {
     }
     
     
+    
+// GETTERS/SETTERS ---------------------------------------------------------- */
+    
+    public void setData(Data data) {
+        this.data = data;
+    }
+    
+    public Data getData() {
+        return data;
+    }
+    
+    public void setTabbedPane(TabbedPane tp) {
+        this.tp = tp;
+    }
+    
+    public TabbedPane getTabbedPane() {
+        return tp;
+    }
     
 }

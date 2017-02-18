@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -25,6 +26,8 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
+
+import com.google.gson.Gson;
 
 public class CompletedControllerHelper {
     
@@ -81,7 +84,34 @@ public class CompletedControllerHelper {
         data.setDate(tp.day_panel[0].header_panel.date);
         return data;
     }
+
+    public static void saveToFileJSON(Data data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        try {
+            FileWriter fw = new FileWriter(CURRENT_COMPLETED_DATA);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(json);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
+    public static Data loadFromFileJSON() {
+        Gson gson = new Gson();
+        Data data = null;
+        try {
+            Scanner input = new Scanner(CURRENT_COMPLETED_DATA);
+            String json = input.nextLine();
+            data = gson.fromJson(json, Data.class);
+            input.close();
+            return data;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
     
     public static boolean saveToFile(Data data) {
 
@@ -102,11 +132,13 @@ public class CompletedControllerHelper {
                 bw.write("Day " + d);
                 bw.newLine();
                 
-                // write date and day
+                // write date
                 Calendar date = day.getHeaderData().getDate();
                 String dateString = (Integer.parseInt(String.valueOf(date.get(Calendar.MONTH))) + 1) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR);
                 bw.write(dateString);
                 bw.newLine();
+                
+                // write day
                 String weekDay;
                 SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
                 weekDay = dayFormat.format(date.getTime());
@@ -183,22 +215,22 @@ public class CompletedControllerHelper {
     }
 
     
-    public boolean loadFromFile() {
+    // TODO break into two different methods (we already have one above)
+    // pretty much turn this into setting UI from Data object
+    public static void loadFromFileAndSetUI(TabbedPane tp) {
 
-                
         Scanner input;
         Scanner counter;
         
-        try {    
-            input = new Scanner(CURRENT_COMPLETED_DATA);
-            
+        try {
+                        
             // iterate through each day
             for (int d=0; d<5; d++) {
                 
                 DayPanel dp = tp.day_panel[d];
                 
-                input = new Scanner(file);
-                counter = new Scanner(file);
+                input = new Scanner(CURRENT_COMPLETED_DATA);
+                counter = new Scanner(CURRENT_COMPLETED_DATA);
                 
                 String s = input.nextLine();
                 counter.nextLine();
@@ -208,7 +240,7 @@ public class CompletedControllerHelper {
                     s = input.nextLine();
                     counter.nextLine();
                 }
-                                        
+                              
                 // find out how many houses for current day
                 String t = counter.nextLine();
                 int num_houses = 0;
@@ -220,7 +252,7 @@ public class CompletedControllerHelper {
                 }
                 counter.close();
     
-                
+                int wk = readWeek();
                 // reading begin data and covenant data
                 
                 // skip meet_location_box and meet_time_field save items
@@ -351,46 +383,41 @@ public class CompletedControllerHelper {
                         // no empty house panels and there are no more houses to fill in
                         else if (h+1 >= tp.day_panel[d].house_panel.length && h >= (num_houses - 1 )) {
                             // do nothing
-                        }
-                        
-                            
+                        }      
                                 
                 }
+                
+                if (wk == Settings.WEEK_A ) {
+                    tp.day_panel[d].header_panel.week_A.setSelected(true);
 
-            }
-            input.close();
-            
-                    
+                }
+                else if ( wk == Settings.WEEK_B ){
+                    tp.day_panel[d].header_panel.week_B.setSelected(true);
+                }
+                else {
+                    tp.day_panel[d].header_panel.neither.setSelected(true);
+                }
+                
+                input.close();
+            }         
             
         } catch (FileNotFoundException e1) {
-            JOptionPane.showMessageDialog(new JFrame(), "Error: Could not read saved schedule file correctly", null, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Error: Could not read saved schedule file correctly",
+                    null, JOptionPane.ERROR_MESSAGE);
             e1.printStackTrace();
         }
+
+    }
     
-        
-        TabChangeListener.resize(tp, frame, 4, 0); // resizing from final tab (friday) to first tab (monday)
-        
-        for (int j=0; j<5; j++) {
-            tp.day_panel[j].header_panel.weekSelected = wk;
-        }
-        
-        if ( wk == Settings.WEEK_A ) {
-            for (int j=0; j<5; j++) {
-                tp.day_panel[j].header_panel.week_A.setSelected(true);
-            }
-        }
-        else if ( wk == Settings.WEEK_B ){
-            for (int j=0; j<5; j++) {
-                tp.day_panel[j].header_panel.week_B.setSelected(true);
-            }
-        }
-        else {
-            for (int j=0; j<5; j++) {
-                tp.day_panel[j].header_panel.neither.setSelected(true);
-            }
-        }
-        
-        return false; // TODO change this
+    /**
+     * Reads the week from the input file
+     * 
+     * @return an int represent the week seleection
+     */
+    private static int readWeek() {
+        // TODO implement
+        return -1;
     }
 
 }
