@@ -21,6 +21,8 @@ import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
+import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -214,6 +216,115 @@ public class CompletedControllerHelper {
 
     }
 
+    public static void writeDataToView(Data data, TabbedPane tp) {
+
+        // TODO an issue: if different week is selected than current,
+        // the week selection listener will auto fill stuff...
+        
+        DayPanel day_panel;
+        DayData day_data;
+        HousePanel house_panel;
+        HouseData house_data;
+        HeaderPanel header_panel;
+        HeaderData header_data;
+        int num_house_panels;
+        int num_house_datas;
+        int weekSelected;
+        
+        // iterate through each day
+        for (int d = 0; d < 5; d++) {
+            
+            day_panel = tp.day_panel[d];
+            day_data = data.dayData[d];
+            
+            num_house_panels = day_panel.house_panel.length;
+            num_house_datas = day_data.houseData.length;
+            
+            // iterate through each house
+            for (int h = 0; h < day_panel.house_panel.length; h++) {
+                
+                house_panel = day_panel.house_panel[h];
+                house_data = day_data.houseData[h];
+                
+                house_panel.house_name_txt.setText(house_data.getHouseName());
+                house_panel.pay_txt.setText(
+                        String.valueOf(
+                        house_data.getHousePay()));
+                house_panel.time_begin_txt.setText(house_data.getTimeBegin());
+                house_panel.time_begin_txt.setText(house_data.getTimeEnd());
+                
+                // TODO create method to set view blank before filling in ??
+                // unselect any selected workers
+                for(int l = 0; l < DefaultWorkerPanel.NORM_ROWS; l++) {
+                    for(int m = 0; m < DefaultWorkerPanel.NORM_COLUMNS; m++) {
+                        house_panel.worker_panel.workerCheckBoxes[l][m].setSelected(false);
+                    }
+                }
+                
+                // set selected workers
+                // TODO this can be made more efficient by breaking out of
+                // the double for loop when finding a match
+                for (String worker : house_data.getSelectedWorkers()) {
+                    for(int l = 0; l < DefaultWorkerPanel.NORM_ROWS; l++){
+                        for(int m = 0; m < DefaultWorkerPanel.NORM_COLUMNS; m++){
+                            if (worker.equals(house_panel.worker_panel.workerCheckBoxes[l][m].getText())) {
+                                house_panel.worker_panel.workerCheckBoxes[l][m].setSelected(true);
+                            }
+                        }
+                    }
+                }
+                        
+                // if there are more houses to fill in
+                // and there are more empty house panels
+                if (h < num_house_datas - 1 && h < num_house_panels - 1) {
+                    // do nothing
+                }
+                // if there are more houses to fill in
+                // but there are no more empty house panels 
+                else if (h < num_house_datas - 1 && h >= num_house_panels - 1) {
+                    ActionEvent event = new ActionEvent(day_panel, 0, "test");
+                    ActionListener[] al =
+                            house_panel.add_house.getActionListeners();
+                    al[0].actionPerformed(event);
+                }
+                // if there are no more houses to fill in
+                // and there are more empty house panels 
+                else if (h >= num_house_datas - 1 && h < num_house_panels - 1) {
+                    int numrepeat = num_house_panels - h - 1;
+                    for (int k = h; k < numrepeat + h; k++) {
+                        ActionEvent event =
+                                new ActionEvent(day_panel, 0, "test");
+                        ActionListener[] al = day_panel.house_panel[h + 1]
+                                .delete_house.getActionListeners();
+                        al[0].actionPerformed(event);
+                    }
+                }   
+                            
+            }
+            
+            // setting header panel data
+            // TODO more to do here (eg: dates, etc)
+            header_panel = day_panel.header_panel;
+            header_data = day_data.getHeaderData();
+            
+            
+            // TODO: temporary for now until listener situation is corrected
+            weekSelected = header_data.getWeekSelected();
+            /*
+            if (weekSelected == Settings.WEEK_A ) {
+                header_panel.week_A.setSelected(true);
+            }
+            else if (weekSelected == Settings.WEEK_B ){
+                header_panel.week_B.setSelected(true);
+            }
+            else {
+            */
+                header_panel.neither.setSelected(true);
+            //}
+            
+        }
+    }
+    
     
     // TODO break into two different methods (we already have one above)
     // pretty much turn this into setting UI from Data object
@@ -389,7 +500,6 @@ public class CompletedControllerHelper {
                 
                 if (wk == Settings.WEEK_A ) {
                     tp.day_panel[d].header_panel.week_A.setSelected(true);
-
                 }
                 else if ( wk == Settings.WEEK_B ){
                     tp.day_panel[d].header_panel.week_B.setSelected(true);

@@ -71,14 +71,37 @@ public class CompletedController implements Controller, Savable {
 
     @Override
     public void loadFromFile() {
-        System.out.println("Completed Cleaning Testing: loadFromFile()");
         data = CompletedControllerHelper.loadFromFileJSON();
+        // TODO implement a clearView() method
+        writeDataToView();
+    }
+    
+    @Override
+    public void setView(Object obj) {
+        this.tp = (TabbedPane) obj;
+    }
+    
+    @Override
+    public Object getView() {
+        return tp;
+    }
+    
+    @Override
+    public void setModel(Object obj) {
+        this.data = (Data) obj;
+    }
+    
+    @Override
+    public Object getModel() {
+        return data;
     }
     
     
-    
-    
 /* PRIVATE METHODS ========================================================== */
+    
+    private void writeDataToView() {
+        CompletedControllerHelper.writeDataToView(data, tp);
+    }
     
     private void writeDayData(Data data, File file){     
         try{
