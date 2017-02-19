@@ -406,6 +406,7 @@ public class ChooseWeekPanel extends JPanel {
 			if( week == PREVIOUS_WEEK ) {
 				
 			    Controller controller = new CompletedController();
+                controller.setView(tp);
 			    tp.setController(controller);
 			    
 			    JFrame frame = createFrame((CompletedController)controller);
@@ -492,6 +493,7 @@ public class ChooseWeekPanel extends JPanel {
 			else {
 				
 			    Controller controller = new ScheduledController();
+			    controller.setView(tp);
                 tp.setController(controller);
                                 
                 JFrame frame = createFrame((ScheduledController)controller);
