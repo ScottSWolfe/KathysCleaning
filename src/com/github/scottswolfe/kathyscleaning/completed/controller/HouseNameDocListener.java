@@ -16,15 +16,10 @@ public class HouseNameDocListener implements DocumentListener {
 	
 	public final static File HOUSE_PAY_FILE = new File( System.getProperty("user.dir") + "\\save\\HousePay");
 	
-	public HouseNameDocListener( HousePanel hp ) {
+	public HouseNameDocListener(HousePanel hp) {
 		this.hp = hp;
 	}
 	
-	
-	
-	
-
-
 
 	@Override
 	public void changedUpdate(DocumentEvent e) {
@@ -55,13 +50,16 @@ public class HouseNameDocListener implements DocumentListener {
 		
 		try {
 			Scanner input;
-			input = new Scanner( HOUSE_PAY_FILE );
+			String line;
 			
-			while(input.hasNextLine()){
+			input = new Scanner(HOUSE_PAY_FILE);
+			
+			while(input.hasNextLine()) {
 				
-				if (input.nextLine().equalsIgnoreCase( hp.house_name_txt.getText() )) {
-
-					hp.pay_txt.setText( input.nextLine() );
+			    line = input.nextLine();
+				if (line.equalsIgnoreCase(hp.house_name_txt.getText())) {
+					hp.pay_txt.setText(input.nextLine());
+					break;
 				}
 				
 			}
