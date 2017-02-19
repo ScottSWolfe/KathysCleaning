@@ -18,7 +18,7 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-
+import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.google.gson.Gson;
 
 public class CompletedControllerHelper {
@@ -87,16 +87,7 @@ public class CompletedControllerHelper {
      * @param data the data to be saved
      */
     public static void saveToFileJSON(Data data) {
-        Gson gson = new Gson();
-        String json = gson.toJson(data);
-        try {
-            FileWriter fw = new FileWriter(CURRENT_COMPLETED_DATA);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(json);
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JsonMethods.saveToFileJSON(data, Data.class, CURRENT_COMPLETED_DATA);
     }
     
     /**
@@ -105,18 +96,8 @@ public class CompletedControllerHelper {
      * @param data the data to be saved
      */
     public static Data loadFromFileJSON() {
-        Gson gson = new Gson();
-        Data data = null;
-        try {
-            Scanner input = new Scanner(CURRENT_COMPLETED_DATA);
-            String json = input.nextLine();
-            data = gson.fromJson(json, Data.class);
-            input.close();
-            return data;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return data;
+        return (Data) JsonMethods
+                        .loadFromFileJSON(Data.class, CURRENT_COMPLETED_DATA);
     }
     
     /**
