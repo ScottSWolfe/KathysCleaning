@@ -10,7 +10,7 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 /**
  * Controller for the completed houses panel
  */
-public class CompletedController implements Controller/*, Savable*/ {
+public class CompletedController implements Controller {
 
 /* INSTANCE VARIABLES ======================================================= */
     
