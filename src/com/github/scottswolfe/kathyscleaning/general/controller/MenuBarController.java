@@ -3,17 +3,17 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.github.scottswolfe.kathyscleaning.persistance.Savable;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 
 public class MenuBarController {
     
     // FIELDS
-    Savable savable;
+    Controller controller;
     
     
     // CONSTRUCTOR
-    public MenuBarController(Savable savable) {
-        this.savable = savable;
+    public MenuBarController(Controller controller) {
+        this.controller = controller;
     }
     
     
@@ -21,14 +21,16 @@ public class MenuBarController {
     public class SaveMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            savable.saveToFile();
+            // TODO add interface for user to choose where to save new file
+            controller.readInputAndWriteToFile();
         }
     }
     
     public class LoadMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            savable.loadFromFile();
+            // TODO add interface for user to choose which file to load
+            controller.readFileAndWriteToView();
         }
     }
     

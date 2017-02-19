@@ -26,7 +26,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -35,8 +34,7 @@ import net.miginfocom.swing.MigLayout;
  * This is the panel where the user enters beginning and ending times for
  * workers at Covenant Academy.
  */
-@SuppressWarnings("serial")
-public class CovenantPanel extends JPanel implements Savable {
+public class CovenantPanel extends JPanel {
 	
 	
 /* FIELDS =================================================================== */
@@ -560,24 +558,6 @@ public class CovenantPanel extends JPanel implements Savable {
 		}
 		
 	}
-
-/* PUBLIC METHODS =========================================================== */
-	
-    @Override
-    public boolean saveToFile() {
-        // TODO Auto-generated method stub
-        System.out.println("Covenant Testing: saveToFile()");
-        return false;
-    }
-
-
-
-    @Override
-    public boolean loadFromFile() {
-        // TODO Auto-generated method stub
-        System.out.println("Covenant Testing: loadfromFile()");
-        return false;
-    }
 	
 	
 	

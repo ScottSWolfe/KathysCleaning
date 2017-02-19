@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,17 +24,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
-import com.github.scottswolfe.kathyscleaning.weekend.WeekendPanel;
+import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendController;
 
 /**
  * Controller that links CovenantModel and CovenantPanel. 
  */
-public class CovenantController {
+public class CovenantController implements Controller {
 
     
     
@@ -58,6 +60,47 @@ public class CovenantController {
         covPanel = panel;
     }
 
+    
+/* PUBLIC METHODS =========================================================== */
+    
+    /**
+     * Initializes and launches a frame with a Covenant panel.
+     */
+    public static void initializeCovenantPanelFrame(JFrame oldFrame,
+            Calendar date, int mode, int wk) {
+        
+        oldFrame.setVisible(false); 
+        oldFrame.dispose();
+        
+        CovenantPanel covPanel = new CovenantPanel(
+                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
+        CovenantModel covModel = new CovenantModel(
+                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
+        
+        JFrame menuFrame = new MenuFrame(covPanel.getController());
+
+        
+        //TODO temporary hack
+        covPanel.setFrame(menuFrame);
+        covPanel.getController().setCovModel(covModel);
+        covPanel.getFrame().setResizable(false);
+        covPanel.getFrame().pack();
+        covPanel.getFrame().setLocationRelativeTo(null);
+        covPanel.getFrame().setVisible(true);
+    }
+    
+    @Override
+    public void readInputAndWriteToFile() {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void readFileAndWriteToView() {
+        // TODO Auto-generated method stub
+        
+    }
     
     
     
@@ -390,44 +433,12 @@ public class CovenantController {
             
             
             // creating new frame for weekend panel and disposing of Covenant panel
-            WeekendPanel wp = new WeekendPanel(covModel.getDate(),
-                    covModel.getMode(), covModel.getWk());
-            
-            JFrame weekendFrame = new MenuFrame(wp);
-            weekendFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            weekendFrame.setResizable(false);
-            weekendFrame.addWindowListener(new MainWindowListener());
-            
-            wp.setFrame(weekendFrame);
-            
-            weekendFrame.add(wp);
-            weekendFrame.pack();
-            weekendFrame.setLocationRelativeTo(null);
-            
-            
-            // populate data from save file
-            if (covModel.getWk() == Settings.WEEK_A) {
-                wp.weekA_button.setSelected(true);
-                ActionEvent event = new ActionEvent(this, 0, "");
-                ActionListener[] al = wp.weekA_button.getActionListeners();
-                al[0].actionPerformed(event);
-            }
-            else if (covModel.getWk() == Settings.WEEK_B) {
-                wp.weekB_button.setSelected(true);
-                ActionEvent event = new ActionEvent(this, 0, "");
-                ActionListener[] al = wp.weekB_button.getActionListeners();
-                al[0].actionPerformed(event);
-                            }
-            else {
-                // do nothing
-            }
-            
-            
-            covPanel.getCovFrame().setVisible(false);
-            covPanel.getCovFrame().dispose();
-            
-            weekendFrame.setVisible(true);
-            
+            WeekendController controller = new WeekendController();
+            controller.initializeWeekendPanelFrame(covPanel.getCovFrame(),
+                                                   covModel.getDate(),
+                                                   covModel.getMode(),
+                                                   covModel.getWk());
+                        
         }
         
     }
@@ -469,6 +480,34 @@ public class CovenantController {
      */
     public void setCovPanel(CovenantPanel covPanel) {
         this.covPanel = covPanel;
+    }
+
+
+    @Override
+    public void setView(Object obj) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public Object getView() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public void setModel(Object obj) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public Object getModel() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

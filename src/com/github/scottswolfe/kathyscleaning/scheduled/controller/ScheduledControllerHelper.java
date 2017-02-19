@@ -1,4 +1,4 @@
-package com.github.scottswolfe.kathyscleaning.completed.controller;
+package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,10 +18,16 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HeaderData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HouseData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.WorkerSchedule;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 import com.google.gson.Gson;
 
-public class CompletedControllerHelper {
+public class ScheduledControllerHelper {
 
 /* CLASS VARIABLES ========================================================== */
    
@@ -30,55 +36,22 @@ public class CompletedControllerHelper {
      */
     public static final File CURRENT_COMPLETED_DATA =
             new File(System.getProperty("user.dir") +
-                    "\\save\\current\\CurrentCompletedHouseData.txt");
+                    "\\save\\current\\CurrentScheduledHouseData.txt");
 
     
 
 /* PUBLIC METHODS =========================================================== */
     
     /**
-     * Reads User's input from the Completed GUI into a Data object 
+     * Reads User's input from the Completed GUI into a NW_Data object 
      * 
-     * @param data the Data object to read the data into
+     * @param data the NW_Data object to read the data into
      * @param tp the TabbedPane containing the user input
-     * @return the updated Data object
+     * @return the new NW_Data object
      */
-    public static Data readUserInput(TabbedPane tp) {
-        Data data = new Data();
-        DayData[] dayData = new DayData[5]; // 5 days in week
-        
-        // for each day
-        for (int d = 0; d < dayData.length; d++) {
-            
-            // Header for day
-            HeaderData headerData = new HeaderData();
-            headerData.setDate(tp.day_panel[d].header_panel.date);
-            headerData.setWeekSelected(tp.day_panel[d].header_panel.getWeekSelected());
-            headerData.setDWD(tp.day_panel[d].header_panel.getWorkers());
-            
-            // Houses in day
-            HouseData[] houseData = new HouseData[tp.day_panel[d].house_panel.length];
-            
-            // for each house panel in the day
-            for (int h = 0; h < houseData.length; h++) {
-                houseData[h] = new HouseData();
-                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].house_name_txt.getText());                       //read house name
-                houseData[h].setHousePay( tp.day_panel[d].house_panel[h].pay_txt.getText() );         //read house pay
-                houseData[h].setTimeBegin( tp.day_panel[d].house_panel[h].time_begin_txt.getText() ); //read begin time
-                houseData[h].setTimeEnd( tp.day_panel[d].house_panel[h].time_end_txt.getText() ); //read end time
-                houseData[h].setSelectedWorkers( tp.day_panel[d].house_panel[h].worker_panel.getSelected() );                                                     //get selected workers
-                houseData[h].setExceptionData( tp.day_panel[d].house_panel[h].exception_data.getExceptionData() );                                                    //get exception info
-            } // end house panels
-            
-            dayData[d] = new DayData();
-            dayData[d].setHouseData(houseData);
-            dayData[d].setHeader(headerData);
-            
-        }  // end day panels
-        
-        data.setDayData(dayData);
-        data.setDate(tp.day_panel[0].header_panel.date);
-        return data;
+    public static NW_Data readUserInput(TabbedPane tp) {
+        // TODO implement method
+        return null;
     }
 
     /**
@@ -86,7 +59,7 @@ public class CompletedControllerHelper {
      * 
      * @param data the data to be saved
      */
-    public static void saveToFileJSON(Data data) {
+    public static void saveToFileJSON(NW_Data data) {
         Gson gson = new Gson();
         String json = gson.toJson(data);
         try {

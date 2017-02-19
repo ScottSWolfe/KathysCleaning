@@ -12,6 +12,7 @@ import javax.swing.KeyStroke;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 
 public class MenuFrame extends JFrame {    
@@ -24,18 +25,20 @@ public class MenuFrame extends JFrame {
     
     
     // CONSTRUCTOR
-    public MenuFrame(Savable savable) {
+    public MenuFrame(Controller controller) {
         super();
-        createAndAddMenu(savable);
+        createAndAddMenu(controller);
         addWindowListener();
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
     }
     
     
     // PRIVATE METHODS
-    private void createAndAddMenu(Savable savable) {
+    private void createAndAddMenu(Controller controller) {
         
         // Create the menu bar controller
-        MenuBarController controller = new MenuBarController(savable);
+        MenuBarController menuController = new MenuBarController(controller);
         
         // Create the menu bar
         menuBar = new JMenuBar();
@@ -49,7 +52,8 @@ public class MenuFrame extends JFrame {
         saveMenuItem.setMnemonic(KeyEvent.VK_S);
         saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        saveMenuItem.addActionListener(controller.new SaveMenuItemListener());
+        saveMenuItem.addActionListener(
+                menuController.new SaveMenuItemListener());
         fileMenu.add(saveMenuItem);
         
         // Build the load menu item
@@ -57,7 +61,8 @@ public class MenuFrame extends JFrame {
         loadMenuItem.setMnemonic(KeyEvent.VK_L);
         loadMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-        loadMenuItem.addActionListener(controller.new LoadMenuItemListener());
+        loadMenuItem.addActionListener(
+                menuController.new LoadMenuItemListener());
         fileMenu.add(loadMenuItem);
 
         // Add the menu bar to the frame

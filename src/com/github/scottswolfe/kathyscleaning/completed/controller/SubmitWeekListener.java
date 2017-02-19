@@ -28,6 +28,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantController;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
@@ -38,7 +39,8 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
-import com.github.scottswolfe.kathyscleaning.weekend.WeekendPanel;
+import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendController;
+import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
 
 public class SubmitWeekListener implements ActionListener {
@@ -83,21 +85,13 @@ public class SubmitWeekListener implements ActionListener {
 			return;
 		}
 		
-		// Read User Input into Model
-        controller.readUserInput();
+        controller.readInputAndWriteToFile();
                 
         File file;
-        if (mode == Settings.TRUE_MODE) {
-            // Write data into Current Text File
-            controller.saveToFile();
-            
-            // Write data into Excel Sheet
-            file = Settings.getExcelTemplateFile();
-            writeDayData(controller.getData(), file);
-            
-            // Close Frame and Create New Frame for Inserting Next Week Schedule
-            initializeCovenantPanelFrame();      
-            
+        if (mode == Settings.TRUE_MODE) {            
+            controller.writeDataToExcel();            
+            CovenantController
+                .initializeCovenantPanelFrame(frame, date, mode, wk);
         } else {
             // Write User Data to Text File
             if (wk == Settings.WEEK_A) {
@@ -109,7 +103,9 @@ public class SubmitWeekListener implements ActionListener {
             writeEditWeekData(controller.getData(), file);
             
             // New weekend panel and frame and dispose of current panel
-            initializeWeekendPanelFrame();
+            WeekendController weekendController = new WeekendController();
+            weekendController
+                .initializeWeekendPanelFrame(frame, date, mode, wk);
 
         }
 		
@@ -639,83 +635,6 @@ public class SubmitWeekListener implements ActionListener {
 		}
 	}
 	
-    /**
-     * Initializes and launches a frame with a Covenant panel.
-     * 
-     * TODO move to Covenant Controller or View ??
-     */
-    public void initializeCovenantPanelFrame() {
-        
-        frame.setVisible(false); 
-        frame.dispose();
-        
-        CovenantPanel covPanel = new CovenantPanel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
-        CovenantModel covModel = new CovenantModel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
-        
-        JFrame menuFrame = new MenuFrame(covPanel);
-
-        
-        //TODO temporary hack
-        covPanel.setFrame(frame);
-        covPanel.getController().setCovModel(covModel);
-        covPanel.getFrame().setResizable(false);
-        covPanel.getFrame().add(covPanel);
-        covPanel.getFrame().addWindowListener(new MainWindowListener());
-        covPanel.getFrame().pack();
-        covPanel.getFrame().setLocationRelativeTo(null);
-        covPanel.getFrame().setVisible(true);
-    }
-    
-    /**
-     * Initializes and launches a frame with a Weekend panel.
-     * 
-     * TODO move to Weekend Controller??
-     */
-    public void initializeWeekendPanelFrame() {
-        
-        WeekendPanel wp = new WeekendPanel(date,mode,wk);
-
-        JFrame weekendFrame = new MenuFrame(wp);
-        weekendFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        weekendFrame.setResizable(false);
-        weekendFrame.addWindowListener( new MainWindowListener() );
-        
-        wp.setFrame(weekendFrame);          
-        
-        weekendFrame.add(wp);
-        weekendFrame.pack();
-        weekendFrame.setLocationRelativeTo( null );
-                    
-        frame.setVisible( false );
-        frame.dispose();
-        
-        // populate data from save file
-        if ( wk == Settings.WEEK_A ) {
-            wp.weekA_button.setSelected(true);
-            ActionEvent event = new ActionEvent(this, 0, "");
-            ActionListener[] al = wp.weekA_button.getActionListeners();
-            al[0].actionPerformed(event);
-        }
-        else if ( wk == Settings.WEEK_B ) {
-            wp.weekB_button.setSelected(true);
-            ActionEvent event = new ActionEvent(this, 0, "");
-            ActionListener[] al = wp.weekB_button.getActionListeners();
-            al[0].actionPerformed(event);
-        }
-        else {
-            // do nothing
-        }
-        
-        wp.weekA_button.setEnabled(false);
-        wp.weekB_button.setEnabled(false);
-        wp.neither_button.setEnabled(false);
-
-                    
-        weekendFrame.setVisible(true);
-
-    }
 	
     	
 }

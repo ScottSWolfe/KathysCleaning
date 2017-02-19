@@ -1,4 +1,4 @@
-package com.github.scottswolfe.kathyscleaning.weekend;
+package com.github.scottswolfe.kathyscleaning.weekend.view;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
@@ -53,12 +53,10 @@ import net.miginfocom.swing.MigLayout;
  * Panel in which user can enter other cleaning jobs.
  * 
  */
-@SuppressWarnings("serial")
-public class WeekendPanel extends JPanel implements Savable {
+public class WeekendPanel extends JPanel {
 	
 
 	// FIELDS
-	
 	JFrame frame;
 	
 	static final int NUM_JOB_PANELS = 3;
@@ -85,8 +83,6 @@ public class WeekendPanel extends JPanel implements Savable {
 	
 	
 	
-	
-	
 	// CONSTRUCTORS
 	public WeekendPanel (Calendar date, int mode, int wk) {
 		
@@ -98,14 +94,11 @@ public class WeekendPanel extends JPanel implements Savable {
 			date.add(Calendar.DATE, -1);
 		}
 		
-		
-		
 		setLayout( new MigLayout() );
 		setBackground(Settings.BACKGROUND_COLOR);
 		
 		add( createHeaderPanel(), "grow, wrap 0" );
 		add( createJobsWorkedPanel(), "grow" );
-		
 	}
 	
 	
@@ -671,7 +664,6 @@ public class WeekendPanel extends JPanel implements Savable {
 				tp.setFont( tp.getFont().deriveFont(Settings.TAB_FONT_SIZE) );
 				tp.setBackground( Settings.BACKGROUND_COLOR );
 				
-				
 				Calendar date = Calendar.getInstance();
 				while (date.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
 					date.add(Calendar.DAY_OF_MONTH, 1);
@@ -682,11 +674,10 @@ public class WeekendPanel extends JPanel implements Savable {
 					date.add(Calendar.DATE, 1);
 				}
 				
-				
 				NW_DayPanel[] day_panel = new NW_DayPanel[5];
 				for(int i=0; i<5; i++){
-					day_panel[i] = new NW_DayPanel(tp, dwd_house, day[i],
-					        nwframe, Settings.EDIT_MODE, wk);
+					day_panel[i] = new NW_DayPanel(controller, tp, dwd_house,
+					        day[i], nwframe, Settings.EDIT_MODE, wk);
 				}
 				tp.nw_day_panel = day_panel;
 				
@@ -751,25 +742,7 @@ public class WeekendPanel extends JPanel implements Savable {
 			
 		}
 		
-	}
-
-
-    @Override
-    public boolean saveToFile() {
-        // TODO Auto-generated method stub
-        System.out.println("Weekend Testing: saveToFile()");
-        return false;
-    }
-
-
-
-    @Override
-    public boolean loadFromFile() {
-        // TODO Auto-generated method stub
-        System.out.println("Weekend Testing: loadFromFile()");
-        return false;
-    }
-	
+	}	
 	
     // GETTERS/SETTERS
     public void setFrame(JFrame frame) {

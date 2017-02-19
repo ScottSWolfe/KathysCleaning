@@ -220,7 +220,7 @@ public class SettingsPanelController {
             
             DayPanel[] dp = new DayPanel[5];
             for(int i=0; i<5; i++){
-                dp[i] = new DayPanel(
+                dp[i] = new DayPanel(controller,
                         tp, dwd, day[i], nframe, Settings.EDIT_MODE, wk);
             }
             tp.day_panel = dp;

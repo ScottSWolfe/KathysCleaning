@@ -409,7 +409,7 @@ public class ChooseWeekPanel extends JPanel {
                 controller.setView(tp);
 			    tp.setController(controller);
 			    
-			    JFrame frame = createFrame((CompletedController)controller);
+			    JFrame frame = createFrame(controller);
 			    
 				if ( week_A_rbutton.isSelected() ) {
 					wk = Settings.WEEK_A;
@@ -997,11 +997,10 @@ public class ChooseWeekPanel extends JPanel {
 	}
 	
 	
-	private JFrame createFrame(Savable savable) {
-	    JFrame frame = new MenuFrame(savable);
+	private JFrame createFrame(Controller controller) {
+	    JFrame frame = new MenuFrame(controller);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setResizable(false);
-        //frame.addWindowListener(new MainWindowListener());
         return frame;
 	}
 	
