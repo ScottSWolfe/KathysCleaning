@@ -2,13 +2,9 @@ package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 
 import java.io.File;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 
 /**
@@ -69,7 +65,7 @@ public class ScheduledController implements Controller {
     
     @Override
     public void setModel(Object obj) {
-        this.data = (Data) obj;
+        this.data = (NW_Data) obj;
     }
     
     @Override
@@ -77,11 +73,11 @@ public class ScheduledController implements Controller {
         return data;
     }
     
-    public void setData(Data data) {
+    public void setData(NW_Data data) {
         this.data = data;
     }
     
-    public Data getData() {
+    public NW_Data getData() {
         return data;
     }
     
