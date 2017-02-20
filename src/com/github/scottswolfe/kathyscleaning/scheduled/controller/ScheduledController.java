@@ -9,6 +9,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.persistance.Savable;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 
 /**
  * Controller for the scheduled houses panel
@@ -25,7 +26,7 @@ public class ScheduledController implements Controller {
     /**
      * The model this controller controls
      */
-    private Data data;
+    private NW_Data data;
     
     
  
