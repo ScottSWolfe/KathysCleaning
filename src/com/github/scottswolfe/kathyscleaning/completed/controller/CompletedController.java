@@ -24,6 +24,24 @@ public class CompletedController implements Controller {
      */
     private Data data;
     
+
+    
+/* CLASS VARIABLES ========================================================== */
+
+    /**
+     * Current Completed Houses Save File
+     */
+    public static final File CURRENT_COMPLETED_DATA =
+            new File(System.getProperty("user.dir") +
+                    "\\save\\current\\CurrentCompletedHouseData.txt");
+
+    /**
+     * Current Completed Houses Save File
+     */
+    public static final File DEFAULT_COMPLETED_DATA =
+            new File(System.getProperty("user.dir") +
+                    "\\save\\default\\DefaultCompletedHouseData.txt");
+
     
  
 /* PUBLIC METHODS =========================================================== */
@@ -31,12 +49,13 @@ public class CompletedController implements Controller {
     @Override
     public void readInputAndWriteToFile() {
         data = CompletedControllerHelper.readUserInput(tp);
-        CompletedControllerHelper.saveToFileJSON(data);
+        CompletedControllerHelper.saveToFileJSON(data, CURRENT_COMPLETED_DATA);
     }
     
     @Override
     public void readFileAndWriteToView() {
-        data = CompletedControllerHelper.loadFromFileJSON();
+        data = CompletedControllerHelper
+                            .loadFromFileJSON(CURRENT_COMPLETED_DATA);
         CompletedControllerHelper.writeDataToView(data, tp);
     }
     
@@ -47,6 +66,14 @@ public class CompletedController implements Controller {
         File file = Settings.getExcelTemplateFile();
         CompletedExcelHelper helper = new CompletedExcelHelper(data, file);
         helper.writeDataToExcel();
+    }
+    
+    /**
+     * Writes data to the default settings file
+     */
+    public void readInputAndWriteToDefaultFile() {
+        data = CompletedControllerHelper.readUserInput(tp);
+        CompletedControllerHelper.saveToFileJSON(data, DEFAULT_COMPLETED_DATA);
     }
 
     

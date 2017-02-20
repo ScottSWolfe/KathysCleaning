@@ -2,12 +2,7 @@ package com.github.scottswolfe.kathyscleaning.completed.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
@@ -19,21 +14,9 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
-import com.google.gson.Gson;
 
 public class CompletedControllerHelper {
-
-/* CLASS VARIABLES ========================================================== */
    
-    /**
-     * Current Completed Houses Save File
-     */
-    public static final File CURRENT_COMPLETED_DATA =
-            new File(System.getProperty("user.dir") +
-                    "\\save\\current\\CurrentCompletedHouseData.txt");
-
-    
-
 /* PUBLIC METHODS =========================================================== */
     
     /**
@@ -45,7 +28,7 @@ public class CompletedControllerHelper {
      */
     public static Data readUserInput(TabbedPane tp) {
         Data data = new Data();
-        DayData[] dayData = new DayData[5]; // 5 days in week
+        DayData[] dayData = new DayData[5];
         
         // for each day
         for (int d = 0; d < dayData.length; d++) {
@@ -62,13 +45,13 @@ public class CompletedControllerHelper {
             // for each house panel in the day
             for (int h = 0; h < houseData.length; h++) {
                 houseData[h] = new HouseData();
-                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].house_name_txt.getText());                       //read house name
-                houseData[h].setHousePay( tp.day_panel[d].house_panel[h].pay_txt.getText() );         //read house pay
-                houseData[h].setTimeBegin( tp.day_panel[d].house_panel[h].time_begin_txt.getText() ); //read begin time
-                houseData[h].setTimeEnd( tp.day_panel[d].house_panel[h].time_end_txt.getText() ); //read end time
-                houseData[h].setSelectedWorkers( tp.day_panel[d].house_panel[h].worker_panel.getSelected() );                                                     //get selected workers
-                houseData[h].setExceptionData( tp.day_panel[d].house_panel[h].exception_data.getExceptionData() );                                                    //get exception info
-            } // end house panels
+                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].house_name_txt.getText()); 
+                houseData[h].setHousePay(tp.day_panel[d].house_panel[h].pay_txt.getText());
+                houseData[h].setTimeBegin(tp.day_panel[d].house_panel[h].time_begin_txt.getText());
+                houseData[h].setTimeEnd(tp.day_panel[d].house_panel[h].time_end_txt.getText());
+                houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].worker_panel.getSelected()); 
+                houseData[h].setExceptionData(tp.day_panel[d].house_panel[h].exception_data.getExceptionData());
+            }
             
             dayData[d] = new DayData();
             dayData[d].setHouseData(houseData);
@@ -86,8 +69,8 @@ public class CompletedControllerHelper {
      * 
      * @param data the data to be saved
      */
-    public static void saveToFileJSON(Data data) {
-        JsonMethods.saveToFileJSON(data, Data.class, CURRENT_COMPLETED_DATA);
+    public static void saveToFileJSON(Data data, File file) {
+        JsonMethods.saveToFileJSON(data, Data.class, file);
     }
     
     /**
@@ -95,9 +78,9 @@ public class CompletedControllerHelper {
      * 
      * @param data the data to be saved
      */
-    public static Data loadFromFileJSON() {
+    public static Data loadFromFileJSON(File file) {
         return (Data) JsonMethods
-                        .loadFromFileJSON(Data.class, CURRENT_COMPLETED_DATA);
+                        .loadFromFileJSON(Data.class, file);
     }
     
     /**
