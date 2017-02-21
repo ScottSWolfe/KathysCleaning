@@ -22,6 +22,7 @@ public class WeekRadioListener implements ActionListener {
 	
 //  FIELDS
 	
+    CompletedController controller;
 	TabbedPane tp;
 	JFrame frame;
 	int wk;
@@ -29,7 +30,7 @@ public class WeekRadioListener implements ActionListener {
 	
 //  CONSTRUCTOR
 	
-	public WeekRadioListener( TabbedPane tp, JFrame frame, int wk ){
+	public WeekRadioListener(CompletedController controller, TabbedPane tp, JFrame frame, int wk ){
 		this.tp = tp;
 		this.frame = frame;
 		this.wk = wk;
@@ -45,6 +46,12 @@ public class WeekRadioListener implements ActionListener {
 		if (tp.day_panel[ tp.getSelectedIndex() ].header_panel.weekSelected == wk) {
 			return;
 		}
+		
+		// if controller is opening and loading a file, do nothing
+		if (controller.isOpeningFile()) {
+		    return;
+		}
+		
 		// if selected button was not already selected, change/insert data for day
 		else {
 				

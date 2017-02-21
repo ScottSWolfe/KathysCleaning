@@ -24,7 +24,12 @@ public class CompletedController implements Controller {
      */
     private Data data;
     
-
+    /**
+     * True if currently loading file; false otherwise
+     */
+    private boolean openingFile; 
+    
+    
     
 /* CLASS VARIABLES ========================================================== */
 
@@ -75,7 +80,13 @@ public class CompletedController implements Controller {
         data = CompletedControllerHelper.readUserInput(tp);
         CompletedControllerHelper.saveToFileJSON(data, DEFAULT_COMPLETED_DATA);
     }
-
+    
+    /**
+     * Returns true if currently opening a file; false otherwise
+     */
+    public boolean isOpeningFile() {
+        return openingFile;
+    }
     
     
 // GETTERS/SETTERS ---------------------------------------------------------- */
@@ -114,6 +125,10 @@ public class CompletedController implements Controller {
     
     public TabbedPane getTabbedPane() {
         return tp;
+    }
+    
+    public void setOpeningFile(boolean openingFile) {
+        this.openingFile = openingFile;
     }
     
     

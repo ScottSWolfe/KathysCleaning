@@ -13,6 +13,7 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CompletedControllerHelper {
@@ -180,20 +181,16 @@ public class CompletedControllerHelper {
             header_panel = day_panel.header_panel;
             header_data = day_data.getHeaderData();
             
-            
-            // TODO: temporary for now until listener situation is corrected
             weekSelected = header_data.getWeekSelected();
-            /*
-            if (weekSelected == Settings.WEEK_A ) {
+            if (weekSelected == Settings.WEEK_A) {
                 header_panel.week_A.setSelected(true);
             }
-            else if (weekSelected == Settings.WEEK_B ){
+            else if (weekSelected == Settings.WEEK_B){
                 header_panel.week_B.setSelected(true);
             }
             else {
-            */
                 header_panel.neither.setSelected(true);
-            //}
+            }
             
         }
     }

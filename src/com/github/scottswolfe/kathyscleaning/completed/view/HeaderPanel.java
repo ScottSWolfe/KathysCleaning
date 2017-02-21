@@ -33,7 +33,6 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
 
-@SuppressWarnings("serial")
 public class HeaderPanel extends JPanel {
 	
 // FIELDS
@@ -90,7 +89,7 @@ public class HeaderPanel extends JPanel {
 		setBorder(BorderFactory.createLineBorder(null, 2));
 		
 		JPanel date_panel = datePanel(date);
-		JPanel choose_week_panel = chooseWeekPanel();
+		JPanel choose_week_panel = chooseWeekPanel(controller);
 		JPanel worker_panel = workerPanel(dwd);
 		JPanel change_day_panel = changeDayPanel();
 		JPanel submit_week_panel = submitWeekPanel(controller);
@@ -145,7 +144,7 @@ public class HeaderPanel extends JPanel {
 	
 	
 	
-	private JPanel chooseWeekPanel(){
+	private JPanel chooseWeekPanel(CompletedController controller) {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2") );
@@ -174,10 +173,11 @@ public class HeaderPanel extends JPanel {
 		}
 		
 		week_A.addActionListener(
-		        new WeekRadioListener(tp, frame, Settings.WEEK_A));
+		        new WeekRadioListener(controller, tp, frame, Settings.WEEK_A));
 		week_B.addActionListener(
-		        new WeekRadioListener(tp, frame, Settings.WEEK_B));
-		neither.addActionListener(new NeitherRadioListener(tp, frame));
+		        new WeekRadioListener(controller, tp, frame, Settings.WEEK_B));
+		neither.addActionListener(
+		        new NeitherRadioListener(controller, tp, frame));
 		
 		panel.add(week_A, "wrap");
 		panel.add(week_B, "wrap");

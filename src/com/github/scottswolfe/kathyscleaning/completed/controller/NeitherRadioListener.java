@@ -18,6 +18,7 @@ public class NeitherRadioListener implements ActionListener {
 
 	// FIELDS
 	
+    CompletedController controller;
 	TabbedPane tp;
 	JFrame frame;
 	
@@ -25,7 +26,9 @@ public class NeitherRadioListener implements ActionListener {
 	
 	// CONSTRUCTOR
 	
-	public NeitherRadioListener( TabbedPane tp, JFrame frame ){
+	public NeitherRadioListener(CompletedController controller,
+	                            TabbedPane tp, JFrame frame) {
+	    this.controller = controller;
 		this.tp = tp;
 		this.frame = frame;
 	}
@@ -36,6 +39,9 @@ public class NeitherRadioListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		
+		if (controller.isOpeningFile()) {
+		    return;
+		}
 		
 		int day = tp.getSelectedIndex();
 		DayPanel dp = tp.day_panel[day];
