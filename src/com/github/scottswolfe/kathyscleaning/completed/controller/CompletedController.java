@@ -5,12 +5,13 @@ import java.io.File;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
+import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 /**
  * Controller for the completed houses panel
  */
-public class CompletedController implements Controller {
+public class CompletedController implements Controller, FileMenuListener {
 
 /* INSTANCE VARIABLES ======================================================= */
     
