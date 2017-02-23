@@ -7,9 +7,30 @@ public interface Controller {
 
 /* PUBLIC METHODS =========================================================== */
     
+    /**
+     * Reads the user's input from the view and writes it to a save file
+     */
     public void readInputAndWriteToFile();
     
+    /**
+     * Reads a save file and writes the data into the current view
+     */
     public void readFileAndWriteToView();
+    
+    /**
+     * This method is triggered when the user selects save in the file menu
+     */
+    public void menuItemSave();
+    
+    /**
+     * This method is triggered when the user selects save as in the file menu
+     */
+    public void menuItemSaveAs();
+    
+    /**
+     * This method is triggered when the user selects open in the file menu
+     */
+    public void menuItemOpen();
     
     
     

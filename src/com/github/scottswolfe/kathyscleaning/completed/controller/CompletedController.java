@@ -52,6 +52,22 @@ public class CompletedController implements Controller {
 /* PUBLIC METHODS =========================================================== */
     
     @Override
+    public void menuItemSave() {
+        readInputAndWriteToFile();
+        
+    }
+    
+    @Override
+    public void menuItemSaveAs() {
+        
+    }
+    
+    @Override
+    public void menuItemOpen() {
+        
+    }
+    
+    @Override
     public void readInputAndWriteToFile() {
         data = CompletedControllerHelper.readUserInput(tp);
         CompletedControllerHelper.saveToFileJSON(data, CURRENT_COMPLETED_DATA);
