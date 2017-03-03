@@ -38,7 +38,7 @@ public class JsonMethods {
     }
     
     /**
-     * Saves the given object to the given file in JSON format
+     * Saves the given object to the given line in the file in JSON format
      * 
      * @param data the object to be jsonified
      * @param type the class of the given object
@@ -52,17 +52,46 @@ public class JsonMethods {
     }
     
     /**
-     * Returns an object with data parsed from the given JSON file
+     * Returns an object with data parsed from the given JSON file and
      * 
      * @param type the class of object to return
      * @param file the file to parse
      * @return the new object
      */
     public static Object loadFromFileJSON(Class<?> type, File file) {
+        return loadFromFileJSON(type, file, 0);
+    }
+    
+    /**
+     * Returns an object with data parsed from the given line in the JSON file
+     * 
+     * @param type the class of object to return
+     * @param file the file to parse
+     * @param lineNumber the line number of the JSON object to parse
+     * @return the new object
+     */
+    public static Object loadFromFileJSON(Class<?> type,
+                                          File file, int lineNumber) {
+        return loadFromFile(type, file, lineNumber);
+    }
+    
+    
+/* PRIVATE METHODS ========================================================== */
+    
+    private static void saveToFile(Object data,
+                            Class<?> type, File file, int lineNumber) {
+        
+        String json = gson.toJson(data, type);
+        List<String> lines = getFileLines(file, lineNumber);
+        writeLinesAndJson(json, lines, file, lineNumber); 
+    }
+    
+    private static Object loadFromFile(Class<?> type, File file,
+                                                    int lineNumber) { 
         try {
             Object data = type.newInstance();
             Scanner input = new Scanner(file);
-            String json = input.nextLine();
+            String json = getLine(input, lineNumber);
             data = gson.fromJson(json, type);
             input.close();
             return data;
@@ -76,18 +105,6 @@ public class JsonMethods {
             e.printStackTrace();
             return null;
         }
-    }
-    
-    
-    
-/* PRIVATE METHODS ========================================================== */
-    
-    private static void saveToFile(Object data,
-                            Class<?> type, File file, int lineNumber) {
-        
-        String json = gson.toJson(data, type);
-        List<String> lines = getFileLines(file, lineNumber);
-        writeLinesAndJson(json, lines, file, lineNumber); 
     }
     
     private static List<String> getFileLines(File file, int lineNumber) {
@@ -132,5 +149,16 @@ public class JsonMethods {
         }
     }
 
+    private static String getLine(Scanner input, int lineNumber) {
+        for (int i = 0; i < lineNumber && input.hasNext(); i++) {
+            input.nextLine();
+        }
+        if (input.hasNext()) {
+            return input.nextLine();   
+        } else {
+            throw new java.util.NoSuchElementException();
+        }
+    }
+    
     
 }

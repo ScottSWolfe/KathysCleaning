@@ -42,42 +42,52 @@ public class CompletedController implements Controller, FileMenuListener {
                     "\\save\\current\\CurrentCompletedHouseData.txt");
 
     /**
-     * Current Completed Houses Save File
+     * Completed Houses Save File for Default Fill-in
      */
     public static final File DEFAULT_COMPLETED_DATA =
             new File(System.getProperty("user.dir") +
                     "\\save\\default\\DefaultCompletedHouseData.txt");
 
+    /**
+     * The current save file for the entire week
+     */
+    public static File currentSaveFile;
+    
     
  
 /* PUBLIC METHODS =========================================================== */
     
     @Override
     public void menuItemSave() {
+        if (currentSaveFile == null) {
+            menuItemSaveAs();
+        }
         readInputAndWriteToFile();
-        
     }
     
     @Override
     public void menuItemSaveAs() {
-        
+        // TODO use file chooser to create file
+        // TODO set currentSaveFile to created file
+        readInputAndWriteToFile();
     }
     
     @Override
     public void menuItemOpen() {
-        
+        // TODO use file chooser to select file
+        readFileAndWriteToView();
     }
     
     @Override
     public void readInputAndWriteToFile() {
         data = CompletedControllerHelper.readUserInput(tp);
-        CompletedControllerHelper.saveToFileJSON(data, CURRENT_COMPLETED_DATA);
+        CompletedControllerHelper.saveToFileJSON(data, currentSaveFile);
     }
     
     @Override
     public void readFileAndWriteToView() {
         data = CompletedControllerHelper
-                            .loadFromFileJSON(CURRENT_COMPLETED_DATA);
+                            .loadFromFileJSON(currentSaveFile);
         CompletedControllerHelper.writeDataToView(data, tp);
     }
     

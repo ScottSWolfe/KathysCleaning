@@ -11,6 +11,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.enums.Portal;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -71,7 +72,8 @@ public class CompletedControllerHelper {
      * @param data the data to be saved
      */
     public static void saveToFileJSON(Data data, File file) {
-        JsonMethods.saveToFileJSON(data, Data.class, file);
+        JsonMethods.saveToFileJSON(data, Data.class, file,
+                                   Portal.COMPLETED.getNum());
     }
     
     /**
@@ -80,8 +82,8 @@ public class CompletedControllerHelper {
      * @param data the data to be saved
      */
     public static Data loadFromFileJSON(File file) {
-        return (Data) JsonMethods
-                        .loadFromFileJSON(Data.class, file);
+        return (Data) JsonMethods.loadFromFileJSON(Data.class, file,
+                                                   Portal.COMPLETED.getNum());
     }
     
     /**
@@ -90,11 +92,7 @@ public class CompletedControllerHelper {
      * @param data the data to be written into the view
      * @param tp the view in which to write the data
      */
-    public static void writeDataToView(Data data, TabbedPane tp) {
-
-        // TODO an issue: if different week is selected than current,
-        // the week selection listener will auto fill stuff...
-        
+    public static void writeDataToView(Data data, TabbedPane tp) {        
         DayPanel day_panel;
         DayData day_data;
         HousePanel house_panel;
