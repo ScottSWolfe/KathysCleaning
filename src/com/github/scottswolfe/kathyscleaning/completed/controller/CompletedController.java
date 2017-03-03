@@ -158,6 +158,5 @@ public class CompletedController implements Controller, FileMenuListener {
         this.openingFile = openingFile;
     }
     
-    
-    
+      
 }
