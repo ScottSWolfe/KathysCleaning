@@ -34,9 +34,62 @@ public class FileChooserHelper {
 /* PUBLIC METHODS =========================================================== */
     
     /**
-     * Creates a dialog window that allows the user to choose a file. Returns
-     * the chosen file or null if no file is chosen. Creates a new file if the
-     * file does not exist.
+     * Opens a dialog window that allows the user to select an existing file.
+     * Returns the chosen file or null if no file is chosen. The file chooser
+     * accept button says "Select".
+     * 
+     * @param directory the default directory
+     * @param title the title for the dialog window
+     * @param extension the file extension for filtering; null for no filtering
+     * @return the chosen file or null if no file is chosen
+     */
+    public static File selectFile(File directory, String title, String extension) {
+        Settings.changeLookAndFeelSystem();
+        JFileChooser chooser = createChooser(directory, title, extension, "selectFile"); 
+        File file = chooseFile(chooser, false, "selectFile");
+        Settings.changeLookAndFeelProgram();
+        return file;
+    }
+    
+    /**
+     * Opens a dialog window that allows the user to choose a directory. Returns
+     * the chosen directory or null if no directory is chosen. The file chooser
+     * accept button says "Select".
+     * 
+     * @param directory the default directory
+     * @param title the title for the dialog window
+     * @return the chosen directory or null if no file is chosen
+     */
+    public static File selectDirectory(File directory, String title) {
+        Settings.changeLookAndFeelSystem();
+        JFileChooser chooser = createChooser(directory, title, null, "selectDirectory"); 
+        File file = chooseFile(chooser, true, "selectDirectory");
+        Settings.changeLookAndFeelProgram();
+        return file;
+    }
+    
+    /**
+     * Opens a dialog window that allows the user to select or create a file.
+     * Returns the chosen file or null if no file is chosen. Creates a new file
+     * if the file does not exist. The file chooser accept button says "Save".
+     * 
+     * @param directory the default directory
+     * @param title the title for the dialog window
+     * @param extension the file extension for filtering; null for no filtering
+     * @return the chosen or created file or null if no file is chosen
+     */
+    public static File saveAs(File directory, String title, String extension) {
+        Settings.changeLookAndFeelSystem();
+        JFileChooser chooser = createChooser(directory, title, extension, "saveAs"); 
+        File file = chooseFile(chooser, true, "saveAs");
+        Settings.changeLookAndFeelProgram();
+        return file;
+    }
+    
+    /**
+     * Opens a dialog window that allows the user to choose a file. Returns
+     * the chosen file or null if no file is chosen. The file chooser accept
+     * button says "Open".
      * 
      * @param directory the default directory
      * @param title the title for the dialog window
@@ -44,35 +97,25 @@ public class FileChooserHelper {
      * @param createFile true if user can create new files, false otherwise
      * @return the chosen or created file or null if no file is chosen
      */
-    public static File chooseFile(File directory, String title, String extension, boolean createFile) {
+    public static File open(File directory, String title, String extension) {
         Settings.changeLookAndFeelSystem();
-        JFileChooser chooser = createChooser(directory, title, extension); 
-        File file = chooseFile(chooser, createFile);
+        JFileChooser chooser = createChooser(directory, title, extension, "open"); 
+        File file = chooseFile(chooser, false, "open");
         Settings.changeLookAndFeelProgram();
         return file;
     }
- 
-    public static File chooseFile(File directory, String title, String extension) {
-        return chooseFile(directory, title, extension, false);
-    }
-    
-    public static File chooseFile(File directory, String title, boolean createFile) {
-        return chooseFile(directory, title, null, createFile);
-    }
-    
-    public static File chooseFile(File directory, String title) {
-        return chooseFile(directory, title, null, false);
-    }
-    
-    
+
+        
     
 /* PRIVATE METHODS ========================================================== */
     
-    private static JFileChooser createChooser(File directory, String title, String extension) {
+    private static JFileChooser createChooser(File directory, String title,
+                                              String extension, String method) {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(directory);
         chooser.setDialogTitle(title);
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        setFileSelectionMode(chooser, method);
+        setApproveButtonText(chooser, method);
         setFilter(chooser, extension);
         return chooser;
     }
@@ -86,19 +129,21 @@ public class FileChooserHelper {
         chooser.setFileFilter(filter);
     }
     
-    private static File chooseFile(JFileChooser chooser, boolean createFile) {
+    private static File chooseFile(JFileChooser chooser,
+                                   boolean createFile, String method) {
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            return getSelectedFile(chooser, createFile);
+            return getSelectedFile(chooser, createFile, method);
         } else {
             return null;
         }
     }
     
-    private static File getSelectedFile(JFileChooser chooser, boolean createFile) {
+    private static File getSelectedFile(JFileChooser chooser,
+                                        boolean createFile, String method) {
         File file = chooser.getSelectedFile();
         if (!file.exists()) {
             if(createFile) {
-                createFile(file);
+                createFile(file, method);
                 return file;
             } else {
                 return null;
@@ -108,9 +153,13 @@ public class FileChooserHelper {
         }
     }
     
-    private static void createFile(File file) {
+    private static void createFile(File file, String method) {
         try {
-            Files.createFile(file.toPath());
+            if (method == "selectDirectory") {
+                file.mkdir();
+            } else {
+                Files.createFile(file.toPath());
+            }
         } catch (FileAlreadyExistsException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -118,4 +167,24 @@ public class FileChooserHelper {
         }
     }
     
+    private static void setApproveButtonText(JFileChooser chooser, String method) {
+        String buttonText;
+        if (method == "selectFile" || method == "selectDirectory") {
+            buttonText = "Select";
+        } else if (method == "saveAs") {
+            buttonText = "Save";
+        } else {
+            buttonText = "Open";
+        }
+        chooser.setApproveButtonText(buttonText);
+    }
+    
+    private static void setFileSelectionMode(JFileChooser chooser, String method) {
+        if (method == "selectDirectory") {
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        } else {
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        }
+    }
+
 }
