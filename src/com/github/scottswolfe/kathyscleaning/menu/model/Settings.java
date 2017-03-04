@@ -136,6 +136,11 @@ public class Settings {
     public static File excelSaveLocation;
     
     /**
+     * The current save file for the entire week
+     */
+    public static File currentSaveFile;
+    
+    /**
      * Saved Font Size Factor.
      */
     public static int fontSizeFactor;

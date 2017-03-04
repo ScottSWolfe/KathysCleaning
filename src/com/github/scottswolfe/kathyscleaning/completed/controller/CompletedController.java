@@ -5,13 +5,12 @@ import java.io.File;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
-import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 /**
  * Controller for the completed houses panel
  */
-public class CompletedController implements Controller, FileMenuListener {
+public class CompletedController implements Controller {
 
 /* INSTANCE VARIABLES ======================================================= */
     
@@ -29,7 +28,7 @@ public class CompletedController implements Controller, FileMenuListener {
      * True if currently loading file; false otherwise
      */
     private boolean openingFile; 
-    
+
     
     
 /* CLASS VARIABLES ========================================================== */
@@ -47,47 +46,21 @@ public class CompletedController implements Controller, FileMenuListener {
     public static final File DEFAULT_COMPLETED_DATA =
             new File(System.getProperty("user.dir") +
                     "\\save\\default\\DefaultCompletedHouseData.txt");
-
-    /**
-     * The current save file for the entire week
-     */
-    public static File currentSaveFile;
     
     
  
 /* PUBLIC METHODS =========================================================== */
-    
-    @Override
-    public void menuItemSave() {
-        if (currentSaveFile == null) {
-            menuItemSaveAs();
-        }
-        readInputAndWriteToFile();
-    }
-    
-    @Override
-    public void menuItemSaveAs() {
-        // TODO use file chooser to create file
-        // TODO set currentSaveFile to created file
-        readInputAndWriteToFile();
-    }
-    
-    @Override
-    public void menuItemOpen() {
-        // TODO use file chooser to select file
-        readFileAndWriteToView();
-    }
-    
+        
     @Override
     public void readInputAndWriteToFile() {
         data = CompletedControllerHelper.readUserInput(tp);
-        CompletedControllerHelper.saveToFileJSON(data, currentSaveFile);
+        CompletedControllerHelper.saveToFileJSON(data, Settings.currentSaveFile);
     }
     
     @Override
     public void readFileAndWriteToView() {
         data = CompletedControllerHelper
-                            .loadFromFileJSON(currentSaveFile);
+                            .loadFromFileJSON(Settings.currentSaveFile);
         CompletedControllerHelper.writeDataToView(data, tp);
     }
     
@@ -114,6 +87,7 @@ public class CompletedController implements Controller, FileMenuListener {
     public boolean isOpeningFile() {
         return openingFile;
     }
+    
     
     
 // GETTERS/SETTERS ---------------------------------------------------------- */
@@ -157,6 +131,5 @@ public class CompletedController implements Controller, FileMenuListener {
     public void setOpeningFile(boolean openingFile) {
         this.openingFile = openingFile;
     }
-    
       
 }
