@@ -63,23 +63,21 @@ public class MenuBarController implements FileMenuListener {
     public class SaveMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            menuItemSave();
         }
     }
     
     public class SaveAsMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO add interface for user to choose where to save new file
-            controller.readInputAndWriteToFile();
+            menuItemSaveAs();
         }
     }
     
     public class LoadMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO add interface for user to choose which file to load
-            controller.readFileAndWriteToView();
+            menuItemOpen();
         }
     }
 
