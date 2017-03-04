@@ -26,8 +26,20 @@ public class FileChooserHelper {
     public final static File SAVE_FILE_DIR =
             new File(System.getProperty("user.dir") + "\\save\\user");
     
+
     public final static String XLSX = "xlsx";
     public final static String TXT = "txt";
+    
+/* PRIVATE CLASS VARIABLES ================================================== */
+    
+    private enum Method {
+        selectFile, selectDirectory, saveAs, open;
+    }
+        
+    private final static String selectFileTitle = "Select a file";
+    private final static String selectDirectoryTitle = "Select a folder";
+    private final static String saveAsTitle = "Save As ...";
+    private final static String openTitle = "Select a file to open";
     
     
     
@@ -43,10 +55,11 @@ public class FileChooserHelper {
      * @param extension the file extension for filtering; null for no filtering
      * @return the chosen file or null if no file is chosen
      */
-    public static File selectFile(File directory, String title, String extension) {
+    public static File selectFile(File directory, String extension) {
         Settings.changeLookAndFeelSystem();
-        JFileChooser chooser = createChooser(directory, title, extension, "selectFile"); 
-        File file = chooseFile(chooser, false, "selectFile");
+        JFileChooser chooser = createChooser(directory, selectFileTitle,
+                                             extension, Method.selectFile); 
+        File file = chooseFile(chooser, false, Method.selectFile);
         Settings.changeLookAndFeelProgram();
         return file;
     }
@@ -60,10 +73,11 @@ public class FileChooserHelper {
      * @param title the title for the dialog window
      * @return the chosen directory or null if no file is chosen
      */
-    public static File selectDirectory(File directory, String title) {
+    public static File selectDirectory(File directory) {
         Settings.changeLookAndFeelSystem();
-        JFileChooser chooser = createChooser(directory, title, null, "selectDirectory"); 
-        File file = chooseFile(chooser, true, "selectDirectory");
+        JFileChooser chooser = createChooser(directory, selectDirectoryTitle,
+                                             null, Method.selectDirectory); 
+        File file = chooseFile(chooser, true, Method.selectDirectory);
         Settings.changeLookAndFeelProgram();
         return file;
     }
@@ -78,10 +92,11 @@ public class FileChooserHelper {
      * @param extension the file extension for filtering; null for no filtering
      * @return the chosen or created file or null if no file is chosen
      */
-    public static File saveAs(File directory, String title, String extension) {
+    public static File saveAs(File directory, String extension) {
         Settings.changeLookAndFeelSystem();
-        JFileChooser chooser = createChooser(directory, title, extension, "saveAs"); 
-        File file = chooseFile(chooser, true, "saveAs");
+        JFileChooser chooser = createChooser(directory, saveAsTitle,
+                                             extension, Method.saveAs); 
+        File file = chooseFile(chooser, true, Method.saveAs);
         Settings.changeLookAndFeelProgram();
         return file;
     }
@@ -97,10 +112,11 @@ public class FileChooserHelper {
      * @param createFile true if user can create new files, false otherwise
      * @return the chosen or created file or null if no file is chosen
      */
-    public static File open(File directory, String title, String extension) {
+    public static File open(File directory, String extension) {
         Settings.changeLookAndFeelSystem();
-        JFileChooser chooser = createChooser(directory, title, extension, "open"); 
-        File file = chooseFile(chooser, false, "open");
+        JFileChooser chooser = createChooser(directory, openTitle,
+                                             extension, Method.open); 
+        File file = chooseFile(chooser, false, Method.open);
         Settings.changeLookAndFeelProgram();
         return file;
     }
@@ -110,7 +126,7 @@ public class FileChooserHelper {
 /* PRIVATE METHODS ========================================================== */
     
     private static JFileChooser createChooser(File directory, String title,
-                                              String extension, String method) {
+                                              String extension, Method method) {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(directory);
         chooser.setDialogTitle(title);
@@ -130,7 +146,7 @@ public class FileChooserHelper {
     }
     
     private static File chooseFile(JFileChooser chooser,
-                                   boolean createFile, String method) {
+                                   boolean createFile, Method method) {
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             return getSelectedFile(chooser, createFile, method);
         } else {
@@ -139,7 +155,7 @@ public class FileChooserHelper {
     }
     
     private static File getSelectedFile(JFileChooser chooser,
-                                        boolean createFile, String method) {
+                                        boolean createFile, Method method) {
         File file = chooser.getSelectedFile();
         if (!file.exists()) {
             if(createFile) {
@@ -153,9 +169,9 @@ public class FileChooserHelper {
         }
     }
     
-    private static void createFile(File file, String method) {
+    private static void createFile(File file, Method method) {
         try {
-            if (method == "selectDirectory") {
+            if (method == Method.selectDirectory) {
                 file.mkdir();
             } else {
                 Files.createFile(file.toPath());
@@ -167,11 +183,11 @@ public class FileChooserHelper {
         }
     }
     
-    private static void setApproveButtonText(JFileChooser chooser, String method) {
+    private static void setApproveButtonText(JFileChooser chooser, Method method) {
         String buttonText;
-        if (method == "selectFile" || method == "selectDirectory") {
+        if (method == Method.selectFile || method == Method.selectDirectory) {
             buttonText = "Select";
-        } else if (method == "saveAs") {
+        } else if (method == Method.saveAs) {
             buttonText = "Save";
         } else {
             buttonText = "Open";
@@ -179,8 +195,8 @@ public class FileChooserHelper {
         chooser.setApproveButtonText(buttonText);
     }
     
-    private static void setFileSelectionMode(JFileChooser chooser, String method) {
-        if (method == "selectDirectory") {
+    private static void setFileSelectionMode(JFileChooser chooser, Method method) {
+        if (method == Method.selectDirectory) {
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         } else {
             chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
