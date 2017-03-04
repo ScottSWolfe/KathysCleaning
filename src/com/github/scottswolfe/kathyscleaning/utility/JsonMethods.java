@@ -82,7 +82,7 @@ public class JsonMethods {
                             Class<?> type, File file, int lineNumber) {
         
         String json = gson.toJson(data, type);
-        List<String> lines = getFileLines(file, lineNumber);
+        List<String> lines = getFileLines(file);
         writeLinesAndJson(json, lines, file, lineNumber); 
     }
     
@@ -107,17 +107,7 @@ public class JsonMethods {
         }
     }
     
-    private static List<String> getFileLines(File file, int lineNumber) {
-        List<String> lines;
-        if (lineNumber > 1) {
-            lines = readFile(file);
-        } else {
-            lines = new ArrayList<>();
-        }
-        return lines;
-    }
-    
-    private static List<String> readFile(File file) {
+    private static List<String> getFileLines(File file) {
         List<String> lines = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(file);
@@ -136,7 +126,7 @@ public class JsonMethods {
         try {
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            for (int i = 0; i < Math.max(lineNumber, lines.size()); i++) {
+            for (int i = 0; i < Math.max(lineNumber + 1, lines.size()); i++) {
                 if (i == lineNumber) {
                     bw.write(json);
                 } else {
