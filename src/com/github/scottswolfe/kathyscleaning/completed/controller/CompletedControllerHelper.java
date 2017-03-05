@@ -11,7 +11,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
-import com.github.scottswolfe.kathyscleaning.enums.Portal;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -73,7 +73,7 @@ public class CompletedControllerHelper {
      */
     public static void saveToFileJSON(Data data, File file) {
         JsonMethods.saveToFileJSON(data, Data.class, file,
-                                   Portal.COMPLETED.getNum());
+                                   Form.COMPLETED.getNum());
     }
     
     /**
@@ -83,7 +83,7 @@ public class CompletedControllerHelper {
      */
     public static Data loadFromFileJSON(File file) {
         return (Data) JsonMethods.loadFromFileJSON(Data.class, file,
-                                                   Portal.COMPLETED.getNum());
+                                                   Form.COMPLETED.getNum());
     }
     
     /**

@@ -21,7 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.helper.DateHelper;
-import com.github.scottswolfe.kathyscleaning.general.helper.ExcelHelper;
+import com.github.scottswolfe.kathyscleaning.general.helper.CompletedExcelHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 
@@ -212,7 +212,7 @@ public class CompletedExcelHelper {
                     }
                     else if (row.getCell(index) != null && row.getCell(index).getCellType() == Cell.CELL_TYPE_FORMULA) {
                         String s = row.getCell(index).getCellFormula();
-                        s = ExcelHelper.changeFormula(s,0.0);
+                        s = CompletedExcelHelper.changeFormula(s,0.0);
                         row.getCell(index).setCellFormula(s);
                     }
                     else {
@@ -265,7 +265,7 @@ public class CompletedExcelHelper {
                             Row house_row = sheet.getRow( d*9 + 2 + h );
 
                                 String s = house_row.getCell(cell_number).getCellFormula(); // issue with numeric cells??
-                                s = ExcelHelper.changeFormula(s,hours);
+                                s = CompletedExcelHelper.changeFormula(s,hours);
                                 house_row.getCell(cell_number).setCellFormula(s);
 
                             break;
