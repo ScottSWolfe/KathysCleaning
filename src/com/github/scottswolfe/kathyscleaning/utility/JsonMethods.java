@@ -59,7 +59,7 @@ public class JsonMethods {
      * @return the new object
      */
     public static Object loadFromFileJSON(Class<?> type, File file) {
-        return loadFromFileJSON(type, file, 0);
+        return loadFromFile(type, file, 0);
     }
     
     /**
