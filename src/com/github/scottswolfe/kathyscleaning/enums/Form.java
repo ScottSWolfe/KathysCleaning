@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.enums;
 
-public enum Portal {
+public enum Form {
     COMPLETED(0),
     COVENANT(1),
     WEEKEND(2),
@@ -8,7 +8,7 @@ public enum Portal {
     
     private int num;
     
-    private Portal(int num) {
+    private Form(int num) {
         this.num = num;
     }
     
