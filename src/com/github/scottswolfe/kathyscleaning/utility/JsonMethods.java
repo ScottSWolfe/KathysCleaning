@@ -116,7 +116,7 @@ public class JsonMethods {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            // do nothing
         }
         return lines;
     }
@@ -132,6 +132,7 @@ public class JsonMethods {
                 } else {
                     bw.write(lines.get(i));
                 }
+                bw.write('\n');
             }
             bw.close(); 
         } catch (IOException e) {
@@ -149,6 +150,5 @@ public class JsonMethods {
             throw new java.util.NoSuchElementException();
         }
     }
-    
-    
+        
 }
