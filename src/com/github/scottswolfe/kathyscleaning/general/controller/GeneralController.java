@@ -5,7 +5,6 @@ import java.io.File;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 @SuppressWarnings("unchecked")
 /**
@@ -42,14 +41,14 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
     /**
      * Current Save File
      */
-    public static final File CURRENT_COMPLETED_DATA =
+    public static final File CURRENT_SAVE_FILE =
             new File(System.getProperty("user.dir") +
                     "\\save\\current\\currentSave");
 
     /**
      * Save File for Default Fill-in
      */
-    public static final File DEFAULT_COMPLETED_DATA =
+    public static final File DEFAULT_FILL_IN_SAVE_FILE =
             new File(System.getProperty("user.dir") +
                     "\\save\\default\\defaultSave");
     
@@ -60,12 +59,12 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
     @Override
     public void readInputAndWriteToFile() {
         model = (ModelObject) helper.readViewIntoModel(view);
-        helper.saveToFile(model, Settings.currentSaveFile);
+        helper.saveToFile(model, CURRENT_SAVE_FILE);
     }
     
     @Override
     public void readFileAndWriteToView() {
-        model = (ModelObject) helper.loadFromFile(Settings.currentSaveFile);
+        model = (ModelObject) helper.loadFromFile(CURRENT_SAVE_FILE);
         helper.writeModelToView(model, view);
     }
     
@@ -81,7 +80,7 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
      */
     public void readInputAndWriteToDefaultFile() {
         model = (ModelObject) helper.readViewIntoModel(view);
-        helper.saveToFile(model, DEFAULT_COMPLETED_DATA);
+        helper.saveToFile(model, DEFAULT_FILL_IN_SAVE_FILE);
     }
     
     
@@ -107,9 +106,5 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
     public Object getModel() {
         return model;
     }
-    
-    public void setData(Object model) {
-        this.model = (ModelObject) model;
-    }
-          
+              
 }
