@@ -5,6 +5,7 @@ import java.io.File;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 @SuppressWarnings("unchecked")
 /**
@@ -77,7 +78,7 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
      * Writes Data to the excel template
      */
     public void writeModelToExcel() {
-        excelHelper.writeModelToExcel(model);
+        excelHelper.writeModelToExcel(model, Settings.getExcelTemplateFile());
     }
     
     /**
@@ -122,5 +123,13 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
     public void setOpeningFile(boolean opening) {
         openingFile = opening;
     }
-              
+    
+    public void setControllerHelper(ControllerHelper helper) {
+        this.helper = helper;
+    }
+      
+    public void setExcelHelper(ExcelHelper excelHelper) {
+        this.excelHelper = excelHelper;
+    }
+    
 }

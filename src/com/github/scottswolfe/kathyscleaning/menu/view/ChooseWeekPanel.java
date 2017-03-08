@@ -24,10 +24,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedController;
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
 import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
+import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
@@ -405,7 +409,10 @@ public class ChooseWeekPanel extends JPanel {
             // If DayPanels
 			if( week == PREVIOUS_WEEK ) {
 				
-			    Controller controller = new CompletedController();
+			    GeneralController<Data, TabbedPane> controller = new GeneralController<>();
+			    controller.setControllerHelper(new CompletedControllerHelper());
+			    controller.setExcelHelper(new CompletedExcelHelper());
+			    
                 controller.setView(tp);
 			    tp.setController(controller);
 			    
@@ -423,7 +430,7 @@ public class ChooseWeekPanel extends JPanel {
 				
 				DayPanel[] day_panel = new DayPanel[5];
 				for(int i=0; i<5; i++){
-					day_panel[i] = new DayPanel((CompletedController)controller,
+					day_panel[i] = new DayPanel(controller,
 					        tp, dwd_house, day[i],
 					        frame, Settings.TRUE_MODE, wk);
 				}
@@ -492,11 +499,13 @@ public class ChooseWeekPanel extends JPanel {
 			// else for next week panel
 			else {
 				
-			    Controller controller = new ScheduledController();
+                GeneralController<Data, TabbedPane> controller = new GeneralController<>();
+                controller.setControllerHelper(new CompletedControllerHelper());
+                
 			    controller.setView(tp);
                 tp.setController(controller);
                                 
-                JFrame frame = createFrame((ScheduledController)controller);
+                JFrame frame = createFrame(controller);
 
 
 				if ( week_A_rbutton.isSelected() ) {
@@ -512,7 +521,7 @@ public class ChooseWeekPanel extends JPanel {
 				NW_DayPanel[] day_panel = new NW_DayPanel[5];
 				for(int i=0; i<5; i++){
 					day_panel[i] = new NW_DayPanel(
-					        (ScheduledController) controller, tp, dwd_house,
+					        controller, tp, dwd_house,
 					        day[i], frame, Settings.TRUE_MODE, wk);
 				}
 				tp.nw_day_panel = day_panel;

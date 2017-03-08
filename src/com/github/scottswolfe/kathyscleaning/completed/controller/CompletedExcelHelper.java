@@ -21,14 +21,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.helper.DateHelper;
-import com.github.scottswolfe.kathyscleaning.general.helper.CompletedExcelHelper;
+import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 
 /**
  * Helps CompletedController write data to excel sheet
  */
-public class CompletedExcelHelper {
+public class CompletedExcelHelper implements ExcelHelper {
 
 /* INSTANCE VARIABLES ======================================================= */
 
@@ -51,17 +51,18 @@ public class CompletedExcelHelper {
         this.file = file;
     }
     
+    public CompletedExcelHelper() {
+        
+    }
+    
     
     
 /* PUBLIC METHODS =+========================================================= */
 
-    /**
-     * Writes the given Data object to the given excel file.
-     * 
-     * @param data the Data object to write to the excel file
-     * @param file the Excel file to write the data object to
-     */
-    public void writeDataToExcel() {     
+    @Override
+    public void writeModelToExcel(Object model, File file) {
+        data = (Data) model;
+        this.file = file;
         try {
             // Create workbook
             InputStream input = new FileInputStream(file);
@@ -94,8 +95,9 @@ public class CompletedExcelHelper {
             JOptionPane.showMessageDialog(new JFrame(),
                     "Error: Excel document was not created properly.");
         }
+        
     }
-    
+
     
     
 /* PRIVATE METHODS ========================================================== */
