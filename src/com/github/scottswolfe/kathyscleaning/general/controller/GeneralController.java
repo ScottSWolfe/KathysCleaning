@@ -34,6 +34,11 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
      */
     private ExcelHelper excelHelper;
     
+    /**
+     * True if currently loading file into view; false otherwise
+     */
+    private boolean openingFile;
+    
     
     
 /* CLASS VARIABLES ========================================================== */
@@ -83,6 +88,13 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
         helper.saveToFile(model, DEFAULT_FILL_IN_SAVE_FILE);
     }
     
+    /**
+     * @return true if currently loading file into view; false otherwise
+     */
+    public boolean isOpeningFile() {
+        return openingFile;
+    }
+    
     
     
 // GETTERS/SETTERS ---------------------------------------------------------- */
@@ -105,6 +117,10 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
     @Override
     public Object getModel() {
         return model;
+    }
+    
+    public void setOpeningFile(boolean opening) {
+        openingFile = opening;
     }
               
 }
