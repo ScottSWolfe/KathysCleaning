@@ -14,21 +14,17 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
-public class CompletedControllerHelper {
+public class CompletedControllerHelper implements ControllerHelper {
    
 /* PUBLIC METHODS =========================================================== */
     
-    /**
-     * Reads User's input from the Completed GUI into a Data object 
-     * 
-     * @param data the Data object to read the data into
-     * @param tp the TabbedPane containing the user input
-     * @return the updated Data object
-     */
-    public static Data readUserInput(TabbedPane tp) {
+    @Override
+    public Object readViewIntoModel(Object view) {
+        TabbedPane tp = (TabbedPane) view;
         Data data = new Data();
         DayData[] dayData = new DayData[5];
         
@@ -65,34 +61,13 @@ public class CompletedControllerHelper {
         data.setDate(tp.day_panel[0].header_panel.date);
         return data;
     }
-
-    /**
-     * Saves the given data object to current file in JSON format
-     * 
-     * @param data the data to be saved
-     */
-    public static void saveToFileJSON(Data data, File file) {
-        JsonMethods.saveToFileJSON(data, Data.class, file,
-                                   Form.COMPLETED.getNum());
-    }
     
-    /**
-     * Returns a data object retried from the current JSON file
-     * 
-     * @param data the data to be saved
-     */
-    public static Data loadFromFileJSON(File file) {
-        return (Data) JsonMethods.loadFromFileJSON(Data.class, file,
-                                                   Form.COMPLETED.getNum());
-    }
-    
-    /**
-     * Writes the given data into the given view
-     * 
-     * @param data the data to be written into the view
-     * @param tp the view in which to write the data
-     */
-    public static void writeDataToView(Data data, TabbedPane tp) {        
+    @Override
+    public void writeModelToView(Object model, Object view) {
+        
+        TabbedPane tp = (TabbedPane) view;
+        Data data = (Data) model;
+        
         DayPanel day_panel;
         DayData day_data;
         HousePanel house_panel;
@@ -193,6 +168,16 @@ public class CompletedControllerHelper {
         }
     }
 
-
+    @Override
+    public void saveToFile(Object model, File file) {
+        JsonMethods.saveToFileJSON((Data) model, Data.class,
+                                   file, Form.COMPLETED.getNum());
+    }
+    
+    @Override
+    public Object loadFromFile(File file) {
+        return (Data) JsonMethods.loadFromFileJSON(Data.class, file,
+                                                   Form.COMPLETED.getNum());
+    }
 
 }
