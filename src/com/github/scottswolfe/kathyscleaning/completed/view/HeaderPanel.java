@@ -23,6 +23,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.WeekRadioListe
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
 import com.github.scottswolfe.kathyscleaning.general.controller.EditDefaultWorkersListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -72,7 +73,7 @@ public class HeaderPanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public HeaderPanel(CompletedController controller, TabbedPane tp,
+	public HeaderPanel(GeneralController controller, TabbedPane tp,
 	        WorkerList dwd, DayPanel day_panel, Calendar date,
 	        JFrame frame, int mode, int wk ) {
 		
@@ -144,7 +145,7 @@ public class HeaderPanel extends JPanel {
 	
 	
 	
-	private JPanel chooseWeekPanel(CompletedController controller) {
+	private JPanel chooseWeekPanel(GeneralController  controller) {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2") );
@@ -245,7 +246,7 @@ public class HeaderPanel extends JPanel {
 		return panel;
 	}
 	
-	private JPanel submitWeekPanel(CompletedController controller) {
+	private JPanel submitWeekPanel(GeneralController controller) {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2","[]","[grow]") );
@@ -254,7 +255,7 @@ public class HeaderPanel extends JPanel {
 		submit_week = new JButton("Submit Week");
 		submit_week.setFont( submit_week.getFont().deriveFont( Settings.FONT_SIZE ) );
 		submit_week.setPreferredSize(new Dimension(100,40));
-		submit_week.addActionListener( new SubmitWeekListener(controller, tp, frame, date, mode, wk) );
+		submit_week.addActionListener(new SubmitWeekListener(controller, tp, frame, date, mode, wk));
 		submit_week.setBackground(Settings.MAIN_COLOR);
 		submit_week.setForeground( Settings.FOREGROUND_COLOR );
 		

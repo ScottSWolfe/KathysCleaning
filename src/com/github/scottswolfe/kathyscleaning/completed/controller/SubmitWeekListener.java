@@ -17,6 +17,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantController;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -26,7 +27,7 @@ import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControlle
 public class SubmitWeekListener implements ActionListener {
 
 //  FIELDS
-	CompletedController controller;
+    GeneralController controller;
 	TabbedPane tp;
 	JFrame frame;
 	Calendar date;
@@ -43,7 +44,7 @@ public class SubmitWeekListener implements ActionListener {
 	
 //  CONSTRUCTOR
 
-	public SubmitWeekListener(CompletedController controller, TabbedPane tp, JFrame frame, Calendar date, int mode, int wk ){
+	public SubmitWeekListener(GeneralController controller, TabbedPane tp, JFrame frame, Calendar date, int mode, int wk ){
 		this.controller = controller;
 	    this.tp = tp;
 		this.frame = frame;
@@ -69,7 +70,7 @@ public class SubmitWeekListener implements ActionListener {
                 
         File file;
         if (mode == Settings.TRUE_MODE) {            
-            controller.writeDataToExcel();            
+            controller.writeModelToExcel();            
             CovenantController
                 .initializeCovenantPanelFrame(frame, date, mode, wk);
         } else {
@@ -80,7 +81,7 @@ public class SubmitWeekListener implements ActionListener {
             else {
                 file = Settings.SUBMIT_WEEK_B;
             }            
-            writeEditWeekData(controller.getData(), file);
+            writeEditWeekData((Data) controller.getModel(), file);
             
             // New weekend panel and frame and dispose of current panel
             WeekendController weekendController = new WeekendController();

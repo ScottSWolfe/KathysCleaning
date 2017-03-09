@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.helper.DateHelper;
+import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
@@ -28,7 +29,7 @@ import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 /**
  * Helps CompletedController write data to excel sheet
  */
-public class CompletedExcelHelper implements ExcelHelper {
+public class CompletedExcelHelper implements ExcelHelper<Data> {
 
 /* INSTANCE VARIABLES ======================================================= */
 
@@ -60,8 +61,8 @@ public class CompletedExcelHelper implements ExcelHelper {
 /* PUBLIC METHODS =+========================================================= */
 
     @Override
-    public void writeModelToExcel(Object model, File file) {
-        data = (Data) model;
+    public void writeModelToExcel(Data model, File file) {
+        data = model;
         this.file = file;
         try {
             // Create workbook
@@ -214,7 +215,7 @@ public class CompletedExcelHelper implements ExcelHelper {
                     }
                     else if (row.getCell(index) != null && row.getCell(index).getCellType() == Cell.CELL_TYPE_FORMULA) {
                         String s = row.getCell(index).getCellFormula();
-                        s = CompletedExcelHelper.changeFormula(s,0.0);
+                        s = ExcelMethods.changeFormula(s,0.0);
                         row.getCell(index).setCellFormula(s);
                     }
                     else {
@@ -267,7 +268,7 @@ public class CompletedExcelHelper implements ExcelHelper {
                             Row house_row = sheet.getRow( d*9 + 2 + h );
 
                                 String s = house_row.getCell(cell_number).getCellFormula(); // issue with numeric cells??
-                                s = CompletedExcelHelper.changeFormula(s,hours);
+                                s = ExcelMethods.changeFormula(s,hours);
                                 house_row.getCell(cell_number).setCellFormula(s);
 
                             break;

@@ -18,13 +18,12 @@ import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
-public class CompletedControllerHelper implements ControllerHelper {
+public class CompletedControllerHelper implements ControllerHelper<TabbedPane, Data> {
    
 /* PUBLIC METHODS =========================================================== */
     
     @Override
-    public Object readViewIntoModel(Object view) {
-        TabbedPane tp = (TabbedPane) view;
+    public Data readViewIntoModel(TabbedPane tp) {
         Data data = new Data();
         DayData[] dayData = new DayData[5];
         
@@ -63,11 +62,8 @@ public class CompletedControllerHelper implements ControllerHelper {
     }
     
     @Override
-    public void writeModelToView(Object model, Object view) {
-        
-        TabbedPane tp = (TabbedPane) view;
-        Data data = (Data) model;
-        
+    public void writeModelToView(Data data, TabbedPane tp) {
+                
         DayPanel day_panel;
         DayData day_data;
         HousePanel house_panel;
@@ -169,13 +165,13 @@ public class CompletedControllerHelper implements ControllerHelper {
     }
 
     @Override
-    public void saveToFile(Object model, File file) {
-        JsonMethods.saveToFileJSON((Data) model, Data.class,
+    public void saveToFile(Data model, File file) {
+        JsonMethods.saveToFileJSON(model, Data.class,
                                    file, Form.COMPLETED.getNum());
     }
     
     @Override
-    public Object loadFromFile(File file) {
+    public Data loadFromFile(File file) {
         return (Data) JsonMethods.loadFromFileJSON(Data.class, file,
                                                    Form.COMPLETED.getNum());
     }

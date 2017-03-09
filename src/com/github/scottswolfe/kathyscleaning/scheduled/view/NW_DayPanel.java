@@ -25,6 +25,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListe
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -33,7 +34,6 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledController;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 
@@ -44,7 +44,7 @@ import net.miginfocom.swing.MigLayout;
 public class NW_DayPanel extends JPanel{	
 	
 	//  FIELDS
-    ScheduledController controller;
+    GeneralController controller;
 	
 	public NoteData covenant_note_data;
 	NoteData day_note_data;
@@ -96,7 +96,7 @@ public class NW_DayPanel extends JPanel{
 	
 	// CONSTRUCTORS
 
-	public NW_DayPanel(ScheduledController controller, TabbedPane tp,
+	public NW_DayPanel(GeneralController controller, TabbedPane tp,
 	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ) {
 		
 	    this.controller = controller;

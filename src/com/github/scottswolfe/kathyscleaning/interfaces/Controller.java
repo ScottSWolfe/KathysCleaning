@@ -3,7 +3,7 @@ package com.github.scottswolfe.kathyscleaning.interfaces;
 /**
  * A general controller interface for all controllers in this project.
  */
-public interface Controller {
+public interface Controller<ViewObject, ModelObject> {
 
 /* PUBLIC METHODS =========================================================== */
     
@@ -26,22 +26,23 @@ public interface Controller {
      * 
      * @param obj the view
      */
-    public void setView(Object obj);
+    public void setView(ViewObject view);
     
     /**
      * Returns the view object for the controller
      */
-    public Object getView();
+    public ViewObject getView();
     
     /**
      * Sets the model object for the controller
      * 
      * @param obj the model
      */
-    public void setModel(Object obj);
+    public void setModel(ModelObject model);
     
     /**
      * Returns the model object for the controller
      */
-    public Object getModel();
+    public ModelObject getModel();
+    
 }

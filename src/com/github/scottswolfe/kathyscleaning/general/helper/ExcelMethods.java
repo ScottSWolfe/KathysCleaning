@@ -2,7 +2,7 @@ package com.github.scottswolfe.kathyscleaning.general.helper;
 
 import java.text.DecimalFormat;
 
-public class CompletedExcelHelper {
+public class ExcelMethods {
 
     /**
      * Changes the given excel String to explicitly contain the worked hours

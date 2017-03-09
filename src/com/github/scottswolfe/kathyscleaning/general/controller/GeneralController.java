@@ -7,11 +7,10 @@ import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
-@SuppressWarnings("unchecked")
 /**
  * Controller for each form
  */
-public class GeneralController<ViewObject, ModelObject> implements Controller {
+public class GeneralController<ViewObject, ModelObject> implements Controller<ViewObject, ModelObject> {
 
 /* INSTANCE VARIABLES ======================================================= */
     
@@ -28,7 +27,7 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
     /**
      * The helper for this controller
      */
-    private ControllerHelper helper;
+    private ControllerHelper<ViewObject, ModelObject> helper;
     
     /**
      * The excel helper for this controller
@@ -64,7 +63,7 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
         
     @Override
     public void readInputAndWriteToFile() {
-        model = (ModelObject) helper.readViewIntoModel(view);
+        model = helper.readViewIntoModel(view);
         helper.saveToFile(model, CURRENT_SAVE_FILE);
     }
     
@@ -101,22 +100,22 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
 // GETTERS/SETTERS ---------------------------------------------------------- */
     
     @Override
-    public void setView(Object obj) {
+    public void setView(ViewObject obj) {
         this.view = (ViewObject) obj;
     }
     
     @Override
-    public Object getView() {
+    public ViewObject getView() {
         return view;
     }
     
     @Override
-    public void setModel(Object obj) {
+    public void setModel(ModelObject obj) {
         this.model = (ModelObject) obj;
     }
     
     @Override
-    public Object getModel() {
+    public ModelObject getModel() {
         return model;
     }
     
@@ -124,7 +123,8 @@ public class GeneralController<ViewObject, ModelObject> implements Controller {
         openingFile = opening;
     }
     
-    public void setControllerHelper(ControllerHelper helper) {
+    public void setControllerHelper(ControllerHelper<ViewObject, ModelObject>
+                                                                 helper) {
         this.helper = helper;
     }
       

@@ -6,9 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedController;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -21,7 +21,7 @@ public class DayPanel extends JPanel{
 	
 // FIELDS ------------------------------------------------------------------- */
     
-    CompletedController controller;
+    GeneralController controller;
 	TabbedPane tp;
 	public JScrollPane jsp;
 	public JPanel jsp_panel;
@@ -47,7 +47,7 @@ public class DayPanel extends JPanel{
 
 
 	
-	public DayPanel(CompletedController controller, TabbedPane tp,
+	public DayPanel(GeneralController controller, TabbedPane tp,
 	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk) {
 		
 	    this.controller = controller;

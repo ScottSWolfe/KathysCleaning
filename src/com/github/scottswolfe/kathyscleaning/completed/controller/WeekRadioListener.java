@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -22,7 +23,7 @@ public class WeekRadioListener implements ActionListener {
 	
 //  FIELDS
 	
-    CompletedController controller;
+    GeneralController controller;
 	TabbedPane tp;
 	JFrame frame;
 	int wk;
@@ -30,7 +31,7 @@ public class WeekRadioListener implements ActionListener {
 	
 //  CONSTRUCTOR
 	
-	public WeekRadioListener(CompletedController controller, TabbedPane tp, JFrame frame, int wk ){
+	public WeekRadioListener(GeneralController controller, TabbedPane tp, JFrame frame, int wk ){
 		this.tp = tp;
 		this.frame = frame;
 		this.wk = wk;

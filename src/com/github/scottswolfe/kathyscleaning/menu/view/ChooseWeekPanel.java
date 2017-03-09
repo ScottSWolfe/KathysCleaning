@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
@@ -16,14 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedController;
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
 import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
@@ -32,16 +27,13 @@ import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledController;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
@@ -409,7 +401,7 @@ public class ChooseWeekPanel extends JPanel {
             // If DayPanels
 			if( week == PREVIOUS_WEEK ) {
 				
-			    GeneralController<Data, TabbedPane> controller = new GeneralController<>();
+			    GeneralController<TabbedPane, Data> controller = new GeneralController<>();
 			    controller.setControllerHelper(new CompletedControllerHelper());
 			    controller.setExcelHelper(new CompletedExcelHelper());
 			    
@@ -499,7 +491,7 @@ public class ChooseWeekPanel extends JPanel {
 			// else for next week panel
 			else {
 				
-                GeneralController<Data, TabbedPane> controller = new GeneralController<>();
+                GeneralController<TabbedPane, Data> controller = new GeneralController<>();
                 controller.setControllerHelper(new CompletedControllerHelper());
                 
 			    controller.setView(tp);
