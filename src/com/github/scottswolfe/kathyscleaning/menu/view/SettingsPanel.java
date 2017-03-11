@@ -107,7 +107,7 @@ public class SettingsPanel extends JPanel {
 		
 		JPanel excel_panel = createExcelPanel();
 		JPanel save_loc_panel = createSaveLocPanel();
-		JPanel week_button_panel = createWeekButtonPanel();
+		//JPanel week_button_panel = createWeekButtonPanel();
 		JPanel worker_button_panel = createWorkerButtonPanel();
 		JPanel appearance_panel = createAppearancePanel();
 		JPanel continue_panel = createContinuePanel();
@@ -130,8 +130,8 @@ public class SettingsPanel extends JPanel {
 		scroll_panel.add(hseparator1, "wrap 10, growx");
 		scroll_panel.add(save_loc_panel, "wrap 10, growx");
 		scroll_panel.add(hseparator2, "wrap 10, growx");
-		scroll_panel.add(week_button_panel, "wrap 10, growx");
-		scroll_panel.add(hseparator3, "wrap 10, growx");
+		//scroll_panel.add(week_button_panel, "wrap 10, growx");
+		//scroll_panel.add(hseparator3, "wrap 10, growx");
 		scroll_panel.add(worker_button_panel, "wrap 10, growx");
 		scroll_panel.add(hseparator4, "wrap 10, growx");
 		scroll_panel.add(appearance_panel, "wrap 30, growx");

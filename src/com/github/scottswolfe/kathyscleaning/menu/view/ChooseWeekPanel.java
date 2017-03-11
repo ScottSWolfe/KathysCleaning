@@ -103,7 +103,7 @@ public class ChooseWeekPanel extends JPanel {
 		add( ChooseDatePanel(), "wrap 20, grow" );
 		//add( new JSeparator(SwingConstants.HORIZONTAL), "growx, wrap" );
 		add( SelectWeekPanel(), "wrap 20" );
-		add( SelectAutoFillPanel(), "grow, wrap 30");
+		//add( SelectAutoFillPanel(), "grow, wrap 30");
 		add( ContinuePanel(), "grow" );
 		
 	}

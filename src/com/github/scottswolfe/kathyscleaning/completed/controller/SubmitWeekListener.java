@@ -27,7 +27,7 @@ import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControlle
 public class SubmitWeekListener implements ActionListener {
 
 //  FIELDS
-    GeneralController controller;
+    GeneralController<TabbedPane, Data> controller;
 	TabbedPane tp;
 	JFrame frame;
 	Calendar date;
@@ -44,7 +44,7 @@ public class SubmitWeekListener implements ActionListener {
 	
 //  CONSTRUCTOR
 
-	public SubmitWeekListener(GeneralController controller, TabbedPane tp, JFrame frame, Calendar date, int mode, int wk ){
+	public SubmitWeekListener(GeneralController<TabbedPane, Data> controller, TabbedPane tp, JFrame frame, Calendar date, int mode, int wk ){
 		this.controller = controller;
 	    this.tp = tp;
 		this.frame = frame;
@@ -60,134 +60,24 @@ public class SubmitWeekListener implements ActionListener {
 
 //  LISTENER
 	public void actionPerformed(ActionEvent e) {
-		
-	    // make sure user does want to submit week
 		if (!StaticMethods.confirmSubmitWeek()) {
 			return;
 		}
-		
-        controller.readInputAndWriteToFile(controller.TEMP_SAVE_FILE);
-                
-        File file;
-        if (mode == Settings.TRUE_MODE) {            
-            controller.writeModelToExcel();            
-            CovenantController
-                .initializeCovenantPanelFrame(frame, date, mode, wk);
-        } else {
-            // Write User Data to Text File
-            if (wk == Settings.WEEK_A) {
-                file = Settings.SUBMIT_WEEK_A;
-            }
-            else {
-                file = Settings.SUBMIT_WEEK_B;
-            }            
-            writeEditWeekData((Data) controller.getModel(), file);
-            
-            // New weekend panel and frame and dispose of current panel
-            WeekendController weekendController = new WeekendController();
-            weekendController
-                .initializeWeekendPanelFrame(frame, date, mode, wk);
-
-        }
-		
-		// save default amounts that houses pay
-		writeHousePay();
+        controller.readInputAndWriteToFile(Settings.saveFile);
+        controller.writeModelToExcel();            
+        CovenantController.initializeCovenantPanelFrame(frame, date, mode, wk);
+		saveHousePay();
 	}
 	
 	
 	
-// PRIVATE METHODS
-	
-	/**
-	 * writes input data into a text file
-	 *  
-	 * @param data
-	 * @param f
-	 */
-	private void writeEditWeekData(Data data, File f) {
-		
-		try {
-			
-			FileWriter fw = new FileWriter(f);
-			BufferedWriter bw = new BufferedWriter(fw);			
-			
-			// 2) set date	
-			
-			
-			// 3) input house data
-			
-			DayData day;// = new DayData();
-			HouseData house;// = new HouseData();
-			
-			for (int d=0; d<data.dayData.length; d++) {
-				
-				bw.write("Day " + d);
-				bw.newLine();
-				
-				day = data.dayData[d];
-								
-				for (int h=0; h<day.houseData.length; h++) {
-					
-					house = day.houseData[h];
-					
-					bw.write("House " + h);
-					bw.newLine();
-					
-					// write all data...
-					bw.write(house.getHouseName());
-					bw.newLine();
-					
-					bw.write( String.valueOf(house.getHousePay()) );
-					bw.newLine();
-					
-					bw.write(house.getTimeBegin());
-					bw.newLine();
-					
-					bw.write(house.getTimeEnd());
-					bw.newLine();
-					
-					String s = "";
-					for (int i=0; i<house.getSelectedWorkers().length; i++) {
-						s = new String(s + house.getSelectedWorkers()[i] + " ");
-					}
-					bw.write(s);
-					bw.newLine();
-					
-					ExceptionData ex = house.getExceptionData();
-					for (int i=0; i<ex.worker_name.length; i++ ) {
-						bw.write(ex.worker_name[i]);
-						bw.newLine();
-						
-						bw.write(ex.time_begin[i]);
-						bw.newLine();
-						
-						bw.write(ex.time_end[i]);
-						bw.newLine();
-					}
-			
-					
-					
-				} // end house panel
-				
-				
-				
-			}  // end day panels
-			
-			bw.close();
-			
-		}catch(Exception exception){
-			exception.printStackTrace();
-			JOptionPane.showMessageDialog(new JFrame(), "Error: Saved data was not created properly.");
-		}
-		
-		
-	}
+// PRIVATE METHODS ========================================================== */
 	
 	/**
 	 * Method that saves the amount earned at a house as the house's default
 	 * amount earned.
 	 */
-	private void writeHousePay() {
+	private void saveHousePay() {
 		
 		BufferedWriter bw = null;
 		try {
@@ -264,7 +154,5 @@ public class SubmitWeekListener implements ActionListener {
 			e1.printStackTrace();
 		}
 	}
-	
-	
-    	
+		
 }

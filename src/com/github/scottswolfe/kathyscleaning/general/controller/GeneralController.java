@@ -59,6 +59,13 @@ public class GeneralController<ViewObject, ModelObject>
             new File(System.getProperty("user.dir") +
                     "\\save\\temp\\currentSave");
     
+    /**
+     * Save File for Default Fill-in
+     */
+    public static final File DEFAULT_FILL_IN_SAVE_FILE =
+            new File(System.getProperty("user.dir") +
+                    "\\save\\default\\defaultSave");
+    
     
  
 /* CONSTRUCTORS ============================================================= */
@@ -90,7 +97,7 @@ public class GeneralController<ViewObject, ModelObject>
     public void readInputAndWriteToFile(File file) {
         model = helper.readViewIntoModel(view);
         helper.saveToFile(model, TEMP_SAVE_FILE);
-        if (!TEMP_SAVE_FILE.equals(file)) {
+        if (!TEMP_SAVE_FILE.equals(file) && file != null) {
             helper.saveToFile(model, file);
         }
     }
