@@ -5,7 +5,10 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Calendar;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
@@ -177,6 +180,13 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
     public Data loadFromFile(File file) {
         return (Data) JsonMethods.loadFromFileJSON(Data.class, file,
                                                    Form.COMPLETED.getNum());
+    }
+    
+    @Override
+    public void initializeForm(JFrame oldFrame, Calendar date, int mode, int wk) {
+        // TODO implement this (requires rewriting auto-fill based on last
+        // week's save file
+        throw new RuntimeException("not yet implemented");
     }
     
     /**

@@ -111,6 +111,11 @@ public class GeneralController<ViewObject, ModelObject>
         }
     }
     
+    @Override
+    public void initializeForm() {
+        helper.initializeForm();
+    }
+    
     /**
      * Writes Data to the excel template
      */

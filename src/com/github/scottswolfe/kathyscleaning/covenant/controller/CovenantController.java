@@ -35,7 +35,7 @@ import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControlle
 /**
  * Controller that links CovenantModel and CovenantPanel. 
  */
-public class CovenantController implements Controller {
+public class CovenantController {
 
     
     
@@ -60,49 +60,7 @@ public class CovenantController implements Controller {
         covPanel = panel;
     }
 
-    
-/* PUBLIC METHODS =========================================================== */
-    
-    /**
-     * Initializes and launches a frame with a Covenant panel.
-     */
-    public static void initializeCovenantPanelFrame(JFrame oldFrame,
-            Calendar date, int mode, int wk) {
-        
-        oldFrame.setVisible(false); 
-        oldFrame.dispose();
-        
-        CovenantPanel covPanel = new CovenantPanel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
-        CovenantModel covModel = new CovenantModel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
-        
-        JFrame menuFrame = new MainFrame(covPanel.getController());
 
-        
-        //TODO temporary hack
-        covPanel.setFrame(menuFrame);
-        covPanel.getController().setCovModel(covModel);
-        covPanel.getFrame().setResizable(false);
-        covPanel.getFrame().pack();
-        covPanel.getFrame().setLocationRelativeTo(null);
-        covPanel.getFrame().setVisible(true);
-    }
-    
-    @Override
-    public void readInputAndWriteToFile() {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    public void readFileAndWriteToView() {
-        // TODO Auto-generated method stub
-        
-    }
-    
-    
     
 /* LISTENERS ================================================================ */
     
@@ -480,34 +438,6 @@ public class CovenantController implements Controller {
      */
     public void setCovPanel(CovenantPanel covPanel) {
         this.covPanel = covPanel;
-    }
-
-
-    @Override
-    public void setView(Object obj) {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    public Object getView() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    @Override
-    public void setModel(Object obj) {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    public Object getModel() {
-        // TODO Auto-generated method stub
-        return null;
     }
     
 }

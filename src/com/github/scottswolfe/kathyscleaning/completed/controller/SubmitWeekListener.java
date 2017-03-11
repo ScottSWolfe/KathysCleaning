@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantController;
+import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -50,7 +51,7 @@ public class SubmitWeekListener implements ActionListener {
 		}
         controller.readInputAndWriteToFile(Settings.saveFile);
         controller.writeModelToExcel();            
-        CovenantController.initializeCovenantPanelFrame(frame, date, mode, wk);
+        CovenantControllerHelper.initializeForm(frame, date, mode, wk);
 		CompletedControllerHelper.saveHousePay(tp);
 	}
 

@@ -33,5 +33,5 @@ public interface ControllerHelper<ViewObject, ModelObject> {
      * @param file the file from which to load the object
      */
     public ModelObject loadFromFile(File file);
-    
+     
 }

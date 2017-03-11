@@ -463,7 +463,7 @@ public class ChooseWeekPanel extends JPanel {
 				// fill in data
 				
 				// if autofill saved schedule is selected
-				if ( autofill_rbutton.isSelected() ) {
+				//if ( autofill_rbutton.isSelected() ) {
 					if ( week_A_rbutton.isSelected() ) {
 						fillSavedSchedule( tp, frame, Settings.WEEK_A );
 					}
@@ -473,8 +473,9 @@ public class ChooseWeekPanel extends JPanel {
 					else {
 						fillSavedSchedule( tp, frame, Settings.NEITHER );
 					}
-				}
+				//}
 				// if autofill default data is selected
+					/*
 				else {
 					if ( week_A_rbutton.isSelected() ) {
 						fillWeek( tp, frame, Settings.WEEK_A );
@@ -486,7 +487,7 @@ public class ChooseWeekPanel extends JPanel {
 						// do nothing
 					}
 				}
-				
+				*/
 				frame.setVisible(true);
 				
 			}
