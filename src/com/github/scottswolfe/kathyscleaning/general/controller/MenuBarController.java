@@ -9,20 +9,20 @@ import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
-public class MenuBarController implements FileMenuListener { 
+public class MenuBarController <ViewObject, ModelObject> implements FileMenuListener { 
     
 /* INSTANCE VARIABLES ======================================================= */
     
     /**
      * The controller that this class calls on to do the reading and writing
      */
-    Controller controller;
+    Controller<ViewObject, ModelObject> controller;
     
     
     
 /* CONSTRUCTORS ============================================================= */
     
-    public MenuBarController(Controller controller) {
+    public  MenuBarController(Controller<ViewObject, ModelObject> controller) {
         this.controller = controller;
     }
     
