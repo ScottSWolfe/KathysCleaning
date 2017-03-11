@@ -94,7 +94,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
                         String.valueOf(
                         house_data.getHousePay()));
                 house_panel.time_begin_txt.setText(house_data.getTimeBegin());
-                house_panel.time_begin_txt.setText(house_data.getTimeEnd());
+                house_panel.time_end_txt.setText(house_data.getTimeEnd());
                 
                 // TODO create method to set view blank before filling in ??
                 // unselect any selected workers
