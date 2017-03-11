@@ -15,7 +15,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedController;
 import com.github.scottswolfe.kathyscleaning.completed.controller.CopyWorkersListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.NeitherRadioListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;

@@ -1,22 +1,22 @@
-package com.github.scottswolfe.kathyscleaning.scheduled.controller;
+package com.github.scottswolfe.kathyscleaning.covenant.controller;
 
 import java.io.File;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 
-public class ScheduledControllerHelper 
-                        implements ControllerHelper<TabbedPane, Data>{
+public class CovenantControllerHelper
+                    implements ControllerHelper<CovenantPanel, Data> {
 
     @Override
-    public Data readViewIntoModel(TabbedPane view) {
+    public Data readViewIntoModel(CovenantPanel view) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void writeModelToView(Data model, TabbedPane view) {
+    public void writeModelToView(Data model, CovenantPanel view) {
         // TODO Auto-generated method stub
         
     }

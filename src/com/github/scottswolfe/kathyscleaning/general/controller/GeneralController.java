@@ -2,10 +2,18 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 
 import java.io.File;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
+import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
+import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantExcelHelper;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledControllerHelper;
+import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledExcelHelper;
+import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControllerHelper;
 
 /**
  * Controller for each form
@@ -32,7 +40,7 @@ public class GeneralController<ViewObject, ModelObject> implements Controller<Vi
     /**
      * The excel helper for this controller
      */
-    private ExcelHelper excelHelper;
+    private ExcelHelper<ModelObject> excelHelper;
     
     /**
      * True if currently loading file into view; false otherwise
@@ -59,6 +67,29 @@ public class GeneralController<ViewObject, ModelObject> implements Controller<Vi
     
     
  
+/* CONSTRUCTORS ============================================================= */
+    
+    @SuppressWarnings("unchecked")
+    public GeneralController(Form type) {
+        if (type == Form.COMPLETED) {
+            helper = (ControllerHelper<ViewObject, ModelObject>) new CompletedControllerHelper();
+            excelHelper = (ExcelHelper<ModelObject>) new CompletedExcelHelper();
+        } else if (type == Form.COVENANT) {
+            helper = (ControllerHelper<ViewObject, ModelObject>) new CovenantControllerHelper();
+            excelHelper = (ExcelHelper<ModelObject>) new CovenantExcelHelper();
+        } else if (type == Form.WEEKEND) {
+            helper = (ControllerHelper<ViewObject, ModelObject>) new WeekendControllerHelper();
+            excelHelper = (ExcelHelper<ModelObject>) new WeekendControllerHelper();
+        } else if (type == Form.SCHEDULED) {
+            helper = (ControllerHelper<ViewObject, ModelObject>) new ScheduledControllerHelper();
+            excelHelper = (ExcelHelper<ModelObject>) new ScheduledExcelHelper();
+        } else {
+            throw new RuntimeException("unexpected Form type");
+        }
+    }
+    
+    
+    
 /* PUBLIC METHODS =========================================================== */
         
     @Override

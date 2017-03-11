@@ -1,22 +1,22 @@
-package com.github.scottswolfe.kathyscleaning.scheduled.controller;
+package com.github.scottswolfe.kathyscleaning.weekend.controller;
 
 import java.io.File;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
+import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
-public class ScheduledControllerHelper 
-                        implements ControllerHelper<TabbedPane, Data>{
+public class WeekendControllerHelper
+        implements ControllerHelper<WeekendPanel, Data> {
 
     @Override
-    public Data readViewIntoModel(TabbedPane view) {
+    public Data readViewIntoModel(WeekendPanel view) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void writeModelToView(Data model, TabbedPane view) {
+    public void writeModelToView(Data model, WeekendPanel view) {
         // TODO Auto-generated method stub
         
     }
@@ -33,4 +33,5 @@ public class ScheduledControllerHelper
         return null;
     }
 
+    
 }
