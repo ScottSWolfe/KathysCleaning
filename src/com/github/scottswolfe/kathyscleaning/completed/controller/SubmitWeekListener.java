@@ -66,7 +66,7 @@ public class SubmitWeekListener implements ActionListener {
 			return;
 		}
 		
-        controller.readInputAndWriteToFile();
+        controller.readInputAndWriteToFile(controller.TEMP_SAVE_FILE);
                 
         File file;
         if (mode == Settings.TRUE_MODE) {            

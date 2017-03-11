@@ -57,7 +57,7 @@ public class GeneralController<ViewObject, ModelObject>
      */
     public static final File TEMP_SAVE_FILE =
             new File(System.getProperty("user.dir") +
-                    "\\save\\current\\currentSave");
+                    "\\save\\temp\\currentSave");
     
     
  
@@ -89,13 +89,19 @@ public class GeneralController<ViewObject, ModelObject>
     @Override
     public void readInputAndWriteToFile(File file) {
         model = helper.readViewIntoModel(view);
-        helper.saveToFile(model, file);
+        helper.saveToFile(model, TEMP_SAVE_FILE);
+        if (!TEMP_SAVE_FILE.equals(file)) {
+            helper.saveToFile(model, file);
+        }
     }
     
     @Override
     public void readFileAndWriteToView(File file) {
-        model = (ModelObject) helper.loadFromFile(file);
+        model = helper.loadFromFile(file);
         helper.writeModelToView(model, view);
+        if (!TEMP_SAVE_FILE.equals(file)) {
+            helper.saveToFile(model, TEMP_SAVE_FILE);
+        }
     }
     
     /**
