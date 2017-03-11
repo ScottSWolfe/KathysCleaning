@@ -159,7 +159,7 @@ public class GeneralController<ViewObject, ModelObject> implements Controller<Vi
         this.helper = helper;
     }
       
-    public void setExcelHelper(ExcelHelper excelHelper) {
+    public void setExcelHelper(ExcelHelper<ModelObject> excelHelper) {
         this.excelHelper = excelHelper;
     }
     
