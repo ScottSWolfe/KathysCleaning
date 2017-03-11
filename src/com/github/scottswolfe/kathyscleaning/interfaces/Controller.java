@@ -1,5 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.interfaces;
 
+import java.io.File;
+
 /**
  * A general controller interface for all controllers in this project.
  */
@@ -10,12 +12,12 @@ public interface Controller<ViewObject, ModelObject> {
     /**
      * Reads the user's input from the view and writes it to a save file
      */
-    public void readInputAndWriteToFile();
+    public void readInputAndWriteToFile(File file);
     
     /**
      * Reads a save file and writes the data into the current view
      */
-    public void readFileAndWriteToView();
+    public void readFileAndWriteToView(File file);
     
     
     

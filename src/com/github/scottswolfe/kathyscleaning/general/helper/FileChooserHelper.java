@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 public class FileChooserHelper {
@@ -27,8 +29,8 @@ public class FileChooserHelper {
             new File(System.getProperty("user.dir") + "\\save\\user");
     
 
-    public final static String XLSX = ".xlsx";
-    public final static String TXT = ".txt";
+    public final static String XLSX = "xlsx";
+    public final static String TXT = "txt";
     
 /* PRIVATE CLASS VARIABLES ================================================== */
     
@@ -103,6 +105,27 @@ public class FileChooserHelper {
     }
     
     /**
+     * Opens a dialog window that allows the user to select or create a file.
+     * Returns the chosen file or null if no file is chosen. Creates a new file
+     * if the file does not exist. The file chooser accept button says "Save".
+     * 
+     * @param suggestedFile the suggested name for the file
+     * @return the chosen or created file or null if no file is chosen
+     */
+    public static File saveAs(File suggestedFile) {
+        File directory = suggestedFile.getParentFile();
+        String extension =
+                FilenameUtils.getExtension(suggestedFile.getAbsolutePath());
+        Settings.changeLookAndFeelSystem();
+        JFileChooser chooser = createChooser(directory, saveAsTitle,
+                                             extension, Method.saveAs);
+        chooser.setSelectedFile(suggestedFile);
+        File file = chooseFile(chooser, true, Method.saveAs);
+        Settings.changeLookAndFeelProgram();
+        return file;
+    }
+    
+    /**
      * Opens a dialog window that allows the user to choose a file. Returns
      * the chosen file or null if no file is chosen. The file chooser accept
      * button says "Open".
@@ -138,7 +161,7 @@ public class FileChooserHelper {
     }
     
     private static void setFilter(JFileChooser chooser, String extension) {
-        if (extension == null) {
+        if (extension == null || extension == "") {
             return;
         }
         FileNameExtensionFilter filter =
@@ -209,7 +232,7 @@ public class FileChooserHelper {
         if (directory == null || fileName == null || extension == null) {
             return;
         }
-        String fullFileName = directory.getAbsolutePath() + "/" + fileName + extension; 
+        String fullFileName = directory.getAbsolutePath() + "/" + fileName + "." + extension; 
         chooser.setSelectedFile(new File(fullFileName));
     }
 

@@ -148,7 +148,7 @@ public class FileNameHelper {
         File file;
         int i = 0;
         while(true) {
-            file = new File(directory + fileName + copyNumber + extension);
+            file = new File(directory + "/" + fileName + copyNumber + "." + extension);
             if (!file.exists()) {
                 return copyNumber;
             }

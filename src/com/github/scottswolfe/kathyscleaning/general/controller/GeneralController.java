@@ -55,16 +55,9 @@ public class GeneralController<ViewObject, ModelObject>
     /**
      * Current Save File
      */
-    public static final File CURRENT_SAVE_FILE =
+    public static final File TEMP_SAVE_FILE =
             new File(System.getProperty("user.dir") +
                     "\\save\\current\\currentSave");
-
-    /**
-     * Save File for Default Fill-in
-     */
-    public static final File DEFAULT_FILL_IN_SAVE_FILE =
-            new File(System.getProperty("user.dir") +
-                    "\\save\\default\\defaultSave");
     
     
  
@@ -94,14 +87,14 @@ public class GeneralController<ViewObject, ModelObject>
 /* PUBLIC METHODS =========================================================== */
         
     @Override
-    public void readInputAndWriteToFile() {
+    public void readInputAndWriteToFile(File file) {
         model = helper.readViewIntoModel(view);
-        helper.saveToFile(model, CURRENT_SAVE_FILE);
+        helper.saveToFile(model, file);
     }
     
     @Override
-    public void readFileAndWriteToView() {
-        model = (ModelObject) helper.loadFromFile(CURRENT_SAVE_FILE);
+    public void readFileAndWriteToView(File file) {
+        model = (ModelObject) helper.loadFromFile(file);
         helper.writeModelToView(model, view);
     }
     
@@ -110,14 +103,6 @@ public class GeneralController<ViewObject, ModelObject>
      */
     public void writeModelToExcel() {
         excelHelper.writeModelToExcel(model, Settings.getExcelTemplateFile());
-    }
-    
-    /**
-     * Writes model to the default settings file
-     */
-    public void readInputAndWriteToDefaultFile() {
-        model = (ModelObject) helper.readViewIntoModel(view);
-        helper.saveToFile(model, DEFAULT_FILL_IN_SAVE_FILE);
     }
     
     /**
