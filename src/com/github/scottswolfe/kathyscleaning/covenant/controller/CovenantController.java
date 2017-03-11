@@ -25,7 +25,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekList
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -77,7 +77,7 @@ public class CovenantController implements Controller {
         CovenantModel covModel = new CovenantModel(
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
         
-        JFrame menuFrame = new MenuFrame(covPanel.getController());
+        JFrame menuFrame = new MainFrame(covPanel.getController());
 
         
         //TODO temporary hack

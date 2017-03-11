@@ -7,7 +7,7 @@ import java.util.Calendar;
 import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
@@ -36,7 +36,7 @@ public class WeekendController implements Controller {
         WeekendController controller = new WeekendController();
         // TODO set controller's view and model
 
-        JFrame weekendFrame = new MenuFrame(controller);
+        JFrame weekendFrame = new MainFrame(controller);
         weekendFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         weekendFrame.setResizable(false);
         weekendFrame.addWindowListener( new MainWindowListener() );

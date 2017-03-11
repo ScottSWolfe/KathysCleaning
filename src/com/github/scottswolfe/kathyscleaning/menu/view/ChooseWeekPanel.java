@@ -30,7 +30,7 @@ import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
-import com.github.scottswolfe.kathyscleaning.general.view.MenuFrame;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -1002,7 +1002,7 @@ public class ChooseWeekPanel extends JPanel {
 	
 	
 	private JFrame createFrame(Controller controller) {
-	    JFrame frame = new MenuFrame(controller);
+	    JFrame frame = new MainFrame(controller);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setResizable(false);
         return frame;

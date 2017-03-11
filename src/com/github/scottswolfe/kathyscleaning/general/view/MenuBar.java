@@ -12,7 +12,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarControlle
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 
 @SuppressWarnings("serial")
-public class  MenuBar <ViewObject, ModelObject> extends JMenuBar {
+public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
 
 /* INSTANCE VARIABLES ======================================================= */
     
@@ -27,7 +27,7 @@ public class  MenuBar <ViewObject, ModelObject> extends JMenuBar {
     
     public MenuBar(Controller<ViewObject, ModelObject> controller) {
         menuController = new MenuBarController<>(controller);        
-        addFileMenu();     
+        addFileMenu();   
     }
     
     
