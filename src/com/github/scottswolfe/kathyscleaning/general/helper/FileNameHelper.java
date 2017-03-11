@@ -1,29 +1,43 @@
 package com.github.scottswolfe.kathyscleaning.general.helper;
 
+import java.io.File;
 import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 
-public class DateHelper {
+public class FileNameHelper {
 
+/* CLASS VARIABLES ========================================================== */
+    
     private static final String[] MONTHS = { "January", "February", "March",
             "April", "May", "June", "July",
             "August", "September", "October",
             "November", "December" };
     
+    
+    
+/* PUBLIC METHODS =========================================================== */
+    
+    public static String createDatedFileName(String directory, String extension) {
+        String fileName = ""; 
+        fileName += fullDate();
+        fileName += copyNumber(directory, fileName, extension);
+        return fileName;
+    }
+    
     public static String generateSaveName(Data data) {
         String save_name = new String();
         Calendar c = data.date;
-        Calendar copy2 = (Calendar) c.clone();
-        int firstday = copy2.get(Calendar.DAY_OF_MONTH);
-        copy2.add( Calendar.DAY_OF_MONTH, 4);
-        int lastday = copy2.get( Calendar.DAY_OF_MONTH );
+        Calendar copy = (Calendar) c.clone();
+        int firstday = copy.get(Calendar.DAY_OF_MONTH);
+        copy.add( Calendar.DAY_OF_MONTH, 4);
+        int lastday = copy.get( Calendar.DAY_OF_MONTH );
         
         if (lastday < firstday) {
             save_name += MONTHS[c.get(Calendar.MONTH)] +
                         firstday +
                         "-" +
-                        MONTHS[copy2.get( Calendar.MONTH )] +
+                        MONTHS[copy.get( Calendar.MONTH )] +
                         lastday + "," +
                         c.get(Calendar.YEAR) +
                         ".xlsx";
@@ -93,6 +107,8 @@ public class DateHelper {
     }
     
     
+/* PRIVATE METHODS ========================================================== */
+    
     private static int getFirstDayOfWeek(Calendar c) {
         return c.get(Calendar.DAY_OF_MONTH);
     }
@@ -108,4 +124,37 @@ public class DateHelper {
         copy.add(Calendar.DAY_OF_MONTH, 4);
         return copy.get(Calendar.MONTH);
     }
+    
+    private static String fullDate() {
+        Calendar calendar = getFirstDayOfWeek();
+        return new String(
+                calendar.get(Calendar.YEAR) +
+                "_" +
+                calendar.get(Calendar.MONTH) +
+                "_" +
+                calendar.get(Calendar.DATE));
+    }
+
+    private static Calendar getFirstDayOfWeek() {
+        Calendar calendar = Calendar.getInstance();
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+            calendar.add(Calendar.DATE, -1);
+        }
+        return calendar;
+    }
+    
+    private static String copyNumber(String directory, String fileName, String extension) {
+        String copyNumber = "";
+        File file;
+        int i = 0;
+        while(true) {
+            file = new File(directory + fileName + copyNumber + extension);
+            if (!file.exists()) {
+                return copyNumber;
+            }
+            i++;
+            copyNumber = " (" + String.valueOf(i) + ")";
+        }
+    }
+    
 }

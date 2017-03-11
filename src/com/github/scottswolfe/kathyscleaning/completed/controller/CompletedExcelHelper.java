@@ -20,7 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
-import com.github.scottswolfe.kathyscleaning.general.helper.DateHelper;
+import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -105,7 +105,7 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
     
     private void writeToNewFile(XSSFWorkbook wb) {
         File save_location = Settings.getExcelSaveLocation();
-        String save_name = DateHelper.generateSaveName(data);
+        String save_name = FileNameHelper.generateSaveName(data);
         String pathname = new String(
                 save_location.getAbsolutePath() + "\\" + save_name);
         pathname = checkIfPathnameExists(pathname, save_location, data.date);
@@ -125,9 +125,9 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
     
     private void writeDate(Sheet sheet) {    
         Calendar c = data.date;
-        String day = DateHelper.getDayString(c);
-        String month = DateHelper.getMonthString(c);
-        String year = DateHelper.getYearString(c);
+        String day = FileNameHelper.getDayString(c);
+        String month = FileNameHelper.getMonthString(c);
+        String year = FileNameHelper.getYearString(c);
         
         Row row = sheet.getRow(0);
         row.getCell(3).setCellValue(month);
@@ -318,7 +318,7 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
         while(true) {
             if (new File(save_location, pathname).exists()) {
                 count++;
-                pathname = DateHelper.incrementPathnameCount(pathname, count, c);
+                pathname = FileNameHelper.incrementPathnameCount(pathname, count, c);
             } else {
                 return pathname;
             }

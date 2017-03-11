@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
+import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -41,10 +42,13 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
 
     @Override
     public void menuItemSaveAs() {
-        File file = FileChooserHelper.saveAs(FileChooserHelper.SAVE_FILE_DIR, null);
+        File file = FileChooserHelper.saveAs(
+                FileChooserHelper.SAVE_FILE_DIR, createSuggestedName(
+                FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
+                FileChooserHelper.TXT), FileChooserHelper.TXT);
         if (file != null) {
             Settings.currentSaveFile = file;
-            controller.readInputAndWriteToFile(); 
+            controller.readInputAndWriteToFile();
         }
     }
 
@@ -79,6 +83,14 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         public void actionPerformed(ActionEvent e) {
             menuItemOpen();
         }
+    }
+    
+    
+    
+/* PRIVATE METHODS ========================================================== */
+    
+    private String createSuggestedName(String directory, String extension) {
+        return FileNameHelper.createDatedFileName(directory, extension);
     }
 
 }

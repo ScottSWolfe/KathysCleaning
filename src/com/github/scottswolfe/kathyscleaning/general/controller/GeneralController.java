@@ -18,7 +18,8 @@ import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControlle
 /**
  * Controller for each form
  */
-public class GeneralController<ViewObject, ModelObject> implements Controller<ViewObject, ModelObject> {
+public class GeneralController<ViewObject, ModelObject>
+             implements Controller<ViewObject, ModelObject> {
 
 /* INSTANCE VARIABLES ======================================================= */
     

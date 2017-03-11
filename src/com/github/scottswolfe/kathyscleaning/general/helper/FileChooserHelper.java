@@ -27,8 +27,8 @@ public class FileChooserHelper {
             new File(System.getProperty("user.dir") + "\\save\\user");
     
 
-    public final static String XLSX = "xlsx";
-    public final static String TXT = "txt";
+    public final static String XLSX = ".xlsx";
+    public final static String TXT = ".txt";
     
 /* PRIVATE CLASS VARIABLES ================================================== */
     
@@ -89,13 +89,14 @@ public class FileChooserHelper {
      * 
      * @param directory the default directory
      * @param title the title for the dialog window
-     * @param extension the file extension for filtering; null for no filtering
+     * @param fileName the suggested name for the file
      * @return the chosen or created file or null if no file is chosen
      */
-    public static File saveAs(File directory, String extension) {
+    public static File saveAs(File directory, String fileName, String extension) {
         Settings.changeLookAndFeelSystem();
         JFileChooser chooser = createChooser(directory, saveAsTitle,
-                                             extension, Method.saveAs); 
+                                             extension, Method.saveAs);
+        setSelectedFile(chooser, directory, fileName, extension);
         File file = chooseFile(chooser, true, Method.saveAs);
         Settings.changeLookAndFeelProgram();
         return file;
@@ -201,6 +202,15 @@ public class FileChooserHelper {
         } else {
             chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         }
+    }
+    
+    private static void setSelectedFile(JFileChooser chooser, File directory,
+                                        String fileName, String extension) {
+        if (directory == null || fileName == null || extension == null) {
+            return;
+        }
+        String fullFileName = directory.getAbsolutePath() + "/" + fileName + extension; 
+        chooser.setSelectedFile(new File(fullFileName));
     }
 
 }
