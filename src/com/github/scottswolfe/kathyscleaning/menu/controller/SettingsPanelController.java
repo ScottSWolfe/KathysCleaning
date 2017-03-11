@@ -20,7 +20,9 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
+import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
@@ -202,7 +204,8 @@ public class SettingsPanelController {
                 e1.printStackTrace();
             }
             
-            GeneralController controller = new GeneralController();
+            GeneralController<TabbedPane, Data> controller =
+                    new GeneralController<>(Form.COMPLETED);
             TabbedPane tp = new TabbedPane(controller);
             tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
             tp.setBackground(Settings.BACKGROUND_COLOR);

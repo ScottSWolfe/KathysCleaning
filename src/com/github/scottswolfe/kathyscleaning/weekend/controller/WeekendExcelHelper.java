@@ -1,4 +1,4 @@
-package com.github.scottswolfe.kathyscleaning.covenant.controller;
+package com.github.scottswolfe.kathyscleaning.weekend.controller;
 
 import java.io.File;
 

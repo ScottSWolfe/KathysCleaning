@@ -26,6 +26,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
@@ -34,6 +35,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
@@ -401,7 +403,8 @@ public class ChooseWeekPanel extends JPanel {
             // If DayPanels
 			if( week == PREVIOUS_WEEK ) {
 				
-			    GeneralController<TabbedPane, Data> controller = new GeneralController<>();
+			    GeneralController<TabbedPane, Data> controller =
+			            new GeneralController<>(Form.COMPLETED);
 			    controller.setControllerHelper(new CompletedControllerHelper());
 			    controller.setExcelHelper(new CompletedExcelHelper());
 			    
@@ -491,8 +494,8 @@ public class ChooseWeekPanel extends JPanel {
 			// else for next week panel
 			else {
 				
-                GeneralController<TabbedPane, Data> controller = new GeneralController<>();
-                controller.setControllerHelper(new CompletedControllerHelper());
+                GeneralController<TabbedPane, NW_Data> controller =
+                        new GeneralController<>(Form.SCHEDULED);
                 
 			    controller.setView(tp);
                 tp.setController(controller);

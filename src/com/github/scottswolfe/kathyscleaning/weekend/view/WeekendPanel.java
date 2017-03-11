@@ -36,15 +36,14 @@ import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
-import com.github.scottswolfe.kathyscleaning.persistance.Savable;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledController;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -661,9 +660,8 @@ public class WeekendPanel extends JPanel {
 					e1.printStackTrace();
 				}				
 				
-				GeneralController<TabbedPane, NW_Data> controller = new GeneralController<>();
-				controller.setControllerHelper(); // TODO
-				controller.setExcelHelper(); // TODO
+				GeneralController<TabbedPane, NW_Data> controller = 
+				        new GeneralController<>(Form.SCHEDULED);
 				
 				TabbedPane tp = new TabbedPane(controller);
 				tp.setFont( tp.getFont().deriveFont(Settings.TAB_FONT_SIZE) );
