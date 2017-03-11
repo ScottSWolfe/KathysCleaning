@@ -130,7 +130,7 @@ public class FileNameHelper {
         return new String(
                 calendar.get(Calendar.YEAR) +
                 "_" +
-                calendar.get(Calendar.MONTH) +
+                (calendar.get(Calendar.MONTH) + 1) +
                 "_" +
                 calendar.get(Calendar.DATE));
     }
@@ -153,7 +153,7 @@ public class FileNameHelper {
                 return copyNumber;
             }
             i++;
-            copyNumber = " (" + String.valueOf(i) + ")";
+            copyNumber = " (" + i + ")";
         }
     }
     
