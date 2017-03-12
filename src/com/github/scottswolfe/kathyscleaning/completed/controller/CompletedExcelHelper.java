@@ -110,6 +110,7 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
                 save_location.getAbsolutePath() + "\\" + save_name);
         pathname = checkIfPathnameExists(pathname, save_location, data.date);
         File new_save = new File(pathname);
+        Settings.excelFile = new_save;
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(new_save);

@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.HousePayDocFilter;
-import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantController;
+import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantListeners;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
@@ -42,7 +42,7 @@ public class CovenantPanel extends JPanel {
     /**
      * The controller for this panel.
      */
-    CovenantController controller;
+    CovenantListeners controller;
     
     /**
      * The frame containing this panel.
@@ -124,7 +124,7 @@ public class CovenantPanel extends JPanel {
 	public CovenantPanel(WorkerList dwd2,
 	        Calendar date, int mode, int wk) {
 				
-		controller = new CovenantController(this);
+		controller = new CovenantListeners(this);
 		//TODO temporary hack
 		CovenantModel covModel = new CovenantModel(
 		        new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk); 
@@ -566,7 +566,7 @@ public class CovenantPanel extends JPanel {
     /**
      * @return the controller
      */
-    public CovenantController getController() {
+    public CovenantListeners getController() {
         return controller;
     }
 
@@ -575,7 +575,7 @@ public class CovenantPanel extends JPanel {
     /**
      * @param controller the controller to set
      */
-    public void setController(CovenantController controller) {
+    public void setController(CovenantListeners controller) {
         this.controller = controller;
     }
 

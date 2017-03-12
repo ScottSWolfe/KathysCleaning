@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,42 +20,35 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendController;
 
 /**
- * Controller that links CovenantModel and CovenantPanel. 
+ * Listeners of CovenantPanel 
  */
-public class CovenantController {
+public class CovenantListeners {
 
-    
-    
 /* FIELDS =================================================================== */
     
     /**
-     * Model that this controller controls.
+     * TODO temporary until CovenantControllerHelper and ExcelHelper are done
      */
     CovenantModel covModel;
     
     /**
-     * Panel that this controller controls.
+     * Panel to which this is listening
      */
     CovenantPanel covPanel;
     
     
     
-
-/* FIELDS =================================================================== */
+/* CONSTRUCTORS ============================================================= */
     
-    public CovenantController(CovenantPanel panel) {
+    public CovenantListeners(CovenantPanel panel) {
         covPanel = panel;
     }
 
@@ -68,20 +60,16 @@ public class CovenantController {
      * Listener for the Edit button.
      */
     public class EditListener implements ActionListener {
-        
         public void actionPerformed ( ActionEvent e ) {
-           
             covPanel.getCovFrame().setEnabled(false);
             EditWorkersController.initializePanelFrame(covPanel);
         }
     }
     
-    
     /**
      * Listener for the Submit button.
      */
     public class SubmitListener implements ActionListener {
-        
         public void actionPerformed (ActionEvent e) {
             
             if (!StaticMethods.confirmSubmitWeek()) {
@@ -111,7 +99,7 @@ public class CovenantController {
             
             // writing data to excel document
             try{
-            File f = SubmitWeekListener.new_save;
+            File f = Settings.excelFile;
             InputStream inp = new FileInputStream(f);
             XSSFWorkbook wb = new XSSFWorkbook(inp);
             Sheet sheet = wb.getSheet("COVENANT");
@@ -398,12 +386,7 @@ public class CovenantController {
                                                    covModel.getWk());
                         
         }
-        
     }
-
-
-
-    
     
     
     
@@ -415,7 +398,6 @@ public class CovenantController {
     public CovenantModel getCovModel() {
         return covModel;
     }
-    
 
     /**
      * @param covModel the covModel to set
@@ -424,14 +406,12 @@ public class CovenantController {
         this.covModel = covModel;
     }
 
-
     /**
      * @return the covPanel
      */
     public CovenantPanel getCovPanel() {
         return covPanel;
     }
-
 
     /**
      * @param covPanel the covPanel to set

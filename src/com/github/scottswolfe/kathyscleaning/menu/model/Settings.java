@@ -141,6 +141,11 @@ public class Settings {
     public static File saveFile;
     
     /**
+     * The current excel file being created
+     */
+    public static File excelFile;
+    
+    /**
      * Saved Font Size Factor.
      */
     public static int fontSizeFactor;

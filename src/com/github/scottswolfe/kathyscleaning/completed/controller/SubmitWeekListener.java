@@ -7,7 +7,6 @@ import java.util.Calendar;
 import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
-import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantController;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
