@@ -77,8 +77,8 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
     
     private void addGenExcelItem(JMenu fileMenu) {
         JMenuItem genExcelMenuItem = new JMenuItem("Generate Excel Document");
-        // TODO openMenuItem.addActionListener(
-        //        menuController.new GenExcelMenuItemListener());
+        genExcelMenuItem.addActionListener(
+                menuController.new GenExcelMenuItemListener());
         fileMenu.add(genExcelMenuItem);    
     }
     

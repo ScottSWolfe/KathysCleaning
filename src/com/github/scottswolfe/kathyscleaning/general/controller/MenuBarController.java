@@ -67,6 +67,23 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         }
     }
     
+    @Override
+    public void menuItemGenExcel() {
+        File file = null;
+        if (Settings.excelFile == null) {
+            file = FileChooserHelper.saveAs(
+                    Settings.getExcelSaveLocation(), createSuggestedName(
+                            Settings.getExcelSaveLocation().getAbsolutePath(),
+                    FileChooserHelper.XLSX), FileChooserHelper.XLSX);
+        } else {
+            file = FileChooserHelper.saveAs(Settings.excelFile); 
+        }
+        if (file != null) {
+            Settings.excelFile = file;
+            controller.writeModelToExcel(file);
+        }
+    }
+    
     
     
 /* LISTENERS ================================================================ */
@@ -89,6 +106,13 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemOpen();
+        }
+    }
+    
+    public class GenExcelMenuItemListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            menuItemGenExcel();
         }
     }
     

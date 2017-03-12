@@ -35,7 +35,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
@@ -422,7 +421,7 @@ public class WeekendPanel extends JPanel {
 			if (mode == Settings.TRUE_MODE) {
 			// reading data and writing to Excel Document
 			try {
-			File f = SubmitWeekListener.new_save;
+			File f = Settings.excelFile;
 			InputStream inp = new FileInputStream(f);
 			XSSFWorkbook wb = new XSSFWorkbook(inp);
 			Sheet sheet = wb.getSheet("PAYROLL");

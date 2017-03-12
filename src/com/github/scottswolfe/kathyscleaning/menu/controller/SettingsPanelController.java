@@ -27,6 +27,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListen
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
@@ -190,7 +191,10 @@ public class SettingsPanelController {
             settingsFrame.setVisible(false);
             settingsFrame.dispose();
             
-            JFrame nframe = new JFrame();
+            GeneralController<TabbedPane, Data> controller =
+                    new GeneralController<>(Form.COMPLETED);
+
+            MainFrame<TabbedPane, Data> nframe = new MainFrame<TabbedPane, Data>(controller);
             nframe.setResizable(false);
             nframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             nframe.addWindowListener(new MainWindowListener());
@@ -204,8 +208,6 @@ public class SettingsPanelController {
                 e1.printStackTrace();
             }
             
-            GeneralController<TabbedPane, Data> controller =
-                    new GeneralController<>(Form.COMPLETED);
             TabbedPane tp = new TabbedPane(controller);
             tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
             tp.setBackground(Settings.BACKGROUND_COLOR);

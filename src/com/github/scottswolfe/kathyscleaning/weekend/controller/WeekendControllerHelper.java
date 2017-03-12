@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.weekend.controller;
 
 import java.io.File;
+import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
@@ -31,6 +32,12 @@ public class WeekendControllerHelper
     public Data loadFromFile(File file) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void initializeForm(Calendar date, int mode, int wk) {
+        // TODO Auto-generated method stub
+        
     }
 
     

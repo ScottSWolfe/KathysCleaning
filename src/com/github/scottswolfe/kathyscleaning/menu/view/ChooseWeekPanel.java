@@ -19,8 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
 import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
@@ -32,7 +30,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
@@ -265,7 +262,8 @@ public class ChooseWeekPanel extends JPanel {
 		return panel;
 		
 	}
-	
+	/*
+	 TODO remove this method
 	private JPanel SelectAutoFillPanel() {
 		
 		JPanel panel = new JPanel();
@@ -304,7 +302,7 @@ public class ChooseWeekPanel extends JPanel {
 		return panel;
 		
 	}
-	
+	*/
 	
 	
 	// PRIVATE METHODS
@@ -405,13 +403,11 @@ public class ChooseWeekPanel extends JPanel {
 				
 			    GeneralController<TabbedPane, Data> controller =
 			            new GeneralController<>(Form.COMPLETED);
-			    controller.setControllerHelper(new CompletedControllerHelper());
-			    controller.setExcelHelper(new CompletedExcelHelper());
 			    
                 controller.setView(tp);
 			    tp.setController(controller);
 			    
-			    MainFrame<?,?> frame = createFrame(controller);
+			    MainFrame<TabbedPane, Data> frame = new MainFrame<>(controller);
 			    
 				if ( week_A_rbutton.isSelected() ) {
 					wk = Settings.WEEK_A;
@@ -501,7 +497,7 @@ public class ChooseWeekPanel extends JPanel {
 			    controller.setView(tp);
                 tp.setController(controller);
                                 
-                JFrame frame = createFrame(controller);
+                MainFrame<TabbedPane, NW_Data> frame = new MainFrame<>(controller);
 
 
 				if ( week_A_rbutton.isSelected() ) {
@@ -999,14 +995,6 @@ public class ChooseWeekPanel extends JPanel {
 			
 		}
 		
-	}
-	
-	
-	private MainFrame<?,?> createFrame(Controller controller) {
-	    MainFrame<?,?> frame = new MainFrame<>(controller);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.setResizable(false);
-        return frame;
 	}
 	
 }

@@ -19,7 +19,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
@@ -380,7 +379,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 		// *** 3b. Write User Data to Excel Sheet and Save***
 		
 		try {
-			writeDayData( dayData, SubmitWeekListener.new_save);
+			writeDayData(dayData, Settings.excelFile);
 		}
 		catch(Exception e2){
 			JOptionPane.showMessageDialog( new JFrame(), "Error: The data did not copy to the Excel document correctly.", null, JOptionPane.ERROR_MESSAGE);
@@ -403,7 +402,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 		
 		try {
 			Desktop dt = Desktop.getDesktop();
-			dt.open( SubmitWeekListener.new_save );
+			dt.open(Settings.excelFile);
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(new JFrame(), "The Excel document could not be opened automatically.");
 		}
@@ -879,7 +878,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 			//Data.setFile( new File( System.getProperty("user.dir") + "/New.xlsx" ) );
 			// END TEMPORARY
 			
-			out = new FileOutputStream( SubmitWeekListener.new_save );
+			out = new FileOutputStream(Settings.excelFile);
 			wb.write(out);
 			
 			out.close();

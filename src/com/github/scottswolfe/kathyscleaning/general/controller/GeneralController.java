@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.general.controller;
 
 import java.io.File;
+import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
@@ -112,14 +113,12 @@ public class GeneralController<ViewObject, ModelObject>
     }
     
     @Override
-    public void initializeForm() {
-        helper.initializeForm();
+    public void initializeForm(Calendar date, int mode, int wk) {
+        helper.initializeForm(date, mode, wk);
     }
     
-    /**
-     * Writes Data to the excel template
-     */
-    public void writeModelToExcel() {
+    @Override
+    public void writeModelToExcel(File excelFile) {
         excelHelper.writeModelToExcel(model, Settings.getExcelTemplateFile());
     }
     

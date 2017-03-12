@@ -2,6 +2,7 @@ package com.github.scottswolfe.kathyscleaning.weekend.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Calendar;
 
 import javax.swing.JFrame;
@@ -13,18 +14,6 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
 public class WeekendController implements Controller {
-
-    @Override
-    public void readInputAndWriteToFile() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void readFileAndWriteToView() {
-        // TODO Auto-generated method stub
-
-    }
     
     /**
      * Initializes and launches a frame with a Weekend panel.
@@ -100,6 +89,30 @@ public class WeekendController implements Controller {
     public Object getModel() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void readInputAndWriteToFile(File file) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void readFileAndWriteToView(File file) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void writeModelToExcel(File excelFile) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void initializeForm(Calendar date, int mode, int wk) {
+        // TODO Auto-generated method stub
+        
     }
     
 

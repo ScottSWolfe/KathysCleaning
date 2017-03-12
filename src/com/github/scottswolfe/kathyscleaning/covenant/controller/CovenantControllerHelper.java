@@ -3,8 +3,6 @@ package com.github.scottswolfe.kathyscleaning.covenant.controller;
 import java.io.File;
 import java.util.Calendar;
 
-import javax.swing.JFrame;
-
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
@@ -41,17 +39,8 @@ public class CovenantControllerHelper
         return null;
     }
 
-    /**
-     * Initializes a window that contains the Covenant Form
-     * 
-     * TODO temporary parameters...
-     * @param oldFrame
-     * @param date
-     * @param mode
-     * @param wk
-     */
-    public static void initializeForm(MainFrame<?, ?> oldFrame, Calendar date, int mode, int wk) {
-        oldFrame.eliminate();
+    @Override
+    public void initializeForm(Calendar date, int mode, int wk) {
         GeneralController<CovenantPanel, Data> controller =
                                     new GeneralController<>(Form.COVENANT);
         

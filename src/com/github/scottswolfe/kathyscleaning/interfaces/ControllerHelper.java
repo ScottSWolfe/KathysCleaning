@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.interfaces;
 
 import java.io.File;
+import java.util.Calendar;
 
 public interface ControllerHelper<ViewObject, ModelObject> {
 
@@ -33,5 +34,15 @@ public interface ControllerHelper<ViewObject, ModelObject> {
      * @param file the file from which to load the object
      */
     public ModelObject loadFromFile(File file);
-     
+    
+    /**
+     * TODO temporary parameters...
+     * 
+     * @param oldFrame
+     * @param date
+     * @param mode
+     * @param wk
+     */
+    public void initializeForm(Calendar date, int mode, int wk);
+    
 }

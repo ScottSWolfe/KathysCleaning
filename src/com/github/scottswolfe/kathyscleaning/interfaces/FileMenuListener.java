@@ -19,5 +19,10 @@ public interface FileMenuListener {
      */
     public void menuItemOpen();
     
+    /**
+     * This method is triggered when the user selects generate excel document
+     * in the file menu
+     */
+    public void menuItemGenExcel();
     
 }

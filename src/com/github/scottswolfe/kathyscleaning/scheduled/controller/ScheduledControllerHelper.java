@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 
 import java.io.File;
+import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
@@ -31,6 +32,12 @@ public class ScheduledControllerHelper
     public Data loadFromFile(File file) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void initializeForm(Calendar date, int mode, int wk) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.interfaces;
 
 import java.io.File;
+import java.util.Calendar;
 
 /**
  * A general controller interface for all controllers in this project.
@@ -24,9 +25,16 @@ public interface Controller<ViewObject, ModelObject> {
     public void readFileAndWriteToView(File file);
     
     /**
-     * Creates the window that this controlle controls
+     * Writes the model to the Excel template
      */
-    public void initializeForm();
+    public void writeModelToExcel(File excelFile);
+    
+    /**
+     * Creates the window that this controller controls
+     * 
+     * TODO temporary parameters
+     */
+    public void initializeForm(Calendar date, int mode, int wk);
     
     
     
