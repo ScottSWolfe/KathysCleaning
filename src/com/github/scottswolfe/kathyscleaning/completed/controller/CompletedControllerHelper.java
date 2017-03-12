@@ -120,7 +120,10 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
                         }
                     }
                 }
-                        
+                
+                house_panel.exception_data = house_data.getExceptionData();
+                
+                
                 // if there are more houses to fill in
                 // and there are more empty house panels
                 if (h < num_house_datas - 1 && h < num_house_panels - 1) {

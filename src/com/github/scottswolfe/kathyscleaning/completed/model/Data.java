@@ -10,14 +10,8 @@ public class Data {
 //  FIELDS
 	
 	public DayData[] dayData;
-	CovenantData covData;
-	
-	//String day;
-	//String month;
-	//String year;
-	
+	CovenantData covData;	
 	public Calendar date;
-	
 	public static File new_file;
 	
 	
@@ -37,25 +31,6 @@ public class Data {
 	
 	
 //  METHODS
-	
-	/*
-	public void setDate( String month, String day, String year ) {
-		this.month = month;
-		this.day = day;
-		this.year = year;
-	}
-	
-	public String[] getDate () {
-		
-		String[] s = new String[3];
-		
-		s[0] = month;
-		s[1] = day;
-		s[2] = year;
-		
-		return s;
-	}
-	*/
 
 	public void setDate ( Calendar date ) {
 		this.date = date;
