@@ -4,11 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
-import javax.swing.JFrame;
-
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -21,7 +20,7 @@ public class SubmitWeekListener implements ActionListener {
     
     GeneralController<TabbedPane, Data> controller;
 	TabbedPane tp;
-	JFrame frame;
+	MainFrame<?,?> frame;
 	Calendar date;
 	int mode;
 	int wk;
@@ -30,7 +29,7 @@ public class SubmitWeekListener implements ActionListener {
 	
 /* CONSTRUCTOR ============================================================== */
 
-	public SubmitWeekListener(GeneralController<TabbedPane, Data> controller, TabbedPane tp, JFrame frame, Calendar date, int mode, int wk ){
+	public SubmitWeekListener(GeneralController<TabbedPane, Data> controller, TabbedPane tp, MainFrame<?,?> frame, Calendar date, int mode, int wk ){
 		this.controller = controller;
 	    this.tp = tp;
 		this.frame = frame;

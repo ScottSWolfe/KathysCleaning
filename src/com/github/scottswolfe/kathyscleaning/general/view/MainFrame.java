@@ -25,6 +25,15 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(false);
     }
+
+    
+    
+/* PUBLIC METHODS =========================================================== */
+    
+    public void eliminate() {
+        this.setVisible(false);
+        this.dispose();
+    }
     
     
     

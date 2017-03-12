@@ -10,6 +10,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -27,7 +28,7 @@ public class DayPanel extends JPanel{
 	public JPanel jsp_panel;
 	DayData day_data;
 	Calendar date;
-	JFrame frame;
+	MainFrame<?,?> frame;
 	
 	int wk;
 	
@@ -48,7 +49,7 @@ public class DayPanel extends JPanel{
 
 	
 	public DayPanel(GeneralController controller, TabbedPane tp,
-	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk) {
+	        WorkerList dwd, Calendar date, MainFrame<?,?> frame, int mode, int wk) {
 		
 	    this.controller = controller;
 		this.tp = tp;

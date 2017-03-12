@@ -36,7 +36,6 @@ import net.miginfocom.swing.MigLayout;
  */
 public class CovenantPanel extends JPanel {
 	
-	
 /* FIELDS =================================================================== */
 	
     /**
@@ -49,9 +48,6 @@ public class CovenantPanel extends JPanel {
      */
     JFrame covFrame;
     
-    
-    
-	
 	public final static int ROWS = 12;
 	int rows = ROWS;
 		

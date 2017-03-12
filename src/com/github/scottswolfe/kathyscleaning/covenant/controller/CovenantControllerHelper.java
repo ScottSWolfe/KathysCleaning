@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
@@ -48,16 +50,18 @@ public class CovenantControllerHelper
      * @param mode
      * @param wk
      */
-    public static void initializeForm(JFrame oldFrame, Calendar date, int mode, int wk) {
-        oldFrame.setVisible(false); 
-        oldFrame.dispose();
+    public static void initializeForm(MainFrame<?, ?> oldFrame, Calendar date, int mode, int wk) {
+        oldFrame.eliminate();
+        GeneralController<CovenantPanel, Data> controller =
+                                    new GeneralController<>(Form.COVENANT);
         
         CovenantPanel covPanel = new CovenantPanel(
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
         CovenantModel covModel = new CovenantModel(
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
         
-        MainFrame<CovenantPanel, Data> menuFrame = new MainFrame<>(covPanel.getController());
+        MainFrame<CovenantPanel, Data> menuFrame =
+                new MainFrame<CovenantPanel, Data>(controller);
 
         covPanel.setFrame(menuFrame);
         covPanel.getController().setCovModel(covModel);

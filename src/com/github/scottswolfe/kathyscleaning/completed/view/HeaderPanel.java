@@ -27,6 +27,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -38,7 +39,7 @@ public class HeaderPanel extends JPanel {
 // FIELDS
 	
 	TabbedPane tp;
-	JFrame frame;
+	MainFrame<?,?> frame;
 	WorkerList dwd;
 	DayPanel day_panel;
 	DayData day_data;
@@ -74,7 +75,7 @@ public class HeaderPanel extends JPanel {
 	
 	public HeaderPanel(GeneralController controller, TabbedPane tp,
 	        WorkerList dwd, DayPanel day_panel, Calendar date,
-	        JFrame frame, int mode, int wk ) {
+	        MainFrame<?,?> frame, int mode, int wk ) {
 		
 		this.tp = tp;
 		this.frame = frame;
