@@ -27,7 +27,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
     
     public MenuBar(Controller<ViewObject, ModelObject> controller) {
         menuController = new MenuBarController<>(controller);        
-        addFileMenu();   
+        addFileMenu();
     }
     
     
@@ -35,13 +35,19 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
 /* PRIVATE METHODS ========================================================== */
     
     private void addFileMenu() {
+        add(createFileMenu());
+    }
+
+    private JMenu createFileMenu() {
         JMenu fileMenu = new JMenu("File");
         addSaveMenuItem(fileMenu);
         addSaveAsMenuItem(fileMenu);
         addOpenMenuItem(fileMenu);
-        add(fileMenu);
+        fileMenu.addSeparator();
+        addGenExcelItem(fileMenu);
+        return fileMenu;
     }
- 
+    
     private void addSaveMenuItem(JMenu fileMenu) {
         JMenuItem saveMenuItem = new JMenuItem("Save");
         saveMenuItem.setMnemonic(KeyEvent.VK_S);
@@ -67,6 +73,13 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         openMenuItem.addActionListener(
                 menuController.new LoadMenuItemListener());
         fileMenu.add(openMenuItem);    
+    }
+    
+    private void addGenExcelItem(JMenu fileMenu) {
+        JMenuItem genExcelMenuItem = new JMenuItem("Generate Excel Document");
+        // TODO openMenuItem.addActionListener(
+        //        menuController.new GenExcelMenuItemListener());
+        fileMenu.add(genExcelMenuItem);    
     }
     
 }
