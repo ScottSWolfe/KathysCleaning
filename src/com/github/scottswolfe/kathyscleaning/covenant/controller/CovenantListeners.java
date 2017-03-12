@@ -48,9 +48,6 @@ public class CovenantListeners {
     
 /* CONSTRUCTORS ============================================================= */
     
-    public CovenantListeners(CovenantPanel panel) {
-        covPanel = panel;
-    }
 
 
     

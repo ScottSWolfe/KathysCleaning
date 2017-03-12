@@ -41,23 +41,27 @@ public class CovenantControllerHelper
 
     @Override
     public void initializeForm(Calendar date, int mode, int wk) {
+        
         GeneralController<CovenantPanel, Data> controller =
                                     new GeneralController<>(Form.COVENANT);
         
-        CovenantPanel covPanel = new CovenantPanel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
+        CovenantListeners covListeners = new CovenantListeners();
         CovenantModel covModel = new CovenantModel(
+                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);        
+        CovenantPanel covPanel = new CovenantPanel(covListeners,
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
-        
-        MainFrame<CovenantPanel, Data> menuFrame =
+  
+        MainFrame<CovenantPanel, Data> mainFrame =
                 new MainFrame<CovenantPanel, Data>(controller);
-
-        covPanel.setFrame(menuFrame);
-        covPanel.getController().setCovModel(covModel);
-        covPanel.getFrame().setResizable(false);
-        covPanel.getFrame().pack();
-        covPanel.getFrame().setLocationRelativeTo(null);
-        covPanel.getFrame().setVisible(true);
+        
+        covListeners.setCovModel(covModel);
+        covListeners.setCovPanel(covPanel);
+        covPanel.setFrame(mainFrame);
+        
+        mainFrame.add(covPanel);
+        mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
     }
 
 }

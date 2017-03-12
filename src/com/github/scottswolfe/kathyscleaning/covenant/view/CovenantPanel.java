@@ -19,12 +19,14 @@ import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.HousePayDocFilter;
+import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantListeners;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
@@ -34,6 +36,7 @@ import net.miginfocom.swing.MigLayout;
  * This is the panel where the user enters beginning and ending times for
  * workers at Covenant Academy.
  */
+@SuppressWarnings("serial")
 public class CovenantPanel extends JPanel {
 	
 /* FIELDS =================================================================== */
@@ -46,7 +49,7 @@ public class CovenantPanel extends JPanel {
     /**
      * The frame containing this panel.
      */
-    JFrame covFrame;
+    MainFrame<CovenantPanel, Data> covFrame;
     
 	public final static int ROWS = 12;
 	int rows = ROWS;
@@ -117,10 +120,10 @@ public class CovenantPanel extends JPanel {
 	
 /* CONSTRUCTOR ============================================================== */
 
-	public CovenantPanel(WorkerList dwd2,
+	public CovenantPanel(CovenantListeners listeners, WorkerList dwd2,
 	        Calendar date, int mode, int wk) {
 				
-		controller = new CovenantListeners(this);
+		controller = listeners;
 		//TODO temporary hack
 		CovenantModel covModel = new CovenantModel(
 		        new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk); 
@@ -589,7 +592,7 @@ public class CovenantPanel extends JPanel {
     /**
      * @param covFrame the covFrame to set
      */
-    public void setCovFrame(JFrame covFrame) {
+    public void setCovFrame(MainFrame<CovenantPanel, Data> covFrame) {
         this.covFrame = covFrame;
     }
 
@@ -731,7 +734,7 @@ public class CovenantPanel extends JPanel {
      * Sets the frame that contains this CovenantPanel 
      * @return
      */
-    public void setFrame(JFrame frame) {
+    public void setFrame(MainFrame<CovenantPanel, Data> frame) {
         covFrame = frame;
     }
 
