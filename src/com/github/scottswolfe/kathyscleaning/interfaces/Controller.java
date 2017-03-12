@@ -25,7 +25,9 @@ public interface Controller<ViewObject, ModelObject> {
     public void readFileAndWriteToView(File file);
     
     /**
-     * Writes the model to the Excel template
+     * Writes the model to the Excel template and saves it as the given file
+     * 
+     * @param excelFile the new excel file to be created
      */
     public void writeModelToExcel(File excelFile);
     

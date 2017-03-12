@@ -119,7 +119,7 @@ public class GeneralController<ViewObject, ModelObject>
     
     @Override
     public void writeModelToExcel(File excelFile) {
-        excelHelper.writeModelToExcel(model, Settings.getExcelTemplateFile());
+        excelHelper.writeModelToExcel(model, excelFile);
     }
     
     /**

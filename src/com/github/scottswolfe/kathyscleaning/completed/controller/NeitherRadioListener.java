@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -19,16 +21,16 @@ public class NeitherRadioListener implements ActionListener {
 
 	// FIELDS
 	
-    GeneralController controller;
+    GeneralController<TabbedPane, Data> controller;
 	TabbedPane tp;
-	JFrame frame;
+	MainFrame<TabbedPane, Data> frame;
 	
 	
 	
 	// CONSTRUCTOR
 	
-	public NeitherRadioListener(GeneralController controller,
-	                            TabbedPane tp, JFrame frame) {
+	public NeitherRadioListener(GeneralController<TabbedPane, Data> controller,
+	                            TabbedPane tp, MainFrame<TabbedPane, Data> frame) {
 	    this.controller = controller;
 		this.tp = tp;
 		this.frame = frame;

@@ -61,12 +61,12 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
 /* PUBLIC METHODS =+========================================================= */
 
     @Override
-    public void writeModelToExcel(Data model, File file) {
+    public void writeModelToExcel(Data model, File newExcelFile) {
         data = model;
-        this.file = file;
+        this.file = newExcelFile;
         try {
             // Create workbook
-            InputStream input = new FileInputStream(file);
+            InputStream input = new FileInputStream(Settings.getExcelTemplateFile());
             XSSFWorkbook wb = new XSSFWorkbook(input);
             Sheet sheet = wb.getSheetAt(0);
 
@@ -104,16 +104,10 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
 /* PRIVATE METHODS ========================================================== */
     
     private void writeToNewFile(XSSFWorkbook wb) {
-        File save_location = Settings.getExcelSaveLocation();
-        String save_name = FileNameHelper.generateSaveName(data);
-        String pathname = new String(
-                save_location.getAbsolutePath() + "\\" + save_name);
-        pathname = checkIfPathnameExists(pathname, save_location, data.date);
-        File new_save = new File(pathname);
-        Settings.excelFile = new_save;
+        Settings.excelFile = file;
         FileOutputStream out = null;
         try {
-            out = new FileOutputStream(new_save);
+            out = new FileOutputStream(file);
             wb.write(out);
             out.close();
         } catch (FileNotFoundException e) {
@@ -310,20 +304,6 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
             }
             
         }} // ending if house named
-    }
-    
-    
-    private String checkIfPathnameExists(String pathname, File save_location,
-                                         Calendar c) {
-        int count = 0;
-        while(true) {
-            if (new File(save_location, pathname).exists()) {
-                count++;
-                pathname = FileNameHelper.incrementPathnameCount(pathname, count, c);
-            } else {
-                return pathname;
-            }
-        }
     }
     
 }
