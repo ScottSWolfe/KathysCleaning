@@ -1,11 +1,5 @@
 package com.github.scottswolfe.kathyscleaning.completed.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Calendar;
 
 import javax.swing.JFrame;
@@ -23,7 +17,6 @@ import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 
 /**
@@ -37,19 +30,13 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
      * The data to write to the excel file
      */
     Data data;
-    
-    /**
-     * The excel file to which to write the data
-     */
-    File file;
-
+   
     
     
 /* CONSTRUCTOR ============================================================== */
 
-    public CompletedExcelHelper(Data data, File file) {
+    public CompletedExcelHelper(Data data) {
         this.data = data;
-        this.file = file;
     }
     
     public CompletedExcelHelper() {
@@ -61,62 +48,17 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
 /* PUBLIC METHODS =+========================================================= */
 
     @Override
-    public void writeModelToExcel(Data model, File newExcelFile) {
+    public void writeModelToExcel(Data model, XSSFWorkbook wb) {
         data = model;
-        this.file = newExcelFile;
-        try {
-            // Create workbook
-            InputStream input = new FileInputStream(Settings.getExcelTemplateFile());
-            XSSFWorkbook wb = new XSSFWorkbook(input);
-            Sheet sheet = wb.getSheetAt(0);
-
-            // set date
-            writeDate(sheet);
-                   
-            // input house data
-            writeDataForEachDay(sheet);
-            XSSFFormulaEvaluator.evaluateAllFormulaCells(wb);
-            
-            // write to new file
-            writeToNewFile(wb);
-            
-            // close workbook
-            wb.close();      
-            
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(new JFrame(),
-                    "Error: Excel document could not be found.");
-        } catch(IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(new JFrame(),
-                    "Error: Excel document was not created properly.");
-        } catch(Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(new JFrame(),
-                    "Error: Excel document was not created properly.");
-        }
-        
+        Sheet sheet = wb.getSheetAt(0);
+        writeDate(sheet);
+        writeDataForEachDay(sheet);
+        XSSFFormulaEvaluator.evaluateAllFormulaCells(wb);
     }
 
     
     
 /* PRIVATE METHODS ========================================================== */
-    
-    private void writeToNewFile(XSSFWorkbook wb) {
-        Settings.excelFile = file;
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(file);
-            wb.write(out);
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
     
     private void writeDate(Sheet sheet) {    
         Calendar c = data.date;

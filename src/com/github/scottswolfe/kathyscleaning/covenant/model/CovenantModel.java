@@ -22,7 +22,7 @@ public class CovenantModel {
     
 /* FIELDS =================================================================== */
     
-    List<CovenantEntry> covenantEntry;
+    List<CovenantEntry> covenantEntries;
     List<Double> amountsEarned;
     
     /**
@@ -60,7 +60,7 @@ public class CovenantModel {
     }
     
     public CovenantModel() {
-        covenantEntry = new ArrayList<CovenantEntry>();
+        covenantEntries = new ArrayList<CovenantEntry>();
         amountsEarned = new ArrayList<Double>();
     }
 
@@ -68,7 +68,7 @@ public class CovenantModel {
 /* GETTERS/SETTERS ========================================================== */
 
     public void addEntry(CovenantEntry entry) {
-        covenantEntry.add(entry);
+        covenantEntries.add(entry);
     }
     
     public void addAmountEarned(Double amount) {
@@ -76,11 +76,15 @@ public class CovenantModel {
     }
     
     public Iterator<CovenantEntry> entryIterator() {
-        return covenantEntry.iterator();
+        return covenantEntries.iterator();
     }
     
     public List<Double> getAmountsEarned() {
         return amountsEarned;
+    }
+    
+    public List<CovenantEntry> getEntries() {
+        return covenantEntries;
     }
         
     

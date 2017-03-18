@@ -5,10 +5,12 @@ import java.awt.event.ActionListener;
 
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendController;
+import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
+import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
 /**
  * Listeners of CovenantPanel 
@@ -18,7 +20,7 @@ public class CovenantListeners {
 /* FIELDS =================================================================== */
     
     /**
-     * TODO temporary until CovenantControllerHelper and ExcelHelper are done
+     * TODO temporary
      */
     CovenantModel covModel;
     
@@ -51,15 +53,24 @@ public class CovenantListeners {
     public class SubmitListener implements ActionListener {
         
         public void actionPerformed (ActionEvent e) {
+            
             if (!StaticMethods.confirmSubmitWeek()) {
                 return;
             }
+            
             controller.readInputAndWriteToFile(Settings.saveFile);
-            WeekendController controller = new WeekendController();
-            controller.initializeWeekendPanelFrame(covPanel.getCovFrame(),
-                                                   covModel.getDate(),
-                                                   covModel.getMode(),
-                                                   covModel.getWk());
+            CovenantControllerHelper.saveChosenWorkers(covPanel, covModel);
+            CovenantControllerHelper.saveAmountsEarned(covPanel);
+
+            covPanel.getFrame().setVisible(false);
+            covPanel.getFrame().dispose();
+
+            GeneralController<WeekendPanel, WeekendModel> weekendController =
+                    new GeneralController<>(Form.WEEKEND);
+            weekendController.initializeForm(weekendController,
+                                             covModel.getDate(),
+                                             covModel.getMode(),
+                                             covModel.getWk());         
         }
     }
     

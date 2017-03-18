@@ -3,6 +3,8 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 import java.io.File;
 import java.util.Calendar;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
@@ -112,13 +114,13 @@ public class GeneralController<ViewObject, ModelObject>
     }
     
     @Override
-    public void initializeForm(Calendar date, int mode, int wk) {
-        helper.initializeForm(date, mode, wk);
+    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date, int mode, int wk) {
+        helper.initializeForm(this, date, mode, wk);
     }
     
     @Override
-    public void writeModelToExcel(File excelFile) {
-        excelHelper.writeModelToExcel(model, excelFile);
+    public void writeModelToExcel(XSSFWorkbook wb) {
+        excelHelper.writeModelToExcel(model, wb);
     }
     
     /**

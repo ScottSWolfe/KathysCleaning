@@ -3,6 +3,8 @@ package com.github.scottswolfe.kathyscleaning.interfaces;
 import java.io.File;
 import java.util.Calendar;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+
 public interface ControllerHelper<ViewObject, ModelObject> {
 
     /**
@@ -43,6 +45,6 @@ public interface ControllerHelper<ViewObject, ModelObject> {
      * @param mode
      * @param wk
      */
-    public void initializeForm(Calendar date, int mode, int wk);
+    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date, int mode, int wk);
     
 }

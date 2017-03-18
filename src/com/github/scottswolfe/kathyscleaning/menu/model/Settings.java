@@ -150,7 +150,10 @@ public class Settings {
      */
     public static int fontSizeFactor;
     
-    
+    /**
+     *  Tracks whether a save file been chosen in the current session
+     */
+    public static boolean saveFileChosen;
     
     
 /* PUBLIC METHODS =========================================================== */

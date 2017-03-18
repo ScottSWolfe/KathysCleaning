@@ -16,6 +16,7 @@ import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
@@ -184,7 +185,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
     }
     
     @Override
-    public void initializeForm(Calendar date, int mode, int wk) {
+    public void initializeForm(GeneralController<TabbedPane, Data> controller, Calendar date, int mode, int wk) {
         // TODO implement this (requires rewriting auto-fill based on last
         // week's save file
         throw new RuntimeException("not yet implemented");

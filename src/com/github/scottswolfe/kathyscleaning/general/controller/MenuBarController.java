@@ -33,10 +33,10 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     
     @Override
     public void menuItemSave() {
-        File file = Settings.saveFile;
-        if (file == null) {
+        if (Settings.saveFileChosen == false) {
             menuItemSaveAs();
         } else {
+            File file = Settings.saveFile;
             controller.readInputAndWriteToFile(file);
         }
     }
@@ -44,7 +44,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     @Override
     public void menuItemSaveAs() {
         File file = null;
-        if (Settings.saveFile == null) {
+        if (Settings.saveFileChosen == false) {
             file = FileChooserHelper.saveAs(
                     FileChooserHelper.SAVE_FILE_DIR, createSuggestedName(
                     FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
@@ -54,6 +54,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         }
         if (file != null) {
             Settings.saveFile = file;
+            Settings.saveFileChosen = true;
             controller.readInputAndWriteToFile(file);
         }
     }
@@ -63,6 +64,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
         if (file != null) {
             Settings.saveFile = file;
+            Settings.saveFileChosen = true;
             controller.readFileAndWriteToView(file);
         }
     }
@@ -81,7 +83,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         }
         if (file != null) {
             Settings.excelFile = file;
-            controller.writeModelToExcel(file);
+            GeneralExcelHelper.generateExcelDocument(file);
         }
     }
     

@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.interfaces;
 
-import java.io.File;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public interface ExcelHelper<ModelObject> {
 
@@ -10,6 +10,6 @@ public interface ExcelHelper<ModelObject> {
      * @param model the model to write into the excel template
      * @param file the excel template file
      */
-    public void writeModelToExcel(ModelObject model, File file);
+    public void writeModelToExcel(ModelObject model, XSSFWorkbook wb);
     
 }

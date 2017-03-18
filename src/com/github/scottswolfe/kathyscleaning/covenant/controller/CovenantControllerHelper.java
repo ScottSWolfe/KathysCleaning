@@ -1,6 +1,8 @@
 package com.github.scottswolfe.kathyscleaning.covenant.controller;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +16,7 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CovenantControllerHelper
@@ -108,11 +111,8 @@ public class CovenantControllerHelper
     }
 
     @Override
-    public void initializeForm(Calendar date, int mode, int wk) {
-        
-        GeneralController<CovenantPanel, CovenantModel> controller =
-                                    new GeneralController<>(Form.COVENANT);
-        
+    public void initializeForm(GeneralController<CovenantPanel, CovenantModel> controller, Calendar date, int mode, int wk) {
+                
         CovenantListeners covListeners = new CovenantListeners();
         CovenantModel covModel = new CovenantModel(
                 new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);        
@@ -134,4 +134,84 @@ public class CovenantControllerHelper
         mainFrame.setVisible(true);
     }
 
+    /**
+     * Saves the current Covenant workers into a save file
+     * 
+     * TODO Needs refactoring
+     * 
+     * @param panel
+     * @param model
+     */
+    public static void saveChosenWorkers(CovenantPanel panel, CovenantModel model) {
+        try {
+
+            FileWriter fw = new FileWriter(Settings.COV_WORKER_SAVE.getPath());
+            BufferedWriter bw = new BufferedWriter(fw);
+            
+            for (int i = 0; i < CovenantPanel.ROWS; i++) {
+                bw.write(panel.getNameLabels()[i].getText());
+                bw.newLine();
+            }
+            
+            boolean match;
+            if (model.getDwd().getWorkers() != null) {
+            for (int i = 0; i < model.getDwd().size(); i++) {
+                
+                match = false;
+                
+                for (int j = 0; j<panel.getNameLabels().length; j++) {
+                
+                    if (model.getDwd().get(i).equals(panel.getNameLabels()[j].getText())) {
+                        match = true;
+                        break;
+                    }
+                    
+                }
+                
+                if (match == false) {
+                    bw.write(model.getDwd().get(i));
+                    bw.newLine();
+                }
+                
+            }}
+            
+            bw.close();
+            
+        }
+        catch(Exception e2) {
+            e2.printStackTrace();
+        }  
+    }
+    
+    /**
+     * Saves the amounts earned into a save file
+     * 
+     * TODO Needs refactoring
+     * 
+     * @param panel
+     */
+    public static void saveAmountsEarned(CovenantPanel panel) {
+        try {
+
+            FileWriter fw = new FileWriter(Settings.COVENANT_EARNED_SAVE_FILE);
+            BufferedWriter bw = new BufferedWriter(fw);
+            
+            for (int i = 0; i < CovenantPanel.COLS; i++) {
+                
+                if (panel.getEarnedTextfields()[i].getText().length() > 0) {
+                    bw.write(panel.getEarnedTextfields()[i].getText() );
+                    bw.newLine();
+                }
+                else {
+                    bw.write(0);
+                    bw.newLine();
+                }
+            }
+            bw.close();
+        }
+        catch(Exception e2) {
+            e2.printStackTrace();
+        }
+    }
+    
 }
