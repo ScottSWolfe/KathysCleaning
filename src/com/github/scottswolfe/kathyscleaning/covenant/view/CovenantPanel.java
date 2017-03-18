@@ -19,7 +19,6 @@ import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.HousePayDocFilter;
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantListeners;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
@@ -49,10 +48,11 @@ public class CovenantPanel extends JPanel {
     /**
      * The frame containing this panel.
      */
-    MainFrame<CovenantPanel, Data> covFrame;
+    MainFrame<CovenantPanel, CovenantModel> covFrame;
     
 	public final static int ROWS = 12;
 	int rows = ROWS;
+	public final static int COLS = 5;
 		
 	String[] day = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
 	
@@ -592,7 +592,7 @@ public class CovenantPanel extends JPanel {
     /**
      * @param covFrame the covFrame to set
      */
-    public void setCovFrame(MainFrame<CovenantPanel, Data> covFrame) {
+    public void setCovFrame(MainFrame<CovenantPanel, CovenantModel> covFrame) {
         this.covFrame = covFrame;
     }
 
@@ -734,7 +734,7 @@ public class CovenantPanel extends JPanel {
      * Sets the frame that contains this CovenantPanel 
      * @return
      */
-    public void setFrame(MainFrame<CovenantPanel, Data> frame) {
+    public void setFrame(MainFrame<CovenantPanel, CovenantModel> frame) {
         covFrame = frame;
     }
 

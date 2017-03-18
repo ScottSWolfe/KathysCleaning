@@ -4,8 +4,11 @@ import java.io.File;
 import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
+import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class ScheduledControllerHelper 
                         implements ControllerHelper<TabbedPane, Data>{
@@ -23,15 +26,13 @@ public class ScheduledControllerHelper
     }
 
     @Override
-    public void saveToFile(Data model, File file) {
-        // TODO Auto-generated method stub
-        
+    public void saveToFile(CovenantModel model, File file) {
+        JsonMethods.saveToFileJSON(model, CovenantModel.class, file, Form.COVENANT.getNum());
     }
 
     @Override
-    public Data loadFromFile(File file) {
-        // TODO Auto-generated method stub
-        return null;
+    public CovenantModel loadFromFile(File file) {
+        return (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, file, Form.COVENANT.getNum());
     }
 
     @Override

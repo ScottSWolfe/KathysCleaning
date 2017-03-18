@@ -1,6 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.covenant.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -18,6 +21,9 @@ public class CovenantModel {
     
     
 /* FIELDS =================================================================== */
+    
+    List<CovenantEntry> covenantEntry;
+    List<Double> amountsEarned;
     
     /**
      * Container for the default workers.
@@ -52,10 +58,32 @@ public class CovenantModel {
         
         this.dwd = new WorkerList(Settings.COV_WORKER_SAVE);
     }
+    
+    public CovenantModel() {
+        covenantEntry = new ArrayList<CovenantEntry>();
+        amountsEarned = new ArrayList<Double>();
+    }
 
     
 /* GETTERS/SETTERS ========================================================== */
 
+    public void addEntry(CovenantEntry entry) {
+        covenantEntry.add(entry);
+    }
+    
+    public void addAmountEarned(Double amount) {
+        amountsEarned.add(amount);
+    }
+    
+    public Iterator<CovenantEntry> entryIterator() {
+        return covenantEntry.iterator();
+    }
+    
+    public List<Double> getAmountsEarned() {
+        return amountsEarned;
+    }
+        
+    
     /**
      * @return the dwd
      */

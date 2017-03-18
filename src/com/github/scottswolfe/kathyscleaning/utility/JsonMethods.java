@@ -130,7 +130,11 @@ public class JsonMethods {
                 if (i == lineNumber) {
                     bw.write(json);
                 } else {
-                    bw.write(lines.get(i));
+                    if (i < lines.size()) {
+                        bw.write(lines.get(i));
+                    } else {
+                        bw.write("{}");
+                    }
                 }
                 bw.write('\n');
             }
@@ -147,7 +151,7 @@ public class JsonMethods {
         if (input.hasNext()) {
             return input.nextLine();   
         } else {
-            throw new java.util.NoSuchElementException();
+            return "{}";
         }
     }
         
