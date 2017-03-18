@@ -1,44 +1,17 @@
 package com.github.scottswolfe.kathyscleaning.weekend.controller;
 
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
-import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
-import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
-import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendEntry;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
@@ -58,11 +31,19 @@ public class WeekendControllerHelper
             entry = new WeekendEntry();
             jp = view.jp[i];
             
-            entry.setWorkedIsChecked(jp.worked_checkbox.isEnabled());
+            entry.setWorkedIsChecked(jp.worked_checkbox.isSelected());
             entry.setCustomer(String.valueOf(jp.customer_combobox.getSelectedItem()));
-            entry.setAmountReceived(Double.parseDouble(jp.jobpaid_field.getText()));
+            if (!jp.jobpaid_field.getText().isEmpty()) {
+                entry.setAmountReceived(Double.parseDouble(jp.jobpaid_field.getText()));
+            } else {
+                entry.setAmountReceived(0.0);
+            }
             entry.setEmployee(String.valueOf(jp.employee_combobox.getSelectedItem()));
-            entry.setAmountPaid(Double.parseDouble(jp.workerpaid_field.getText()));
+            if (!jp.workerpaid_field.getText().isEmpty()) {
+                entry.setAmountPaid(Double.parseDouble(jp.workerpaid_field.getText()));
+            } else {
+                entry.setAmountPaid(0.0);
+            }
             
             model.addEntry(entry);
         }
@@ -79,7 +60,7 @@ public class WeekendControllerHelper
         int i = 0;
         for (WeekendEntry entry : entries) {
             jp = view.jp[i];
-            jp.worked_checkbox.setEnabled(entry.isWorkedIsChecked());
+            jp.worked_checkbox.setSelected(entry.isWorkedIsChecked());
             jp.customer_combobox.setSelectedItem(entry.getCustomer());
             jp.jobpaid_field.setText(String.valueOf(entry.getAmountReceived()));
             jp.employee_combobox.setSelectedItem(entry.getEmployee());
@@ -103,6 +84,8 @@ public class WeekendControllerHelper
         
         WeekendPanel wp = new WeekendPanel(date, mode, wk);
         MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
+        
+        controller.setView(wp);
         
         wp.setFrame(weekendFrame);          
         

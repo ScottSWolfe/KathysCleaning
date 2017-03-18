@@ -72,17 +72,11 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     @Override
     public void menuItemGenExcel() {
         controller.readInputAndWriteToFile(null);
-        File file = null;
-        if (Settings.excelFile == null) {
-            file = FileChooserHelper.saveAs(
+        File file = FileChooserHelper.saveAs(
                     Settings.getExcelSaveLocation(), createSuggestedName(
                             Settings.getExcelSaveLocation().getAbsolutePath(),
                     FileChooserHelper.XLSX), FileChooserHelper.XLSX);
-        } else {
-            file = FileChooserHelper.saveAs(Settings.excelFile); 
-        }
         if (file != null) {
-            Settings.excelFile = file;
             GeneralExcelHelper.generateExcelDocument(file);
         }
     }

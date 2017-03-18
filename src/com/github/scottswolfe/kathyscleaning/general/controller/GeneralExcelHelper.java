@@ -19,6 +19,8 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
+import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendExcelHelper;
+import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 
 public class GeneralExcelHelper {
 
@@ -27,25 +29,23 @@ public class GeneralExcelHelper {
             InputStream input = new FileInputStream(Settings.getExcelTemplateFile());
             XSSFWorkbook wb = new XSSFWorkbook(input);
             
-            // read saveFile into models
-            Data data = (Data) JsonMethods.loadFromFileJSON(Data.class, Settings.saveFile, Form.COMPLETED.getNum()); 
-            CovenantModel covModel = (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, Settings.saveFile, Form.COVENANT.getNum()); 
-            // TODO weekend Data data = (Data) JsonMethods.loadFromFileJSON(Data.class, Settings.saveFile, Form.COMPLETED.getNum()); 
-            // TODO scheduled Data data = (Data) JsonMethods.loadFromFileJSON(Data.class, Settings.saveFile, Form.COMPLETED.getNum()); 
-    
-            // TODO refactor these classes...
-            // write models into Excel Template
+            // Completed Form
+            Data data = (Data) JsonMethods.loadFromFileJSON(Data.class, Settings.saveFile, Form.COMPLETED.getNum());
             CompletedExcelHelper comHelper = new CompletedExcelHelper();
             comHelper.writeModelToExcel(data, wb);
             
+            // Covenant Form
+            CovenantModel covModel = (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, Settings.saveFile, Form.COVENANT.getNum()); 
             CovenantExcelHelper covHelper = new CovenantExcelHelper();
             covHelper.writeModelToExcel(covModel, wb);
             
-            /* 
-            TODO weekend and scheduled
-            CompletedExcelHelper comHelper = new CompletedExcelHelper();
-            comHelper.writeModelToExcel(data, newFileName);
+            // Weekend Form
+            WeekendModel weekendModel = (WeekendModel) JsonMethods.loadFromFileJSON(WeekendModel.class, Settings.saveFile, Form.WEEKEND.getNum()); 
+            WeekendExcelHelper weekendHelper = new WeekendExcelHelper();
+            weekendHelper.writeModelToExcel(weekendModel, wb);
             
+            /* 
+            TODO scheduled
             CovenantExcelHelper covHelper = new CovenantExcelHelper();
             covHelper.writeModelToExcel(covModel, newFileName);
             */

@@ -16,6 +16,7 @@ import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledControllerHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledExcelHelper;
 import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControllerHelper;
+import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendExcelHelper;
 
 /**
  * Controller for each form
@@ -82,7 +83,7 @@ public class GeneralController<ViewObject, ModelObject>
             excelHelper = (ExcelHelper<ModelObject>) new CovenantExcelHelper();
         } else if (type == Form.WEEKEND) {
             helper = (ControllerHelper<ViewObject, ModelObject>) new WeekendControllerHelper();
-            excelHelper = (ExcelHelper<ModelObject>) new WeekendControllerHelper();
+            excelHelper = (ExcelHelper<ModelObject>) new WeekendExcelHelper();
         } else if (type == Form.SCHEDULED) {
             helper = (ControllerHelper<ViewObject, ModelObject>) new ScheduledControllerHelper();
             excelHelper = (ExcelHelper<ModelObject>) new ScheduledExcelHelper();
