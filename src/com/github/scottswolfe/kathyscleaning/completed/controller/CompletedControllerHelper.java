@@ -100,9 +100,10 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
                 house_data = day_data.houseData[h];
                 
                 house_panel.house_name_txt.setText(house_data.getHouseName());
-                house_panel.pay_txt.setText(
-                        String.valueOf(
-                        house_data.getHousePay()));
+                if (house_data.getHousePay() != 0) {
+                    house_panel.pay_txt.setText(
+                            String.valueOf(house_data.getHousePay()));
+                }
                 house_panel.time_begin_txt.setText(house_data.getTimeBegin());
                 house_panel.time_end_txt.setText(house_data.getTimeEnd());
                 

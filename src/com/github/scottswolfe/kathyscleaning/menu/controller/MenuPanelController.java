@@ -79,15 +79,7 @@ public class MenuPanelController {
      * Listener for the Open button.
      */
     public class OpenListener implements ActionListener {
-        public void actionPerformed(ActionEvent e)  {
-            // TODO implement this
-            
-            // user choose file
-            // return to menu if null
-            // set current files to chosen file
-            // open completed form
-            // fill form with chosen file
-            
+        public void actionPerformed(ActionEvent e)  {                        
             File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR,
                                                FileChooserHelper.TXT);
             if (file == null) {
