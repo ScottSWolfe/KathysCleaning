@@ -1,7 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.interfaces;
 
 import java.io.File;
-import java.util.Calendar;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -40,7 +39,7 @@ public interface Controller<ViewObject, ModelObject> {
      * 
      * TODO temporary parameters
      */
-    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date);
+    public void initializeForm(GeneralController<ViewObject, ModelObject> controller);
     
     /**
      * Updates the date shown

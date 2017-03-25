@@ -3,7 +3,6 @@ package com.github.scottswolfe.kathyscleaning.covenant.controller;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -111,13 +110,13 @@ public class CovenantControllerHelper
     }
 
     @Override
-    public void initializeForm(GeneralController<CovenantPanel, CovenantModel> controller, Calendar date) {
+    public void initializeForm(GeneralController<CovenantPanel, CovenantModel> controller) {
                 
         CovenantListeners covListeners = new CovenantListeners();
         CovenantModel covModel = new CovenantModel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, 0, 0); // TODO remove 0, 0...  
+                new WorkerList(WorkerList.COVENANT_WORKERS), Settings.completedStartDay, 0, 0); // TODO remove 0, 0...  
         CovenantPanel covPanel = new CovenantPanel(covListeners,
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, 0, 0);
+                new WorkerList(WorkerList.COVENANT_WORKERS), Settings.completedStartDay, 0, 0);
   
         MainFrame<CovenantPanel, CovenantModel> mainFrame =
                 new MainFrame<CovenantPanel, CovenantModel>(controller);

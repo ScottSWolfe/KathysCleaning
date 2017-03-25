@@ -1,7 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.interfaces;
 
 import java.io.File;
-import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 
@@ -38,14 +37,11 @@ public interface ControllerHelper<ViewObject, ModelObject> {
     public ModelObject loadFromFile(File file);
     
     /**
-     * TODO temporary parameters...
-     * 
-     * @param oldFrame
-     * @param date
-     * @param mode
-     * @param wk
+     *  Initializes the form that this controller helper help controls
+     *  
+     *  @controller the controller this helper helps
      */
-    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date);
+    public void initializeForm(GeneralController<ViewObject, ModelObject> controller);
     
     /**
      * Updates the date shown

@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.swing.JLabel;
-
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -80,9 +78,9 @@ public class WeekendControllerHelper
     }
 
     @Override
-    public void initializeForm(GeneralController<WeekendPanel, WeekendModel> controller, Calendar date) {
+    public void initializeForm(GeneralController<WeekendPanel, WeekendModel> controller) {
         
-        WeekendPanel wp = new WeekendPanel(controller, date, 0, 0); // TODO remove 0, 0
+        WeekendPanel wp = new WeekendPanel(controller, Settings.completedStartDay, 0, 0); // TODO remove 0, 0
         MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
         
         controller.setView(wp);

@@ -10,8 +10,6 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Scanner;
 
-import javax.swing.JLabel;
-
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
@@ -27,6 +25,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CompletedControllerHelper implements ControllerHelper<TabbedPane, Data> {
@@ -44,7 +43,6 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
             // Header for day
             HeaderData headerData = new HeaderData();
             headerData.setDate(tp.day_panel[d].header_panel.date);
-            headerData.setWeekSelected(tp.day_panel[d].header_panel.getWeekSelected());
             headerData.setDWD(tp.day_panel[d].header_panel.getWorkers());
             
             // Houses in day
@@ -192,8 +190,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
     }
     
     @Override
-    public void initializeForm(GeneralController<TabbedPane, Data> controller,
-                               Calendar date) {
+    public void initializeForm(GeneralController<TabbedPane, Data> controller) {
 
         //Reading Default Worker Data from save file
         WorkerList workers = new WorkerList();
@@ -208,14 +205,15 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
         tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
 
         // creating array of dates
+        Calendar c = CalendarMethods.getFirstDayOfWeek(); // TODO move to an initialize call in Settings from Main? ish
+        Settings.completedStartDay = c;
+        
         Calendar[] day = new Calendar[5];
-        Calendar temp_date = (Calendar) date.clone();
-        for(int i = 0; i < day.length; i++) {
-            
+        Calendar temp_date = (Calendar) Settings.completedStartDay.clone();
+        for(int i = 0; i < day.length; i++) {            
             day[i] = Calendar.getInstance();
             day[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
             temp_date.add(Calendar.DATE, 1);
-            
         }
                 
         controller.setView(tp);

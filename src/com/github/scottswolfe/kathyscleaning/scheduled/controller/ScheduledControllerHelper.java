@@ -417,7 +417,7 @@ public class ScheduledControllerHelper
     }
 
     @Override
-    public void initializeForm(GeneralController<TabbedPane, NW_Data> controller, Calendar date) {
+    public void initializeForm(GeneralController<TabbedPane, NW_Data> controller) {
         
         WorkerList workers = new WorkerList();
         try {
@@ -432,6 +432,7 @@ public class ScheduledControllerHelper
                     
         // creating array of dates
         Calendar[] day = new Calendar[5];
+        Calendar date = (Calendar) Settings.completedStartDay.clone();
         date.add(Calendar.DATE, 7);
         Calendar temp_date = (Calendar) date.clone();
         for(int i = 0; i < day.length; i++) {

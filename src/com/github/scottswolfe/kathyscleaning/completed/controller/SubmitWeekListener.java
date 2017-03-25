@@ -52,7 +52,7 @@ public class SubmitWeekListener implements ActionListener {
         CompletedControllerHelper.saveHousePay(tp);
         frame.eliminate();
         GeneralController<CovenantPanel, Data> covController = new GeneralController<>(Form.COVENANT);
-        covController.initializeForm(covController, date);
+        covController.initializeForm(covController);
 	}
 
 }

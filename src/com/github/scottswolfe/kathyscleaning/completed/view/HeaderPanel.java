@@ -15,9 +15,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CopyWorkersListener;
-import com.github.scottswolfe.kathyscleaning.completed.controller.NeitherRadioListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
-import com.github.scottswolfe.kathyscleaning.completed.controller.WeekRadioListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
@@ -91,7 +89,6 @@ public class HeaderPanel extends JPanel {
 		setBorder(BorderFactory.createLineBorder(null, 2));
 		
 		JPanel date_panel = datePanel(date);
-		JPanel choose_week_panel = chooseWeekPanel(controller);
 		JPanel worker_panel = workerPanel(dwd);
 		JPanel change_day_panel = changeDayPanel();
 		JPanel submit_week_panel = submitWeekPanel(controller);
@@ -142,58 +139,7 @@ public class HeaderPanel extends JPanel {
 		
 		return panel;
 		
-	}
-	
-	
-	
-	private JPanel chooseWeekPanel(GeneralController<TabbedPane, Data>  controller) {
-		
-		JPanel panel = new JPanel();
-		panel.setLayout( new MigLayout("insets 2") );
-		panel.setBackground( Settings.HEADER_BACKGROUND );
-		
-		week_A = new JRadioButton("Week A");
-		week_B = new JRadioButton("Week B");
-		neither = new JRadioButton("Neither");
-		
-		week_A.setEnabled(false);
-		week_B.setEnabled(false);
-		neither.setEnabled(false);
-		
-		week_A.setFont(week_A.getFont().deriveFont(Settings.FONT_SIZE));
-		week_B.setFont(week_B.getFont().deriveFont(Settings.FONT_SIZE));
-		neither.setFont(neither.getFont().deriveFont(Settings.FONT_SIZE));
-		
-		button_group = new ButtonGroup();
-		button_group.add(week_A);
-		button_group.add(week_B);
-		button_group.add(neither);
-		if ( wk == Settings.WEEK_A ) {
-			button_group.setSelected(week_A.getModel(), true);
-		}
-		else if ( wk == Settings.WEEK_B ) {
-			button_group.setSelected(week_B.getModel(), true);	
-		}
-		else {
-			button_group.setSelected(neither.getModel(), true);
-		}
-		
-		week_A.addActionListener(
-		        new WeekRadioListener(controller, tp, frame, Settings.WEEK_A));
-		week_B.addActionListener(
-		        new WeekRadioListener(controller, tp, frame, Settings.WEEK_B));
-		neither.addActionListener(
-		        new NeitherRadioListener(controller, tp, frame));
-		
-		panel.add(week_A, "wrap");
-		panel.add(week_B, "wrap");
-		panel.add(neither, "wrap");
-		
-		
-		return panel;
-		
-	}
-	
+	}	
 	
 	private JPanel workerPanel( WorkerList dwd ){
 		

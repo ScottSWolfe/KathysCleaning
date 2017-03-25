@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Calendar;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -127,8 +126,8 @@ public class GeneralController<ViewObject, ModelObject>
     }
     
     @Override
-    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date) {
-        helper.initializeForm(this, date);
+    public void initializeForm(GeneralController<ViewObject, ModelObject> controller) {
+        helper.initializeForm(this);
     }
     
     @Override

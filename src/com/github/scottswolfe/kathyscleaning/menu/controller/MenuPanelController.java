@@ -79,7 +79,7 @@ public class MenuPanelController {
                 file = FileChooserHelper.selectFile(
                         FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.TXT);
             }
-            newController.initializeForm(newController, CalendarMethods.getFirstDayOfWeek());
+            newController.initializeForm(newController);
             
             if (file != null) {
                 CompletedControllerHelper.importSchedule(file, newController.getView());
@@ -107,10 +107,8 @@ public class MenuPanelController {
             
             GeneralController<TabbedPane, Data> newController =
                     new GeneralController<>(Form.COMPLETED);
-            CompletedControllerHelper helper = new CompletedControllerHelper();
-            Data model = helper.loadFromFile(file);
             
-            newController.initializeForm(newController, model.getDate());
+            newController.initializeForm(newController);
             newController.readFileAndWriteToView(file);
             
             menuFrame.setVisible(false);
