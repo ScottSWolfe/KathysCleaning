@@ -66,15 +66,10 @@ public class WeekendPanel extends JPanel {
 	
 	
 	// CONSTRUCTORS
-	public WeekendPanel (GeneralController<WeekendPanel, WeekendModel> controller, Calendar date, int mode, int wk) {
+	public WeekendPanel (GeneralController<WeekendPanel, WeekendModel> controller, int mode, int wk) {
 		this.controller = controller;
-		this.date = date;
 		this.mode = mode;
 		this.wk = wk;
-		
-		while(date.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY){
-			date.add(Calendar.DATE, -1);
-		}
 		
 		setLayout( new MigLayout() );
 		setBackground(Settings.BACKGROUND_COLOR);
@@ -99,10 +94,11 @@ public class WeekendPanel extends JPanel {
 		heading_label.setFont( heading_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
 		heading_label.setBackground( Settings.BACKGROUND_COLOR );
 		
+		Calendar true_date = Settings.completedStartDay;
 		date_label = new JLabel();
 		String s = new String( "Week of " +
-				( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) +
-				"/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
+				( Integer.parseInt(String.valueOf(true_date.get(Calendar.MONTH)))+1 ) +
+				"/" + (true_date.get(Calendar.DATE)-1) + "/" + true_date.get(Calendar.YEAR) );
 		date_label.setText(s);
 		date_label.setFont(date_label.getFont().deriveFont( Settings.FONT_SIZE ));
 		date_label.setBackground( Settings.BACKGROUND_COLOR );

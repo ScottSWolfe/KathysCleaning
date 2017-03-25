@@ -80,7 +80,7 @@ public class WeekendControllerHelper
     @Override
     public void initializeForm(GeneralController<WeekendPanel, WeekendModel> controller) {
         
-        WeekendPanel wp = new WeekendPanel(controller, Settings.completedStartDay, 0, 0); // TODO remove 0, 0
+        WeekendPanel wp = new WeekendPanel(controller, 0, 0); // TODO remove 0, 0
         MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
         
         controller.setView(wp);

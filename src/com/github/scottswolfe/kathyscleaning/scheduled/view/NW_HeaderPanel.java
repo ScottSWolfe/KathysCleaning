@@ -24,9 +24,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_CopyWorkersListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_EditDefaultWorkersListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NeitherRadioListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_SubmitWeekListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_WeekListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HeaderData;
@@ -95,7 +93,6 @@ public class NW_HeaderPanel extends JPanel {
 		setBackground(Settings.HEADER_BACKGROUND);
 		
 		JPanel date_panel = datePanel(date);
-		JPanel choose_week_panel = chooseWeekPanel();
 		JPanel worker_panel = workerPanel(dwd);
 		JPanel change_day_panel = changeDayPanel();
 		JPanel submit_schedule_panel = submitSchedulePanel();
@@ -103,8 +100,6 @@ public class NW_HeaderPanel extends JPanel {
 		int day_panel_width_min = 133 + (int) Settings.FONT_SIZE; // temp fix
 		
 		add(date_panel, new String("growy, growx, wmin " + day_panel_width_min +", ay center"));
-		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-		add(choose_week_panel, "growy");
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
 		add(worker_panel, "growy, push y");
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
@@ -129,7 +124,6 @@ public class NW_HeaderPanel extends JPanel {
 		panel.setLayout( new MigLayout("insets 2","[grow]","[grow][grow]") );
 		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
-		
 		String weekDay;
 		SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
 		weekDay = dayFormat.format(date.getTime());
@@ -139,68 +133,17 @@ public class NW_HeaderPanel extends JPanel {
 		day_label.setText( weekDay );
 		day_label.setFont( day_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ) );
 		
-		if (mode == Settings.TRUE_MODE) {
-			date_label = new JLabel( ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
-			date_label.setFont( date_label.getFont().deriveFont( Settings.FONT_SIZE ) );
-		}
+		date_label = new JLabel( ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
+		date_label.setFont( date_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
 		panel.add(this.day_label, "wrap, ax center");
-		if (mode == Settings.TRUE_MODE) {
-			panel.add(this.date_label, "ax center, top push");
-		}
+		panel.add(this.date_label, "ax center, top push");
 		
 		return panel;
 		
 	}
 	
 	
-	protected JPanel chooseWeekPanel(){
-		
-		JPanel panel = new JPanel();
-		panel.setLayout( new MigLayout("insets 2") );
-		panel.setBackground(Settings.BACKGROUND_COLOR);
-		panel.setBackground(Settings.HEADER_BACKGROUND);
-		
-		week_A = new JRadioButton("Week A");
-		week_B = new JRadioButton("Week B");
-		neither = new JRadioButton("Neither");
-		
-		week_A.setFont( week_A.getFont().deriveFont( Settings.FONT_SIZE ) );
-		week_A.setOpaque(false);
-		week_A.setBackground(Settings.HEADER_BACKGROUND);
-		week_A.addActionListener( new NW_WeekListener( tp, Settings.WEEK_A ) );
-		
-		week_B.setFont( week_B.getFont().deriveFont( Settings.FONT_SIZE ) );
-		week_B.setOpaque(false);
-		week_B.setBackground(Settings.HEADER_BACKGROUND);
-		week_B.addActionListener( new NW_WeekListener( tp, Settings.WEEK_B ) );
-		
-		neither.setFont( neither.getFont().deriveFont( Settings.FONT_SIZE ) );
-		neither.setOpaque(false);
-		neither.setBackground(Settings.HEADER_BACKGROUND);
-		neither.addActionListener( new NW_NeitherRadioListener( tp, frame ) );
-		
-		week_A.setBackground(Settings.BACKGROUND_COLOR);
-		week_B.setBackground(Settings.BACKGROUND_COLOR);
-		neither.setBackground(Settings.BACKGROUND_COLOR);
-		
-		button_group = new ButtonGroup();
-		button_group.add(week_A);
-		button_group.add(week_B);
-		button_group.add(neither);
-		
-		//week_A.addActionListener( new NW_WeekAListener(tp) );
-		//week_B.addActionListener( new NW_WeekBListener(tp) );
-		//neither.addActionListener( new NW_NeitherListener() );
-		
-		panel.add(week_A, "wrap, growx");
-		panel.add(week_B, "wrap, growx");
-		panel.add(neither, "wrap, growx");
-		
-		
-		return panel;
-		
-	}
 	
 	
 	protected JPanel workerPanel( WorkerList dwd ){
@@ -226,8 +169,6 @@ public class NW_HeaderPanel extends JPanel {
 		
 		return panel;
 	}
-	
-	
 	
 	protected JPanel changeDayPanel(){
 		

@@ -172,7 +172,10 @@ public class ChooseWeekPanel extends JPanel {
 	private class SubmitListener implements ActionListener {		
 		public void actionPerformed( ActionEvent e ) {
 		    Calendar c = Calendar.getInstance();
-		    c.set(year_box.getSelectedIndex(), month_box.getSelectedIndex(), day_box.getSelectedIndex());
+		    Integer year = Integer.parseInt((String) year_box.getSelectedItem());
+            Integer day = Integer.parseInt((String) day_box.getSelectedItem());
+            Integer month = Integer.parseInt((String) month_box.getSelectedItem()) - 1;
+		    c.set(year, month, day);
 		    Settings.completedStartDay = c; 
 		    controller.updateDate();
 		    frame.setVisible(false);

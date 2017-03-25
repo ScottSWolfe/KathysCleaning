@@ -434,13 +434,10 @@ public class ScheduledControllerHelper
         Calendar[] day = new Calendar[5];
         Calendar date = (Calendar) Settings.completedStartDay.clone();
         date.add(Calendar.DATE, 7);
-        Calendar temp_date = (Calendar) date.clone();
         for(int i = 0; i < day.length; i++) {
-            
             day[i] = Calendar.getInstance();
-            day[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
-            temp_date.add(Calendar.DATE, 1);
-            
+            day[i].set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+            date.add(Calendar.DATE, 1);
         }
         
         controller.setView(tp);
@@ -480,18 +477,15 @@ public class ScheduledControllerHelper
         for(int i = 0; i < days.length; i++) {
             days[i] = Calendar.getInstance();
             days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
-            temp_date.add(Calendar.DATE, 1);
-        }
-
-        for (int i = 0; i < tp.nw_day_panel.length; i++) {
-            tp.nw_day_panel[i].header_panel.date = days[i];
             
+            tp.nw_day_panel[i].header_panel.date = days[i];
             String weekDay;
             SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
             weekDay = dayFormat.format(days[i].getTime());
-            
             tp.nw_day_panel[i].header_panel.day_label.setText(weekDay);
             tp.nw_day_panel[i].header_panel.date_label.setText((Integer.parseInt(String.valueOf(days[i].get(Calendar.MONTH)))+1) + "/" + days[i].get(Calendar.DATE) + "/" + days[i].get(Calendar.YEAR));
+
+            temp_date.add(Calendar.DATE, 1);
         }
     }
 

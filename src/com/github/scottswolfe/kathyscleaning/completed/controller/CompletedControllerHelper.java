@@ -205,9 +205,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
         tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
 
         // creating array of dates
-        Calendar c = CalendarMethods.getFirstDayOfWeek(); // TODO move to an initialize call in Settings from Main? ish
-        Settings.completedStartDay = c;
-        
+        Settings.completedStartDay = CalendarMethods.getFirstDayOfWeek();  // TODO move to an initialize call in Settings from Main? ish
         Calendar[] day = new Calendar[5];
         Calendar temp_date = (Calendar) Settings.completedStartDay.clone();
         for(int i = 0; i < day.length; i++) {            
