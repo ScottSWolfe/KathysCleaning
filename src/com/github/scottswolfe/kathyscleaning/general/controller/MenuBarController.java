@@ -4,11 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.JFrame;
+
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 
 public class MenuBarController <ViewObject, ModelObject> implements FileMenuListener { 
     
@@ -81,6 +84,17 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         }
     }
     
+    public void menuItemChangeDate() {
+        JFrame frame = new JFrame();
+        ChooseWeekPanel panel = new ChooseWeekPanel(frame, controller);
+        frame.add(panel);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+    
     
     
 /* LISTENERS ================================================================ */
@@ -110,6 +124,14 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemGenExcel();
+        }
+    }
+    
+    
+    public class ChangeDateMenuItemListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            menuItemChangeDate();
         }
     }
     

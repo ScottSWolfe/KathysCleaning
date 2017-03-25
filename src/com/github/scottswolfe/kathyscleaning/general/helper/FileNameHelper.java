@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 public class FileNameHelper {
 
@@ -126,21 +127,13 @@ public class FileNameHelper {
     }
     
     private static String fullDate() {
-        Calendar calendar = getFirstDayOfWeek();
+        Calendar calendar = CalendarMethods.getFirstDayOfWeek();
         return new String(
                 calendar.get(Calendar.YEAR) +
                 "_" +
                 (calendar.get(Calendar.MONTH) + 1) +
                 "_" +
                 calendar.get(Calendar.DATE));
-    }
-
-    private static Calendar getFirstDayOfWeek() {
-        Calendar calendar = Calendar.getInstance();
-        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
-            calendar.add(Calendar.DATE, -1);
-        }
-        return calendar;
     }
     
     private static String copyNumber(String directory, String fileName, String extension) {

@@ -3,16 +3,18 @@ package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HouseData;
@@ -415,25 +417,81 @@ public class ScheduledControllerHelper
     }
 
     @Override
-    public void initializeForm(GeneralController<TabbedPane, NW_Data> controller, Calendar date, int mode, int wk) {
-
-        MainFrame<TabbedPane, NW_Data> nwframe = new MainFrame<>(controller);
-        ChooseWeekPanel cwp = new ChooseWeekPanel(nwframe, ChooseWeekPanel.NEXT_WEEK);
-                
-        nwframe.add(cwp);
-        nwframe.setLocationRelativeTo(null);
-        nwframe.pack();
+    public void initializeForm(GeneralController<TabbedPane, NW_Data> controller, Calendar date) {
+        
+        WorkerList workers = new WorkerList();
+        try {
+            workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+        } catch (Exception e1) {
+            System.out.println("failed to read house worker save file");
+            e1.printStackTrace();
+        }
+        
+        TabbedPane tp = new TabbedPane();
+        tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
                     
-        if ( wk == Settings.WEEK_A ) {
-            cwp.week_B_rbutton.setSelected(true);
+        // creating array of dates
+        Calendar[] day = new Calendar[5];
+        date.add(Calendar.DATE, 7);
+        Calendar temp_date = (Calendar) date.clone();
+        for(int i = 0; i < day.length; i++) {
+            
+            day[i] = Calendar.getInstance();
+            day[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
+            temp_date.add(Calendar.DATE, 1);
+            
         }
-        else if ( wk == Settings.WEEK_B ) {
-            cwp.week_A_rbutton.setSelected(true);
+        
+        controller.setView(tp);
+                        
+        MainFrame<TabbedPane, NW_Data> frame = new MainFrame<>(controller);
+        
+        NW_DayPanel[] day_panel = new NW_DayPanel[5];
+        for(int i = 0; i < 5; i++){
+            day_panel[i] = new NW_DayPanel(
+                    controller, tp, workers,
+                    day[i], frame, 0, 0); // TODO remove 0, 0
         }
-        else {
-            // do nothing
+        tp.nw_day_panel = day_panel;
+        
+        tp.addTab("Monday", day_panel[0]);
+        tp.addTab("Tuesday", day_panel[1]);
+        tp.addTab("Wednesday", day_panel[2]);
+        tp.addTab("Thursday", day_panel[3]);
+        tp.addTab("Friday", day_panel[4]);
+        
+        tp.changePreviousTab(0);
+        tp.addChangeListener(new NW_TabChangeListener(tp, frame));
+        
+        frame.setBackground(Settings.BACKGROUND_COLOR);
+        frame.add(tp);
+        frame.pack();
+        frame.setLocationRelativeTo(null);        
+        frame.setVisible(true);
+    }
+    
+    @Override
+    public void updateDate(TabbedPane tp) {
+        Settings.completedStartDay.add(Calendar.DATE, -7);
+        Calendar[] days = new Calendar[5];
+        Calendar temp_date = (Calendar) Settings.completedStartDay.clone();
+        temp_date.add(Calendar.DATE, 7);
+        for(int i = 0; i < days.length; i++) {
+            days[i] = Calendar.getInstance();
+            days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
+            temp_date.add(Calendar.DATE, 1);
         }
-        nwframe.setVisible(true);
+
+        for (int i = 0; i < tp.nw_day_panel.length; i++) {
+            tp.nw_day_panel[i].header_panel.date = days[i];
+            
+            String weekDay;
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+            weekDay = dayFormat.format(days[i].getTime());
+            
+            tp.nw_day_panel[i].header_panel.day_label.setText(weekDay);
+            tp.nw_day_panel[i].header_panel.date_label.setText((Integer.parseInt(String.valueOf(days[i].get(Calendar.MONTH)))+1) + "/" + days[i].get(Calendar.DATE) + "/" + days[i].get(Calendar.YEAR));
+        }
     }
 
 }

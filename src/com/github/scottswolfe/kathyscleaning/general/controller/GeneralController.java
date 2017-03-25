@@ -127,13 +127,18 @@ public class GeneralController<ViewObject, ModelObject>
     }
     
     @Override
-    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date, int mode, int wk) {
-        helper.initializeForm(this, date, mode, wk);
+    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date) {
+        helper.initializeForm(this, date);
     }
     
     @Override
     public void writeModelToExcel(XSSFWorkbook wb) {
         excelHelper.writeModelToExcel(model, wb);
+    }
+    
+    @Override
+    public void updateDate() {
+        helper.updateDate(view);
     }
     
     /**

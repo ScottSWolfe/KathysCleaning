@@ -66,10 +66,7 @@ public class CovenantListeners {
 
             GeneralController<WeekendPanel, WeekendModel> weekendController =
                     new GeneralController<>(Form.WEEKEND);
-            weekendController.initializeForm(weekendController,
-                                             covModel.getDate(),
-                                             covModel.getMode(),
-                                             covModel.getWk());         
+            weekendController.initializeForm(weekendController, covModel.getDate());
         }
     }
     

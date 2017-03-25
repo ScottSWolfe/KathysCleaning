@@ -53,7 +53,7 @@ public class WeekendPanel extends JPanel {
 	// COMPONENTS
 	JLabel heading_label;
 	
-	JLabel date_label;
+	public JLabel date_label;
 	public Calendar date;
 	
 	public JRadioButton weekA_button;
@@ -168,11 +168,10 @@ public class WeekendPanel extends JPanel {
 		jp = new JobPanel[NUM_JOB_PANELS];
 		for (int i=0; i<NUM_JOB_PANELS; i++) {
 			jp[i] = new JobPanel();
-			panel.add(jp[i], "grow, wrap" );
+			panel.add(jp[i], "grow, wrap");
 		}
 		
-		addFlexibleFocusListeners( jp );
-				
+		addFlexibleFocusListeners(jp);
 		return panel;
 	}
 	
@@ -406,7 +405,7 @@ public class WeekendPanel extends JPanel {
 	        frame.dispose();
 	        
 	        GeneralController<TabbedPane, NW_Data> scheduledController = new GeneralController<>(Form.SCHEDULED);
-	        scheduledController.initializeForm(scheduledController, date, mode, wk);
+	        scheduledController.initializeForm(scheduledController, date);
 		}
 		
 	}	

@@ -1,9 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.menu.controller;
 
 import java.awt.Desktop;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -12,25 +9,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Calendar;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
-import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
-import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditCovenantWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditHouseWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
@@ -173,94 +159,6 @@ public class SettingsPanelController {
         }
         
     }
-
-    
-    public class EditWeekListener implements ActionListener {
-        
-        // FIELDS
-        int wk;
-        
-        // CONSTRUCTOR
-        public EditWeekListener ( int wk ) {
-            this.wk = wk;
-        }
-        
-        // ACTION LISTENER
-        public void actionPerformed( ActionEvent e ) {
-            
-            settingsFrame.setVisible(false);
-            settingsFrame.dispose();
-            
-            GeneralController<TabbedPane, Data> controller =
-                    new GeneralController<>(Form.COMPLETED);
-
-            MainFrame<TabbedPane, Data> nframe = new MainFrame<TabbedPane, Data>(controller);
-            nframe.setResizable(false);
-            nframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            nframe.addWindowListener(new MainWindowListener());
-            
-            
-            //Reading Default Worker Data from save file
-            WorkerList dwd = null;
-            try {
-                dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-            
-            TabbedPane tp = new TabbedPane();
-            tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
-            tp.setBackground(Settings.BACKGROUND_COLOR);
-            
-            // getting dates from Monday to Friday
-            Calendar date = Calendar.getInstance();
-            while (date.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
-                date.add(Calendar.DAY_OF_MONTH, 1);
-            }
-            Calendar[] day = new Calendar[5];
-            for(int i=0; i<day.length; i++) {   
-                day[i] = (Calendar) date.clone();
-                date.add(Calendar.DATE, 1);
-            }
-            
-            DayPanel[] dp = new DayPanel[5];
-            for(int i=0; i<5; i++){
-                dp[i] = new DayPanel(controller,
-                        tp, dwd, day[i], nframe, Settings.EDIT_MODE, wk);
-            }
-            tp.day_panel = dp;
-            
-            tp.addTab("Monday", dp[0]);
-            tp.addTab("Tuesday", dp[1]);
-            tp.addTab("Wednesday", dp[2]);
-            tp.addTab("Thursday", dp[3]);
-            tp.addTab("Friday", dp[4]);
-            
-            tp.changePreviousTab(0);
-            tp.addChangeListener( new TabChangeListener(tp, nframe) );
-            
-            nframe.add(tp);
-            nframe.pack();
-
-            Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-            int difference = (int) effectiveScreenSize.getWidth() - nframe.getWidth();
-            int new_x = (int) difference/2;
-            nframe.setLocation( new Point(new_x , 20) );
-            
-            ChooseWeekPanel.fillWeek(tp, nframe, wk);
-            
-            for (int i=0; i<5; i++) {
-                dp[i].header_panel.week_A.setEnabled(false);
-                dp[i].header_panel.week_B.setEnabled(false);
-                dp[i].header_panel.neither.setEnabled(false);
-            }
-            
-            nframe.setVisible(true);
-
-        }
-        
-    }
-
     
     /**
      * Listener for the edit workers buttons

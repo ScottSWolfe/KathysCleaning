@@ -44,10 +44,10 @@ public class NW_HeaderPanel extends JPanel {
 	WorkerList dwd;
 	NW_DayPanel day_panel;
 	NW_DayData day_data;
-	Calendar date;
+	public Calendar date;
 	
-	JLabel day_label;
-	JLabel date_label;
+	public JLabel day_label;
+	public JLabel date_label;
 	
 	public JRadioButton week_A;
 	public JRadioButton week_B;

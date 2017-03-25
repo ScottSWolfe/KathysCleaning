@@ -46,8 +46,8 @@ public class HeaderPanel extends JPanel {
 	DayData day_data;
 	public Calendar date;
 	
-	JLabel day_label;
-	JLabel date_label;
+	public JLabel day_label;
+	public JLabel date_label;
 	
 	public JRadioButton week_A;
 	public JRadioButton week_B;
@@ -76,7 +76,7 @@ public class HeaderPanel extends JPanel {
 	
 	public HeaderPanel(GeneralController<TabbedPane, Data> controller, TabbedPane tp,
 	        WorkerList dwd, DayPanel day_panel, Calendar date,
-	        MainFrame<TabbedPane, Data> frame, int mode, int wk ) {
+	        MainFrame<TabbedPane, Data> frame, int mode, int wk) {
 		
 		this.tp = tp;
 		this.frame = frame;
@@ -100,8 +100,8 @@ public class HeaderPanel extends JPanel {
 		
 		add(date_panel, new String("growy, growx, wmin " + day_panel_width_min +", ay center"));
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-		add(choose_week_panel, "growy");
-		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
+		//add(choose_week_panel, "growy");
+		//add( new JSeparator(SwingConstants.VERTICAL), "growy" );
 		add(worker_panel, "growy");
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
 		add(change_day_panel, "growy");
@@ -155,6 +155,10 @@ public class HeaderPanel extends JPanel {
 		week_A = new JRadioButton("Week A");
 		week_B = new JRadioButton("Week B");
 		neither = new JRadioButton("Neither");
+		
+		week_A.setEnabled(false);
+		week_B.setEnabled(false);
+		neither.setEnabled(false);
 		
 		week_A.setFont(week_A.getFont().deriveFont(Settings.FONT_SIZE));
 		week_B.setFont(week_B.getFont().deriveFont(Settings.FONT_SIZE));

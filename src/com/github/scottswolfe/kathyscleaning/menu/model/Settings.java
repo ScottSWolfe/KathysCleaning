@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.menu.model;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.util.Calendar;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -154,6 +155,17 @@ public class Settings {
      *  Tracks whether a save file been chosen in the current session
      */
     public static boolean saveFileChosen;
+    
+    /**
+     * The first day of the finished week
+     */
+    public static Calendar completedStartDay;
+    
+    /**
+     * The first day of the upcoming week
+     */
+    public static Calendar scheduledStartDay;
+    
     
     
 /* PUBLIC METHODS =========================================================== */

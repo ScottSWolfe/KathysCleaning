@@ -5,8 +5,12 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Scanner;
+
+import javax.swing.JLabel;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
@@ -188,7 +192,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
     }
     
     @Override
-    public void initializeForm(GeneralController<TabbedPane, Data> controller, Calendar date, int mode, int wk) {
+    public void initializeForm(GeneralController<TabbedPane, Data> controller,
+                               Calendar date) {
 
         //Reading Default Worker Data from save file
         WorkerList workers = new WorkerList();
@@ -221,7 +226,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
         for(int i = 0; i < 5; i++){
             day_panel[i] = new DayPanel(controller,
                     tp, workers, day[i],
-                    frame, Settings.TRUE_MODE, wk);
+                    frame, Settings.TRUE_MODE, 2); // TODO remove wk = 2
         }
         tp.day_panel = day_panel;
         
@@ -240,6 +245,28 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
         frame.pack();
         frame.setLocationRelativeTo(null);        
         frame.setVisible(true);
+    }
+    
+    @Override
+    public void updateDate(TabbedPane tp) {
+        Calendar[] days = new Calendar[5];
+        Calendar temp_date = (Calendar) Settings.completedStartDay.clone();
+        for(int i = 0; i < days.length; i++) {
+            days[i] = Calendar.getInstance();
+            days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
+            temp_date.add(Calendar.DATE, 1);
+        }
+
+        for (int i = 0; i < tp.day_panel.length; i++) {
+            tp.day_panel[i].header_panel.date = days[i];
+            
+            String weekDay;
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+            weekDay = dayFormat.format(days[i].getTime());
+            
+            tp.day_panel[i].header_panel.day_label.setText(weekDay);
+            tp.day_panel[i].header_panel.date_label.setText((Integer.parseInt(String.valueOf(days[i].get(Calendar.MONTH)))+1) + "/" + days[i].get(Calendar.DATE) + "/" + days[i].get(Calendar.YEAR));
+        }
     }
     
     /**
@@ -317,6 +344,16 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
         catch(Exception e1){
             e1.printStackTrace();
         }
+    }
+    
+    /**
+     * Imports a scheduled form into completed form
+     * 
+     * @param file the file that has previously been completed
+     * @param tp the view into which to import the schedule
+     */
+    public static void importSchedule(File file, TabbedPane tp) {
+        // TODO implement this method
     }
 
 }

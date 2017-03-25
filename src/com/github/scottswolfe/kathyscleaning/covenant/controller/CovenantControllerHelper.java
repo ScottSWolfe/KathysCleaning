@@ -111,13 +111,13 @@ public class CovenantControllerHelper
     }
 
     @Override
-    public void initializeForm(GeneralController<CovenantPanel, CovenantModel> controller, Calendar date, int mode, int wk) {
+    public void initializeForm(GeneralController<CovenantPanel, CovenantModel> controller, Calendar date) {
                 
         CovenantListeners covListeners = new CovenantListeners();
         CovenantModel covModel = new CovenantModel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);        
+                new WorkerList(WorkerList.COVENANT_WORKERS), date, 0, 0); // TODO remove 0, 0...  
         CovenantPanel covPanel = new CovenantPanel(covListeners,
-                new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk);
+                new WorkerList(WorkerList.COVENANT_WORKERS), date, 0, 0);
   
         MainFrame<CovenantPanel, CovenantModel> mainFrame =
                 new MainFrame<CovenantPanel, CovenantModel>(controller);
@@ -132,6 +132,11 @@ public class CovenantControllerHelper
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
+    }
+    
+    @Override
+    public void updateDate(CovenantPanel view) {
+        // do nothing
     }
 
     /**

@@ -28,6 +28,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
     public MenuBar(Controller<ViewObject, ModelObject> controller) {
         menuController = new MenuBarController<>(controller);        
         addFileMenu();
+        addEditMenu();
     }
     
     
@@ -82,4 +83,21 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         fileMenu.add(genExcelMenuItem);    
     }
     
+    private void addEditMenu() {
+        add(createEditMenu());
+    }
+
+    private JMenu createEditMenu() {
+        JMenu fileMenu = new JMenu("Edit");
+        addChangeDateMenuItem(fileMenu);
+        return fileMenu;
+    }
+    
+    private void addChangeDateMenuItem(JMenu fileMenu) {
+        JMenuItem changeDateMenuItem = new JMenuItem("Change the Date");
+        changeDateMenuItem.addActionListener(
+                menuController.new ChangeDateMenuItemListener());
+        fileMenu.add(changeDateMenuItem);
+    }
+        
 }

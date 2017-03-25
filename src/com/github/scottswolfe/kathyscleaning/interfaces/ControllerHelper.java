@@ -45,6 +45,10 @@ public interface ControllerHelper<ViewObject, ModelObject> {
      * @param mode
      * @param wk
      */
-    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date, int mode, int wk);
+    public void initializeForm(GeneralController<ViewObject, ModelObject> controller, Calendar date);
     
+    /**
+     * Updates the date shown
+     */
+    public void updateDate(ViewObject view);
 }

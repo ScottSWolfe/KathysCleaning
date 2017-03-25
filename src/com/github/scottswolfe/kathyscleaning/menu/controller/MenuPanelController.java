@@ -8,17 +8,17 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.completed.model.Data;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
+import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 /**
  * Controller that controls the MenuPanel. 
@@ -61,17 +61,29 @@ public class MenuPanelController {
         // Action Listener
         public void actionPerformed( ActionEvent e )  {
             
-            JFrame choose_week_frame = new JFrame();
-            choose_week_frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            choose_week_frame.setResizable(false);
-            choose_week_frame.addWindowListener( new MainWindowListener() );
+            menuFrame.setVisible(false);
+            menuFrame.dispose();
             
-            ChooseWeekPanel cwp = new ChooseWeekPanel(menuFrame, choose_week_frame, ChooseWeekPanel.PREVIOUS_WEEK, Settings.NEITHER);
+            GeneralController<TabbedPane, Data> newController =
+            new GeneralController<>(Form.COMPLETED);
             
-            choose_week_frame.add(cwp);
-            choose_week_frame.pack();
-            choose_week_frame.setLocationRelativeTo(null);
-            choose_week_frame.setVisible(true);
+            String message = "Would you like to import the schedule from a previously completed file?";
+            String title = "";
+            String[] options = {"Yes", "No"};            
+            int response = JOptionPane.showOptionDialog(new JFrame(),
+                    message, title, JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            
+            File file = null;
+            if (response == JOptionPane.YES_OPTION) {
+                file = FileChooserHelper.selectFile(
+                        FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.TXT);
+            }
+            newController.initializeForm(newController, CalendarMethods.getFirstDayOfWeek());
+            
+            if (file != null) {
+                CompletedControllerHelper.importSchedule(file, newController.getView());
+            }
         }
     }
     
@@ -98,7 +110,7 @@ public class MenuPanelController {
             CompletedControllerHelper helper = new CompletedControllerHelper();
             Data model = helper.loadFromFile(file);
             
-            newController.initializeForm(newController, model.getDate(), 0, model.getDay()[0].getHeaderData().getWeekSelected());
+            newController.initializeForm(newController, model.getDate());
             newController.readFileAndWriteToView(file);
             
             menuFrame.setVisible(false);

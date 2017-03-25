@@ -1,10 +1,10 @@
 package com.github.scottswolfe.kathyscleaning.weekend.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.swing.JLabel;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
@@ -80,9 +80,9 @@ public class WeekendControllerHelper
     }
 
     @Override
-    public void initializeForm(GeneralController<WeekendPanel, WeekendModel> controller, Calendar date, int mode, int wk) {
+    public void initializeForm(GeneralController<WeekendPanel, WeekendModel> controller, Calendar date) {
         
-        WeekendPanel wp = new WeekendPanel(controller, date, mode, wk);
+        WeekendPanel wp = new WeekendPanel(controller, date, 0, 0); // TODO remove 0, 0
         MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
         
         controller.setView(wp);
@@ -92,30 +92,19 @@ public class WeekendControllerHelper
         weekendFrame.add(wp);
         weekendFrame.pack();
         weekendFrame.setLocationRelativeTo(null);
-                    
-        // populate data from save file
-        if (wk == Settings.WEEK_A) {
-            wp.weekA_button.setSelected(true);
-            ActionEvent event = new ActionEvent(this, 0, "");
-            ActionListener[] al = wp.weekA_button.getActionListeners();
-            al[0].actionPerformed(event);
-        }
-        else if (wk == Settings.WEEK_B) {
-            wp.weekB_button.setSelected(true);
-            ActionEvent event = new ActionEvent(this, 0, "");
-            ActionListener[] al = wp.weekB_button.getActionListeners();
-            al[0].actionPerformed(event);
-        }
-        else {
-            // do nothing
-        }
         
-        wp.weekA_button.setEnabled(false);
-        wp.weekB_button.setEnabled(false);
-        wp.neither_button.setEnabled(false);
-         
         weekendFrame.setVisible(true);
     }
+    
+    @Override
+    public void updateDate(WeekendPanel wp) {
+        Calendar date = Settings.completedStartDay;
+        String s = new String( "Week of " +
+                ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) +
+                "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
+        wp.date_label.setText(s);
+    }
+    
     /*
     stuff () {
         if (!StaticMethods.confirmSubmitWeek()) {
