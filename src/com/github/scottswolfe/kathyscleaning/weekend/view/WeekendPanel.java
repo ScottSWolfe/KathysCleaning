@@ -3,7 +3,6 @@ package com.github.scottswolfe.kathyscleaning.weekend.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
-import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -102,27 +101,7 @@ public class WeekendPanel extends JPanel {
 		date_label.setText(s);
 		date_label.setFont(date_label.getFont().deriveFont( Settings.FONT_SIZE ));
 		date_label.setBackground( Settings.BACKGROUND_COLOR );
-		
-		weekA_button = new JRadioButton("Week A");
-		weekA_button.setFont( weekA_button.getFont().deriveFont( Settings.FONT_SIZE ) );
-		weekA_button.setBackground( Settings.BACKGROUND_COLOR );
-		weekA_button.addActionListener( new WeekListener( ) );
-
-		weekB_button = new JRadioButton("Week B");
-		weekB_button.setFont( weekB_button.getFont().deriveFont( Settings.FONT_SIZE ) );
-		weekB_button.setBackground( Settings.BACKGROUND_COLOR );
-		weekB_button.addActionListener( new WeekListener( ) );
-
-		neither_button = new JRadioButton("Neither");
-		neither_button.setFont( neither_button.getFont().deriveFont( Settings.FONT_SIZE ) );
-		neither_button.setBackground( Settings.BACKGROUND_COLOR );
-		neither_button.addActionListener( new NeitherListener() );
-		
-		bg = new ButtonGroup();
-		bg.add(weekA_button);
-		bg.add(weekB_button);
-		bg.add(neither_button);
-		
+				
 		submit_button = new JButton();
 		submit_button.setText( "Submit" );
 		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
@@ -141,18 +120,11 @@ public class WeekendPanel extends JPanel {
 		
 		p.add(date_label);
 		p.add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-		
-		p.add(weekA_button, "");
-		p.add(weekB_button, "");
-		p.add(neither_button, "");
-		
-		p.add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-		
+				
 		p.add(submit_button, "");
 		
 		panel.add(p, "grow");
 		return panel;
-		
 	}
 	
 	private JPanel createJobsWorkedPanel() {
@@ -299,93 +271,6 @@ public class WeekendPanel extends JPanel {
 		}
 		*/
 	}
-	
-	
-	
-	// LISTENERS
- 	private class WeekListener implements ActionListener {
-		
-		
-		public void actionPerformed(ActionEvent e) {
-			
-			try {
-			Scanner input;
-			if (weekA_button.isSelected()) {
-				input = new Scanner(Settings.WEEKEND_WEEK_A);
-			}
-			else  {
-				input = new Scanner(Settings.WEEKEND_WEEK_B);
-			}
-			//else {
-			//	
-			//}
-			
-			String str = input.nextLine();
-			for (int i=0; i<NUM_JOB_PANELS; i++) {
-				
-				if ( str.equals("true")  ) {		
-					
-					jp[i].worked_checkbox.setSelected(true);
-					jp[i].customer_combobox.setSelectedItem( input.nextLine() );
-					jp[i].jobpaid_field.setText( input.nextLine() );
-					jp[i].employee_combobox.setSelectedItem( input.nextLine() );
-					jp[i].workerpaid_field.setText( input.nextLine() );
-					
-					if (input.hasNextLine()) {
-						str = input.nextLine();
-					}
-					
-				}
-				else if (str.equals("false")) {
-					jp[i].worked_checkbox.setSelected(false);			input.nextLine();
-					jp[i].customer_combobox.setSelectedItem( "" );		input.nextLine();
-					jp[i].jobpaid_field.setText( "" );					input.nextLine();
-					jp[i].employee_combobox.setSelectedItem( "" );		input.nextLine();
-					jp[i].workerpaid_field.setText( "" );				
-					
-					if (input.hasNextLine()) {
-						str = input.nextLine();
-					}
-					
-				}
-				else {
-					
-					while( input.hasNextLine() && !str.equals("true") ) {
-						str = input.nextLine();
-					}
-				}
-
-			}
-			input.close();
-			
-			}
-			catch(Exception e2) {
-				e2.printStackTrace();
-			}
-			
-		}
-		
-	}
-	
-	
-	private class NeitherListener implements ActionListener {
-		
-		public void actionPerformed(ActionEvent e) {
-		
-			for (int i=0; i<jp.length; i++) {
-				
-				jp[i].worked_checkbox.setSelected(false);
-				jp[i].customer_combobox.setSelectedItem("");
-				jp[i].jobpaid_field.setText("");
-				jp[i].employee_combobox.setSelectedItem("");
-				jp[i].workerpaid_field.setText("");
-				
-			}
-			
-		}
-		
-	}
-
 	
 	private class SubmitListener implements ActionListener {
 	

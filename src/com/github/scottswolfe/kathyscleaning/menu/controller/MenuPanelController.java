@@ -18,7 +18,6 @@ import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
-import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 /**
  * Controller that controls the MenuPanel. 
