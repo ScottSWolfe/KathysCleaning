@@ -1,8 +1,5 @@
 package com.github.scottswolfe.kathyscleaning.completed.controller;
 
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
