@@ -230,7 +230,7 @@ public class SettingsPanel extends JPanel {
 		
 		return panel;
 	}
-	
+	/* TODO remove or re-implement
 	private JPanel createWeekButtonPanel() {
 		
 		JPanel panel = new JPanel();
@@ -266,7 +266,7 @@ public class SettingsPanel extends JPanel {
 		
 		return panel;
 	}
-	
+	*/
 	private JPanel createWorkerButtonPanel() {
 		
 		JPanel panel = new JPanel();

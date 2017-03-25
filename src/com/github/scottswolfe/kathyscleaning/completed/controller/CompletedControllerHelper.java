@@ -214,7 +214,6 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
         }
                 
         controller.setView(tp);
-        tp.setController(controller);
         
         MainFrame<TabbedPane, Data> frame = new MainFrame<>(controller);
         

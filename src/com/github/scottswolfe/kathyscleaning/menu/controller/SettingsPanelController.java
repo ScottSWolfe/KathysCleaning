@@ -208,7 +208,7 @@ public class SettingsPanelController {
                 e1.printStackTrace();
             }
             
-            TabbedPane tp = new TabbedPane(controller);
+            TabbedPane tp = new TabbedPane();
             tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
             tp.setBackground(Settings.BACKGROUND_COLOR);
             

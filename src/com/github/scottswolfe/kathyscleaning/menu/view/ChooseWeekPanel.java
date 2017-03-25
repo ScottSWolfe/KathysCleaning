@@ -405,7 +405,6 @@ public class ChooseWeekPanel extends JPanel {
 			            new GeneralController<>(Form.COMPLETED);
 			    
                 controller.setView(tp);
-			    tp.setController(controller);
 			    
 			    MainFrame<TabbedPane, Data> frame = new MainFrame<>(controller);
 			    
@@ -495,7 +494,6 @@ public class ChooseWeekPanel extends JPanel {
                         new GeneralController<>(Form.SCHEDULED);
                 
 			    controller.setView(tp);
-                tp.setController(controller);
                                 
                 MainFrame<TabbedPane, NW_Data> frame = new MainFrame<>(controller);
 

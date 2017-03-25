@@ -3,34 +3,17 @@ package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HouseData;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.WorkerSchedule;
-import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
-import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
-import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 
@@ -96,7 +79,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 
 	
 	// PRIVATE METHODS
-	
+	/* TODO remove or re-implement
 	private NW_Data readEditWeekData() {
 		
 					NW_Data data = new NW_Data();
@@ -123,21 +106,18 @@ public class NW_SubmitWeekListener implements ActionListener {
 								dayData[d].bed[i].setTime( dp.bed[i].getTime() );
 								dayData[d].bed[i].setNote( dp.bed[i].getNote() );
 							}
-							/*
-							for (int i=dp.bed.length; i<NW_ExceptionPanel.NUM_EXCEPTIONS; i++) {
-								
-							}
-							*/
+							
+							//for (int i=dp.bed.length; i<NW_ExceptionPanel.NUM_EXCEPTIONS; i++) {
+							//	
+							//}
+							
 						}
 						
-						
-						/*
-						dayData[d].bed = new BeginExceptionData[ dp.bed.length ]; 
-						for (int i=0; i<dp.bed.length; i++) {
-							dayData[d].bed[i] = new BeginExceptionData();
-							dayData[d].bed[i] = dp.bed[i];
-						}
-						*/
+						//dayData[d].bed = new BeginExceptionData[ dp.bed.length ]; 
+						//for (int i=0; i<dp.bed.length; i++) {
+						//	dayData[d].bed[i] = new BeginExceptionData();
+						//	dayData[d].bed[i] = dp.bed[i];
+						//}
 						
 						// Get Notes
 						dayData[d].dayNoteData = dp.getDay_note_data();
@@ -170,8 +150,9 @@ public class NW_SubmitWeekListener implements ActionListener {
 					return data;
 		
 	}
+	*/
 	
-	
+	/* TODO remove or re-implement
 	private void writeDayData( NW_DayData[] dd, File f ){
 		
 		// 1) create workbook,  2) input schedules for each employee on each day,  3) write to file 
@@ -448,8 +429,9 @@ public class NW_SubmitWeekListener implements ActionListener {
 		
 		
 	}
+	*/
 	
-	
+	/* TODO remove or re-implement
 	private void writeEditWeekData( NW_Data data, File f, TabbedPane tp ) {
 		
 		
@@ -542,18 +524,18 @@ public class NW_SubmitWeekListener implements ActionListener {
 					}
 				}
 				
-				/*
-				if (day.dayNoteData != null) {
-				for (int i=0; i<day.dayNoteData.name_box_data.length; i++) {
+				
+				//if (day.dayNoteData != null) {
+				//for (int i=0; i<day.dayNoteData.name_box_data.length; i++) {
 					
-					bw.write(day.dayNoteData.name_box_data[i]);
-					bw.newLine();
+				//	bw.write(day.dayNoteData.name_box_data[i]);
+				//	bw.newLine();
 					
-					bw.write(day.dayNoteData.note_field_data[i]);
-					bw.newLine();
-				}
-				}
-				*/
+				//	bw.write(day.dayNoteData.note_field_data[i]);
+				//	bw.newLine();
+				//}
+				//}
+				
 				// 3) Covenant Data
 				
 				
@@ -631,6 +613,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 		
 		
 	}
+	*/
 
 
 }
