@@ -2,10 +2,20 @@ package com.github.scottswolfe.kathyscleaning.menu.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import javax.swing.JFrame;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
+import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
+import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
@@ -29,7 +39,6 @@ public class MenuPanelController {
     
     
     
-
 /* CONSTRUCTORS ============================================================= */
     
     /**
@@ -42,28 +51,12 @@ public class MenuPanelController {
     
     
     
-    
 /* LISTENERS ================================================================ */
     
     /**
-     * Listener for Settings button.
+     * Listener for the New button.
      */
-    public class SettingsListener implements ActionListener {
-        
-        public void actionPerformed( ActionEvent e ) {
-            
-            menuFrame.setVisible(false);
-            menuFrame.dispose();
-            
-            SettingsPanelController.initializeSettingsPanelFrame();
-        }
-    }
-    
-    
-    /**
-     * Listener for the Start button.
-     */
-    public class StartListener implements ActionListener {
+    public class NewListener implements ActionListener {
         
         // Action Listener
         public void actionPerformed( ActionEvent e )  {
@@ -77,12 +70,60 @@ public class MenuPanelController {
             
             choose_week_frame.add(cwp);
             choose_week_frame.pack();
-            choose_week_frame.setLocationRelativeTo( null );
-            choose_week_frame.setVisible( true );
+            choose_week_frame.setLocationRelativeTo(null);
+            choose_week_frame.setVisible(true);
         }
-        
     }
     
+    /**
+     * Listener for the Open button.
+     */
+    public class OpenListener implements ActionListener {
+        public void actionPerformed(ActionEvent e)  {
+            // TODO implement this
+            
+            // user choose file
+            // return to menu if null
+            // set current files to chosen file
+            // open completed form
+            // fill form with chosen file
+            
+            File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR,
+                                               FileChooserHelper.TXT);
+            if (file == null) {
+                return;
+            }
+            Settings.saveFile = file;
+            Settings.saveFileChosen = true;
+            try {
+                Files.copy(file.toPath(), GeneralController.TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            
+            GeneralController<TabbedPane, Data> newController =
+                    new GeneralController<>(Form.COMPLETED);
+            CompletedControllerHelper helper = new CompletedControllerHelper();
+            Data model = helper.loadFromFile(file);
+            
+            newController.initializeForm(newController, model.getDate(), 0, model.getDay()[0].getHeaderData().getWeekSelected());
+            newController.readFileAndWriteToView(file);
+            
+            menuFrame.setVisible(false);
+            menuFrame.dispose();
+        }
+    }
+    
+    /**
+     * Listener for Settings button.
+     */
+    public class SettingsListener implements ActionListener {
+        public void actionPerformed( ActionEvent e ) {
+            menuFrame.setVisible(false);
+            menuFrame.dispose();
+            SettingsPanelController.initializeSettingsPanelFrame();
+        }
+    }
     
     /**
      * Listener for the Close button.
@@ -90,18 +131,13 @@ public class MenuPanelController {
     public class CloseListener implements ActionListener {
         
         public void actionPerformed( ActionEvent e ) {
-            
             menuFrame.setVisible(false);
             menuFrame.dispose();
-            
             System.exit(0);
-            
-        }
-        
+        }  
     }
     
     
-
     
 /* PUBLIC METHODS =========================================================== */
     
@@ -121,7 +157,6 @@ public class MenuPanelController {
         menuPanel.getMenuFrame().setLocationRelativeTo(null);
         menuPanel.getMenuFrame().setVisible(true);
     }
-    
     
     
     

@@ -15,6 +15,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -26,23 +27,18 @@ import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_EditDefault
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NeitherRadioListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_WeekListener;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HeaderData;
 
 import net.miginfocom.swing.MigLayout;
 
 
+@SuppressWarnings("serial")
 public class NW_HeaderPanel extends JPanel {
 	
-/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8207243036849584580L;
-	
-	
-	
 // FIELDS
-	
+	GeneralController<TabbedPane, NW_Data> controller;
 	TabbedPane tp;
 	JFrame frame;
 	WorkerList dwd;
@@ -80,9 +76,11 @@ public class NW_HeaderPanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public NW_HeaderPanel( TabbedPane tp, WorkerList dwd, NW_DayPanel day_panel,
-						   Calendar date, JFrame frame, int mode, int wk ) {
+	public NW_HeaderPanel(GeneralController<TabbedPane, NW_Data> controller,
+	        TabbedPane tp, WorkerList dwd, NW_DayPanel day_panel, 
+	        Calendar date, JFrame frame, int mode, int wk ) {
 		
+	    this.controller = controller;
 		this.tp = tp;
 		this.frame = frame;
 		this.dwd = dwd;
@@ -272,7 +270,7 @@ public class NW_HeaderPanel extends JPanel {
 		submit_schedule.setBackground(Settings.MAIN_COLOR);
 		submit_schedule.setForeground( Settings.FOREGROUND_COLOR );
 		submit_schedule.setPreferredSize(new Dimension(100,40));
-		submit_schedule.addActionListener( new NW_SubmitWeekListener(tp, frame, mode, wk) );
+		submit_schedule.addActionListener( new NW_SubmitWeekListener(controller, tp, frame, mode, wk) );
 		
 		panel.add(submit_schedule);
 		

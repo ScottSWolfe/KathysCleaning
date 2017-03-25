@@ -51,7 +51,7 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                     
                     if (row != null && row.getCell(9) != null && String.valueOf(row.getCell(9)).equals("WEEKEND WORK")) {
                         found_row = true;
-                        row = sheet.getRow(row.getRowNum() + 1 + job_num);
+                        row = sheet.getRow(row.getRowNum() + 1 + job_num + 1);
                         break;
                     }
                     row = sheet.getRow(row.getRowNum() + 1);
@@ -61,7 +61,7 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                 row.getCell(4).setCellValue(entry.getAmountReceived());
                 
                 // if worker selected
-                if (entry.getEmployee() != null && entry.getEmployee() != "") {
+                if (entry.getEmployee() != null && !entry.getEmployee().equals("")) {
                     
                     // find worker
                     row = sheet.getRow(row.getRowNum() - job_num);

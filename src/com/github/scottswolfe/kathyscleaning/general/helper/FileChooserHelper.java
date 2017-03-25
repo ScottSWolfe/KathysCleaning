@@ -161,7 +161,7 @@ public class FileChooserHelper {
     }
     
     private static void setFilter(JFileChooser chooser, String extension) {
-        if (extension == null || extension == "") {
+        if (extension == null || extension.equals("")) {
             return;
         }
         FileNameExtensionFilter filter =

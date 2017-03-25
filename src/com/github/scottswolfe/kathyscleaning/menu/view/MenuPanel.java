@@ -2,12 +2,14 @@ package com.github.scottswolfe.kathyscleaning.menu.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -44,11 +46,14 @@ public class MenuPanel extends JPanel {
     JLabel compname_label;
 	JLabel subname_label;
 	JLabel menu_label;
-	JButton start_button;
+	JButton new_button;
+	JButton open_button;
 	JButton settings_button;
 	JButton close_button;
 	
-		
+	Dimension preferred_size = new Dimension(200,50);
+	
+	
 	
 /* CONSTRUCTOR ============================================================== */
 	
@@ -58,7 +63,7 @@ public class MenuPanel extends JPanel {
 		
 		controller = new MenuPanelController(this, menuFrame);
 		
-		setLayout( new MigLayout("", "[250]", "[][][][][]100") );
+		setLayout( new MigLayout("", "[250]", "[][][][][][]100") );
 		setBackground( new Color(1,187,244) );
 		
 		compname_label = new JLabel();
@@ -75,37 +80,35 @@ public class MenuPanel extends JPanel {
 		menu_label.setText("Menu");
 		menu_label.setFont( menu_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
 		menu_label.setForeground(Settings.FOREGROUND_COLOR);
-		
-		Dimension preferred_size = new Dimension(200,50);
-		
-		start_button = new JButton();
-		start_button.setText( "Start" );
-		start_button.setFont( start_button.getFont().deriveFont(Settings.FONT_SIZE) );
-		start_button.setPreferredSize( preferred_size );
-		start_button.addActionListener(controller.new StartListener());
-		
-		settings_button = new JButton();
-		settings_button.setText( "Settings" );
-		settings_button.setFont( settings_button.getFont().deriveFont(Settings.FONT_SIZE) );
-		settings_button.setPreferredSize( preferred_size );
-		settings_button.addActionListener(controller.new SettingsListener());
-		
-		close_button = new JButton();
-		close_button.setText( "Close" );
-		close_button.setFont( close_button.getFont().deriveFont(Settings.FONT_SIZE) );
-		close_button.setPreferredSize( preferred_size );
-		close_button.addActionListener(controller.new CloseListener());
+				
+		new_button = createButton("New", controller.new NewListener());
+	    open_button = createButton("Open", controller.new OpenListener());
+	    settings_button = createButton("Settings", controller.new SettingsListener());
+	    close_button = createButton("Close", controller.new CloseListener());
 		
 		add(compname_label, "center, wrap 0 ");
 		add(subname_label, "wrap 50, center");
 		add(menu_label, "wrap 10, center");
-		add(start_button, "wrap 20, gapleft 50, gapright 50, center");
+		add(new_button, "wrap 20, gapleft 50, gapright 50, center");
+		add(open_button, "wrap 20, gapleft 50, gapright 50, center");
 		add(settings_button, "wrap 20, gapleft 50, gapright 50, center");
 		add(close_button, "wrap, gapleft 50, gapright 50, center");
 	}
 	
 	
 	
+/* PRIVATE METHODS ========================================================== */
+	
+	private JButton createButton(String text, ActionListener listener) {
+	    JButton button = new JButton();
+	    button.setText(text);
+	    button.setFont(button.getFont().deriveFont(Settings.FONT_SIZE));
+	    button.setPreferredSize(preferred_size);
+	    button.addActionListener(listener);
+	    return button;
+	}
+	
+
 	
 /* GETTERS/SETTERS ========================================================== */
 	

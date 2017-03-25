@@ -58,7 +58,7 @@ public class CovenantListeners {
                 return;
             }
             
-            controller.readInputAndWriteToFile(Settings.saveFile);
+            controller.readInputAndWriteToFile(null);
             CovenantControllerHelper.saveChosenWorkers(covPanel, covModel);
             CovenantControllerHelper.saveAmountsEarned(covPanel);
 

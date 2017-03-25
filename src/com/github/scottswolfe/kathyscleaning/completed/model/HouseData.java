@@ -46,7 +46,7 @@ public class HouseData {
 	}
 	
 	public void setHousePay(String money_earned) {
-		if( money_earned.isEmpty() || money_earned == "" ){
+		if(money_earned.isEmpty() || money_earned.equals("") ){
 			this.house_pay = 0;
 		}
 		else {

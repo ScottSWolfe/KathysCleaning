@@ -35,16 +35,18 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 
 import net.miginfocom.swing.MigLayout;
 
 
 
+@SuppressWarnings("serial")
 public class NW_DayPanel extends JPanel{	
 	
 	//  FIELDS
-    GeneralController controller;
+    GeneralController<TabbedPane, NW_Data> controller;
 	
 	public NoteData covenant_note_data;
 	NoteData day_note_data;
@@ -96,7 +98,7 @@ public class NW_DayPanel extends JPanel{
 	
 	// CONSTRUCTORS
 
-	public NW_DayPanel(GeneralController controller, TabbedPane tp,
+	public NW_DayPanel(GeneralController<TabbedPane, NW_Data> controller, TabbedPane tp,
 	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ) {
 		
 	    this.controller = controller;
@@ -113,8 +115,7 @@ public class NW_DayPanel extends JPanel{
 		setLayout( new MigLayout() ); //( new String("insets " + DayPanel.TOP_INSET + " 5 0 5"),"","") );
 		setBackground(Settings.BACKGROUND_COLOR);
 		
-
-		header_panel = new NW_HeaderPanel(tp, dwd, this, date, frame, mode, wk);
+		header_panel = new NW_HeaderPanel(controller, tp, dwd, this, date, frame, mode, wk);
 		begin_panel = createBeginPanel();
 		house_panel = new NW_HousePanel[DayPanel.NUM_HOUSE_PANELS];
 		for(int i=0; i<DayPanel.NUM_HOUSE_PANELS; i++) {
@@ -246,7 +247,7 @@ public class NW_DayPanel extends JPanel{
 		
 		//copy and edit old panels
 		tp.toString();
-		NW_HeaderPanel new_header_panel = new NW_HeaderPanel(tp, new_dwd, this, date, frame, mode, wk);
+		NW_HeaderPanel new_header_panel = new NW_HeaderPanel(controller, tp, new_dwd, this, date, frame, mode, wk);
 		NW_HousePanel[] new_house_panel = new NW_HousePanel[ house_panel.length ];
 		for(int i=0; i<house_panel.length; i++){
 			new_house_panel[i] = house_panel[i].changeHouseWorkers(new_dwd);

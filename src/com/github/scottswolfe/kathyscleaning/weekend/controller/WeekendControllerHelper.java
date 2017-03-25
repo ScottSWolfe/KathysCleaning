@@ -82,7 +82,7 @@ public class WeekendControllerHelper
     @Override
     public void initializeForm(GeneralController<WeekendPanel, WeekendModel> controller, Calendar date, int mode, int wk) {
         
-        WeekendPanel wp = new WeekendPanel(date, mode, wk);
+        WeekendPanel wp = new WeekendPanel(controller, date, mode, wk);
         MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
         
         controller.setView(wp);

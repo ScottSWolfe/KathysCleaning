@@ -18,13 +18,15 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.xml.crypto.Data;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
+import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -36,6 +38,7 @@ import net.miginfocom.swing.MigLayout;
 public class WeekendPanel extends JPanel {
 	
 	// FIELDS
+    GeneralController<WeekendPanel, WeekendModel> controller;
 	JFrame frame;
 	
 	public static final int NUM_JOB_PANELS = 3;
@@ -63,8 +66,8 @@ public class WeekendPanel extends JPanel {
 	
 	
 	// CONSTRUCTORS
-	public WeekendPanel (Calendar date, int mode, int wk) {
-		
+	public WeekendPanel (GeneralController<WeekendPanel, WeekendModel> controller, Calendar date, int mode, int wk) {
+		this.controller = controller;
 		this.date = date;
 		this.mode = mode;
 		this.wk = wk;
@@ -393,14 +396,17 @@ public class WeekendPanel extends JPanel {
 	
 		public void actionPerformed(ActionEvent e) {
 		    
-		    // TODO stuff about saving data to current save file
+            if (!StaticMethods.confirmSubmitWeek()) {
+                return;
+            }
+            
+		    controller.readInputAndWriteToFile(null);
 		    
 		    frame.setVisible(false);
 	        frame.dispose();
 	        
-	        GeneralController<TabbedPane, Data> controller =
-	                new GeneralController<>(Form.SCHEDULED);
-	        controller.initializeForm(controller, date, mode, wk);
+	        GeneralController<TabbedPane, NW_Data> scheduledController = new GeneralController<>(Form.SCHEDULED);
+	        scheduledController.initializeForm(scheduledController, date, mode, wk);
 		}
 		
 	}	

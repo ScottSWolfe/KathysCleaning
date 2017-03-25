@@ -1,5 +1,8 @@
 package com.github.scottswolfe.kathyscleaning.completed.controller;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -17,7 +20,9 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -186,9 +191,58 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
     
     @Override
     public void initializeForm(GeneralController<TabbedPane, Data> controller, Calendar date, int mode, int wk) {
-        // TODO implement this (requires rewriting auto-fill based on last
-        // week's save file
-        throw new RuntimeException("not yet implemented");
+
+        //Reading Default Worker Data from save file
+        WorkerList workers = new WorkerList();
+        try {
+            workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+        } catch (Exception e1) {
+            System.out.println("failed to read house worker save file");
+            e1.printStackTrace();
+        }
+        
+        TabbedPane tp = new TabbedPane();
+        tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
+
+        // creating array of dates
+        Calendar[] day = new Calendar[5];
+        Calendar temp_date = (Calendar) date.clone();
+        for(int i = 0; i < day.length; i++) {
+            
+            day[i] = Calendar.getInstance();
+            day[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
+            temp_date.add(Calendar.DATE, 1);
+            
+        }
+                
+        controller.setView(tp);
+        tp.setController(controller);
+        
+        MainFrame<TabbedPane, Data> frame = new MainFrame<>(controller);
+        
+        DayPanel[] day_panel = new DayPanel[5];
+        for(int i = 0; i < 5; i++){
+            day_panel[i] = new DayPanel(controller,
+                    tp, workers, day[i],
+                    frame, Settings.TRUE_MODE, wk);
+        }
+        tp.day_panel = day_panel;
+        
+        tp.addTab("Monday", day_panel[0]);
+        tp.addTab("Tuesday", day_panel[1]);
+        tp.addTab("Wednesday", day_panel[2]);
+        tp.addTab("Thursday", day_panel[3]);
+        tp.addTab("Friday", day_panel[4]);
+        
+        tp.changePreviousTab(0);
+        tp.addChangeListener(new TabChangeListener(tp, frame));
+
+        frame.setBackground(Settings.BACKGROUND_COLOR);
+        
+        frame.add(tp);
+        frame.pack();
+        frame.setLocationRelativeTo(null);        
+        frame.setVisible(true);
     }
     
     /**

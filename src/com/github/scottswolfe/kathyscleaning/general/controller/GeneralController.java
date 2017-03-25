@@ -1,6 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.general.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Calendar;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -101,13 +104,22 @@ public class GeneralController<ViewObject, ModelObject>
         model = helper.readViewIntoModel(view);
         helper.saveToFile(model, TEMP_SAVE_FILE);
         if (!TEMP_SAVE_FILE.equals(file) && file != null) {
-            helper.saveToFile(model, file);
+            try {
+                Files.copy(TEMP_SAVE_FILE.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     
     @Override
     public void readFileAndWriteToView(File file) {
         model = helper.loadFromFile(file);
+        try {
+            Files.copy(file.toPath(), TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         helper.writeModelToView(model, view);
         if (!TEMP_SAVE_FILE.equals(file)) {
             helper.saveToFile(model, TEMP_SAVE_FILE);

@@ -244,7 +244,7 @@ public class NW_NotePanel extends JPanel {
 				/*
 				System.out.println(" *** BEGIN TEST *** ");
 				System.out.println("Name: " + String.valueOf(name_box[i].getSelectedItem() ) );
-				System.out.println("equal blank: " + (String.valueOf(name_box[i].getSelectedItem() ) == "") );
+				System.out.println("equal blank: " + (String.valueOf(name_box[i].getSelectedItem() ).equals( "")) );
 				System.out.println("Note: " +  note_field[i].getText());
 				System.out.println("equal blank: " + ( note_field[i].getText().equals( new String("") ) ) );
 				*/
