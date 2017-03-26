@@ -55,6 +55,7 @@ public class WorkerList implements Iterable<String> {
 	
 	public WorkerList() {
 	    workers = new ArrayList<>();
+	    isSelected = new ArrayList<>();
 	}
 	
 	

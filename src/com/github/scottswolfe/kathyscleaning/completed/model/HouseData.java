@@ -2,37 +2,21 @@ package com.github.scottswolfe.kathyscleaning.completed.model;
 
 public class HouseData {
 
-	
-// FIELDS
 	private String house_name;
 	private double house_pay;
-	private String time_begin;			// create or find time object??
+	private String time_begin;
 	private String time_end;
 	private String[] selected_workers;
 	private ExceptionData exception_data;
 	
-	
-// CONSTRUCTORS
-	/*
-	public HouseData(String house_name, double house_pay,
-					 int time_begin, int time_end, String[] selected_workers,
-					 ExceptionData exception_data) {
-		
-		this.house_name = house_name;
-		this.house_pay = house_pay;
-		this.time_begin = time_begin;
-		this.time_end = time_end;
-		this.selected_workers = selected_workers;
-		this.exception_data = exception_data;
-		
+	public HouseData() {
+	    house_name = "";
+	    house_pay = 0.0;
+	    time_begin = "";
+	    time_end = "";
+	    selected_workers = new String[0];
+	    exception_data = new ExceptionData();
 	}
-	
-	public HouseData(){
-		
-	}
-		*/
-		
-// METHODS
 	
 	// Set Houe Name
 	public void setHouseName(String house_name) {
@@ -112,6 +96,7 @@ public class HouseData {
 	}
 	
 	
+	// TODO move the logic for this to another class
 	public double getHours(){
 		double hours;
 		if (!this.time_end.isEmpty() && !this.time_begin.isEmpty()) {
@@ -122,7 +107,6 @@ public class HouseData {
 		}
 		return hours;
 	}
-	
 	
 	private int convertToMinutes( String time ){
 		
@@ -164,13 +148,8 @@ public class HouseData {
 		return minutes;
 	}
 	
-	
 	private double convertToHours( int minutes ) {
-		
 		return ((double) minutes) / 60;
-		
 	}
 	
-	
-	// methods for checking for/editing specific worker??
 }

@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.completed.model;
 import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 public class HeaderData {
 
@@ -10,7 +11,8 @@ public class HeaderData {
 	private Calendar date;
 	
 	public HeaderData() {
-		
+		workers = new WorkerList();
+		date = (Calendar) Settings.completedStartDay.clone();
 	}
 		
 	public void setWorkers(WorkerList workers) {

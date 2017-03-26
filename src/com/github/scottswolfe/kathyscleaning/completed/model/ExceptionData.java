@@ -38,7 +38,8 @@ public class ExceptionData {
 		for (int i=0; i<ExceptionPanel.EXCEPTION_ROWS; i++) {
 			time_end[i] = "";
 		}
-				
+		
+		edited = false;
 	}
 	
 	
