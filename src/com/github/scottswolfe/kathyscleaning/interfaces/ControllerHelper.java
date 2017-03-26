@@ -47,4 +47,10 @@ public interface ControllerHelper<ViewObject, ModelObject> {
      * Updates the date shown
      */
     public void updateDate(ViewObject view);
+    
+    /**
+     * Helps update the date shown
+     */
+    public void updateDateHelper();
+    
 }

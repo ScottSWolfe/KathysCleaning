@@ -15,6 +15,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HouseData;
@@ -26,6 +27,8 @@ import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 public class ScheduledControllerHelper 
                         implements ControllerHelper<TabbedPane, NW_Data>{
 
+    TabbedPane tp;
+    
     @Override
     public NW_Data readViewIntoModel(TabbedPane view) {
         
@@ -470,10 +473,14 @@ public class ScheduledControllerHelper
     
     @Override
     public void updateDate(TabbedPane tp) {
-        Settings.completedStartDay.add(Calendar.DATE, -7);
+        this.tp = tp;
+        ChooseWeekPanel.initializePanel(this, true);
+    }
+    
+    @Override
+    public void updateDateHelper() {
         Calendar[] days = new Calendar[5];
-        Calendar temp_date = (Calendar) Settings.completedStartDay.clone();
-        temp_date.add(Calendar.DATE, 7);
+        Calendar temp_date = (Calendar) Settings.scheduledStartDay.clone();
         for(int i = 0; i < days.length; i++) {
             days[i] = Calendar.getInstance();
             days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));

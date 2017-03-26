@@ -16,11 +16,12 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CovenantControllerHelper
                     implements ControllerHelper<CovenantPanel, CovenantModel> {
-
+    
     @Override
     public CovenantModel readViewIntoModel(CovenantPanel view) {
         CovenantModel model = new CovenantModel();
@@ -135,6 +136,11 @@ public class CovenantControllerHelper
     
     @Override
     public void updateDate(CovenantPanel view) {
+        ChooseWeekPanel.initializePanel(this, false);
+    }
+    
+    @Override
+    public void updateDateHelper() {
         // do nothing
     }
 

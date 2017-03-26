@@ -25,12 +25,15 @@ import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CompletedControllerHelper implements ControllerHelper<TabbedPane, Data> {
    
 /* PUBLIC METHODS =========================================================== */
+    
+    TabbedPane tp;
     
     @Override
     public Data readViewIntoModel(TabbedPane tp) {
@@ -245,6 +248,12 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
     
     @Override
     public void updateDate(TabbedPane tp) {
+        this.tp = tp;
+        ChooseWeekPanel.initializePanel(this, false);
+    }
+    
+    @Override
+    public void updateDateHelper() {
         Calendar[] days = new Calendar[5];
         Calendar temp_date = (Calendar) Settings.completedStartDay.clone();
         for(int i = 0; i < days.length; i++) {

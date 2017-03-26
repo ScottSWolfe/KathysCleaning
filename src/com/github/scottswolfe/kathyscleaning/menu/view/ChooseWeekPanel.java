@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
+import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
@@ -24,7 +24,9 @@ public class ChooseWeekPanel extends JPanel {
     // TODO remove these
     JFrame frame;
     Calendar date;
-    Controller controller;
+    ControllerHelper<?, ?> helper;
+    
+    boolean isScheduledForm = false;
     
     
 /* COMPONENTS =============================================================== */
@@ -44,16 +46,32 @@ public class ChooseWeekPanel extends JPanel {
 	
 /* CONSRUCTOR =============================================================== */
 	
-	public ChooseWeekPanel(JFrame frame, Controller controller) {
+	public ChooseWeekPanel(JFrame frame, ControllerHelper<?, ?> helper, boolean isScheduledForm) {
 	    this.frame = frame;
-	    this.controller = controller;
+	    this.helper = helper;
+	    this.isScheduledForm = isScheduledForm;
 		setLayout(new MigLayout("insets 0"));
 		setBackground(Settings.BACKGROUND_COLOR);		
 		add(ChooseDatePanel(), "wrap 20, grow");
-		add(ContinuePanel(), "grow");
+		add(ContinuePanel(), "grow");		
 	}
 
-
+	
+	
+/* PUBLIC METHODS =========================================================== */
+	
+	public static void initializePanel(ControllerHelper<?, ?> helper, boolean isScheduledForm) {
+        JFrame frame = new JFrame();
+        ChooseWeekPanel panel = new ChooseWeekPanel(frame, helper, isScheduledForm);
+        frame.add(panel);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+	}
+	
+	
 
 /* PRIVATE METHODS ========================================================== */
 	
@@ -169,21 +187,23 @@ public class ChooseWeekPanel extends JPanel {
 		
 	}
 	
-	private class SubmitListener implements ActionListener {		
-		public void actionPerformed( ActionEvent e ) {
+	private class SubmitListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
 		    Calendar c = Calendar.getInstance();
 		    Integer year = Integer.parseInt((String) year_box.getSelectedItem());
             Integer day = Integer.parseInt((String) day_box.getSelectedItem());
             Integer month = Integer.parseInt((String) month_box.getSelectedItem()) - 1;
 		    c.set(year, month, day);
-		    Settings.completedStartDay = c; 
-		    controller.updateDate();
+		    if (isScheduledForm == false) {
+		        Settings.completedStartDay = c;
+		    } else {
+		        Settings.scheduledStartDay = c;
+		    }
+		    helper.updateDateHelper();
 		    frame.setVisible(false);
 		    frame.dispose();
 		}
 	}
-	
-	
 	
 	private class ComboBoxListener implements ActionListener {
 		public void actionPerformed( ActionEvent e ) {

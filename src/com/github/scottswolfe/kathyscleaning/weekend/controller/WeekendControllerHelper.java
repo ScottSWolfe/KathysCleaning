@@ -9,6 +9,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.GeneralControlle
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendEntry;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
@@ -18,6 +19,8 @@ import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel.JobPanel;
 public class WeekendControllerHelper
         implements ControllerHelper<WeekendPanel, WeekendModel> {
 
+    WeekendPanel panel;
+    
     @Override
     public WeekendModel readViewIntoModel(WeekendPanel view) {
 
@@ -96,11 +99,17 @@ public class WeekendControllerHelper
     
     @Override
     public void updateDate(WeekendPanel wp) {
+        this.panel = wp;
+        ChooseWeekPanel.initializePanel(this, false);
+    }
+    
+    @Override
+    public void updateDateHelper() {
         Calendar date = Settings.completedStartDay;
         String s = new String( "Week of " +
                 ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) +
                 "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
-        wp.date_label.setText(s);
+        panel.date_label.setText(s);
     }
     
     /*
