@@ -40,39 +40,21 @@ public class NW_NoteListener implements ActionListener {
 	// LISTENER
 	public void actionPerformed ( ActionEvent e ) {
 		
-		// TODO getting selected workers. get workers either based on covenant workers selected
-		//		or based on workers selected for houses. these workers will be made default selected workers
-		//		for which to write a note
-		String[] selected_workers = null;
-		
-		// end getting selected workers
-		
+		String[] selected_workers = null;		
 		
 		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		frame.setResizable( false );
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setResizable(false);
 		
-		frame.addWindowListener( new FrameCloseListener( container_frame ));
+		frame.addWindowListener(new FrameCloseListener(container_frame));
 		container_frame.setEnabled(false);
 		
 		NW_NotePanel np = new NW_NotePanel(frame, day_panel, dwd, selected_workers, note_data, note_type, this);
 		
-		frame.add( np );
-		frame.pack();
-		/*
-		if (note_type == NW_NotePanel.DAY_NOTE) {
-			frame.setLocation( new Point( (int) MouseInfo.getPointerInfo().getLocation().getX() - np.getWidth(),
-										(int) MouseInfo.getPointerInfo().getLocation().getY() ) );
-		}
-		else {
-			frame.setLocation( new Point( (int) MouseInfo.getPointerInfo().getLocation().getX() - np.getWidth(),
-					(int) MouseInfo.getPointerInfo().getLocation().getY() - np.getHeight() ) );
-		}
-		*/
-		
+		frame.add(np);
+		frame.pack();		
 		StaticMethods.findSetLocation(frame);
-		
-		frame.setVisible( true );
+		frame.setVisible(true);
 		
 	}
 	
