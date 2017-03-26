@@ -12,31 +12,32 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 
 /**
  * Helps CompletedController write data to excel sheet
  */
-public class CompletedExcelHelper implements ExcelHelper<Data> {
+public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
 
 /* INSTANCE VARIABLES ======================================================= */
 
     /**
      * The data to write to the excel file
      */
-    Data data;
+    CompletedModel completedModel;
    
     
     
 /* CONSTRUCTOR ============================================================== */
 
-    public CompletedExcelHelper(Data data) {
-        this.data = data;
+    public CompletedExcelHelper(CompletedModel completedModel) {
+        this.completedModel = completedModel;
     }
     
     public CompletedExcelHelper() {
@@ -48,8 +49,8 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
 /* PUBLIC METHODS =+========================================================= */
 
     @Override
-    public void writeModelToExcel(Data model, XSSFWorkbook wb) {
-        data = model;
+    public void writeModelToExcel(CompletedModel model, XSSFWorkbook wb) {
+        completedModel = model;
         Sheet sheet = wb.getSheetAt(0);
         writeDate(sheet);
         writeDataForEachDay(sheet);
@@ -61,7 +62,7 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
 /* PRIVATE METHODS ========================================================== */
     
     private void writeDate(Sheet sheet) {    
-        Calendar c = data.date;
+        Calendar c = Settings.completedStartDay;
         String day = FileNameHelper.getDayString(c);
         String month = FileNameHelper.getMonthString(c);
         String year = FileNameHelper.getYearString(c);
@@ -81,7 +82,7 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
     
     
     private void writeDataForDay(int d, Sheet sheet) {
-        for (int h = 0; h < data.dayData[d].houseData.length; h++){
+        for (int h = 0; h < completedModel.dayData[d].houseData.length; h++){
             writeDataForHouse(d, h, sheet);
         }
     }
@@ -96,34 +97,34 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
         name_row = sheet.getRow(d * 9 + 1);
 
         // if the house data is NOT empty
-        if ( !data.dayData[d].houseData[h].getHouseName().isEmpty() &&
-                data.dayData[d].houseData[h].getHours() != 0 ) {
+        if ( !completedModel.dayData[d].houseData[h].getHouseName().isEmpty() &&
+                completedModel.dayData[d].houseData[h].getHours() != 0 ) {
             
             // setting excel row number to write to
             row_num = d*9 + 2 + h;  // this formula gives the correct line in the excel sheet template
             row = sheet.getRow( row_num );
             
-            String s1 = TimeMethods.convertFormat( data.dayData[d].houseData[h].getTimeBegin(), TimeMethods.HOUSE_TIME );
-            String s2 = TimeMethods.convertFormat( data.dayData[d].houseData[h].getTimeEnd(), TimeMethods.HOUSE_TIME );
+            String s1 = TimeMethods.convertFormat( completedModel.dayData[d].houseData[h].getTimeBegin(), TimeMethods.HOUSE_TIME );
+            String s2 = TimeMethods.convertFormat( completedModel.dayData[d].houseData[h].getTimeEnd(), TimeMethods.HOUSE_TIME );
             
             row.getCell(0).setCellValue( DateUtil.convertTime(s1) );
             row.getCell(1).setCellValue( DateUtil.convertTime(s2) );
             
             // setting # of hours worked
-            row.getCell(2).setCellValue( data.dayData[d].houseData[h].getHours() );
+            row.getCell(2).setCellValue( completedModel.dayData[d].houseData[h].getHours() );
             
             // setting house name
-            row.getCell(3).setCellValue( data.dayData[d].houseData[h].getHouseName() );
+            row.getCell(3).setCellValue( completedModel.dayData[d].houseData[h].getHouseName() );
             
             // setting money paid
-            row.getCell(4).setCellValue( data.dayData[d].houseData[h].getHousePay() );
+            row.getCell(4).setCellValue( completedModel.dayData[d].houseData[h].getHousePay() );
                                 
             
             // writing in zero for all employees who did not work
             boolean names_remaining = true;
             boolean name_match;
             int index = 5;
-            String[] worker = data.dayData[d].getHouseData()[h].getSelectedWorkers();
+            String[] worker = completedModel.dayData[d].getHouseData()[h].getSelectedWorkers();
 
             // while there are still names remaining in the excel sheet
             while ( names_remaining == true && index < 25 ) {
@@ -163,20 +164,20 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
             }
         
         }
-        else if (data.dayData[d].houseData[h].getHouseName().isEmpty() &&
-                data.dayData[d].houseData[h].getHours() != 0
+        else if (completedModel.dayData[d].houseData[h].getHouseName().isEmpty() &&
+                completedModel.dayData[d].houseData[h].getHours() != 0
                  ||
-                 !data.dayData[d].houseData[h].getHouseName().isEmpty() &&
-                 data.dayData[d].houseData[h].getHours() == 0 ) {
+                 !completedModel.dayData[d].houseData[h].getHouseName().isEmpty() &&
+                 completedModel.dayData[d].houseData[h].getHours() == 0 ) {
         }
         else {
             // do nothing
         }
         
         // if there is exception data, add data to excel sheet
-        if (!data.dayData[d].houseData[h].getHouseName().isEmpty()) { // only if the house has been named
+        if (!completedModel.dayData[d].houseData[h].getHouseName().isEmpty()) { // only if the house has been named
         
-        ExceptionData exd = data.dayData[d].houseData[h].getExceptionData();
+        ExceptionData exd = completedModel.dayData[d].houseData[h].getExceptionData();
         if ( exd.edited == true ) {
             
             // iterate through the names in the exception data
@@ -214,7 +215,7 @@ public class CompletedExcelHelper implements ExcelHelper<Data> {
                         // if cell name is Kathy
                         else if ( name_row.getCell(cell_number).getStringCellValue().equals("Kathy") ) {
                             String message = "Error: Employee " + exd.worker_name[m] + 
-                                             " from the exception at " + data.dayData[d].houseData[h].getHouseName() +
+                                             " from the exception at " + completedModel.dayData[d].houseData[h].getHouseName() +
                                              "could not be found on the excel document.\n" +
                                              "You will need to enter the data manually.";
                             JOptionPane.showMessageDialog(new JFrame(), message, null, JOptionPane.ERROR_MESSAGE);

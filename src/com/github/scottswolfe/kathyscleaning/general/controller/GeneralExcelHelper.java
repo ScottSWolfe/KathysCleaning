@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantExcelHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
@@ -32,9 +32,9 @@ public class GeneralExcelHelper {
             XSSFWorkbook wb = new XSSFWorkbook(input);
             
             // Completed Form
-            Data data = (Data) JsonMethods.loadFromFileJSON(Data.class, GeneralController.TEMP_SAVE_FILE, Form.COMPLETED.getNum());
+            CompletedModel completedModel = (CompletedModel) JsonMethods.loadFromFileJSON(CompletedModel.class, GeneralController.TEMP_SAVE_FILE, Form.COMPLETED.getNum());
             CompletedExcelHelper comHelper = new CompletedExcelHelper();
-            comHelper.writeModelToExcel(data, wb);
+            comHelper.writeModelToExcel(completedModel, wb);
             
             // Covenant Form
             CovenantModel covModel = (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, GeneralController.TEMP_SAVE_FILE, Form.COVENANT.getNum()); 

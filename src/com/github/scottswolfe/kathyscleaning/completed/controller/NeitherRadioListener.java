@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
@@ -21,16 +21,16 @@ public class NeitherRadioListener implements ActionListener {
 
 	// FIELDS
 	
-    GeneralController<TabbedPane, Data> controller;
+    GeneralController<TabbedPane, CompletedModel> controller;
 	TabbedPane tp;
-	MainFrame<TabbedPane, Data> frame;
+	MainFrame<TabbedPane, CompletedModel> frame;
 	
 	
 	
 	// CONSTRUCTOR
 	
-	public NeitherRadioListener(GeneralController<TabbedPane, Data> controller,
-	                            TabbedPane tp, MainFrame<TabbedPane, Data> frame) {
+	public NeitherRadioListener(GeneralController<TabbedPane, CompletedModel> controller,
+	                            TabbedPane tp, MainFrame<TabbedPane, CompletedModel> frame) {
 	    this.controller = controller;
 		this.tp = tp;
 		this.frame = frame;

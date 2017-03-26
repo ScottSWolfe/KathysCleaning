@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
@@ -19,7 +19,7 @@ public class SubmitWeekListener implements ActionListener {
 
 /* FIELDS =================================================================== */
     
-    GeneralController<TabbedPane, Data> controller;
+    GeneralController<TabbedPane, CompletedModel> controller;
 	TabbedPane tp;
 	MainFrame<?,?> frame;
 	Calendar date;
@@ -30,7 +30,7 @@ public class SubmitWeekListener implements ActionListener {
 	
 /* CONSTRUCTOR ============================================================== */
 
-	public SubmitWeekListener(GeneralController<TabbedPane, Data> controller, TabbedPane tp, MainFrame<TabbedPane, Data> frame, Calendar date, int mode, int wk ){
+	public SubmitWeekListener(GeneralController<TabbedPane, CompletedModel> controller, TabbedPane tp, MainFrame<TabbedPane, CompletedModel> frame, Calendar date, int mode, int wk ){
 		this.controller = controller;
 	    this.tp = tp;
 		this.frame = frame;
@@ -51,7 +51,7 @@ public class SubmitWeekListener implements ActionListener {
         controller.readInputAndWriteToFile(Settings.saveFile);
         CompletedControllerHelper.saveHousePay(tp);
         frame.eliminate();
-        GeneralController<CovenantPanel, Data> covController = new GeneralController<>(Form.COVENANT);
+        GeneralController<CovenantPanel, CompletedModel> covController = new GeneralController<>(Form.COVENANT);
         covController.initializeForm(covController);
 	}
 

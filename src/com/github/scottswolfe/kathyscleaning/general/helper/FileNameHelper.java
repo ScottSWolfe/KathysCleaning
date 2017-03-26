@@ -3,7 +3,8 @@ package com.github.scottswolfe.kathyscleaning.general.helper;
 import java.io.File;
 import java.util.Calendar;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 public class FileNameHelper {
@@ -26,9 +27,9 @@ public class FileNameHelper {
         return fileName;
     }
     
-    public static String generateSaveName(Data data) {
+    public static String generateSaveName(CompletedModel completedModel) {
         String save_name = new String();
-        Calendar c = data.date;
+        Calendar c = Settings.completedStartDay;
         Calendar copy = (Calendar) c.clone();
         int firstday = copy.get(Calendar.DAY_OF_MONTH);
         copy.add( Calendar.DAY_OF_MONTH, 4);

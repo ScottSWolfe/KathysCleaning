@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Scanner;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
@@ -29,15 +29,15 @@ import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
-public class CompletedControllerHelper implements ControllerHelper<TabbedPane, Data> {
+public class CompletedControllerHelper implements ControllerHelper<TabbedPane, CompletedModel> {
    
 /* PUBLIC METHODS =========================================================== */
     
     TabbedPane tp;
     
     @Override
-    public Data readViewIntoModel(TabbedPane tp) {
-        Data data = new Data();
+    public CompletedModel readViewIntoModel(TabbedPane tp) {
+        CompletedModel completedModel = new CompletedModel();
         DayData[] dayData = new DayData[5];
         
         // for each day
@@ -68,13 +68,12 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
             
         }  // end day panels
         
-        data.setDayData(dayData);
-        data.setDate(tp.day_panel[0].header_panel.date);
-        return data;
+        completedModel.setDayData(dayData);
+        return completedModel;
     }
     
     @Override
-    public void writeModelToView(Data data, TabbedPane tp) {
+    public void writeModelToView(CompletedModel completedModel, TabbedPane tp) {
                 
         DayPanel day_panel;
         DayData day_data;
@@ -90,7 +89,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
         for (int d = 0; d < 5; d++) {
             
             day_panel = tp.day_panel[d];
-            day_data = data.dayData[d];
+            day_data = completedModel.dayData[d];
             
             num_house_panels = day_panel.house_panel.length;
             num_house_datas = day_data.houseData.length;
@@ -181,19 +180,19 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
     }
 
     @Override
-    public void saveToFile(Data model, File file) {
-        JsonMethods.saveToFileJSON(model, Data.class,
+    public void saveToFile(CompletedModel model, File file) {
+        JsonMethods.saveToFileJSON(model, CompletedModel.class,
                                    file, Form.COMPLETED.getNum());
     }
     
     @Override
-    public Data loadFromFile(File file) {
-        return (Data) JsonMethods.loadFromFileJSON(Data.class, file,
+    public CompletedModel loadFromFile(File file) {
+        return (CompletedModel) JsonMethods.loadFromFileJSON(CompletedModel.class, file,
                                                    Form.COMPLETED.getNum());
     }
     
     @Override
-    public void initializeForm(GeneralController<TabbedPane, Data> controller) {
+    public void initializeForm(GeneralController<TabbedPane, CompletedModel> controller) {
 
         //Reading Default Worker Data from save file
         WorkerList workers = new WorkerList();
@@ -219,7 +218,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, D
                 
         controller.setView(tp);
         
-        MainFrame<TabbedPane, Data> frame = new MainFrame<>(controller);
+        MainFrame<TabbedPane, CompletedModel> frame = new MainFrame<>(controller);
         
         DayPanel[] day_panel = new DayPanel[5];
         for(int i = 0; i < 5; i++){

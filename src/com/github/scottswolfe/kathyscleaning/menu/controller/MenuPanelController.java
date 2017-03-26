@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
@@ -63,7 +63,7 @@ public class MenuPanelController {
             menuFrame.setVisible(false);
             menuFrame.dispose();
             
-            GeneralController<TabbedPane, Data> newController =
+            GeneralController<TabbedPane, CompletedModel> newController =
             new GeneralController<>(Form.COMPLETED);
             
             String message = "Would you like to import the schedule from a previously completed file?";
@@ -104,7 +104,7 @@ public class MenuPanelController {
                 ex.printStackTrace();
             }
             
-            GeneralController<TabbedPane, Data> newController =
+            GeneralController<TabbedPane, CompletedModel> newController =
                     new GeneralController<>(Form.COMPLETED);
             
             newController.initializeForm(newController);

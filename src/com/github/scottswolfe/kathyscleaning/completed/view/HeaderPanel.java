@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CopyWorkersListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
 import com.github.scottswolfe.kathyscleaning.general.controller.EditDefaultWorkersListener;
@@ -38,7 +38,7 @@ public class HeaderPanel extends JPanel {
 // FIELDS
 	
 	TabbedPane tp;
-	MainFrame<TabbedPane, Data> frame;
+	MainFrame<TabbedPane, CompletedModel> frame;
 	WorkerList dwd;
 	DayPanel day_panel;
 	DayData day_data;
@@ -72,9 +72,9 @@ public class HeaderPanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public HeaderPanel(GeneralController<TabbedPane, Data> controller, TabbedPane tp,
+	public HeaderPanel(GeneralController<TabbedPane, CompletedModel> controller, TabbedPane tp,
 	        WorkerList dwd, DayPanel day_panel, Calendar date,
-	        MainFrame<TabbedPane, Data> frame, int mode, int wk) {
+	        MainFrame<TabbedPane, CompletedModel> frame, int mode, int wk) {
 		
 		this.tp = tp;
 		this.frame = frame;
@@ -197,7 +197,7 @@ public class HeaderPanel extends JPanel {
 		return panel;
 	}
 	
-	private JPanel submitWeekPanel(GeneralController<TabbedPane, Data> controller) {
+	private JPanel submitWeekPanel(GeneralController<TabbedPane, CompletedModel> controller) {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout("insets 2","[]","[grow]") );

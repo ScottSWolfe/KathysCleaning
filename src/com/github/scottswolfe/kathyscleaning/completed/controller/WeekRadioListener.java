@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Scanner;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.Data;
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
@@ -23,15 +23,15 @@ public class WeekRadioListener implements ActionListener {
 	
 //  FIELDS
 	
-    GeneralController<TabbedPane, Data> controller;
+    GeneralController<TabbedPane, CompletedModel> controller;
 	TabbedPane tp;
-	MainFrame<TabbedPane, Data> frame;
+	MainFrame<TabbedPane, CompletedModel> frame;
 	int wk;
 	
 	
 //  CONSTRUCTOR
 	
-	public WeekRadioListener(GeneralController<TabbedPane, Data> controller, TabbedPane tp, MainFrame<TabbedPane, Data> frame, int wk ){
+	public WeekRadioListener(GeneralController<TabbedPane, CompletedModel> controller, TabbedPane tp, MainFrame<TabbedPane, CompletedModel> frame, int wk ){
 		this.tp = tp;
 		this.frame = frame;
 		this.wk = wk;
