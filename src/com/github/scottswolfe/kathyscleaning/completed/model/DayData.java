@@ -1,43 +1,16 @@
 package com.github.scottswolfe.kathyscleaning.completed.model;
 
-import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
-
 public class DayData {
 
-	
-//  FIELDS
-	
 	HeaderData headerData;
 	public HouseData[] houseData;
 	
-	
-	
-//  CONSTRUCTOR
-	
 	public DayData() {
-		
-	}
-	
-	
-	public DayData(HeaderData headerData, HouseData[] houseData) {
-		this.headerData = headerData;
-		this.houseData = houseData;
-	}
-	
-	
-	
-	
-	
-	//  METHODS
-	
-	
-	
-	
-	
-	
-	// GETTERS and SETTERS 
-	public HeaderData getHeaderData( HeaderPanel header_panel ) {
-		return header_panel.getHeaderData();
+	    headerData = new HeaderData();
+	    houseData = new HouseData[3];// TODO change to dynamic List
+	    for (int i = 0; i < houseData.length; i++) {
+	        houseData[i] = new HouseData();
+	    }
 	}
 	
 	public void setHeader(HeaderData headerData) {
@@ -55,6 +28,5 @@ public class DayData {
 	public HouseData[] getHouseData() {
 		return houseData;
 	}
-	
 	
 }

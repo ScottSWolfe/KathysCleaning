@@ -17,7 +17,7 @@ import net.miginfocom.swing.MigLayout;
  * Allows the user to select the workers who worked.
  */
 @SuppressWarnings("serial")
-public class DefaultWorkerPanel extends JPanel {
+public class WorkerPanel extends JPanel {
 		
 	
 /* CONSTANTS ================================================================ */
@@ -67,7 +67,7 @@ public class DefaultWorkerPanel extends JPanel {
 	
 /* CONSTRUCTOR ============================================================== */
 	
-	public DefaultWorkerPanel(WorkerList workers, Color color,
+	public WorkerPanel(WorkerList workers, Color color,
 	        Component left_component, Component right_component) {
 		
 		this.workers = workers;
@@ -111,7 +111,7 @@ public class DefaultWorkerPanel extends JPanel {
 	}
 	
 	
-	public DefaultWorkerPanel(WorkerList workers, Color color,
+	public WorkerPanel(WorkerList workers, Color color,
 	        int rows, int columns,
 	        Component left_component, Component right_component) {
 		
@@ -157,7 +157,31 @@ public class DefaultWorkerPanel extends JPanel {
 		
 	}
 	
+	public void setWorkers(WorkerList workers) {
+	    for(int i = 0; i < rows; i++) {
+	        for(int j = 0; j < columns; j++) {
+	                
+	            if (columns * i + j < workers.size()) {
+	                workerCheckBoxes[i][j].setText(workers.get(columns * i + j));
+	                workerCheckBoxes[i][j].setSelected(workers.isSelected(columns * i + j));
+	            }
+	        }
+	    }
+	}
 	
+	public WorkerList getWorkers() {
+	    WorkerList workers = new WorkerList();
+	    for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
+                String name = workerCheckBoxes[i][j].getText();
+                if (name != null && name != "") {
+                    workers.add(name);
+                    workers.addIsSelected(workerCheckBoxes[i][j].isSelected());
+                }
+            }
+        }
+	    return workers;
+	}
 	
 	// PRIVATE METHODS
 	

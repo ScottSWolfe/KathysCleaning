@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
@@ -21,12 +21,12 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class NW_EditDefaultWorkersPanel extends JPanel {	
 	
-	DefaultWorkerPanel dwp;
+	WorkerPanel dwp;
 	JFrame frame;
 	NW_DayPanel day_panel;
 	
-	int rows = DefaultWorkerPanel.NORM_ROWS;
-	int columns = DefaultWorkerPanel.NORM_COLUMNS;
+	int rows = WorkerPanel.NORM_ROWS;
+	int columns = WorkerPanel.NORM_COLUMNS;
 	
 	JComboBox<String>[][] worker_combo;
 	JButton cancel_button;
@@ -34,7 +34,7 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public NW_EditDefaultWorkersPanel( DefaultWorkerPanel dwp, JFrame frame, NW_DayPanel day_panel ) throws Exception {
+    public NW_EditDefaultWorkersPanel( WorkerPanel dwp, JFrame frame, NW_DayPanel day_panel ) throws Exception {
 	
 		this.dwp = dwp;
 		this.frame = frame;
@@ -103,7 +103,7 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 		p.add(cancel_button, "");
 		p.add(submit_button, "");
 		
-		add(p, "span " + DefaultWorkerPanel.NORM_COLUMNS + ", grow");
+		add(p, "span " + WorkerPanel.NORM_COLUMNS + ", grow");
 			
 	}
 	

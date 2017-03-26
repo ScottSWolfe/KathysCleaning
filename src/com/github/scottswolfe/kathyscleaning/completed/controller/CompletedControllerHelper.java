@@ -20,7 +20,7 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
@@ -45,8 +45,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             
             // Header for day
             HeaderData headerData = new HeaderData();
-            headerData.setDate(tp.day_panel[d].header_panel.date);
-            headerData.setDWD(tp.day_panel[d].header_panel.getWorkers());
+            headerData.setDate(Settings.completedStartDay);
+            headerData.setWorkers(tp.day_panel[d].header_panel.getWorkers());
             
             // Houses in day
             HouseData[] houseData = new HouseData[tp.day_panel[d].house_panel.length];
@@ -79,11 +79,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
         DayData day_data;
         HousePanel house_panel;
         HouseData house_data;
-        HeaderPanel header_panel;
-        HeaderData header_data;
         int num_house_panels;
         int num_house_datas;
-        int weekSelected;
         
         // iterate through each day
         for (int d = 0; d < 5; d++) {
@@ -91,11 +88,17 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             day_panel = tp.day_panel[d];
             day_data = completedModel.dayData[d];
             
+            // set header panel
+            HeaderPanel headerPanel = day_panel.header_panel;
+            HeaderData headerData = day_data.getHeaderData();
+            headerPanel.setDate(headerData.getDate());
+            headerPanel.setWorkers(headerData.getWorkers());
+
             num_house_panels = day_panel.house_panel.length;
             num_house_datas = day_data.houseData.length;
             
             // iterate through each house
-            for (int h = 0; h < day_panel.house_panel.length; h++) {
+            for (int h = 0; h < num_house_panels; h++) {
                 
                 house_panel = day_panel.house_panel[h];
                 house_data = day_data.houseData[h];
@@ -110,8 +113,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 
                 // TODO create method to set view blank before filling in ??
                 // unselect any selected workers
-                for(int l = 0; l < DefaultWorkerPanel.NORM_ROWS; l++) {
-                    for(int m = 0; m < DefaultWorkerPanel.NORM_COLUMNS; m++) {
+                for(int l = 0; l < WorkerPanel.NORM_ROWS; l++) {
+                    for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++) {
                         house_panel.worker_panel.workerCheckBoxes[l][m].setSelected(false);
                     }
                 }
@@ -120,8 +123,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 // TODO this can be made more efficient by breaking out of
                 // the double for loop when finding a match
                 for (String worker : house_data.getSelectedWorkers()) {
-                    for(int l = 0; l < DefaultWorkerPanel.NORM_ROWS; l++){
-                        for(int m = 0; m < DefaultWorkerPanel.NORM_COLUMNS; m++){
+                    for(int l = 0; l < WorkerPanel.NORM_ROWS; l++){
+                        for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++){
                             if (worker.equals(house_panel.worker_panel.workerCheckBoxes[l][m].getText())) {
                                 house_panel.worker_panel.workerCheckBoxes[l][m].setSelected(true);
                             }
@@ -158,24 +161,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                     }
                 }   
                             
-            }
-            
-            // setting header panel data
-            // TODO more to do here (eg: dates, etc)
-            header_panel = day_panel.header_panel;
-            header_data = day_data.getHeaderData();
-            
-            weekSelected = header_data.getWeekSelected();
-            if (weekSelected == Settings.WEEK_A) {
-                header_panel.week_A.setSelected(true);
-            }
-            else if (weekSelected == Settings.WEEK_B){
-                header_panel.week_B.setSelected(true);
-            }
-            else {
-                header_panel.neither.setSelected(true);
-            }
-            
+            }     
         }
     }
 
@@ -358,6 +344,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
      */
     public static void importSchedule(File file, TabbedPane tp) {
         // TODO implement this method
+        throw new RuntimeException("Not implemented yet!");
     }
 
 }

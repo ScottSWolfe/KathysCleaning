@@ -29,7 +29,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.GeneralControlle
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
@@ -812,8 +812,8 @@ public class NW_DayPanel extends JPanel{
 							
 							
 						// unselecting any selected workers
-						for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
-							for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
+						for(int l=0; l<WorkerPanel.NORM_ROWS; l++){
+							for(int m=0; m<WorkerPanel.NORM_COLUMNS; m++){
 								tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);
 							}
 						}
@@ -822,8 +822,8 @@ public class NW_DayPanel extends JPanel{
 						while (parser.hasNext() ) {
 							String worker = parser.next();
 							
-							for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
-								for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
+							for(int l=0; l<WorkerPanel.NORM_ROWS; l++){
+								for(int m=0; m<WorkerPanel.NORM_COLUMNS; m++){
 									//tp.day_panel[0].house_panel[i].worker_panel.worker[l][m].setSelected(false);
 									if (worker.equals( tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText() ) ){
 										tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);

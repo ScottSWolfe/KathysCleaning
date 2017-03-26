@@ -10,7 +10,7 @@ import java.util.Locale;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
@@ -342,16 +342,16 @@ public class ScheduledControllerHelper
 
                 tp.nw_day_panel[d].house_panel[h].house_name_txt.setText(houseData.getHouseName());
                                     
-                for(int l = 0; l < DefaultWorkerPanel.NORM_ROWS; l++){
-                    for(int m = 0; m < DefaultWorkerPanel.NORM_COLUMNS; m++){
+                for(int l = 0; l < WorkerPanel.NORM_ROWS; l++){
+                    for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++){
                         tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);
                     }
                 }
                 String[] workers = houseData.getSelectedWorkers();
                 for (int i = 0; i < workers.length; i++) {
                     String worker = workers[i];
-                    for(int l = 0; l < DefaultWorkerPanel.NORM_ROWS; l++){
-                        for(int m = 0; m < DefaultWorkerPanel.NORM_COLUMNS; m++){
+                    for(int l = 0; l < WorkerPanel.NORM_ROWS; l++){
+                        for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++){
                             if (worker.equals(tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText())) {
                                 tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);
                                 break;

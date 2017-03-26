@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
@@ -55,8 +55,8 @@ public class NW_NeitherRadioListener implements ActionListener {
 			hp.house_name_txt.setText("");
 				
 			// unselecting workers
-			int rows = DefaultWorkerPanel.NORM_ROWS;
-			int columns = DefaultWorkerPanel.NORM_COLUMNS;
+			int rows = WorkerPanel.NORM_ROWS;
+			int columns = WorkerPanel.NORM_COLUMNS;
 				
 			for(int m=0; m<rows; m++){
 				for(int j=0; j<columns; j++){
@@ -66,8 +66,8 @@ public class NW_NeitherRadioListener implements ActionListener {
 					
 		}
 		
-		int rows = DefaultWorkerPanel.COV_ROWS;
-		int columns = DefaultWorkerPanel.COV_COLUMNS;
+		int rows = WorkerPanel.COV_ROWS;
+		int columns = WorkerPanel.COV_COLUMNS;
 		for(int m=0; m<rows; m++){
 			for(int j=0; j<columns; j++){
 				tp.nw_day_panel[day].cov_panel.dwp.workerCheckBoxes[m][j].setSelected(false);

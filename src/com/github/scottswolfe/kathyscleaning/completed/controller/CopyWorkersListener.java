@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 
 
@@ -40,8 +40,8 @@ public class CopyWorkersListener implements ActionListener {
 		
 		// manipulating data
 		
-		int rows = DefaultWorkerPanel.NORM_ROWS;
-		int columns = DefaultWorkerPanel.NORM_COLUMNS;
+		int rows = WorkerPanel.NORM_ROWS;
+		int columns = WorkerPanel.NORM_COLUMNS;
 		
 		boolean[][] bool = new boolean[rows][columns];
 		for(int i=0; i<rows; i++){

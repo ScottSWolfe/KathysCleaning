@@ -19,7 +19,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.GeneralControlle
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_CopyWorkersListener;
@@ -52,7 +52,7 @@ public class NW_HeaderPanel extends JPanel {
 	public JRadioButton neither;
 	ButtonGroup button_group;
 	
-	public DefaultWorkerPanel dwp;
+	public WorkerPanel dwp;
 	JButton copy_workers;
 	JButton edit_default_workers;
 	
@@ -153,7 +153,7 @@ public class NW_HeaderPanel extends JPanel {
 		panel.setBackground(Settings.BACKGROUND_COLOR);
 		panel.setBackground(Settings.HEADER_BACKGROUND);
 			
-		dwp = new DefaultWorkerPanel(dwd, Settings.HEADER_BACKGROUND, null, null );
+		dwp = new WorkerPanel(dwd, Settings.HEADER_BACKGROUND, null, null );
 		
 		edit_default_workers = new JButton("Edit");
 		edit_default_workers.addActionListener( new NW_EditDefaultWorkersListener(dwd, day_panel, frame) );

@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
@@ -24,8 +24,8 @@ public class MenuEditHouseWorkersPanel extends JPanel {
 	JFrame frame;
 	WorkerList dwd;
 	
-	int rows = DefaultWorkerPanel.NORM_ROWS;
-	int columns = DefaultWorkerPanel.NORM_COLUMNS;
+	int rows = WorkerPanel.NORM_ROWS;
+	int columns = WorkerPanel.NORM_COLUMNS;
 	
 	JComboBox<String>[][] worker_combo;
 	JButton cancel_button;

@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
@@ -28,12 +28,12 @@ public class EditCovenantWorkersPanel extends JPanel {
 	
 	
 	WorkerList dwd;
-	DefaultWorkerPanel dwp;
+	WorkerPanel dwp;
 	JFrame frame;
 	NW_CovenantPanel cov_panel;
 	
-	int rows = DefaultWorkerPanel.COV_ROWS;
-	int columns = DefaultWorkerPanel.COV_COLUMNS;
+	int rows = WorkerPanel.COV_ROWS;
+	int columns = WorkerPanel.COV_COLUMNS;
 	
 	JComboBox<String>[][] worker_combo;
 	JButton cancel_button;
@@ -41,7 +41,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public EditCovenantWorkersPanel( NW_CovenantPanel cov_panel, JFrame frame, WorkerList dwd, DefaultWorkerPanel dwp   ) throws Exception {
+    public EditCovenantWorkersPanel( NW_CovenantPanel cov_panel, JFrame frame, WorkerList dwd, WorkerPanel dwp   ) throws Exception {
 		
 		this.dwd = dwd;
 		this.dwp = dwp;

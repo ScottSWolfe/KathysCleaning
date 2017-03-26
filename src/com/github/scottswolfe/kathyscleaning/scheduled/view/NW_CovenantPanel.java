@@ -15,7 +15,7 @@ import javax.swing.border.MatteBorder;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -36,7 +36,7 @@ public class NW_CovenantPanel extends JPanel {
 	// FIELDS
 	JLabel header_label;
 	WorkerList dwd;
-	public DefaultWorkerPanel dwp;
+	public WorkerPanel dwp;
 	JButton edit_button;
 	JButton covenant_note_button;
 	
@@ -75,7 +75,7 @@ public class NW_CovenantPanel extends JPanel {
 		header_label.setText( "Covenant" );
 		header_label.setFont( header_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
 		
-		dwp = new DefaultWorkerPanel( dwd, Settings.BACKGROUND_COLOR, DefaultWorkerPanel.COV_ROWS, DefaultWorkerPanel.COV_COLUMNS,
+		dwp = new WorkerPanel( dwd, Settings.BACKGROUND_COLOR, WorkerPanel.COV_ROWS, WorkerPanel.COV_COLUMNS,
 										null, null);
 		
 		edit_button = new JButton();
@@ -125,12 +125,12 @@ public class NW_CovenantPanel extends JPanel {
 		// FIELDS
 		NW_CovenantPanel cov_panel;
 		WorkerList dwd;
-		DefaultWorkerPanel dwp;
+		WorkerPanel dwp;
 		
 		
 		// CONSTRUCTOR
 		
-		private EditWorkersListener(NW_CovenantPanel cov_panel, WorkerList dwd, DefaultWorkerPanel dwp) {
+		private EditWorkersListener(NW_CovenantPanel cov_panel, WorkerList dwd, WorkerPanel dwp) {
 			this.cov_panel = cov_panel;
 			this.dwd = dwd;
 			this.dwp = dwp;

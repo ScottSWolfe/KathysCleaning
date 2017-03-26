@@ -23,7 +23,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -52,7 +52,7 @@ public class HousePanel extends JPanel {
 	String title;
 	Border border;
 	
-	public DefaultWorkerPanel worker_panel;
+	public WorkerPanel worker_panel;
 	public JButton exceptions;
 	
 	JLabel house_name_label;
@@ -89,7 +89,7 @@ public class HousePanel extends JPanel {
 		JPanel house_name_panel = houseNamePanel();
 		JPanel pay_panel = payPanel();
 		JPanel time_panel = timePanel();
-		worker_panel = new DefaultWorkerPanel( dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions );
+		worker_panel = new WorkerPanel( dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions );
 		//JPanel exceptions_panel = exceptionsPanel();
 		JPanel button_panel = buttonPanel();
 		
@@ -362,8 +362,8 @@ public class HousePanel extends JPanel {
 		new_panel.exception_data.edited = true;
 		
 		
-		int rows = DefaultWorkerPanel.NORM_ROWS;
-		int columns = DefaultWorkerPanel.NORM_COLUMNS;
+		int rows = WorkerPanel.NORM_ROWS;
+		int columns = WorkerPanel.NORM_COLUMNS;
 		for(int i=0; i<rows; i++){
 			for(int j=0; j<columns; j++){
 				if(this.worker_panel.workerCheckBoxes[i][j].isSelected()){

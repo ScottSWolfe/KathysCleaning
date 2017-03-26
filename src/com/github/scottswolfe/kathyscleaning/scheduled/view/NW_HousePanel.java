@@ -14,7 +14,7 @@ import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_AddHouseListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_DeleteHouseListener;
@@ -47,7 +47,7 @@ public class NW_HousePanel extends JPanel {
 	String title;
 	Border border;
 	
-	public DefaultWorkerPanel worker_panel;
+	public WorkerPanel worker_panel;
 	
 	JLabel house_name_label;
 	public JTextField house_name_txt;
@@ -72,7 +72,7 @@ public class NW_HousePanel extends JPanel {
 		setLayout(new MigLayout("insets 0","[grow][grow][grow]","[]"));
 
 		JPanel house_name_panel = houseNamePanel();
-		worker_panel = new DefaultWorkerPanel( dwd, Settings.BACKGROUND_COLOR, house_name_txt, null );
+		worker_panel = new WorkerPanel( dwd, Settings.BACKGROUND_COLOR, house_name_txt, null );
 		JPanel button_panel = buttonPanel();
 		
 		add(house_name_panel, "growy");
@@ -160,8 +160,8 @@ public class NW_HousePanel extends JPanel {
 		//create public methods to do this in best practice:
 		new_panel.house_name_txt.setText(this.house_name_txt.getText());
 		
-		int rows = DefaultWorkerPanel.NORM_ROWS;
-		int columns = DefaultWorkerPanel.NORM_COLUMNS;
+		int rows = WorkerPanel.NORM_ROWS;
+		int columns = WorkerPanel.NORM_COLUMNS;
 		for(int i=0; i<rows; i++){
 			for(int j=0; j<columns; j++){
 				if(this.worker_panel.workerCheckBoxes[i][j].isSelected()){

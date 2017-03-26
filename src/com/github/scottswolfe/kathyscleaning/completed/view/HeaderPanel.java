@@ -18,13 +18,12 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.CopyWorkersLis
 import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
-import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
 import com.github.scottswolfe.kathyscleaning.general.controller.EditDefaultWorkersListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -52,7 +51,7 @@ public class HeaderPanel extends JPanel {
 	public JRadioButton neither;
 	ButtonGroup button_group;
 	
-	public DefaultWorkerPanel dwp;
+	public WorkerPanel dwp;
 	JButton copy_workers;
 	JButton edit_default_workers;
 	
@@ -109,7 +108,6 @@ public class HeaderPanel extends JPanel {
 	}
 	
 	
-	
 // METHODS
 	
 	private JPanel datePanel(Calendar date){
@@ -118,27 +116,20 @@ public class HeaderPanel extends JPanel {
 		panel.setLayout( new MigLayout("insets 2","[grow]","[grow][grow]") );
 		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
-		String weekDay;
-		SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
-		weekDay = dayFormat.format(date.getTime());
-		
 		day_label = new JLabel();
-		day_label.setText(weekDay);
-		day_label.setFont(day_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE));
-		
-		if (mode == Settings.TRUE_MODE) {
-			date_label = new JLabel((Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR));
-			date_label.setFont( date_label.getFont().deriveFont( Settings.FONT_SIZE ) );
-		}
-		
+        day_label.setFont(day_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE));
+        
+        date_label = new JLabel();
+        date_label.setFont( date_label.getFont().deriveFont( Settings.FONT_SIZE ) );
+
+        setDate(date);
+        
 		panel.add(this.day_label, "wrap, ax center");
 		if (mode == Settings.TRUE_MODE) {
 			panel.add(this.date_label, "ax center, top push");
 		}
 		
-		
 		return panel;
-		
 	}	
 	
 	private JPanel workerPanel( WorkerList dwd ){
@@ -147,8 +138,7 @@ public class HeaderPanel extends JPanel {
 		panel.setLayout( new MigLayout("insets 2") );
 		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
-			
-		dwp = new DefaultWorkerPanel(dwd, Settings.HEADER_BACKGROUND, null, null );
+		dwp = new WorkerPanel(dwd, Settings.HEADER_BACKGROUND, null, null );
 		
 		edit_default_workers = new JButton("Edit");
 		edit_default_workers.addActionListener( new EditDefaultWorkersListener(dwd, day_panel, frame) );
@@ -213,68 +203,21 @@ public class HeaderPanel extends JPanel {
 		panel.add(submit_week);
 		
 		return panel;
-		
 	}
-	
-	
-	
-	public HeaderData getHeaderData() {
-		
-		HeaderData header_data = new HeaderData();
-		
-		header_data.setDate(this.date);
-		header_data.setDWD(this.dwd);     // TODO make sure this is up to date
-		
-		if (week_A.isSelected()) {
-		    header_data.setWeekSelected(WEEK_A);
-		} else if (week_B.isSelected()) {
-            header_data.setWeekSelected(WEEK_B);
-        } else {
-            header_data.setWeekSelected(NEITHER);
-        }
-				
-		return header_data;
-	}
-	
-	
-	public String getWeek() {
-		
-		if( week_A.isSelected() ){
-			return "Week A";
-		}
-		else if( week_B.isSelected() ) {
-			return "Week B";
-		}
-		else if( neither.isSelected() ) {
-			return "Neither";
-		}
-		else {
-			return null;
-		}
-		
-	}
-	
-	public int getWeekSelected() {
-        
-        if( week_A.isSelected() ){
-            return WEEK_A;
-        }
-        else if( week_B.isSelected() ) {
-            return WEEK_B;
-        }
-        else {
-            return NEITHER;
-        }
-        
-    }
-	
 	
 	public WorkerList getWorkers() {
-	    return dwd;
+	    return dwp.getWorkers();
+	}
+
+	public void setWorkers(WorkerList workers) {
+	    dwp.setWorkers(workers);
 	}
 	
-	public void setWorkers(WorkerList workers) {
-	    this.dwd = workers;
+	public void setDate(Calendar c) {
+	    SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+	    String weekDay = dayFormat.format(date.getTime());
+	    day_label.setText(weekDay);
+	    date_label.setText((Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR));
 	}
 	
 }

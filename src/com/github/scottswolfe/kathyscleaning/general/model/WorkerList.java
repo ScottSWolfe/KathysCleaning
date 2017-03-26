@@ -43,6 +43,10 @@ public class WorkerList implements Iterable<String> {
      */
 	private ArrayList<String> workers;
 		
+	/**
+	 * 
+	 */
+	private ArrayList<Boolean> isSelected;
 	
 	
 	
@@ -101,6 +105,13 @@ public class WorkerList implements Iterable<String> {
 	}
 	
 	/**
+     * 
+     */
+    public boolean addIsSelected(boolean isSelected) {
+        return this.isSelected.add(isSelected);
+    }
+	
+	/**
 	 * Removes a worker from the list.
 	 */
 	public boolean remove(String worker) {
@@ -121,6 +132,18 @@ public class WorkerList implements Iterable<String> {
 	    
 	    return workers.get(index);
 	}
+	
+	/**
+     * 
+     */
+    public Boolean isSelected(int index) {
+        
+        if (index < 0 || index >= isSelected.size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        return isSelected.get(index);
+    }
 	
 	
 	

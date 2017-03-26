@@ -11,7 +11,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -67,8 +67,8 @@ public class NeitherRadioListener implements ActionListener {
 			hp.time_end_txt.setText("");
 			
 			// unselecting workers
-			int rows = DefaultWorkerPanel.NORM_ROWS;
-			int columns = DefaultWorkerPanel.NORM_COLUMNS;
+			int rows = WorkerPanel.NORM_ROWS;
+			int columns = WorkerPanel.NORM_COLUMNS;
 			
 			for(int m=0; m<rows; m++){
 				for(int j=0; j<columns; j++){

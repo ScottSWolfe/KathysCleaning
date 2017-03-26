@@ -9,7 +9,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.view.DefaultWorkerPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -117,8 +117,8 @@ public class WeekRadioListener implements ActionListener {
 				parser.useDelimiter(" ");
 						
 				// a) unselecting any selected workers
-				for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
-					for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
+				for(int l=0; l<WorkerPanel.NORM_ROWS; l++){
+					for(int m=0; m<WorkerPanel.NORM_COLUMNS; m++){
 						tp.day_panel[day].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);		
 					}
 				}
@@ -127,8 +127,8 @@ public class WeekRadioListener implements ActionListener {
 				while (parser.hasNext() ) {
 					String worker = parser.next();
 							
-					for(int l=0; l<DefaultWorkerPanel.NORM_ROWS; l++){
-						for(int m=0; m<DefaultWorkerPanel.NORM_COLUMNS; m++){
+					for(int l=0; l<WorkerPanel.NORM_ROWS; l++){
+						for(int m=0; m<WorkerPanel.NORM_COLUMNS; m++){
 							//tp.day_panel[0].house_panel[i].worker_panel.worker[l][m].setSelected(false);
 							if (worker.equals( tp.day_panel[day].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText() ) ){
 								tp.day_panel[day].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);
