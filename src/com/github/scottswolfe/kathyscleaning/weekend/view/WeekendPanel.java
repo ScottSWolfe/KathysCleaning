@@ -84,23 +84,22 @@ public class WeekendPanel extends JPanel {
 	private JPanel createHeaderPanel() {
 		
 		JPanel panel = new JPanel();
-		panel.setLayout( new MigLayout("fill") );
-		panel.setBackground( Settings.BACKGROUND_COLOR );
-		//panel.setBorder( new LineBorder(null,1) );
+		panel.setLayout(new MigLayout("fill"));
+		panel.setBackground(Settings.BACKGROUND_COLOR);
 		
 		heading_label = new JLabel();
 		heading_label.setText( "Weekend Work" );
 		heading_label.setFont( heading_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
 		heading_label.setBackground( Settings.BACKGROUND_COLOR );
 		
-		Calendar true_date = Settings.completedStartDay;
+		Calendar date = Settings.completedStartDay;
 		date_label = new JLabel();
 		String s = new String( "Week of " +
-				( Integer.parseInt(String.valueOf(true_date.get(Calendar.MONTH)))+1 ) +
-				"/" + (true_date.get(Calendar.DATE)-1) + "/" + true_date.get(Calendar.YEAR) );
+				(Integer.parseInt(String.valueOf(date.get(Calendar.MONTH))) + 1) +
+				"/" + (date.get(Calendar.DATE)-1) + "/" + date.get(Calendar.YEAR) );
 		date_label.setText(s);
 		date_label.setFont(date_label.getFont().deriveFont( Settings.FONT_SIZE ));
-		date_label.setBackground( Settings.BACKGROUND_COLOR );
+		date_label.setBackground(Settings.BACKGROUND_COLOR);
 				
 		submit_button = new JButton();
 		submit_button.setText( "Submit" );
@@ -110,16 +109,16 @@ public class WeekendPanel extends JPanel {
 		submit_button.addActionListener( new SubmitListener() );
 		
 		
-		panel.add( heading_label, "span, center, wrap");
+		panel.add(heading_label, "span, center, wrap");
 		
 		JPanel p = new JPanel();
-		p.setLayout( new MigLayout("fill") );
-		p.setBackground( Settings.HEADER_BACKGROUND );
+		p.setLayout(new MigLayout("fill"));
+		p.setBackground(Settings.HEADER_BACKGROUND);
 		p.setBorder(new LineBorder(null,1));
 		
 		
-		p.add(date_label);
-		p.add( new JSeparator(SwingConstants.VERTICAL), "growy" );
+		p.add(date_label, "center");
+		p.add(new JSeparator(SwingConstants.VERTICAL), "growy" );
 				
 		p.add(submit_button, "");
 		
