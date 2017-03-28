@@ -172,7 +172,6 @@ public class WorkerList implements Iterable<Worker> {
 
 	
 	
-	
 /* GETTERS/SETTERS ========================================================== */
 	
     /**

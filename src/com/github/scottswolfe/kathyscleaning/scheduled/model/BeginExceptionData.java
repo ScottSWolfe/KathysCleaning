@@ -22,7 +22,10 @@ public class BeginExceptionData {
 	}
 	
 	public BeginExceptionData() {
-		
+		name = "";
+		location = "";
+		time = "";
+		note = "";
 	}
 	
 	

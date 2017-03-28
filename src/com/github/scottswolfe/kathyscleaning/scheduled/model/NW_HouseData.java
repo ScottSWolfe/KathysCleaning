@@ -11,7 +11,13 @@ public class NW_HouseData {
 	
 	
 	// CONSTRUCTORS
-	
+	public NW_HouseData() {
+	    house_name = "";
+	    selected_workers = new String[3];
+	    for (int i = 0; i < 3; i++) {
+	        selected_workers[i] = "";
+	    }
+	}
 	
 		
 	// METHODS

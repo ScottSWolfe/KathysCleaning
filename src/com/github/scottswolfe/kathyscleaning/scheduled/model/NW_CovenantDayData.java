@@ -8,7 +8,12 @@ public class NW_CovenantDayData {
 	
 	
 	// CONSTRUCTOR
-	
+	public NW_CovenantDayData() {
+	    cjw = new CovJobWorker[8];
+	    for (int i = 0; i < 8; i++) {
+	        cjw[i] = new CovJobWorker();
+	    }
+	}
 	
 	// METHODS
 	
@@ -17,12 +22,18 @@ public class NW_CovenantDayData {
 	
 	public class CovJobWorker {
 		
+
 		
 		// FIELDS
 		private String name;
 		private String job;
 		private String note;
 		
+	    public CovJobWorker() {
+	        name = "";
+	        job = "";
+	        note = "";
+	    }
 		
 		// METHODS
 		
@@ -44,7 +55,6 @@ public class NW_CovenantDayData {
 		public void setNote(String note) {
 			this.note = note;
 		}
-		
 	}
 	
 }

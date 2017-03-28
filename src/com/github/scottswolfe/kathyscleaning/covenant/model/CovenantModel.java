@@ -46,7 +46,10 @@ public class CovenantModel {
      */
     private int wk;
 
-    
+    public CovenantModel() {
+        covenantEntries = new ArrayList<>();
+        amountsEarned = new ArrayList<>();
+    }
     
     public CovenantModel(WorkerList dwd2,
             Calendar date, int mode, int wk) {
@@ -59,10 +62,6 @@ public class CovenantModel {
         this.dwd = new WorkerList(Settings.COV_WORKER_SAVE);
     }
     
-    public CovenantModel() {
-        covenantEntries = new ArrayList<CovenantEntry>();
-        amountsEarned = new ArrayList<Double>();
-    }
 
     
 /* GETTERS/SETTERS ========================================================== */

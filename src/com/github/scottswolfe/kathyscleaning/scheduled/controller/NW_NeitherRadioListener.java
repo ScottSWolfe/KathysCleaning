@@ -13,7 +13,6 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
-import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
 
 
 public class NW_NeitherRadioListener implements ActionListener {
@@ -79,7 +78,7 @@ public class NW_NeitherRadioListener implements ActionListener {
 		dp.header_panel.weekSelected = Settings.NEITHER;
 		
 		// delete exception data
-		dp.covenant_note_data = new NoteData(NW_NotePanel.ROWS); 		
+		dp.covenant_note_data = new NoteData(); 		
 		
 		tp.nw_day_panel[day].header_panel.wk = Settings.NEITHER;
 			

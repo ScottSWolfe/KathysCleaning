@@ -2,15 +2,8 @@ package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
 public class NW_Data {
 
-	
-//  FIELDS
-	
 	public NW_DayData[] dayData;
 	NW_CovenantData covenant;
-	
-	
-	
-//  CONSTRUCTOR
 	
 	public NW_Data(NW_DayData[] dayData, NW_CovenantData covenant, BeginExceptionData bed) {
 		this.dayData = dayData;
@@ -18,12 +11,12 @@ public class NW_Data {
 	}
 	
 	public NW_Data(){
-		
+		dayData = new NW_DayData[5];
+		for (int i = 0; i < 5; i++) {
+		    dayData[i] = new NW_DayData();
+		}
+		covenant = new NW_CovenantData();
 	}
-	
-	
-	
-//  METHODS
 	
 	public void setDayData(NW_DayData[] dayData){
 		this.dayData = dayData;

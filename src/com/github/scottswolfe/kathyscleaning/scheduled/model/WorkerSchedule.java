@@ -24,7 +24,17 @@ public class WorkerSchedule {
 	
 	// CONSTRUCTOR
 	public WorkerSchedule() {
-		
+		name = "";
+		location = "";
+		time = "";
+		house = new String[3];
+		note = new String[3];
+		for (int i = 0; i < 3; i++) {
+		    house[i] = "";
+		    note[i] = "";
+		}
+		schedule = "";
+		ex_note = "";
 	}
 
 

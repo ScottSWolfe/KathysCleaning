@@ -10,24 +10,20 @@ public class NoteData {
 	WorkerList dwd;
 	
 	// CONSTRUCTOR
+	public NoteData() {
+	    name_box_data = new String[3];
+	    note_field_data = new String[3];
+	    for (int i = 0; i < 3; i++) {
+	        name_box_data[i] = "";
+	        note_field_data[i] = "";
+	        dwd = new WorkerList();
+	    }
+	}
+	
 	public NoteData ( String[] name_box_data, String[] note_field_data, WorkerList dwd ) {
 		this.name_box_data = name_box_data;
 		this.note_field_data = note_field_data;
 		this.dwd = dwd;
-	}
-	
-	public NoteData ( int num_notes ) {
-		
-		/*
-		String[] name_box_data = new String[num_notes];
-		String[] note_field_data = new String[num_notes];
-		
-		for (int i=0; i<num_notes; i++) {
-			name_box_data[i] = "";
-			note_field_data[i] = "";
-		}
-		*/
-		
 	}
 	
 	// GETTERS & SETTERS

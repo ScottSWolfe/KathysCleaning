@@ -14,27 +14,18 @@ public class NW_HeaderData {
 	
 //  CONSTRUCTOR
 	
+	public NW_HeaderData() {
+	    week = "";
+	    dwd = new WorkerList();
+	}
+	
 	public NW_HeaderData(String week, WorkerList dwd) {
 		
 		this.week = week;
 		this.dwd = dwd;
 		
 	}
-	
-	
-
-// METHODS
-	/*
-	public boolean[] isSelected(){
 		
-		for(int i=0; i < dwd.getDefaultWorkers().length; i++){
-			
-			
-			
-		}
-	}
-	*/
-	
 	public void setWeek(String week) {
 		this.week = week;
 	}

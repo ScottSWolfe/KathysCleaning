@@ -3,9 +3,6 @@ package com.github.scottswolfe.kathyscleaning.scheduled.model;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HeaderPanel;
 
 public class NW_DayData {
-
-	
-//  FIELDS
 	
 	NW_HeaderData headerData;
 	
@@ -29,7 +26,26 @@ public class NW_DayData {
 //  CONSTRUCTOR
 	
 	public NW_DayData() {
-		
+		headerData = new NW_HeaderData();
+		houseData = new NW_HouseData[3];
+		for (int i = 0; i < 3; i++) {
+		    houseData[i] = new NW_HouseData();
+		}
+		bed = new BeginExceptionData[3];
+		for (int i = 0; i < 3; i++) {
+		    bed[i] = new BeginExceptionData();
+		}
+		meet_location = "";
+		meet_time = "";
+		cov_worker = new String[8];
+		for (int i = 0; i < 8; i++) {
+		    cov_worker[i] = "";
+		}
+		covNoteData = new NoteData();
+		ws = new WorkerSchedule[8];
+		for (int i = 0; i < 8; i++) {
+		    ws[i] = new WorkerSchedule();
+		}
 	}
 	
 	

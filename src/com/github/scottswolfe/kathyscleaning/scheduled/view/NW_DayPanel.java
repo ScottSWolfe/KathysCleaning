@@ -786,7 +786,7 @@ public class NW_DayPanel extends JPanel{
 				
 				// notes
 				
-				tp.nw_day_panel[d].covenant_note_data = new NoteData( NW_ExceptionPanel.NUM_EXCEPTIONS );
+				tp.nw_day_panel[d].covenant_note_data = new NoteData();
 				tp.nw_day_panel[d].covenant_note_data.name_box_data = new String[NW_NotePanel.ROWS];
 				tp.nw_day_panel[d].covenant_note_data.note_field_data = new String[NW_NotePanel.ROWS];
 				
