@@ -39,7 +39,7 @@ public class MenuEditHouseWorkersPanel extends JPanel {
 		this.frame = frame;
 		
 		worker_combo = new JComboBox[rows][columns];
-		WorkerList dwd = new WorkerList( WorkerList.HOUSE_WORKERS );
+		WorkerList dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
 		
 		for (int i=0; i<rows; i++) {
 			

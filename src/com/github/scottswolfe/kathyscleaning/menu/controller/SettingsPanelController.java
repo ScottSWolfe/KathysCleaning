@@ -183,20 +183,17 @@ public class SettingsPanelController {
             new_frame.addWindowListener(new FrameCloseListener(container_frame));
 
             if (type == Settings.HOUSES_WORKERS) {
-                MenuEditHouseWorkersPanel panel = new MenuEditHouseWorkersPanel( new_frame );
+                MenuEditHouseWorkersPanel panel = new MenuEditHouseWorkersPanel(new_frame);
                 new_frame.add(panel);
             }
             else {
-                MenuEditCovenantWorkersPanel panel = new MenuEditCovenantWorkersPanel( new_frame );
+                MenuEditCovenantWorkersPanel panel = new MenuEditCovenantWorkersPanel(new_frame);
                 new_frame.add(panel);
             }
-            
             new_frame.pack();
             StaticMethods.findSetLocation(new_frame);
             new_frame.setVisible(true);
-            
         }
-        
     }
     
     

@@ -24,7 +24,7 @@ public class EditDefaultWorkersListener implements ActionListener {
 	
 //  CONSTRUCTOR
 	
-	public EditDefaultWorkersListener(WorkerList dwd, DayPanel day_panel, JFrame container_frame ) {
+	public EditDefaultWorkersListener(WorkerList dwd, DayPanel day_panel, JFrame container_frame) {
 		this.dwd = dwd;
 		this.day_panel = day_panel;
 		this.container_frame = container_frame;
@@ -38,7 +38,7 @@ public class EditDefaultWorkersListener implements ActionListener {
 		
 		JFrame frame = new JFrame();
 		frame.setResizable(false);
-		frame.addWindowListener( new FrameCloseListener(container_frame) );
+		frame.addWindowListener(new FrameCloseListener(container_frame));
 		
 		try {
 			frame.add( new EditDefaultWorkersPanel( day_panel.header_panel.dwp, frame, day_panel ) );
@@ -48,7 +48,7 @@ public class EditDefaultWorkersListener implements ActionListener {
 		
 		frame.pack();
 		
-		StaticMethods.findSetLocation( frame );
+		StaticMethods.findSetLocation(frame);
 		
 		container_frame.setEnabled(false);
 		frame.setVisible(true);

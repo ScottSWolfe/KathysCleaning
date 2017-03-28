@@ -31,16 +31,14 @@ public class FrameCloseListener implements WindowListener {
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-
 		container_frame.setEnabled(true);
-		container_frame.toFront();
-		
+		container_frame.toFront();		
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-        // TODO Auto-generated method stub
-
+	    container_frame.setEnabled(true);
+        container_frame.toFront();
 	}
 
 	@Override
