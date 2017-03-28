@@ -179,7 +179,7 @@ public class CovenantControllerHelper
                 }
                 
                 if (match == false) {
-                    bw.write(model.getDwd().get(i));
+                    bw.write(model.getDwd().getName(i));
                     bw.newLine();
                 }
                 

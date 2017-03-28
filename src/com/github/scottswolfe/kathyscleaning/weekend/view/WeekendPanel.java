@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -171,8 +172,8 @@ public class WeekendPanel extends JPanel {
 			customer_combobox.addItem("");
 			
 			WorkerList weekendWorkers = new WorkerList(WorkerList.WEEKEND_WORKERS);
-			for (String worker : weekendWorkers) {
-				customer_combobox.addItem(worker);
+			for (Worker worker : weekendWorkers) {
+				customer_combobox.addItem(worker.getName());
 			}
 			
 			jobpaid_field = new JTextField();
@@ -184,8 +185,8 @@ public class WeekendPanel extends JPanel {
 			employee_combobox.setEditable(true);
 			employee_combobox.addItem("");
 			WorkerList houseWorkers = new WorkerList(WorkerList.HOUSE_WORKERS);
-			for (String worker : houseWorkers) {
-				employee_combobox.addItem(worker);
+			for (Worker worker : houseWorkers) {
+				employee_combobox.addItem(worker.getName());
 			}
 			
 			workerpaid_field = new JTextField();

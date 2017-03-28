@@ -87,7 +87,7 @@ public class NW_ExceptionPanel extends JPanel {
 		
 			employee_combobox[i].addItem("");   // empty choice
 			for(int k=0; k<dwd.size(); k++){
-				employee_combobox[i].addItem(dwd.get(k));
+				employee_combobox[i].addItem(dwd.getName(k));
 			}
 		}
 		

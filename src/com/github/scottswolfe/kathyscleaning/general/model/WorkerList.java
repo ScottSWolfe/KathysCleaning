@@ -1,8 +1,10 @@
 package com.github.scottswolfe.kathyscleaning.general.model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -10,7 +12,7 @@ import javax.swing.JOptionPane;
 
 
 
-public class WorkerList implements Iterable<String> {
+public class WorkerList implements Iterable<Worker> {
 	
 /* CONSTANTS ================================================================ */
     
@@ -41,13 +43,8 @@ public class WorkerList implements Iterable<String> {
     /**
      * Array of workers.
      */
-	private ArrayList<String> workers;
-		
-	/**
-	 * 
-	 */
-	private ArrayList<Boolean> isSelected;
-	
+	private List<Worker> workers;
+			
 	
 	
 /* CONSTRUCTOR ============================================================== */
@@ -55,31 +52,35 @@ public class WorkerList implements Iterable<String> {
 	
 	public WorkerList() {
 	    workers = new ArrayList<>();
-	    isSelected = new ArrayList<>();
 	}
 	
 	
-	public WorkerList(ArrayList<String> workers)  {
+	public WorkerList(ArrayList<Worker> workers)  {
 	    
-	    this.workers = new ArrayList<String>();
+	    this.workers = new ArrayList<>();
 	    if (workers == null) {
 	        throw new IllegalArgumentException("Argument is null.");
 	    }
 	    //this.workers = workers;
-	    for (String s : workers) {
-	        if (s == null) {
-	            throw new IllegalArgumentException("A string is null.");
+	    for (Worker worker : workers) {
+	        if (worker == null) {
+	            throw new IllegalArgumentException("A worker is null.");
 	        }
-	        this.workers.add(s);
+	        this.workers.add(worker);
 	    }
 	}
 	
 	
 	public WorkerList(File file) {
-	    this(readWorkers(file));
+	    this.workers = readWorkers(file);
 	}
 	
-	
+	public WorkerList(List<String> workerNames) {
+	    workers = new ArrayList<>();
+	    for (String name : workerNames) {
+	        workers.add(new Worker(name));
+	    }
+	}
 	
 
 /* PUBLIC METHODS =========================================================== */
@@ -94,7 +95,7 @@ public class WorkerList implements Iterable<String> {
 	/**
 	 * Adds a worker to the list.
 	 */
-	public boolean add(String worker) {
+	public boolean add(Worker worker) {
 	    
 	    if (worker == null) {
 	        throw new IllegalArgumentException("Argument is null.");
@@ -106,16 +107,16 @@ public class WorkerList implements Iterable<String> {
 	}
 	
 	/**
-     * 
+     * Adds a worker with the given name to the list.
      */
-    public boolean addIsSelected(boolean isSelected) {
-        return this.isSelected.add(isSelected);
+    public boolean add(String name) {
+        return workers.add(new Worker(name));
     }
-	
+		
 	/**
 	 * Removes a worker from the list.
 	 */
-	public boolean remove(String worker) {
+	public boolean remove(Worker worker) {
 	    if (worker == null) {
             throw new IllegalArgumentException("Argument is null.");
         }
@@ -125,7 +126,7 @@ public class WorkerList implements Iterable<String> {
 	/**
 	 * Gets a specific index from the list.
 	 */
-	public String get(int index) {
+	public Worker get(int index) {
 	    
 	    if (index < 0 || index >= workers.size()) {
 	        throw new IndexOutOfBoundsException();
@@ -135,34 +136,32 @@ public class WorkerList implements Iterable<String> {
 	}
 	
 	/**
-     * 
+     * Gets the workers name for the given index.
      */
-    public Boolean isSelected(int index) {
-        
-        if (index < 0 || index >= isSelected.size()) {
+	public String getName(int index) {
+        if (index < 0 || index >= workers.size()) {
             throw new IndexOutOfBoundsException();
         }
-        
-        return isSelected.get(index);
-    }
-	
+        return workers.get(index).getName();
+	}
+		
 	
 	
 /* PRIVATE METHODS ========================================================== */
 	
-	private static ArrayList<String> readWorkers(File file) {
+	private static List<Worker> readWorkers(File file) {
 		
-	    ArrayList<String> workers = new ArrayList<String>();
+	    List<Worker> workers = new ArrayList<>();
 	    
 		try {   		
     		Scanner input = new Scanner(file);
     		while(input.hasNext()) {
-    			workers.add(input.nextLine());
+    			workers.add(new Worker(input.nextLine()));
     		}
     		input.close();
     		return workers; 
     		
-		} catch (Exception e) {
+		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Error: Could not find file: " +
 			        file.getAbsolutePath(), "Error Reading Save File",
 			        JOptionPane.ERROR_MESSAGE);
@@ -179,14 +178,14 @@ public class WorkerList implements Iterable<String> {
     /**
      * Returns a string array of the workers.
      */
-    public ArrayList<String> getWorkers() {
+    public List<Worker> getWorkers() {
         return workers;
     }
 
     /**
      * @param default_workers the default_workers to set
      */
-    public void setWorkers(ArrayList<String> workers) {
+    public void setWorkers(ArrayList<Worker> workers) {
         this.workers = workers;
     }
     
@@ -198,9 +197,8 @@ public class WorkerList implements Iterable<String> {
     }
 
     @Override
-    public Iterator<String> iterator() {
+    public Iterator<Worker> iterator() {
         return workers.iterator();
     }
-	
 	
 }

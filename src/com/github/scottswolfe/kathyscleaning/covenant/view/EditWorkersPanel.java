@@ -82,7 +82,7 @@ public class EditWorkersPanel extends JPanel {
 			
 				worker_combo[i].addItem("");   // empty choice
 				for(int k=0; k<cp.getController().getCovModel().getDwd().size(); k++){
-					worker_combo[i].addItem(cp.getController().getCovModel().getDwd().get(k));
+					worker_combo[i].addItem(cp.getController().getCovModel().getDwd().get(k).getName());
 				}
 			
 				worker_combo[i].setSelectedItem(cp.getNameLabels()[i].getText());

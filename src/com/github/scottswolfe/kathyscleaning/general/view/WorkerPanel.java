@@ -7,6 +7,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -86,7 +87,7 @@ public class WorkerPanel extends JPanel {
 				
 				if (columns*i + j < workers.size()) {
 					workerCheckBoxes[i][j] =
-					        new JCheckBox(workers.get(columns*i + j)); 
+					        new JCheckBox(workers.get(columns*i + j).getName()); 
 				}
 				else {
 					workerCheckBoxes[i][j] = new JCheckBox("");
@@ -132,7 +133,7 @@ public class WorkerPanel extends JPanel {
 				
 				if (columns*i + j < workers.size()) {
 					workerCheckBoxes[i][j] =
-					        new JCheckBox(workers.get(columns*i + j)); 
+					        new JCheckBox(workers.get(columns*i + j).getName()); 
 				}
 				else {
 					workerCheckBoxes[i][j] = new JCheckBox("");
@@ -162,8 +163,8 @@ public class WorkerPanel extends JPanel {
 	        for(int j = 0; j < columns; j++) {
 	                
 	            if (columns * i + j < workers.size()) {
-	                workerCheckBoxes[i][j].setText(workers.get(columns * i + j));
-	                workerCheckBoxes[i][j].setSelected(workers.isSelected(columns * i + j));
+	                workerCheckBoxes[i][j].setText(workers.get(columns * i + j).getName());
+	                workerCheckBoxes[i][j].setSelected(workers.get(columns * i + j).isSelected());
 	            }
 	        }
 	    }
@@ -175,8 +176,7 @@ public class WorkerPanel extends JPanel {
             for(int j = 0; j < columns; j++) {
                 String name = workerCheckBoxes[i][j].getText();
                 if (name != null && name != "") {
-                    workers.add(name);
-                    workers.addIsSelected(workerCheckBoxes[i][j].isSelected());
+                    workers.add(new Worker(name, workerCheckBoxes[i][j].isSelected()));
                 }
             }
         }

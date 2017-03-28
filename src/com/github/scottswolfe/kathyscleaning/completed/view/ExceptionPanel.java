@@ -86,10 +86,9 @@ public class ExceptionPanel extends JPanel {
 			
 			
 			name_box[i].addItem("");   // empty choice
-			for(int k=0; k<dwd.size(); k++){
-				name_box[i].addItem(dwd.get(k));
+			for(int k = 0; k < dwd.size(); k++){
+				name_box[i].addItem(dwd.get(k).getName());
 			}
-			
 			
 			time_begin[i] = new JTextField(5);
 			time_begin[i].setFont( time_begin[i].getFont().deriveFont( Settings.FONT_SIZE ) );

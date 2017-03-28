@@ -154,7 +154,7 @@ public class CovenantPanel extends JPanel {
 			if (controller.getCovModel() != null && controller.getCovModel().getDwd().getWorkers() != null &&
 			        i<controller.getCovModel().getDwd().size() &&
 			        controller.getCovModel().getDwd().get(i) != null) {
-				nameLabels[i].setText(controller.getCovModel().getDwd().get(i) );
+				nameLabels[i].setText(controller.getCovModel().getDwd().get(i).getName() );
 			}
 			else {
 				nameLabels[i].setText("");

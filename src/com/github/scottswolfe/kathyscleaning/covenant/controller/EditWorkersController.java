@@ -77,7 +77,7 @@ public class EditWorkersController {
             covPanel.getController().getCovModel().getDwd().setWorkers(workers);
             
             for (int i=0; i<workers.size(); i++) {
-                covPanel.getNameLabels()[i].setText(workers.get(i));
+                covPanel.getNameLabels()[i].setText(workers.getName(i));
             }
             
             covPanel.getParent().revalidate();

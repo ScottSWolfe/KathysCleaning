@@ -99,7 +99,7 @@ public class NW_NotePanel extends JPanel {
 			name_box[i].setBackground( Settings.BACKGROUND_COLOR );
 			name_box[i].addItem("");	// empty choice
 			for(int k=0; k<dwd.size(); k++){
-				name_box[i].addItem(dwd.get(k));
+				name_box[i].addItem(dwd.getName(k));
 			}
 			
 			note_field[i] = new JTextField(15);

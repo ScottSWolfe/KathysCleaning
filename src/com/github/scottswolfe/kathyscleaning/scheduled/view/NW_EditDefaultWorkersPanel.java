@@ -55,7 +55,7 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 			
 				worker_combo[i][j].addItem(null);   // empty choice
 				for(int k=0; k<dwd.size(); k++){
-					worker_combo[i][j].addItem( dwd.get(k));
+					worker_combo[i][j].addItem(dwd.getName(k));
 				}
 			
 				worker_combo[i][j].setSelectedItem( dwp.workerCheckBoxes[i][j].getText() );

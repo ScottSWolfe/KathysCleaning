@@ -3,7 +3,6 @@ package com.github.scottswolfe.kathyscleaning.completed.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -36,33 +36,29 @@ public class EditDefaultWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public EditDefaultWorkersPanel( WorkerPanel dwp, JFrame frame, DayPanel day_panel ) throws Exception {
+    public EditDefaultWorkersPanel(WorkerPanel dwp, JFrame frame, DayPanel day_panel) throws Exception {
 	
 		this.dwp = dwp;
 		this.frame = frame;
 		this.day_panel = day_panel;
 		
 		worker_combo = new JComboBox[rows][columns];
-		WorkerList dwd = new WorkerList( WorkerList.HOUSE_WORKERS );
+		WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
 		
-		for (int i=0; i<rows; i++) {
-			
-			for(int j=0; j<columns; j++) {
+		for (int i = 0; i < rows; i++) {
+			for(int j = 0; j < columns; j++) {
 			
 				worker_combo[i][j] = new JComboBox<String>();
 				worker_combo[i][j].setEditable(true);
 				worker_combo[i][j].setSize(10, UNDEFINED_CONDITION);
-				worker_combo[i][j].setFont( worker_combo[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
+				worker_combo[i][j].setFont(worker_combo[i][j].getFont().deriveFont(Settings.FONT_SIZE ));
 			
-				worker_combo[i][j].addItem(null);   // empty choice
-				for(int k=0; k<dwd.size(); k++){
-					worker_combo[i][j].addItem(dwd.get(k));
+				worker_combo[i][j].addItem(null);
+				for(int k = 0; k < workers.size(); k++) {
+					worker_combo[i][j].addItem(workers.get(k).getName());
 				}
-			
-				worker_combo[i][j].setSelectedItem( dwp.workerCheckBoxes[i][j].getText() );
-				
+				worker_combo[i][j].setSelectedItem(dwp.workerCheckBoxes[i][j].getText());
 			}
-		
 		}
 		
 
@@ -226,25 +222,22 @@ public class EditDefaultWorkersPanel extends JPanel {
 		public void actionPerformed(ActionEvent e){
 			
 			// check for repeat selections and reprimand user, end method
-			if ( StaticMethods.isRepeatWorker( edwp.worker_combo ) ) {
-				
+			if ( StaticMethods.isRepeatWorker(edwp.worker_combo)) {
 				StaticMethods.shareRepeatWorker();
 				return;
 			}
 			
 			// copy workers selected
-			ArrayList<String> workers = new ArrayList<String>();
+			WorkerList workers = new WorkerList();
 						
-			for (int i=0; i<rows; i++){
-				for (int j=0; j<columns; j++) {
-				    workers.add(String.valueOf(edwp.worker_combo[i][j].getSelectedItem()));
+			for (int i = 0; i < rows; i++){
+				for (int j = 0; j < columns; j++) {
+				    workers.add(new Worker(String.valueOf(edwp.worker_combo[i][j].getSelectedItem())));
 				}
 			}
-			
-			WorkerList dwd = new WorkerList(workers);
-			
+						
 			// paste workers selected on header dwp and house panel dwps
-			day_panel.changeWorkerPanels(dwd);
+			day_panel.changeWorkerPanels(workers);
 			
 			// add traversable-enabling focus listeners
 			day_panel.addFlexibleFocusListeners();

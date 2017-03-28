@@ -12,15 +12,28 @@ public class Worker {
      */
     private String name; 
     
-    
+    /**
+     * Whether the worker is selected or not
+     */
+    private boolean isSelected;
     
     
 /* CONSTRUCTORS ============================================================= */
     
+    public Worker() {
+        name = "";
+        isSelected = false;
+    }    
+    
     public Worker(String name) {
         this.name = name;
+        isSelected = false;
     }
     
+    public Worker(String name, boolean isSelected) {
+        this.name = name;
+        this.isSelected = isSelected;
+    }
     
     
     
@@ -51,6 +64,19 @@ public class Worker {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    /**
+     * @return the isSelected
+     */
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    /**
+     * @param isSelected the isSelected to set
+     */
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
     
 }

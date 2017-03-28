@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -51,8 +52,8 @@ public class MenuEditHouseWorkersPanel extends JPanel {
 				        deriveFont(Settings.FONT_SIZE));
 			
 				worker_combo[i][j].addItem("");   // empty choice
-				for(String worker : dwd){
-					worker_combo[i][j].addItem(worker);
+				for(Worker worker : dwd){
+					worker_combo[i][j].addItem(worker.getName());
 				}
 			
 				worker_combo[i][j].setSelectedItem(dwd.get(i*columns + j));
