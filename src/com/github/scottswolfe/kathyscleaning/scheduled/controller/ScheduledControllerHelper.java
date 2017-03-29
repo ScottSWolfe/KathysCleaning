@@ -464,6 +464,8 @@ public class ScheduledControllerHelper
         tp.changePreviousTab(0);
         tp.addChangeListener(new NW_TabChangeListener(tp, frame));
         
+        controller.readFileAndWriteToView(Settings.saveFile);
+        
         frame.setBackground(Settings.BACKGROUND_COLOR);
         frame.add(tp);
         frame.pack();

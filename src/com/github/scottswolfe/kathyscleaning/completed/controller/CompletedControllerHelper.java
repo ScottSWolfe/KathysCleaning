@@ -223,8 +223,9 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
         tp.changePreviousTab(0);
         tp.addChangeListener(new TabChangeListener(tp, frame));
 
-        frame.setBackground(Settings.BACKGROUND_COLOR);
+        controller.readFileAndWriteToView(Settings.saveFile);
         
+        frame.setBackground(Settings.BACKGROUND_COLOR);
         frame.add(tp);
         frame.pack();
         frame.setLocationRelativeTo(null);        

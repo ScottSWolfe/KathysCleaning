@@ -87,13 +87,13 @@ public class WeekendControllerHelper
         MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
         
         controller.setView(wp);
-        
         wp.setFrame(weekendFrame);          
         
+        controller.readFileAndWriteToView(Settings.saveFile);
+
         weekendFrame.add(wp);
         weekendFrame.pack();
         weekendFrame.setLocationRelativeTo(null);
-        
         weekendFrame.setVisible(true);
     }
     

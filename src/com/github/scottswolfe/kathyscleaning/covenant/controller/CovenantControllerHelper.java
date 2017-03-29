@@ -128,6 +128,8 @@ public class CovenantControllerHelper
         covPanel.setFrame(mainFrame);
         controller.setView(covPanel);
         
+        controller.readFileAndWriteToView(Settings.saveFile);
+
         mainFrame.add(covPanel);
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
