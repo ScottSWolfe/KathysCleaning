@@ -53,4 +53,9 @@ public interface ControllerHelper<ViewObject, ModelObject> {
      */
     public void updateDateHelper();
     
+    /**
+     * Disposes of the frame for the view that this helper helps control
+     */
+    public void eliminateWindow(ViewObject view);
+    
 }

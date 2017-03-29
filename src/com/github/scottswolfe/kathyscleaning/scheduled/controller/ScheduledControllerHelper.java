@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import javax.swing.SwingUtilities;
+
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -464,7 +466,7 @@ public class ScheduledControllerHelper
         tp.changePreviousTab(0);
         tp.addChangeListener(new NW_TabChangeListener(tp, frame));
         
-        controller.readFileAndWriteToView(Settings.saveFile);
+        controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
         
         frame.setBackground(Settings.BACKGROUND_COLOR);
         frame.add(tp);
@@ -496,6 +498,12 @@ public class ScheduledControllerHelper
 
             temp_date.add(Calendar.DATE, 1);
         }
+    }
+    
+    @Override
+    public void eliminateWindow(TabbedPane view) {
+        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
+        frame.eliminate();
     }
 
 }

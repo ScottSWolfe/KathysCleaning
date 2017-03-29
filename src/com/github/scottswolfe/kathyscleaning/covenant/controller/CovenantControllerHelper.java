@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantEntry;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
@@ -14,6 +16,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.GeneralControlle
 import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
+import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
@@ -128,7 +131,7 @@ public class CovenantControllerHelper
         covPanel.setFrame(mainFrame);
         controller.setView(covPanel);
         
-        controller.readFileAndWriteToView(Settings.saveFile);
+        controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
 
         mainFrame.add(covPanel);
         mainFrame.pack();
@@ -146,6 +149,12 @@ public class CovenantControllerHelper
         // do nothing
     }
 
+    @Override
+    public void eliminateWindow(CovenantPanel view) {
+        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
+        frame.eliminate();
+    }
+    
     /**
      * Saves the current Covenant workers into a save file
      * 

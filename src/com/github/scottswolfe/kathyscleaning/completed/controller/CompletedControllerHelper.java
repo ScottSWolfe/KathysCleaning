@@ -10,6 +10,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Scanner;
 
+import javax.swing.SwingUtilities;
+
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
@@ -223,7 +225,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
         tp.changePreviousTab(0);
         tp.addChangeListener(new TabChangeListener(tp, frame));
 
-        controller.readFileAndWriteToView(Settings.saveFile);
+        controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
         
         frame.setBackground(Settings.BACKGROUND_COLOR);
         frame.add(tp);
@@ -258,6 +260,12 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             tp.day_panel[i].header_panel.day_label.setText(weekDay);
             tp.day_panel[i].header_panel.date_label.setText((Integer.parseInt(String.valueOf(days[i].get(Calendar.MONTH)))+1) + "/" + days[i].get(Calendar.DATE) + "/" + days[i].get(Calendar.YEAR));
         }
+    }
+    
+    @Override
+    public void eliminateWindow(TabbedPane tp) {
+        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(tp);
+        frame.eliminate();
     }
     
     /**

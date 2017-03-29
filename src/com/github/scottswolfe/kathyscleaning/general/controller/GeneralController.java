@@ -140,6 +140,11 @@ public class GeneralController<ViewObject, ModelObject>
         helper.updateDate(view);
     }
     
+    @Override
+    public void eliminateWindow() {
+        helper.eliminateWindow(view);
+    }
+    
     /**
      * @return true if currently loading file into view; false otherwise
      */

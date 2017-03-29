@@ -29,6 +29,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         menuController = new MenuBarController<>(controller);        
         addFileMenu();
         addEditMenu();
+        addNavMenu();
     }
     
     
@@ -98,6 +99,47 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         changeDateMenuItem.addActionListener(
                 menuController.new ChangeDateMenuItemListener());
         fileMenu.add(changeDateMenuItem);
+    }
+    
+    private void addNavMenu() {
+        add(createNavMenu());
+    }
+
+    private JMenu createNavMenu() {
+        JMenu navMenu = new JMenu("Navigate");
+        addHousesItem(navMenu);
+        addCovenantItem(navMenu);
+        addWeekendItem(navMenu);
+        addNextWeekItem(navMenu);
+        return navMenu;
+    }
+    
+    private void addHousesItem(JMenu navMenu) {
+        JMenuItem housesMenuItem = new JMenuItem("Houses");
+        housesMenuItem.addActionListener(
+                menuController.new HousesMenuItemListener());
+        navMenu.add(housesMenuItem);
+    }
+    
+    private void addCovenantItem(JMenu navMenu) {
+        JMenuItem covenantMenuItem = new JMenuItem("Covenant");
+        covenantMenuItem.addActionListener(
+                menuController.new CovenantMenuItemListener());
+        navMenu.add(covenantMenuItem);
+    }
+    
+    private void addWeekendItem(JMenu navMenu) {
+        JMenuItem weekendMenuItem = new JMenuItem("Weekend");
+        weekendMenuItem.addActionListener(
+                menuController.new WeekendMenuItemListener());
+        navMenu.add(weekendMenuItem);    
+    }
+    
+    private void addNextWeekItem(JMenu navMenu) {
+        JMenuItem nextWeekMenuItem = new JMenuItem("Next Week");
+        nextWeekMenuItem.addActionListener(
+                menuController.new NextWeekMenuItemListener());
+        navMenu.add(nextWeekMenuItem);    
     }
         
 }

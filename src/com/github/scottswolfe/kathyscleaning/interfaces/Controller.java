@@ -46,6 +46,11 @@ public interface Controller<ViewObject, ModelObject> {
      */
     public void updateDate();
     
+    /**
+     * Disposes of the frame for the form that the controller controls
+     */
+    public void eliminateWindow();
+    
     
     
 /* GETTERS/SETTERS ========================================================== */

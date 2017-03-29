@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -89,7 +91,7 @@ public class WeekendControllerHelper
         controller.setView(wp);
         wp.setFrame(weekendFrame);          
         
-        controller.readFileAndWriteToView(Settings.saveFile);
+        controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
 
         weekendFrame.add(wp);
         weekendFrame.pack();
@@ -110,6 +112,12 @@ public class WeekendControllerHelper
                 ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) +
                 "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
         panel.date_label.setText(s);
+    }
+    
+    @Override
+    public void eliminateWindow(WeekendPanel view) {
+        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
+        frame.eliminate();
     }
     
     /*
