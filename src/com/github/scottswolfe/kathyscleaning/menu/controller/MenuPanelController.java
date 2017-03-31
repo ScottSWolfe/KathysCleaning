@@ -15,6 +15,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
@@ -96,8 +97,7 @@ public class MenuPanelController {
             if (file == null) {
                 return;
             }
-            Settings.saveFile = file;
-            Settings.saveFileChosen = true;
+            SessionModel.setSaveFile(file);
             try {
                 Files.copy(file.toPath(), GeneralController.TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {

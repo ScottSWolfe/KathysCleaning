@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 public class FileNameHelper {
@@ -29,7 +29,7 @@ public class FileNameHelper {
     
     public static String generateSaveName(CompletedModel completedModel) {
         String save_name = new String();
-        Calendar c = Settings.completedStartDay;
+        Calendar c = SessionModel.getCompletedStartDay();
         Calendar copy = (Calendar) c.clone();
         int firstday = copy.get(Calendar.DAY_OF_MONTH);
         copy.add( Calendar.DAY_OF_MONTH, 4);

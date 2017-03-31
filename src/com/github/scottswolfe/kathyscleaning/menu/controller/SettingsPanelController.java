@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -17,11 +15,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditCovenantWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditHouseWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
-import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 /**
@@ -29,7 +27,6 @@ import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
  * responds to user's actions.
  */
 public class SettingsPanelController {
-    
     
 /* FIELDS =================================================================== */
     
@@ -44,8 +41,6 @@ public class SettingsPanelController {
     JFrame settingsFrame;
     
     
- 
-    
 /* CONSTRUCTORS ============================================================= */
     
     /**
@@ -58,27 +53,23 @@ public class SettingsPanelController {
     
     
     
-     
 /* LISTENERS ================================================================ */
     
     public class ViewExcelListener implements ActionListener {
         
         // ACTION LISTENER
-        public void actionPerformed( ActionEvent e ) {
-            
+        public void actionPerformed(ActionEvent e) {
             try {
-                Desktop.getDesktop().open(Settings.getExcelTemplateFile());
+                Desktop.getDesktop().open(SettingsModel.getExcelTemplateFile());
             } catch (IllegalArgumentException e1) {
                     System.out.println("Desktop Open Error");
                     JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen document could not be opened");
             } catch (IOException e2) {
                 e2.printStackTrace();
             } 
-
         }
         
     }
-
     
     public class ViewFolderListener implements ActionListener {
         
@@ -86,7 +77,7 @@ public class SettingsPanelController {
         public void actionPerformed( ActionEvent e ) {
             
             try {
-                Desktop.getDesktop().open(Settings.getExcelSaveLocation());
+                Desktop.getDesktop().open(SettingsModel.getExcelSaveLocation());
             } catch (IOException e1) {
                 JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen folder could not be viewed.");
             } catch(NullPointerException e2) {
@@ -96,7 +87,6 @@ public class SettingsPanelController {
         }
         
     }
-
     
     public class ChangeFileListener implements ActionListener {
         
@@ -115,7 +105,7 @@ public class SettingsPanelController {
             
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 
-                Settings.setExcelTemplateFile(chooser.getSelectedFile());
+                SettingsModel.setExcelTemplateFile(chooser.getSelectedFile());
                 settingsPanel.setExcelSelectionTextfield(
                         chooser.getSelectedFile().getName());
                 
@@ -131,26 +121,22 @@ public class SettingsPanelController {
         
     }
     
-    
     public class ChangeFolderListener implements ActionListener {
         
         // ACTION LISTENER
         public void actionPerformed( ActionEvent e ) {
             
-            // Change look and feel to system default
             Settings.changeLookAndFeelSystem();
             
             JFileChooser chooser = new JFileChooser();
-            chooser.setCurrentDirectory( new File(System.getProperty("user.home") + "\\Desktop") );
+            chooser.setCurrentDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
             chooser.setDialogTitle("Choose Save Location");
-            //FileNameExtensionFilter filter = new FileNameExtensionFilter("XLSX files", "xlsx");
-            //chooser.setFileFilter(filter);
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                Settings.setExcelSaveLocation(chooser.getSelectedFile());
+                SettingsModel.setExcelSaveLocation(chooser.getSelectedFile());
                 settingsPanel.setExcelSaveLocationTextfield(
-                        Settings.getExcelSaveLocation().getName() );
+                        SettingsModel.getExcelSaveLocation().getName());
             } else {
               // do nothing
             }
@@ -158,7 +144,6 @@ public class SettingsPanelController {
             // change look and feel back to nimbus
             Settings.changeLookAndFeelProgram();    
         }
-        
     }
     
     /**
@@ -197,7 +182,6 @@ public class SettingsPanelController {
         }
     }
     
-    
     /**
      * Listener for the Cancel button.
      */
@@ -220,7 +204,6 @@ public class SettingsPanelController {
         }
     }
     
-    
     /**
      * Listener for the Submit button.
      */
@@ -228,61 +211,24 @@ public class SettingsPanelController {
         
         public void actionPerformed( ActionEvent e ) {
             
-            // Write all settings data to SettingsSaveFile
-            
-            JsonMethods.saveToFileJSON(SessionModel.class, type, file, lineNumber);
-            BufferedWriter buffWriter;
-            try {
-                
-                FileWriter fileWriter = new FileWriter(Settings.SETTINGS_SAVE_FILE);
-                buffWriter = new BufferedWriter(fileWriter);
-                
-                buffWriter.write(
-                        Settings.getExcelTemplateFile().getAbsolutePath());
-                buffWriter.newLine();
-                buffWriter.write(
-                        Settings.getExcelSaveLocation().getAbsolutePath());
-                buffWriter.newLine();
-                buffWriter.write(
-                        String.valueOf(settingsPanel.getFontSizeSliderValue()));
-                
-                buffWriter.close();
-                
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            
-            // changing the font size (if changed)
             int fontSizeFactor = settingsPanel.getFontSizeSliderValue();
+            SettingsModel.setFontSizeFactor(fontSizeFactor);
+                                                
+            JFrame newMenuFrame = new JFrame();
+            MenuPanel menuPanel = new MenuPanel(newMenuFrame);
             
-            Settings.setFontSizeFactor(fontSizeFactor);
-                                
             settingsFrame.setVisible(false);
             settingsFrame.dispose();
-                
-            JFrame newMenuFrame = new JFrame();
-            MenuPanel menuPanel = new MenuPanel( newMenuFrame );
-                
+            
             newMenuFrame.add(menuPanel);
             newMenuFrame.setResizable(false);
             newMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                
             newMenuFrame.pack();
-
-                
             newMenuFrame.setLocationRelativeTo(null);
             newMenuFrame.setVisible(true);
-
-            
-            // close Settings Frame
-            settingsFrame.setVisible(false);
-            settingsFrame.dispose();
-            
-
         }
         
     }
-    
     
     /**
      * Window listener for SettingsPanel.
@@ -349,7 +295,6 @@ public class SettingsPanelController {
         settingsPanel.getSettingsFrame().setLocationRelativeTo(null);
         settingsPanel.getSettingsFrame().setVisible(true);
     }
-    
     
     
     

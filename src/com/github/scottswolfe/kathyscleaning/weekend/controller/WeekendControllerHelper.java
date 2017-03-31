@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -107,7 +108,7 @@ public class WeekendControllerHelper
     
     @Override
     public void updateDateHelper() {
-        Calendar date = Settings.completedStartDay;
+        Calendar date = SessionModel.getCompletedStartDay();
         String s = new String( "Week of " +
                 ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) +
                 "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );

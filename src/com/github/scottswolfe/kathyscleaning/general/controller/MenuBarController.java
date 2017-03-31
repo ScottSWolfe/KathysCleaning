@@ -10,10 +10,11 @@ import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
@@ -41,28 +42,26 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     
     @Override
     public void menuItemSave() {
-        if (Settings.saveFileChosen == false) {
+        if (SessionModel.isSaveFileChosen()) {
             menuItemSaveAs();
         } else {
-            File file = Settings.saveFile;
-            controller.readInputAndWriteToFile(file);
+            controller.readInputAndWriteToFile(SessionModel.getSaveFile());
         }
     }
 
     @Override
     public void menuItemSaveAs() {
         File file = null;
-        if (Settings.saveFileChosen == false) {
+        if (SessionModel.isSaveFileChosen()) {
             file = FileChooserHelper.saveAs(
                     FileChooserHelper.SAVE_FILE_DIR, createSuggestedName(
                     FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
                     FileChooserHelper.TXT), FileChooserHelper.TXT);
         } else {
-            file = FileChooserHelper.saveAs(Settings.saveFile); 
+            file = FileChooserHelper.saveAs(SessionModel.getSaveFile()); 
         }
         if (file != null) {
-            Settings.saveFile = file;
-            Settings.saveFileChosen = true;
+            SessionModel.setSaveFile(file);
             controller.readInputAndWriteToFile(file);
         }
     }
@@ -71,8 +70,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     public void menuItemOpen() {
         File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
         if (file != null) {
-            Settings.saveFile = file;
-            Settings.saveFileChosen = true;
+            SessionModel.setSaveFile(file);
             controller.readFileAndWriteToView(file);
         }
     }
@@ -81,8 +79,8 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     public void menuItemGenExcel() {
         controller.readInputAndWriteToFile(null);
         File file = FileChooserHelper.saveAs(
-                    Settings.getExcelSaveLocation(), createSuggestedName(
-                            Settings.getExcelSaveLocation().getAbsolutePath(),
+                    SettingsModel.getExcelSaveLocation(), createSuggestedName(
+                    SettingsModel.getExcelSaveLocation().getAbsolutePath(),
                     FileChooserHelper.XLSX), FileChooserHelper.XLSX);
         if (file != null) {
             GeneralExcelHelper.generateExcelDocument(file);

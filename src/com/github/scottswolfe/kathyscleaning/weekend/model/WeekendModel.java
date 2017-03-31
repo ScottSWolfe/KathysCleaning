@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 
 public class WeekendModel {
 
@@ -13,7 +13,7 @@ public class WeekendModel {
     
     public WeekendModel() {
         entries = new ArrayList<WeekendEntry>();
-        date = (Calendar) Settings.completedStartDay.clone();
+        date = SessionModel.getCompletedStartDay();
         date.add(Calendar.DATE, -1);
     }
 

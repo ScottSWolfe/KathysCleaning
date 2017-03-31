@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
@@ -93,7 +94,7 @@ public class WeekendPanel extends JPanel {
 		heading_label.setFont( heading_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
 		heading_label.setBackground( Settings.BACKGROUND_COLOR );
 		
-		Calendar date = Settings.completedStartDay;
+		Calendar date = SessionModel.getCompletedStartDay();
 		date_label = new JLabel();
 		String s = new String( "Week of " +
 				(Integer.parseInt(String.valueOf(date.get(Calendar.MONTH))) + 1) +

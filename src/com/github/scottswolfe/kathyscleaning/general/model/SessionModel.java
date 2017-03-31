@@ -13,22 +13,22 @@ public class SessionModel {
     /**
      * The current save file for the week
      */
-    public static File saveFile;
+    private static File saveFile;
         
     /**
      *  Tracks whether a save file been chosen in the current session
      */
-    public static boolean saveFileChosen;
+    private static boolean saveFileChosen;
     
     /**
      * The first day of the finished week
      */
-    public static Calendar completedStartDay;
+    private static Calendar completedStartDay;
     
     /**
      * The first day of the upcoming week
      */
-    public static Calendar scheduledStartDay;
+    private static Calendar scheduledStartDay;
 
 
     
@@ -68,6 +68,7 @@ public class SessionModel {
      * @param saveFile the saveFile to set
      */
     public static void setSaveFile(File saveFile) {
+        SessionModel.saveFileChosen = true;
         SessionModel.saveFile = saveFile;
     }
 
@@ -89,14 +90,14 @@ public class SessionModel {
      * @return the completedStartDay
      */
     public static Calendar getCompletedStartDay() {
-        return completedStartDay;
+        return (Calendar) completedStartDay.clone();
     }
 
     /**
      * @param completedStartDay the completedStartDay to set
      */
     public static void setCompletedStartDay(Calendar completedStartDay) {
-        SessionModel.completedStartDay = completedStartDay;
+        SessionModel.completedStartDay = (Calendar) completedStartDay.clone();
     }
 
     /**
@@ -110,7 +111,7 @@ public class SessionModel {
      * @param scheduledStartDay the scheduledStartDay to set
      */
     public static void setScheduledStartDay(Calendar scheduledStartDay) {
-        SessionModel.scheduledStartDay = scheduledStartDay;
+        SessionModel.scheduledStartDay = (Calendar) scheduledStartDay.clone();
     }
 
     
@@ -142,7 +143,6 @@ public class SessionModel {
             SessionModel.setCompletedStartDay(completedStartDay);
             SessionModel.setScheduledStartDay(scheduledStartDay);
         }
-        
     }
     
 }

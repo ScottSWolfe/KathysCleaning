@@ -15,9 +15,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 
 /**
@@ -62,7 +62,7 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
 /* PRIVATE METHODS ========================================================== */
     
     private void writeDate(Sheet sheet) {    
-        Calendar c = Settings.completedStartDay;
+        Calendar c = SessionModel.getCompletedStartDay();
         String day = FileNameHelper.getDayString(c);
         String month = FileNameHelper.getMonthString(c);
         String year = FileNameHelper.getYearString(c);

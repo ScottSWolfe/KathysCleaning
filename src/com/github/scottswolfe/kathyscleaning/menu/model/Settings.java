@@ -3,14 +3,9 @@ package com.github.scottswolfe.kathyscleaning.menu.model;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
-import java.util.Calendar;
-import java.util.Scanner;
 
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-
-import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 /**
  * This class manages all project-wide settings
@@ -123,40 +118,6 @@ public class Settings {
     public static final int WEEK_B = 1;
     public static final int NEITHER = 2;
     
-    /**
-     * The current save file for the week
-     */
-    public static File saveFile;
-        
-    /**
-     *  Tracks whether a save file been chosen in the current session
-     */
-    public static boolean saveFileChosen;
-    
-    /**
-     * The first day of the finished week
-     */
-    public static Calendar completedStartDay;
-    
-    /**
-     * The first day of the upcoming week
-     */
-    public static Calendar scheduledStartDay;
-
-    /**
-     * Saved Excel Template File.
-     */
-    public static File excelTemplateFile;
-    
-    /**
-     * Saved Excel Template Save Location.
-     */
-    public static File excelSaveLocation;
-    
-    /**
-     * Saved Font Size Factor.
-     */
-    public static int fontSizeFactor;
 
     
 /* PUBLIC METHODS =========================================================== */
@@ -194,54 +155,9 @@ public class Settings {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }        
     
-    
-    
-    
-/* GETTER/SETTER METHODS ==================================================== */
-    
-    /**
-     * Returns excel template file.
-     */
-    public static File getExcelTemplateFile() {
-        return excelTemplateFile;
-    }
-    
-    /**
-     * Sets excel template file.
-     */
-    public static void setExcelTemplateFile(File file) {
-        excelTemplateFile = file;
-    }
-    
-    /**
-     * Returns generated excel doc save location.
-     */
-    public static File getExcelSaveLocation() {
-        return excelSaveLocation;
-    }
-    
-    /**
-     * Sets generated excel save location.
-     */
-    public static void setExcelSaveLocation(File file) {
-        excelSaveLocation = file;
-    }
-    
-    /**
-     * Returns the value of the font size factor.
-     */
-    public static int getFontSizeFactor() {
-        return fontSizeFactor;
-    }
-    
-    /**
-     * Sets the value of the font size factor and resizes project font.
-     */
-    public static void setFontSizeFactor(int sizeFactor) {
-        fontSizeFactor = sizeFactor;
-        
+    public static void setFontSizes(int sizeFactor) {
         FONT_SIZE = FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*sizeFactor;
         HEADER_FONT_SIZE = HEADER_FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*sizeFactor;
         TAB_FONT_SIZE = FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*sizeFactor;
@@ -258,4 +174,5 @@ public class Settings {
                     new Font("System", Font.PLAIN, 24));
         }
     }
+    
 }

@@ -13,6 +13,7 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -118,9 +119,9 @@ public class CovenantControllerHelper
                 
         CovenantListeners covListeners = new CovenantListeners();
         CovenantModel covModel = new CovenantModel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), Settings.completedStartDay, 0, 0); // TODO remove 0, 0...  
+                new WorkerList(WorkerList.COVENANT_WORKERS), SessionModel.getCompletedStartDay(), 0, 0); // TODO remove 0, 0...  
         CovenantPanel covPanel = new CovenantPanel(covListeners,
-                new WorkerList(WorkerList.COVENANT_WORKERS), Settings.completedStartDay, 0, 0);
+                new WorkerList(WorkerList.COVENANT_WORKERS), SessionModel.getCompletedStartDay(), 0, 0);
   
         MainFrame<CovenantPanel, CovenantModel> mainFrame =
                 new MainFrame<CovenantPanel, CovenantModel>(controller);

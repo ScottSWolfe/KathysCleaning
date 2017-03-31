@@ -8,9 +8,9 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 // TODO can clean this up more by passing any needed frame, date, mode, wk stuff
@@ -48,7 +48,7 @@ public class SubmitWeekListener implements ActionListener {
 		if (!StaticMethods.confirmSubmitWeek()) {
 			return;
 		}
-        controller.readInputAndWriteToFile(Settings.saveFile);
+        controller.readInputAndWriteToFile(SessionModel.getSaveFile());
         CompletedControllerHelper.saveHousePay(tp);
         frame.eliminate();
         GeneralController<CovenantPanel, CompletedModel> covController = new GeneralController<>(Form.COVENANT);

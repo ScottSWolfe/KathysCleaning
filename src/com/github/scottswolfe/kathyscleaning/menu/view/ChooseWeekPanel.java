@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
@@ -195,9 +196,9 @@ public class ChooseWeekPanel extends JPanel {
             Integer month = Integer.parseInt((String) month_box.getSelectedItem()) - 1;
 		    c.set(year, month, day);
 		    if (isScheduledForm == false) {
-		        Settings.completedStartDay = c;
+		        SessionModel.setCompletedStartDay(c);
 		    } else {
-		        Settings.scheduledStartDay = c;
+		        SessionModel.setScheduledStartDay(c);
 		    }
 		    helper.updateDateHelper();
 		    frame.setVisible(false);

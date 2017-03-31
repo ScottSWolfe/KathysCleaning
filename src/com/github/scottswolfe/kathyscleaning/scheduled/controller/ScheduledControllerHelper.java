@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -437,8 +438,9 @@ public class ScheduledControllerHelper
                     
         // creating array of dates
         Calendar[] day = new Calendar[5];
-        Calendar date = (Calendar) Settings.completedStartDay.clone();
+        Calendar date = SessionModel.getCompletedStartDay();
         date.add(Calendar.DATE, 7);
+        SessionModel.setScheduledStartDay(date);
         for(int i = 0; i < day.length; i++) {
             day[i] = Calendar.getInstance();
             day[i].set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
@@ -484,7 +486,7 @@ public class ScheduledControllerHelper
     @Override
     public void updateDateHelper() {
         Calendar[] days = new Calendar[5];
-        Calendar temp_date = (Calendar) Settings.scheduledStartDay.clone();
+        Calendar temp_date = (Calendar) SessionModel.getScheduledStartDay();
         for(int i = 0; i < days.length; i++) {
             days[i] = Calendar.getInstance();
             days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));

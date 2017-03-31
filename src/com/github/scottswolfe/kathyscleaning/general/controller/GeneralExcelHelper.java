@@ -17,7 +17,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantExcelHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledExcelHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
@@ -28,7 +28,7 @@ public class GeneralExcelHelper {
 
     public static void generateExcelDocument(File newExcelFile) {
         try {
-            InputStream input = new FileInputStream(Settings.getExcelTemplateFile());
+            InputStream input = new FileInputStream(SettingsModel.getExcelTemplateFile());
             XSSFWorkbook wb = new XSSFWorkbook(input);
             
             // Completed Form
@@ -67,7 +67,6 @@ public class GeneralExcelHelper {
     }
     
     private static void writeToNewFile(File newExcelFile, XSSFWorkbook wb) {
-        Settings.excelFile = newExcelFile; // TODO is this needed?
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(newExcelFile);

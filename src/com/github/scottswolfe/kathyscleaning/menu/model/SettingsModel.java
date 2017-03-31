@@ -9,17 +9,17 @@ public class SettingsModel {
     /**
      * Saved Excel Template File.
      */
-    public static File excelTemplateFile;
+    private static File excelTemplateFile;
     
     /**
      * Saved Excel Template Save Location.
      */
-    public static File excelSaveLocation;
+    private static File excelSaveLocation;
     
     /**
      * Saved Font Size Factor.
      */
-    public static int fontSizeFactor;
+    private static int fontSizeFactor;
 
     
     
@@ -119,6 +119,7 @@ public class SettingsModel {
      */
     public static void setFontSizeFactor(int fontSizeFactor) {
         SettingsModel.fontSizeFactor = fontSizeFactor;
+        Settings.setFontSizes(fontSizeFactor);
     }
-
+    
 }

@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import com.github.scottswolfe.kathyscleaning.menu.controller.SettingsPanelController;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -29,7 +30,6 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class SettingsPanel extends JPanel {	
 	
-	
 /* FIELDS =================================================================== */
     
     /**
@@ -42,7 +42,6 @@ public class SettingsPanel extends JPanel {
 	 * The controller for this panel.
 	 */
 	SettingsPanelController controller;
-	
 	
 	
 	
@@ -120,8 +119,6 @@ public class SettingsPanel extends JPanel {
 		
 		add(header_label, "gapleft 5, wrap 15, growx");
 		
-		
-		
 		JPanel scroll_panel = new JPanel();
 		scroll_panel.setLayout(new MigLayout());
 		scroll_panel.setBackground(Settings.BACKGROUND_COLOR);
@@ -130,8 +127,6 @@ public class SettingsPanel extends JPanel {
 		scroll_panel.add(hseparator1, "wrap 10, growx");
 		scroll_panel.add(save_loc_panel, "wrap 10, growx");
 		scroll_panel.add(hseparator2, "wrap 10, growx");
-		//scroll_panel.add(week_button_panel, "wrap 10, growx");
-		//scroll_panel.add(hseparator3, "wrap 10, growx");
 		scroll_panel.add(worker_button_panel, "wrap 10, growx");
 		scroll_panel.add(hseparator4, "wrap 10, growx");
 		scroll_panel.add(appearance_panel, "wrap 30, growx");
@@ -144,9 +139,6 @@ public class SettingsPanel extends JPanel {
 		sp.setBorder(BorderFactory.createEmptyBorder());
 		
 		add(sp, "wrap, grow");
-		
-		
-		
 	}
 	
 	
@@ -165,7 +157,7 @@ public class SettingsPanel extends JPanel {
 		
 		excel_selection_field = new JTextField();
 		excel_selection_field.setText(
-		        Settings.getExcelTemplateFile().getName());
+		        SettingsModel.getExcelTemplateFile().getName());
 		excel_selection_field.setFont(
 		        excel_selection_field.getFont().deriveFont(Settings.FONT_SIZE));
 		excel_selection_field.setEditable( false );
@@ -203,7 +195,7 @@ public class SettingsPanel extends JPanel {
 		save_tag_label.setFont( save_tag_label.getFont().deriveFont(Settings.FONT_SIZE) );
 		
 		save_selection_field = new JTextField();
-		save_selection_field.setText(Settings.getExcelSaveLocation().getName());
+		save_selection_field.setText(SettingsModel.getExcelSaveLocation().getName());
 		save_selection_field.setFont(
 		        save_selection_field.getFont().deriveFont(Settings.FONT_SIZE));
 		save_selection_field.setEditable( false );
@@ -230,43 +222,7 @@ public class SettingsPanel extends JPanel {
 		
 		return panel;
 	}
-	/* TODO remove or re-implement
-	private JPanel createWeekButtonPanel() {
-		
-		JPanel panel = new JPanel();
-		panel.setLayout( new MigLayout("fill") );
-		panel.setBackground( Settings.BACKGROUND_COLOR );
-		
-		edit_week_label = new JLabel();
-		edit_week_label.setText("Edit Default Week Data: ");
-		edit_week_label.setFont(
-		        edit_week_label.getFont().deriveFont(Settings.FONT_SIZE) );
-		
-		edit_wkA_button = new JButton();
-		edit_wkA_button.setText( "Week A" );
-		edit_wkA_button.setFont(edit_wkA_button.getFont().deriveFont(
-		        Settings.FONT_SIZE) );
-		//edit_wkA_button.setBackground(Settings.MAIN_COLOR);
-		//edit_wkA_button.setForeground( Settings.FOREGROUND_COLOR );
-		edit_wkA_button.addActionListener(controller.new
-		        EditWeekListener(Settings.WEEK_A));
-		
-		edit_wkB_button = new JButton();
-		edit_wkB_button.setText( "Week B" );
-		edit_wkB_button.setFont(edit_wkB_button.getFont().deriveFont(
-		        Settings.FONT_SIZE) );
-		//edit_wkB_button.setBackground(Settings.MAIN_COLOR);
-		//edit_wkB_button.setForeground( Settings.FOREGROUND_COLOR );
-		edit_wkB_button.addActionListener(controller.new
-		        EditWeekListener(Settings.WEEK_B));
-		
-		panel.add(edit_week_label, "span 2, wrap, growx");
-		panel.add(edit_wkA_button, "growx");
-		panel.add(edit_wkB_button, "growx");
-		
-		return panel;
-	}
-	*/
+
 	private JPanel createWorkerButtonPanel() {
 		
 		JPanel panel = new JPanel();
@@ -315,7 +271,7 @@ public class SettingsPanel extends JPanel {
 		font_size_slider.setBackground( Settings.BACKGROUND_COLOR );
 		font_size_slider.setMaximum(5);
 		font_size_slider.setMinimum(1);
-		font_size_slider.setValue(Settings.getFontSizeFactor());
+		font_size_slider.setValue(SettingsModel.getFontSizeFactor());
 		font_size_slider.setOrientation(SwingConstants.HORIZONTAL);
 		font_size_slider.setSnapToTicks(true);
 		font_size_slider.setMajorTickSpacing(1);
@@ -356,13 +312,7 @@ public class SettingsPanel extends JPanel {
 	}
 
 	
-	
 
-
-	
-	
-	
-	
 /* GETTERS/SETTERS ========================================================== */
 	
 	/**
