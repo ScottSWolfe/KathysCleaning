@@ -10,12 +10,13 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
+
 /**
  * This class manages all project-wide settings
  *
  */
 public class Settings {
-    
     
 /* DEFAULT PROJECT SETTINGS ================================================= */
     
@@ -121,36 +122,12 @@ public class Settings {
     public static final int WEEK_A = 0;
     public static final int WEEK_B = 1;
     public static final int NEITHER = 2;
-
-    
-    
-/* FIELDS =================================================================== */
-
-    /**
-     * Saved Excel Template File.
-     */
-    public static File excelTemplateFile;
-    
-    /**
-     * Saved Excel Template Save Location.
-     */
-    public static File excelSaveLocation;
     
     /**
      * The current save file for the week
      */
     public static File saveFile;
-    
-    /**
-     * The current excel file being created
-     */
-    public static File excelFile;
-    
-    /**
-     * Saved Font Size Factor.
-     */
-    public static int fontSizeFactor;
-    
+        
     /**
      *  Tracks whether a save file been chosen in the current session
      */
@@ -165,41 +142,24 @@ public class Settings {
      * The first day of the upcoming week
      */
     public static Calendar scheduledStartDay;
-    
-    
-    
-/* PUBLIC METHODS =========================================================== */
+
+    /**
+     * Saved Excel Template File.
+     */
+    public static File excelTemplateFile;
     
     /**
-     * This is run on startup to initialize all needed settings.
+     * Saved Excel Template Save Location.
      */
-    public static void initializeSettings() {
-        
-        // Setting the Look and Feel
-        changeLookAndFeelProgram();
-        
-        // Setting Text Sizes
-        try {
-            File file = SETTINGS_SAVE_FILE;
-            Scanner input = new Scanner(file);
-            excelTemplateFile = new File(input.nextLine());
-            excelSaveLocation = new File(input.nextLine());
-            fontSizeFactor = input.nextInt();
-            input.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, 
-                    "Error: Program cannot find or read the settings\n"
-                    + "save file. Program will revert to default settings.",
-                    "Settings Not Found", JOptionPane.ERROR_MESSAGE);
-            
-            excelTemplateFile = DEFAULT_EXCEL_TEMPLATE;
-            excelSaveLocation = DEFAULT_EXCEL_SAVE_LOCATION;
-            fontSizeFactor = DEFAULT_TEXT_SIZE_FACTOR;
-            
-        }
-        setFontSizeFactor(fontSizeFactor);
-    }
+    public static File excelSaveLocation;
     
+    /**
+     * Saved Font Size Factor.
+     */
+    public static int fontSizeFactor;
+
+    
+/* PUBLIC METHODS =========================================================== */
     
     /**
      * Static method to change Look and Feel to Program Default.

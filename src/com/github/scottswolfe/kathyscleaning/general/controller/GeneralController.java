@@ -64,13 +64,6 @@ public class GeneralController<ViewObject, ModelObject>
             new File(System.getProperty("user.dir") +
                     "\\save\\temp\\currentSave");
     
-    /**
-     * Save File for Default Fill-in
-     */
-    public static final File DEFAULT_FILL_IN_SAVE_FILE =
-            new File(System.getProperty("user.dir") +
-                    "\\save\\default\\defaultSave");
-    
     
  
 /* CONSTRUCTORS ============================================================= */

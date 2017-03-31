@@ -10,6 +10,7 @@ import javax.swing.KeyStroke;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 @SuppressWarnings("serial")
 public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
@@ -47,6 +48,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         addOpenMenuItem(fileMenu);
         fileMenu.addSeparator();
         addGenExcelItem(fileMenu);
+        fileMenu.setFont(fileMenu.getFont().deriveFont(Settings.FONT_SIZE));
         return fileMenu;
     }
     

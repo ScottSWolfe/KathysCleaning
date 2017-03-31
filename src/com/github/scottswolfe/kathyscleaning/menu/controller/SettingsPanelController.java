@@ -21,6 +21,7 @@ import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditCovenantWorkersPa
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuEditHouseWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
 import com.github.scottswolfe.kathyscleaning.menu.view.SettingsPanel;
+import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 /**
@@ -228,6 +229,8 @@ public class SettingsPanelController {
         public void actionPerformed( ActionEvent e ) {
             
             // Write all settings data to SettingsSaveFile
+            
+            JsonMethods.saveToFileJSON(SessionModel.class, type, file, lineNumber);
             BufferedWriter buffWriter;
             try {
                 
