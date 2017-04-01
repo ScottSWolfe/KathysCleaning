@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_NotePanel;
 
 public class NoteData {
 	
@@ -11,9 +12,9 @@ public class NoteData {
 	
 	// CONSTRUCTOR
 	public NoteData() {
-	    name_box_data = new String[3];
-	    note_field_data = new String[3];
-	    for (int i = 0; i < 3; i++) {
+	    name_box_data = new String[NW_NotePanel.ROWS];
+	    note_field_data = new String[NW_NotePanel.ROWS];
+	    for (int i = 0; i < NW_NotePanel.ROWS; i++) {
 	        name_box_data[i] = "";
 	        note_field_data[i] = "";
 	        dwd = new WorkerList();
@@ -40,6 +41,5 @@ public class NoteData {
 	public void setNoteFieldData ( String[] note_data ) {
 		note_field_data = note_data;
 	}
-	
 	
 }

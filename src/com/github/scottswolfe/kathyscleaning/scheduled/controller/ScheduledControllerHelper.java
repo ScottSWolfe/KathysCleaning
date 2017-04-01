@@ -14,7 +14,6 @@ import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
