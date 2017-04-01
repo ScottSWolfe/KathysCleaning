@@ -83,7 +83,6 @@ public class SettingsPanelController {
             } catch(NullPointerException e2) {
                 JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen folder could not be viewed.");
             }
-            
         }
         
     }
@@ -108,15 +107,11 @@ public class SettingsPanelController {
                 SettingsModel.setExcelTemplateFile(chooser.getSelectedFile());
                 settingsPanel.setExcelSelectionTextfield(
                         chooser.getSelectedFile().getName());
-                
+                SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
             } else {
               // do nothing
             }
-            
-            
-            // Change look and feel back to program default
             Settings.changeLookAndFeelProgram();
-            
         }
         
     }
@@ -137,6 +132,7 @@ public class SettingsPanelController {
                 SettingsModel.setExcelSaveLocation(chooser.getSelectedFile());
                 settingsPanel.setExcelSaveLocationTextfield(
                         SettingsModel.getExcelSaveLocation().getName());
+                SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
             } else {
               // do nothing
             }
@@ -213,7 +209,8 @@ public class SettingsPanelController {
             
             int fontSizeFactor = settingsPanel.getFontSizeSliderValue();
             SettingsModel.setFontSizeFactor(fontSizeFactor);
-                                                
+            SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
+            
             JFrame newMenuFrame = new JFrame();
             MenuPanel menuPanel = new MenuPanel(newMenuFrame);
             

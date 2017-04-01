@@ -20,7 +20,8 @@ import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 public class Main {
 
 	public static void main(String[] args) {
-	    		
+	    
+	    Settings.changeLookAndFeelProgram();
 		setupSaveFileStuff();
 		
 		// Launching Menu Panel
@@ -39,6 +40,7 @@ public class Main {
 	        SettingsModel.load(Settings.SETTINGS_SAVE_FILE);
 	    } catch (Exception e) {
 	        SettingsModel.initialize();
+	        SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
 	    }
 	    
         SessionModel.initialize();

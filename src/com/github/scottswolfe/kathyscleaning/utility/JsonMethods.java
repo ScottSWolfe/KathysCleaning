@@ -86,22 +86,14 @@ public class JsonMethods {
         writeLinesAndJson(json, lines, file, lineNumber); 
     }
     
-    private static Object loadFromFile(Class<?> type, File file,
-                                                    int lineNumber) { 
+    private static Object loadFromFile(Class<?> type, File file, int lineNumber) { 
         try {
-            Object data = type.newInstance();
             Scanner input = new Scanner(file);
             String json = getLine(input, lineNumber);
-            data = gson.fromJson(json, type);
+            Object data = gson.fromJson(json, type);
             input.close();
             return data;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IllegalAccessException e) {
             e.printStackTrace();
             return null;
         }

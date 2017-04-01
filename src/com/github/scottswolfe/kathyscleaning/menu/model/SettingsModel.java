@@ -62,7 +62,7 @@ public class SettingsModel {
             this.excelSaveLocation = excelSaveLocation;
             this.fontSizeFactor = fontSizeFactor;
         }
-        
+                        
         void save(File file) {
             JsonMethods.saveToFileJSON(this, SettingsSaveObject.class, file);
         }

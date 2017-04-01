@@ -48,7 +48,7 @@ public class Settings {
     /**
      * Settings and Data Save Files
      */
-    public static final File SETTINGS_SAVE_FILE = new File(System.getProperty("user.dir") + "\\save\\SettingsSaveFile" );
+    public static final File SETTINGS_SAVE_FILE = new File(System.getProperty("user.dir") + "\\save\\settings\\SettingsSaveFile" );
     public static final File SUBMIT_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekASubmitWeekSaveFile");
     public static final File NEXT_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekANextWeekSaveFile");
     public static final File WEEKEND_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekAWeekendSaveFile");

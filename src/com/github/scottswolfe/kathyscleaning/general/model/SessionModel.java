@@ -132,7 +132,7 @@ public class SessionModel {
             this.completedStartDay = completedStartDay;
             this.scheduledStartDay = scheduledStartDay;
         }
-        
+                
         void save(File file) {
             JsonMethods.saveToFileJSON(this, SessionSaveObject.class, file, 4);
         }
