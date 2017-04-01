@@ -1,5 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HeaderPanel;
 
 public class NW_DayData {
@@ -11,7 +12,7 @@ public class NW_DayData {
 	public String meet_location;
 	public String meet_time;
 	
-	public String[] cov_worker;
+	public WorkerList cov_worker;
 	
 	public NoteData dayNoteData;
 	public NoteData covNoteData;
@@ -37,10 +38,7 @@ public class NW_DayData {
 		}
 		meet_location = "";
 		meet_time = "";
-		cov_worker = new String[8];
-		for (int i = 0; i < 8; i++) {
-		    cov_worker[i] = "";
-		}
+		cov_worker = new WorkerList();
 		covNoteData = new NoteData();
 		ws = new WorkerSchedule[8];
 		for (int i = 0; i < 8; i++) {

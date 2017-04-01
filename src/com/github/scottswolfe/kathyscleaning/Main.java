@@ -13,7 +13,6 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 
-
 /**
  * This class contains the main method and launches the application.
  */

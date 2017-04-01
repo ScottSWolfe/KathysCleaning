@@ -51,7 +51,7 @@ public class NW_DayPanel extends JPanel{
 	public NoteData covenant_note_data;
 	NoteData day_note_data;
 	
-	WorkerList dwd;
+	WorkerList workers;
 	public BeginExceptionData[] bed;
 	
 	boolean exception_exist = false;
@@ -102,7 +102,7 @@ public class NW_DayPanel extends JPanel{
 	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ) {
 		
 	    this.controller = controller;
-		this.dwd = dwd;
+		this.workers = dwd;
 		this.date = date;
 		this.frame = frame;
 		this.mode = mode;
@@ -211,14 +211,14 @@ public class NW_DayPanel extends JPanel{
 		//exception_button.setBackground( Settings.MAIN_COLOR);
 		exception_button.setFont( exception_button.getFont().deriveFont(Settings.FONT_SIZE));
 		//exception_button.setForeground( Settings.FOREGROUND_COLOR );
-		exception_button.addActionListener( new NW_ExceptionListener( this, dwd, frame ) );
+		exception_button.addActionListener( new NW_ExceptionListener( this, workers, frame ) );
 		
 		note_button = new JButton();
 		note_button.setText( "Note");
 		//note_button.setBackground( Settings.MAIN_COLOR);
 		note_button.setFont( note_button.getFont().deriveFont(Settings.FONT_SIZE));
 		//note_button.setForeground( Settings.FOREGROUND_COLOR );
-		note_button.addActionListener( new NW_NoteListener( this, dwd, day_note_data, NW_NotePanel.DAY_NOTE, frame ) );
+		note_button.addActionListener( new NW_NoteListener( this, workers, day_note_data, NW_NotePanel.DAY_NOTE, frame ) );
 		
 		// Adding Elements onto Panel
 		

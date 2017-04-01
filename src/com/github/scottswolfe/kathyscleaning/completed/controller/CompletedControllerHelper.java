@@ -29,6 +29,8 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledControllerHelper;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
@@ -185,20 +187,14 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
 
         //Reading Default Worker Data from save file
         WorkerList workers = new WorkerList();
-        try {
-            workers = new WorkerList(WorkerList.HOUSE_WORKERS);
-        } catch (Exception e1) {
-            System.out.println("failed to read house worker save file");
-            e1.printStackTrace();
-        }
+        workers = new WorkerList(WorkerList.HOUSE_WORKERS);
         
         TabbedPane tp = new TabbedPane();
         tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
 
         // creating array of dates
-        SessionModel.setCompletedStartDay(CalendarMethods.getFirstDayOfWeek());
         Calendar[] day = new Calendar[5];
-        Calendar temp_date = (Calendar) SessionModel.getCompletedStartDay();
+        Calendar temp_date = SessionModel.getCompletedStartDay();
         for(int i = 0; i < day.length; i++) {            
             day[i] = Calendar.getInstance();
             day[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
@@ -353,8 +349,17 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
      * @param tp the view into which to import the schedule
      */
     public static void importSchedule(File file, TabbedPane tp) {
-        // TODO implement this method
-        throw new RuntimeException("Not implemented yet!");
+        ScheduledControllerHelper helper = new ScheduledControllerHelper();
+        NW_Data scheduledModel = helper.loadFromFile(file);
+        CompletedModel completedModel = scheduledToCompletedModel(scheduledModel);
+        CompletedControllerHelper completedHelper = new CompletedControllerHelper();
+        completedHelper.writeModelToView(completedModel, tp);
     }
 
+    private static CompletedModel scheduledToCompletedModel(NW_Data scheduledModel) {
+        CompletedModel completedModel = new CompletedModel();
+        completedModel.setDayData(scheduledModel.completedDayData);
+        return completedModel;
+    }
+    
 }

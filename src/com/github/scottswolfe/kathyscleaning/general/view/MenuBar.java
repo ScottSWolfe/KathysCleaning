@@ -3,9 +3,7 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
@@ -41,8 +39,8 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         add(createFileMenu());
     }
 
-    private JMenu createFileMenu() {
-        JMenu fileMenu = new JMenu("File");
+    private Menu createFileMenu() {
+        Menu fileMenu = new Menu("File");
         addSaveMenuItem(fileMenu);
         addSaveAsMenuItem(fileMenu);
         addOpenMenuItem(fileMenu);
@@ -52,8 +50,8 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         return fileMenu;
     }
     
-    private void addSaveMenuItem(JMenu fileMenu) {
-        JMenuItem saveMenuItem = new JMenuItem("Save");
+    private void addSaveMenuItem(Menu fileMenu) {
+        MenuItem saveMenuItem = new MenuItem("Save");
         saveMenuItem.setMnemonic(KeyEvent.VK_S);
         saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_S, ActionEvent.CTRL_MASK));
@@ -62,15 +60,15 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         fileMenu.add(saveMenuItem);
     }
     
-    private void addSaveAsMenuItem(JMenu fileMenu) {
-        JMenuItem saveAsMenuItem = new JMenuItem("Save As...");
+    private void addSaveAsMenuItem(Menu fileMenu) {
+        MenuItem saveAsMenuItem = new MenuItem("Save As...");
         saveAsMenuItem.addActionListener(
                 menuController.new SaveAsMenuItemListener());
         fileMenu.add(saveAsMenuItem);
     }
     
-    private void addOpenMenuItem(JMenu fileMenu) {
-        JMenuItem openMenuItem = new JMenuItem("Open");
+    private void addOpenMenuItem(Menu fileMenu) {
+        MenuItem openMenuItem = new MenuItem("Open");
         openMenuItem.setMnemonic(KeyEvent.VK_O);
         openMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_O, ActionEvent.CTRL_MASK));
@@ -79,8 +77,8 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         fileMenu.add(openMenuItem);    
     }
     
-    private void addGenExcelItem(JMenu fileMenu) {
-        JMenuItem genExcelMenuItem = new JMenuItem("Generate Excel Document");
+    private void addGenExcelItem(Menu fileMenu) {
+        MenuItem genExcelMenuItem = new MenuItem("Generate Excel Document");
         genExcelMenuItem.addActionListener(
                 menuController.new GenExcelMenuItemListener());
         fileMenu.add(genExcelMenuItem);    
@@ -90,14 +88,14 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         add(createEditMenu());
     }
 
-    private JMenu createEditMenu() {
-        JMenu fileMenu = new JMenu("Edit");
+    private Menu createEditMenu() {
+        Menu fileMenu = new Menu("Edit");
         addChangeDateMenuItem(fileMenu);
         return fileMenu;
     }
     
-    private void addChangeDateMenuItem(JMenu fileMenu) {
-        JMenuItem changeDateMenuItem = new JMenuItem("Change the Date");
+    private void addChangeDateMenuItem(Menu fileMenu) {
+        MenuItem changeDateMenuItem = new MenuItem("Change the Date");
         changeDateMenuItem.addActionListener(
                 menuController.new ChangeDateMenuItemListener());
         fileMenu.add(changeDateMenuItem);
@@ -107,8 +105,8 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         add(createNavMenu());
     }
 
-    private JMenu createNavMenu() {
-        JMenu navMenu = new JMenu("Navigate");
+    private Menu createNavMenu() {
+        Menu navMenu = new Menu("Navigate");
         addHousesItem(navMenu);
         addCovenantItem(navMenu);
         addWeekendItem(navMenu);
@@ -116,29 +114,29 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         return navMenu;
     }
     
-    private void addHousesItem(JMenu navMenu) {
-        JMenuItem housesMenuItem = new JMenuItem("Houses");
+    private void addHousesItem(Menu navMenu) {
+        MenuItem housesMenuItem = new MenuItem("Houses");
         housesMenuItem.addActionListener(
                 menuController.new HousesMenuItemListener());
         navMenu.add(housesMenuItem);
     }
     
-    private void addCovenantItem(JMenu navMenu) {
-        JMenuItem covenantMenuItem = new JMenuItem("Covenant");
+    private void addCovenantItem(Menu navMenu) {
+        MenuItem covenantMenuItem = new MenuItem("Covenant");
         covenantMenuItem.addActionListener(
                 menuController.new CovenantMenuItemListener());
         navMenu.add(covenantMenuItem);
     }
     
-    private void addWeekendItem(JMenu navMenu) {
-        JMenuItem weekendMenuItem = new JMenuItem("Weekend");
+    private void addWeekendItem(Menu navMenu) {
+        MenuItem weekendMenuItem = new MenuItem("Weekend");
         weekendMenuItem.addActionListener(
                 menuController.new WeekendMenuItemListener());
         navMenu.add(weekendMenuItem);    
     }
     
-    private void addNextWeekItem(JMenu navMenu) {
-        JMenuItem nextWeekMenuItem = new JMenuItem("Next Week");
+    private void addNextWeekItem(Menu navMenu) {
+        MenuItem nextWeekMenuItem = new MenuItem("Next Week");
         nextWeekMenuItem.addActionListener(
                 menuController.new NextWeekMenuItemListener());
         navMenu.add(nextWeekMenuItem);    

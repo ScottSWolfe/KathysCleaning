@@ -42,7 +42,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     
     @Override
     public void menuItemSave() {
-        if (SessionModel.isSaveFileChosen()) {
+        if (!SessionModel.isSaveFileChosen()) {
             menuItemSaveAs();
         } else {
             controller.readInputAndWriteToFile(SessionModel.getSaveFile());
@@ -52,7 +52,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     @Override
     public void menuItemSaveAs() {
         File file = null;
-        if (SessionModel.isSaveFileChosen()) {
+        if (!SessionModel.isSaveFileChosen()) {
             file = FileChooserHelper.saveAs(
                     FileChooserHelper.SAVE_FILE_DIR, createSuggestedName(
                     FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),

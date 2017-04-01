@@ -26,9 +26,9 @@ public class SettingsModel {
 /* PUBLIC METHODS =========================================================== */
     
     public static void initialize() {
-        excelTemplateFile = Settings.DEFAULT_EXCEL_TEMPLATE;
-        excelSaveLocation = Settings.DEFAULT_EXCEL_SAVE_LOCATION;
-        fontSizeFactor = Settings.DEFAULT_TEXT_SIZE_FACTOR;
+        SettingsModel.excelTemplateFile = Settings.DEFAULT_EXCEL_TEMPLATE;
+        SettingsModel.excelSaveLocation = Settings.DEFAULT_EXCEL_SAVE_LOCATION;
+        SettingsModel.fontSizeFactor = Settings.DEFAULT_TEXT_SIZE_FACTOR;
     }
     
     public static void save(File file) {
@@ -83,7 +83,7 @@ public class SettingsModel {
      * @return the excelTemplateFile
      */
     public static File getExcelTemplateFile() {
-        return excelTemplateFile;
+        return SettingsModel.excelTemplateFile;
     }
 
     /**
@@ -97,7 +97,7 @@ public class SettingsModel {
      * @return the excelSaveLocation
      */
     public static File getExcelSaveLocation() {
-        return excelSaveLocation;
+        return SettingsModel.excelSaveLocation;
     }
 
     /**
@@ -111,7 +111,7 @@ public class SettingsModel {
      * @return the fontSizeFactor
      */
     public static int getFontSizeFactor() {
-        return fontSizeFactor;
+        return SettingsModel.fontSizeFactor;
     }
 
     /**
