@@ -14,6 +14,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -98,26 +99,7 @@ public class ScheduledControllerHelper
             dp.meet_location_box.setSelectedItem(dayData.meet_location);                
             dp.meet_time_field.setText(dayData.meet_time);
             dp.setBeginExceptionData(dayData.bed);
-            
-            int rows = tp.nw_day_panel[d].cov_panel.dwp.rows;
-            int columns = tp.nw_day_panel[d].cov_panel.dwp.columns;
-            for(int l = 0; l < rows; l++){
-                for(int m = 0; m < columns; m++){
-                    tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].setSelected(false);
-                }
-            }
-            for (int i = 0; i < dayData.cov_worker.size(); i++) {
-                String worker = dayData.cov_worker.getName(i);
-                
-                for(int l = 0; l < rows; l++){
-                    for(int m = 0; m < columns; m++){
-                        if (worker.equals(tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].getText())){
-                            tp.nw_day_panel[d].cov_panel.dwp.workerCheckBoxes[l][m].setSelected(true);
-                            break;
-                        }
-                    }
-                }   
-            }
+            tp.nw_day_panel[d].cov_panel.dwp.setWorkers(dayData.cov_worker);            
             tp.nw_day_panel[d].covenant_note_data = dayData.covNoteData;
             
             // iterate through houses
