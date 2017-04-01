@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
@@ -123,6 +124,13 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         newController.initializeForm(newController);
     }
     
+    public void menuItemLoadSchedule() {
+        File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
+        if (file != null) {
+            CompletedControllerHelper.importSchedule(file, (TabbedPane) controller.getView());
+        }
+    }
+    
     
     
 /* LISTENERS ================================================================ */
@@ -191,6 +199,13 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         }
     }
     
+    public class LoadScheduleMenuItemListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            menuItemLoadSchedule();
+        }
+    }
+
     
     
 /* PRIVATE METHODS ========================================================== */

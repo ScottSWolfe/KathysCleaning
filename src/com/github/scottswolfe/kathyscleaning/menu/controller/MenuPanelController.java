@@ -64,25 +64,8 @@ public class MenuPanelController {
             menuFrame.dispose();
             
             GeneralController<TabbedPane, CompletedModel> newController =
-            new GeneralController<>(Form.COMPLETED);
-            
-            String message = "Would you like to import the schedule from a previously completed file?";
-            String title = "";
-            String[] options = {"Yes", "No"};            
-            int response = JOptionPane.showOptionDialog(new JFrame(),
-                    message, title, JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            
-            File file = null;
-            if (response == JOptionPane.YES_OPTION) {
-                file = FileChooserHelper.selectFile(
-                        FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.TXT);
-            }
+                                    new GeneralController<>(Form.COMPLETED);                        
             newController.initializeForm(newController);
-            
-            if (file != null) {
-                CompletedControllerHelper.importSchedule(file, newController.getView());
-            }
         }
     }
     

@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 
 /**
@@ -50,6 +51,11 @@ public interface Controller<ViewObject, ModelObject> {
      * Disposes of the frame for the form that the controller controls
      */
     public void eliminateWindow();
+    
+    /*
+     * Returns the form type that the controller controls
+     */
+    public Form getFormType();
     
     
     

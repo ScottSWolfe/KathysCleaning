@@ -53,6 +53,11 @@ public class GeneralController<ViewObject, ModelObject>
      */
     private boolean openingFile;
     
+    /**
+     * The type of form this controller controls
+     */
+    Form form;
+    
     
     
 /* CLASS VARIABLES ========================================================== */
@@ -70,6 +75,7 @@ public class GeneralController<ViewObject, ModelObject>
     
     @SuppressWarnings("unchecked")
     public GeneralController(Form type) {
+        form = type;
         if (type == Form.COMPLETED) {
             helper = (ControllerHelper<ViewObject, ModelObject>) new CompletedControllerHelper();
             excelHelper = (ExcelHelper<ModelObject>) new CompletedExcelHelper();
@@ -136,6 +142,11 @@ public class GeneralController<ViewObject, ModelObject>
     @Override
     public void eliminateWindow() {
         helper.eliminateWindow(view);
+    }
+    
+    @Override
+    public Form getFormType() {
+        return form;
     }
     
     /**
