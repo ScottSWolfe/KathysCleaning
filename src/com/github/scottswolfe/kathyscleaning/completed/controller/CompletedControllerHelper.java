@@ -31,7 +31,6 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledControllerHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
-import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CompletedControllerHelper implements ControllerHelper<TabbedPane, CompletedModel> {
@@ -261,6 +260,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
     
     @Override
     public void eliminateWindow(TabbedPane tp) {
+        @SuppressWarnings("rawtypes")
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(tp);
         frame.eliminate();
     }

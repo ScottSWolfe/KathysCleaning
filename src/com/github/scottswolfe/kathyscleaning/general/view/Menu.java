@@ -4,6 +4,7 @@ import javax.swing.JMenu;
 
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
+@SuppressWarnings("serial")
 public class Menu extends JMenu {
 
     public Menu(String s) {

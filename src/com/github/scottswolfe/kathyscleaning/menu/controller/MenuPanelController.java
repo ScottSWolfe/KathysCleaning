@@ -8,9 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;

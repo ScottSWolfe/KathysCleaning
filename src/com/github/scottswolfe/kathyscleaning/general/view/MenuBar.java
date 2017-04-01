@@ -2,7 +2,6 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.ParameterizedType;
 
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;

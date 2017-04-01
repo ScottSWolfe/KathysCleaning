@@ -151,6 +151,7 @@ public class CovenantControllerHelper
 
     @Override
     public void eliminateWindow(CovenantPanel view) {
+        @SuppressWarnings("rawtypes")
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
         frame.eliminate();
     }

@@ -253,6 +253,7 @@ public class ScheduledControllerHelper
     
     @Override
     public void eliminateWindow(TabbedPane view) {
+        @SuppressWarnings("rawtypes")
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
         frame.eliminate();
     }

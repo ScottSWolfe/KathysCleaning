@@ -11,7 +11,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.GeneralControlle
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendEntry;
@@ -117,6 +116,7 @@ public class WeekendControllerHelper
     
     @Override
     public void eliminateWindow(WeekendPanel view) {
+        @SuppressWarnings("rawtypes")
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
         frame.eliminate();
     }
