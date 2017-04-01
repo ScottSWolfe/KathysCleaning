@@ -88,8 +88,8 @@ public class MenuPanel extends JPanel {
 		add(compname_label, "center, wrap 0 ");
 		add(subname_label, "wrap 50, center");
 		add(menu_label, "wrap 10, center");
-		add(new_button, "wrap 20, gapleft 50, gapright 50, center");
 		add(open_button, "wrap 20, gapleft 50, gapright 50, center");
+	    add(new_button, "wrap 20, gapleft 50, gapright 50, center");
 		add(settings_button, "wrap 20, gapleft 50, gapright 50, center");
 		add(close_button, "wrap, gapleft 50, gapright 50, center");
 	}
