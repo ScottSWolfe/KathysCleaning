@@ -39,7 +39,7 @@ public class MenuEditHouseWorkersPanel extends JPanel {
 		this.frame = frame;
 		
 		worker_combo = new JComboBox[rows][columns];
-		WorkerList dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
+		WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
 		
 		for (int i=0; i<rows; i++) {
 			
@@ -52,11 +52,11 @@ public class MenuEditHouseWorkersPanel extends JPanel {
 				        deriveFont(Settings.FONT_SIZE));
 			
 				worker_combo[i][j].addItem("");   // empty choice
-				for(Worker worker : dwd){
+				for(Worker worker : workers){
 					worker_combo[i][j].addItem(worker.getName());
 				}
 			
-				worker_combo[i][j].setSelectedItem(dwd.get(i*columns + j));
+				worker_combo[i][j].setSelectedItem(workers.get(i*columns + j));
 			}
 		}
 		

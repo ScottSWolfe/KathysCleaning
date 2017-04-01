@@ -35,7 +35,6 @@ public class Main {
 	// TODO put this somewhere else and refactor
 	private static void setupSaveFileStuff() {
 	    
-	    // TODO find more specific exception
 	    try {
 	        SettingsModel.load(Settings.SETTINGS_SAVE_FILE);
 	    } catch (Exception e) {

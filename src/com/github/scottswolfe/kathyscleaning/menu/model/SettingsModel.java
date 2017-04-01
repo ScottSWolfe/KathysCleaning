@@ -20,7 +20,7 @@ public class SettingsModel {
      * Saved Font Size Factor.
      */
     private static int fontSizeFactor;
-
+    
     
     
 /* PUBLIC METHODS =========================================================== */
