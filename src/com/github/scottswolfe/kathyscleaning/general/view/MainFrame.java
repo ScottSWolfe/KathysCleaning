@@ -21,7 +21,7 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
     public MainFrame(Controller<ViewObject, ModelObject> controller) {
         super();
         addMenuBar(controller);
-        addWindowListener();
+        addWindowListener(controller);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(false);
     }
@@ -44,8 +44,8 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
         this.setJMenuBar(menuBar);
     }
     
-    private void addWindowListener() {
-        WindowListener listener = new MainWindowListener();
+    private void addWindowListener(Controller<ViewObject, ModelObject> controller) {
+        WindowListener listener = new MainWindowListener(controller);
         this.addWindowListener(listener);
     }
 
