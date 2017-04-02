@@ -193,7 +193,7 @@ public class HeaderPanel extends JPanel {
 		panel.setLayout( new MigLayout("insets 2","[]","[grow]") );
 		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
-		submit_week = new JButton("Submit");
+		submit_week = new JButton("Next");
 		submit_week.setFont( submit_week.getFont().deriveFont( Settings.FONT_SIZE ) );
 		submit_week.setPreferredSize(new Dimension(100,40));
 		submit_week.addActionListener(new SubmitWeekListener(controller, tp, frame, date, mode, wk));

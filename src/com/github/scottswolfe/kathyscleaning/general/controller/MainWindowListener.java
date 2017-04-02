@@ -37,42 +37,53 @@ public class MainWindowListener implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-
-		String[] options = {"Save", "Cancel", "Close"};
-		int SAVE = 0; int CANCEL = 1; int CLOSE = 2;
-		int response = JOptionPane.showOptionDialog(new JFrame(), "<html>Would you like to save your file before closing?",
-									 null, JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, 0);
-		if (response == SAVE) {
-		    // TODO this is repeat code; copied from MenuBarController
-		    File file = null;
-		    if (!SessionModel.isSaveFileChosen()) {
-		        file = FileChooserHelper.saveAs(
-		               FileChooserHelper.SAVE_FILE_DIR, FileNameHelper.createDatedFileName(
-		               FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
-		               FileChooserHelper.TXT), FileChooserHelper.TXT);
-		        if (file != null) {
-		            SessionModel.setSaveFile(file);
-		        }
-		    } else {
-		        file = SessionModel.getSaveFile();
-		    }
-		    if (file != null) {
-		        controller.readInputAndWriteToFile(file);
-		        closeProgram();
-		    }
-		} else if (response == CANCEL) {
-		    return;
-		} else if (response == CLOSE) {
-		    closeProgram();
-		} else {
-		    return;		
-		}
+	    askUserIfSaveBeforeClose(controller, true);
 	}
 	
-	private void closeProgram() {
-	    controller.eliminateWindow();
-        MenuPanelController.initializeMenuPanelFrame();
+	@SuppressWarnings("rawtypes")
+	public static boolean askUserIfSaveBeforeClose(Controller controller, boolean initializeMenu) {
+	    String[] options = {"Save", "Cancel", "Close"};
+        int SAVE = 0; int CANCEL = 1; int CLOSE = 2;
+        int response = JOptionPane.showOptionDialog(new JFrame(), "<html>Would you like to save your file before closing?",
+                                     null, JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, 0);
+        if (response == SAVE) {
+            // TODO this is repeat code; copied from MenuBarController
+            File file = null;
+            if (!SessionModel.isSaveFileChosen()) {
+                file = FileChooserHelper.saveAs(
+                       FileChooserHelper.SAVE_FILE_DIR, FileNameHelper.createDatedFileName(
+                       FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
+                       FileChooserHelper.TXT), FileChooserHelper.TXT);
+                if (file != null) {
+                    SessionModel.setSaveFile(file);
+                }
+            } else {
+                file = SessionModel.getSaveFile();
+            }
+            if (file != null) {
+                controller.readInputAndWriteToFile(file);
+                closeProgram(controller, initializeMenu);
+                return true;
+            } else {
+                return false;
+            }
+        } else if (response == CANCEL) {
+            return false;
+        } else if (response == CLOSE) {
+            closeProgram(controller, initializeMenu);
+            return true;
+        } else {
+            return false;
+        }
 	}
+	
+    @SuppressWarnings("rawtypes")
+    private static void closeProgram(Controller controller, boolean initializeMenu) {
+        controller.eliminateWindow();
+        if (initializeMenu) {
+            MenuPanelController.initializeMenuPanelFrame();
+        }
+    }
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {

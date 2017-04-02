@@ -7,7 +7,6 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
@@ -51,12 +50,7 @@ public class CovenantListeners {
      */
     public class SubmitListener implements ActionListener {
         
-        public void actionPerformed (ActionEvent e) {
-            
-            if (!StaticMethods.confirmSubmitWeek()) {
-                return;
-            }
-            
+        public void actionPerformed (ActionEvent e) {            
             controller.readInputAndWriteToFile(null);
             CovenantControllerHelper.saveChosenWorkers(covPanel, covModel);
             CovenantControllerHelper.saveAmountsEarned(covPanel);

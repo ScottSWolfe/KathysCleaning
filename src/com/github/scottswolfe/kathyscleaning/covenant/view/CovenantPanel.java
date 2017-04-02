@@ -285,7 +285,7 @@ public class CovenantPanel extends JPanel {
 		editButton.addActionListener(controller.new EditListener());
 				
 		submitButton = new JButton();
-		submitButton.setText("Submit");
+		submitButton.setText("Next");
 		submitButton.setFont( submitButton.getFont().deriveFont(Settings.FONT_SIZE));
 		submitButton.setBackground(Settings.MAIN_COLOR);
 		submitButton.setForeground( Settings.FOREGROUND_COLOR );

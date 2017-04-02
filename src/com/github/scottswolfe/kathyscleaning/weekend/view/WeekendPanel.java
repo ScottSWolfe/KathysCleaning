@@ -26,7 +26,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
-import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -104,7 +103,7 @@ public class WeekendPanel extends JPanel {
 		date_label.setBackground(Settings.BACKGROUND_COLOR);
 				
 		submit_button = new JButton();
-		submit_button.setText( "Submit" );
+		submit_button.setText( "Next" );
 		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
 		submit_button.setBackground(Settings.MAIN_COLOR);
 		submit_button.setForeground( Settings.FOREGROUND_COLOR );
@@ -276,11 +275,6 @@ public class WeekendPanel extends JPanel {
 	private class SubmitListener implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
-		    
-            if (!StaticMethods.confirmSubmitWeek()) {
-                return;
-            }
-            
 		    controller.readInputAndWriteToFile(null);
 		    
 		    frame.setVisible(false);

@@ -206,7 +206,7 @@ public class NW_HeaderPanel extends JPanel {
 		panel.setLayout( new MigLayout("insets 2","[]","[grow]") );
 		panel.setBackground( Settings.HEADER_BACKGROUND );
 		
-		submit_schedule = new JButton("Submit");
+		submit_schedule = new JButton("Create Excel Doc");
 		submit_schedule.setFont( submit_schedule.getFont().deriveFont( Settings.FONT_SIZE ) );
 		submit_schedule.setBackground(Settings.MAIN_COLOR);
 		submit_schedule.setForeground( Settings.FOREGROUND_COLOR );

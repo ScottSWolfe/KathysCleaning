@@ -11,7 +11,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.GeneralControlle
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 // TODO can clean this up more by passing any needed frame, date, mode, wk stuff
 // either globally or through the controller
@@ -45,9 +44,6 @@ public class SubmitWeekListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (!StaticMethods.confirmSubmitWeek()) {
-			return;
-		}
         controller.readInputAndWriteToFile(SessionModel.getSaveFile());
         CompletedControllerHelper.saveHousePay(tp);
         frame.eliminate();

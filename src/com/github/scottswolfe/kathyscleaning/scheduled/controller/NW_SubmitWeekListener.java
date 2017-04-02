@@ -10,12 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
-import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 
 public class NW_SubmitWeekListener implements ActionListener {
@@ -39,13 +39,14 @@ public class NW_SubmitWeekListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){
 		
-		if (!StaticMethods.confirmSubmitWeek()) {
-			return;
+	    controller.readInputAndWriteToFile(null);
+		boolean response = MainWindowListener.askUserIfSaveBeforeClose(controller, false);
+		if (response == false) {
+		    return;
 		}
 		
-		controller.readInputAndWriteToFile(SessionModel.getSaveFile());
-		
 		// TODO temporary hack
+		JOptionPane.showMessageDialog(null, "Save the new Excel Document.");
 		MenuBarController<TabbedPane, NW_Data> hack = new MenuBarController<>(controller);
 		hack.menuItemGenExcel();
 		
@@ -58,7 +59,8 @@ public class NW_SubmitWeekListener implements ActionListener {
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(new JFrame(), "The Excel document could not be opened automatically.");
 		}
-		System.exit(0); // TODO change this to go to menu
+
+		MenuPanelController.initializeMenuPanelFrame();
 	}
 		
 }
