@@ -11,6 +11,7 @@ import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
+import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 
 public class MainWindowListener implements WindowListener {
 	
@@ -69,8 +70,8 @@ public class MainWindowListener implements WindowListener {
 	}
 	
 	private void closeProgram() {
-        System.exit(0);
-        // TODO: make it so main menu opens back up instead of completely ending the program
+	    controller.eliminateWindow();
+        MenuPanelController.initializeMenuPanelFrame();
 	}
 
 	@Override
