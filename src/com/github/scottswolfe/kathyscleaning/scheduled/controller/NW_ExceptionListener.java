@@ -49,21 +49,15 @@ public class NW_ExceptionListener implements ActionListener {
 		
 		NW_ExceptionPanel panel = new NW_ExceptionPanel( frame, dp, dwd );
 		
-		// if exceptions already exist, input the data
-		if ( dp.isException_exist() ) {
-			
-			// for each BED
-			for (int i=0; i<dp.getNumBED(); i++) {
-				
-				panel.setEmployee_combobox_text( dp.bed[i].getName(), i);
-				panel.setTime_textfield_text( dp.bed[i].getTime(), i );
-				panel.setLocation_combobox_text( dp.bed[i].getMeetLocation(), i);
-				panel.setNote_textfield_text(dp.bed[i].getNote(), i);
-				
-			}
-			
-		}
-			
+        for (int i=0; i<dp.getNumBED(); i++) {
+            
+            panel.setEmployee_combobox_text( dp.bed[i].getName(), i);
+            panel.setTime_textfield_text( dp.bed[i].getTime(), i );
+            panel.setLocation_combobox_text( dp.bed[i].getMeetLocation(), i);
+            panel.setNote_textfield_text(dp.bed[i].getNote(), i);
+            
+        }
+						
 		frame.add(panel);
 		frame.pack();
 		
