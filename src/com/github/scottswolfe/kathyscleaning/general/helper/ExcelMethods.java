@@ -1,6 +1,19 @@
 package com.github.scottswolfe.kathyscleaning.general.helper;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
+import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
+import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
+import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 
 public class ExcelMethods {
 
@@ -48,4 +61,30 @@ public class ExcelMethods {
         }
         return String.valueOf(k);
     }
+    
+    @SuppressWarnings("rawtypes")
+    public static boolean doStuff(Controller controller) {
+
+        JOptionPane.showMessageDialog(null, "Save the New Excel Document.");
+                
+        File file = FileChooserHelper.saveAs(
+                    SettingsModel.getExcelSaveLocation(),
+                    FileNameHelper.createDatedFileName(
+                    SettingsModel.getExcelSaveLocation().getAbsolutePath(),
+                    FileChooserHelper.XLSX),
+                    FileChooserHelper.XLSX);
+        
+        if (file != null) {
+            GeneralExcelHelper.generateExcelDocument(file);
+            try {
+                Desktop dt = Desktop.getDesktop();
+                dt.open(file);
+            } catch (IOException e1) {
+                JOptionPane.showMessageDialog(new JFrame(), "The Excel document could not be opened automatically.");
+            }
+            return true;
+        }
+        return false;
+    }
+    
 }

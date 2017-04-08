@@ -9,6 +9,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
@@ -79,12 +80,9 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     @Override
     public void menuItemGenExcel() {
         controller.readInputAndWriteToFile(null);
-        File file = FileChooserHelper.saveAs(
-                    SettingsModel.getExcelSaveLocation(), createSuggestedName(
-                    SettingsModel.getExcelSaveLocation().getAbsolutePath(),
-                    FileChooserHelper.XLSX), FileChooserHelper.XLSX);
-        if (file != null) {
-            GeneralExcelHelper.generateExcelDocument(file);
+        boolean result = ExcelMethods.doStuff(controller);
+        if (result == true) {
+            controller.eliminateWindow();
         }
     }
     
