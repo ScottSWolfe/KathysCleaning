@@ -76,6 +76,10 @@ public class GeneralExcelHelper {
             e.printStackTrace();
             JOptionPane.showMessageDialog(new JFrame(),
                     "Error: Excel document was not created properly.");
+            if (e.getMessage().contains("it is being used by another process")) {
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "The Excel document must be closed in order to be saved");
+            }
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(new JFrame(),
