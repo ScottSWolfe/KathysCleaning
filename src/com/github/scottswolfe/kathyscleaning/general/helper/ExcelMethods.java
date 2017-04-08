@@ -9,11 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
-import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 
 public class ExcelMethods {
 
@@ -66,11 +63,11 @@ public class ExcelMethods {
     public static boolean doStuff(Controller controller) {
 
         JOptionPane.showMessageDialog(null, "Save the New Excel Document.");
-                
+        
         File file = FileChooserHelper.saveAs(
                     SettingsModel.getExcelSaveLocation(),
                     FileNameHelper.createDatedFileName(
-                    SettingsModel.getExcelSaveLocation().getAbsolutePath(),
+                    SettingsModel.getExcelSaveLocation().getPath(),
                     FileChooserHelper.XLSX),
                     FileChooserHelper.XLSX);
         
