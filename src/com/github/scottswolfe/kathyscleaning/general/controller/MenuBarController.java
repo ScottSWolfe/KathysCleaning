@@ -16,7 +16,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
-import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;

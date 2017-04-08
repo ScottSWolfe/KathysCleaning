@@ -1,21 +1,15 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 
-import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
-import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 
 

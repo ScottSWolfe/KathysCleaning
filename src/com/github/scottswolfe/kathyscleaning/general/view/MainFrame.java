@@ -3,7 +3,6 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
