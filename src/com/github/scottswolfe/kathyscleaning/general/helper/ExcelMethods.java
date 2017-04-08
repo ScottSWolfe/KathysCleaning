@@ -70,7 +70,7 @@ public class ExcelMethods {
             return;
         }
 
-        JOptionPane.showMessageDialog(null, "Save the New Excel Document.");
+        JOptionPane.showMessageDialog(null, "Now save the new Excel document.");
         
         File file = FileChooserHelper.saveAs(
                     SettingsModel.getExcelSaveLocation(),
