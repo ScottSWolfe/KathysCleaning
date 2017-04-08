@@ -127,6 +127,8 @@ public class MenuPanelController {
      */
     public static void initializeMenuPanelFrame() {
         
+        SessionModel.initialize();
+        
         JFrame frame = new JFrame();
         MenuPanel menuPanel = new MenuPanel(frame);
         
