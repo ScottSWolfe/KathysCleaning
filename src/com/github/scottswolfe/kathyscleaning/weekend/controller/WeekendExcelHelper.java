@@ -55,6 +55,9 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                         break;
                     }
                     row = sheet.getRow(row.getRowNum() + 1);
+                    if (row.getRowNum() > 1000) {
+                        throw new RuntimeException("Could not find Weekend Row");
+                    }
                 }
                 
                 row.getCell(3).setCellValue(entry.getCustomer());
@@ -64,7 +67,7 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                 if (entry.getEmployee() != null && !entry.getEmployee().equals("")) {
                     
                     // find worker
-                    row = sheet.getRow(row.getRowNum() - job_num);
+                    row = sheet.getRow(row.getRowNum() - job_num - 1);
                     found_worker = false;
                     int index = 5; // this is where names begin on the excel sheet
                     while (found_worker == false) {
@@ -75,8 +78,8 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                             found_worker = true;
                             break;
                         }
-                        else if (row.getCell(index) != null &&
-                                String.valueOf(row.getCell(index)).equals("Kathy")) {
+                        else if (index > 100 || (row.getCell(index) != null && 
+                                String.valueOf(row.getCell(index)).equals("Kathy"))) {
                             
                             String message = "Error: the selected employee " + entry.getEmployee() +
                                     " is not on the Excel Sheet. Please modify the Excel sheet as needed.";
@@ -89,7 +92,7 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                     
                     // do stuff once worker is found
                     if (found_worker == true) {
-                        row = sheet.getRow(row.getRowNum() + job_num);
+                        row = sheet.getRow(row.getRowNum() + job_num + 1);
                         row.getCell(index).setCellValue(entry.getAmountPaid());
                     }
                 
