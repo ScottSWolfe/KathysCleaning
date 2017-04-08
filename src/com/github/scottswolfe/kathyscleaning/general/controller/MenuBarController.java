@@ -78,11 +78,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     
     @Override
     public void menuItemGenExcel() {
-        controller.readInputAndWriteToFile(null);
-        boolean result = ExcelMethods.doStuff(controller);
-        if (result == true) {
-            controller.eliminateWindow();
-        }
+        ExcelMethods.chooseFileAndGenerateExcelDoc(controller);
     }
     
     public void menuItemChangeDate() {

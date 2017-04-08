@@ -8,7 +8,9 @@ import java.text.DecimalFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
+import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 
@@ -59,8 +61,14 @@ public class ExcelMethods {
         return String.valueOf(k);
     }
     
-    @SuppressWarnings("rawtypes")
-    public static boolean doStuff(Controller controller) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static void chooseFileAndGenerateExcelDoc(Controller controller) {
+
+        controller.readInputAndWriteToFile(null);
+        boolean response = MainWindowListener.askUserIfSaveBeforeClose(controller, false);
+        if (response == false) {
+            return;
+        }
 
         JOptionPane.showMessageDialog(null, "Save the New Excel Document.");
         
@@ -79,9 +87,11 @@ public class ExcelMethods {
             } catch (IOException e1) {
                 JOptionPane.showMessageDialog(new JFrame(), "The Excel document could not be opened automatically.");
             }
-            return true;
+            return;
         }
-        return false;
+        
+        controller.initializeForm(
+                new GeneralController(controller.getFormType()));
     }
     
 }

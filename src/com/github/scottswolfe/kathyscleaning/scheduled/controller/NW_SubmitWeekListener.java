@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
@@ -33,19 +32,7 @@ public class NW_SubmitWeekListener implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		
-	    controller.readInputAndWriteToFile(null);
-		boolean response = MainWindowListener.askUserIfSaveBeforeClose(controller, false);
-		if (response == false) {
-		    return;
-		}
-		
-		response = ExcelMethods.doStuff(controller);
-		if (response == true) {
-		    frame.setVisible(false);
-		    frame.dispose();
-		}
-		
+		ExcelMethods.chooseFileAndGenerateExcelDoc(controller);		
 	}
 		
 }
