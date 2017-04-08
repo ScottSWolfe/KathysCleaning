@@ -102,7 +102,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             num_house_datas = day_data.houseData.length;
             
             // iterate through each house
-            for (int h = 0; h < num_house_panels; h++) {
+            for (int h = 0; h < num_house_datas; h++) {
                 
                 house_panel = day_panel.house_panel[h];
                 house_data = day_data.houseData[h];
