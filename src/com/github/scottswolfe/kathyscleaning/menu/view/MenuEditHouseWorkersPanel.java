@@ -56,7 +56,7 @@ public class MenuEditHouseWorkersPanel extends JPanel {
 					worker_combo[i][j].addItem(worker.getName());
 				}
 			
-				worker_combo[i][j].setSelectedItem(workers.get(i*columns + j));
+				worker_combo[i][j].setSelectedItem(workers.getName(i*columns + j));
 			}
 		}
 		

@@ -55,7 +55,7 @@ public class MenuEditCovenantWorkersPanel extends JPanel {
 					worker_combo[i].addItem(worker.getName());
 				}
 			
-				worker_combo[i].setSelectedItem(dwd.get(i));
+				worker_combo[i].setSelectedItem(dwd.getName(i));
 		
 		}
 		
