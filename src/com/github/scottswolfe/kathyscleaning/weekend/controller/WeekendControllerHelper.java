@@ -65,9 +65,13 @@ public class WeekendControllerHelper
             jp = view.jp[i];
             jp.worked_checkbox.setSelected(entry.isWorkedIsChecked());
             jp.customer_combobox.setSelectedItem(entry.getCustomer());
-            jp.jobpaid_field.setText(String.valueOf(entry.getAmountReceived()));
+            if (entry.getAmountReceived() != 0.0) {
+                jp.jobpaid_field.setText(String.valueOf(entry.getAmountReceived()));
+            }
             jp.employee_combobox.setSelectedItem(entry.getEmployee());
-            jp.workerpaid_field.setText(String.valueOf(entry.getAmountPaid()));
+            if (entry.getAmountPaid() != 0.0) {
+                jp.workerpaid_field.setText(String.valueOf(entry.getAmountPaid()));
+            }
             i++;
         }
     }
