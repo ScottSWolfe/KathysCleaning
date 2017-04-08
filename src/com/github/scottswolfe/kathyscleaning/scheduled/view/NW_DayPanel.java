@@ -344,10 +344,18 @@ public class NW_DayPanel extends JPanel{
 		this.bed = new BeginExceptionData[ bed.length ];
 		for(int i=0; i<bed.length; i++){
 			this.bed[i] = new BeginExceptionData();
-			this.bed[i].setName( bed[i].getName() );
-			this.bed[i].setTime( bed[i].getTime() );
-			this.bed[i].setMeetLocation( bed[i].getMeetLocation() );
-			this.bed[i].setNote( bed[i].getNote() );
+			if (bed[i].getName() != null) {
+			    this.bed[i].setName(bed[i].getName());
+			}
+			if (bed[i].getTime() != null) {
+			    this.bed[i].setTime( bed[i].getTime() );
+			}
+			if (bed[i].getMeetLocation() != null) {
+			    this.bed[i].setMeetLocation( bed[i].getMeetLocation() );
+			}
+			if (bed[i].getNote() != null) {
+			    this.bed[i].setNote( bed[i].getNote() );
+			}
 		}
 	}
 	

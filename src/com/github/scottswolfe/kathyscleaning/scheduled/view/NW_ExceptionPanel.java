@@ -300,62 +300,40 @@ public class NW_ExceptionPanel extends JPanel {
 		// ACTION METHOD
 		public void actionPerformed( ActionEvent e ) {
 		    
-			// check how many exceptions there are
-			int num = 0;					// number of exceptions
-			int[] index = new int[10]; 		// index of exceptions; 10 is arbitrarily large number
-			
-			for (int i=0; i<NUM_EXCEPTIONS; i++) {
+	        BeginExceptionData[] bed = new BeginExceptionData[NUM_EXCEPTIONS];
+			for (int i = 0; i < NUM_EXCEPTIONS; i++) {
 				
-				// if worker name is not null and is longer than 0
-				if (String.valueOf( employee_combobox[i].getSelectedItem() ) != null  &&
-					String.valueOf( employee_combobox[i].getSelectedItem() ).length() > 0 ) {
-					
-					index[num] = i;
-					num++;
-					
-				}
-			}
-			
-			// read input data
-			BeginExceptionData[] bed = new BeginExceptionData[ num ];
-		
-			for(int i=0; i<num; i++) {
-				
-				if (String.valueOf( employee_combobox[i].getSelectedItem() ) != null  &&
-					String.valueOf( employee_combobox[i].getSelectedItem() ).length() > 0 ) {
-					
-					
-					bed[index[i]] = new BeginExceptionData();
-					bed[index[i]].setName( String.valueOf( employee_combobox[index[i]].getSelectedItem() ) );
-					bed[index[i]].setMeetLocation( String.valueOf( location_combobox[index[i]].getSelectedItem() ) );
-					bed[index[i]].setTime( time_textfield[index[i]].getText() );
-					bed[index[i]].setNote( note_textfield[index[i]].getText() );
-					
-				}
-					
+			    bed[i] = new BeginExceptionData();
+			    
+			    if (employee_combobox[i].getSelectedItem() != null) {
+			        bed[i].setName((String) employee_combobox[i].getSelectedItem());
+			    } else {
+			        bed[i].setName("");
+			    }
+			    
+			    if (location_combobox[i].getSelectedItem() != null) {
+			        bed[i].setMeetLocation((String) location_combobox[i].getSelectedItem());
+			    } else {
+			        bed[i].setMeetLocation("");
+			    }
+			    
+	            if (time_textfield[i].getText() != null) {
+	                bed[i].setTime(String.valueOf(time_textfield[i].getText()));
+	            } else {
+	                bed[i].setTime("");
+	            }
+	            
+	            if (note_textfield[i].getText() != null) {
+	                bed[i].setNote(note_textfield[i].getText());
+	            } else {
+	                bed[i].setNote("");
+	            }
+	            										
 			}
 			dp.setBeginExceptionData( bed );
 			
-			// close the frame
+	        dp.setException_exist(true);
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-			
-			/*
-			// TESTING
-			System.out.println(" ** BeginException Test ** ");
-			System.out.println("Length: " + bed.length );
-			for(int i=0; i<NUM_EXCEPTIONS; i++) {
-				System.out.println( "Exception #" + (i+1) );
-				System.out.println( "Name: " + dp.bed[i].getName() );
-				System.out.println( "Location: " + dp.bed[i].getMeetLocation() );
-				System.out.println( "Time: " + dp.bed[i].getTime() );
-				System.out.println( "Note: " + dp.bed[i].getNote() );
-				System.out.println();
-			}
-			// END TESTING
-			*/
-			
-			dp.setException_exist( true );
-
 		}
 		
 	}
