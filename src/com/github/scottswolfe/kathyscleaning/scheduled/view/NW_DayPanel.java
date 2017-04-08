@@ -181,11 +181,7 @@ public class NW_DayPanel extends JPanel{
 		//CompoundBorder border2 = BorderFactory.createCompoundBorder(mborder, BorderFactory.createLoweredBevelBorder());
 		
 		panel.setBorder( mborder );
-		
-		JLabel header_label = new JLabel();
-		header_label.setText( "Begin Information");
-		header_label.setFont( header_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
-		
+				
 		meet_location_label = new JLabel("Meet Location:");
 		meet_location_label.setFont( meet_location_label.getFont().deriveFont(Settings.FONT_SIZE));
 		meet_location_label.setForeground( Settings.MAIN_COLOR);
@@ -222,7 +218,6 @@ public class NW_DayPanel extends JPanel{
 		
 		// Adding Elements onto Panel
 		
-		panel.add(header_label, "");
 		panel.add(meet_location_label,"gapx 0, align right");
 		panel.add(meet_location_box,"gapx 0, align left");
 		panel.add(meet_time_label,"gapx 0, align right");
