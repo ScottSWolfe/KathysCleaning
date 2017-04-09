@@ -359,7 +359,7 @@ public class ScheduledControllerHelper
         // if has a meeting location
         if( schedule.getMeetLocation() != null &&
             schedule.getMeetLocation().length() > 0 &&
-            schedule.getHouseList() != null &&
+            schedule.getHouseList().size() > 0 &&
             !schedule.getMeetLocation().equals( schedule.getHouseList().get(0) )) {
             
             // if has an exception note

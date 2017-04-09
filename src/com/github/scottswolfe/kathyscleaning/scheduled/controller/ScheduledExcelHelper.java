@@ -51,7 +51,7 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
             List<WorkerSchedule> workSchedules = dayData.getWorkerSchedule();
             for (int w = 0; w < workSchedules.size(); w++) {
                 
-                ws = new WorkerSchedule();
+                ws = workSchedules.get(w);
                 
                 nnum = 0;
                 nrow = sheet.getRow(nnum);
