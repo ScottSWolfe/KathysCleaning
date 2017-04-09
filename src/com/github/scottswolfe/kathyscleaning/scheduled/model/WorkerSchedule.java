@@ -1,5 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorkerSchedule {
 
@@ -8,8 +10,8 @@ public class WorkerSchedule {
 	String name;
 	String location;
 	public String time;
-	public String[] house;
-	public String[] note;
+	public List<String> houseList;
+	public List<String> noteList;
 	String schedule;
 	
 	public String ex_note;
@@ -27,12 +29,8 @@ public class WorkerSchedule {
 		name = "";
 		location = "";
 		time = "";
-		house = new String[3];
-		note = new String[3];
-		for (int i = 0; i < 3; i++) {
-		    house[i] = "";
-		    note[i] = "";
-		}
+		houseList = new ArrayList<>();
+		noteList = new ArrayList<>();
 		schedule = "";
 		ex_note = "";
 	}
@@ -93,54 +91,14 @@ public class WorkerSchedule {
 	
 	
 	// addHouse adds a house string onto the array of house strings that may or may not already exist
-	public void addHouse( String add ) {
-		
-		String[] s;
-		
-		// declaring new string array; length determined by previous array
-		if(house == null){
-			s = new String[1];
-		}
-		else {
-			s = new String[house.length + 1];
-		}
-		
-		// copying strings from previous array and adding new string
-		int index = 0;
-		for (int i=0; i<s.length-1; i++) {
-			s[i] = house[i];
-			index++;
-		}
-		s[index] = add;
-		
-		// setting the new house variable
-		setHouse(s);	
+	public void addHouse(String newHouse) {
+	    houseList.add(newHouse);
 	}
 	
 	
 	// addNote adds a note string onto the array of not strings that may or may not already exist
-	public void addNote( String add ) {
-		
-		String[] s;
-		
-		// declaring new string array; length determined by previous array
-		if(note == null){
-			s = new String[1];
-		}
-		else {
-			s = new String[note.length + 1];
-		}
-		
-		// copying strings from previous array and adding new string
-		int index = 0;
-		for (int i=0; i<s.length-1; i++) {
-			s[i] = note[i];
-			index++;
-		}
-		s[index] = add;
-		
-		// setting the new note variable
-		setNote(s);
+	public void addNote(String newNote) {
+	    noteList.add(newNote);
 	}
 	
 	
@@ -150,11 +108,16 @@ public class WorkerSchedule {
 		String s;
 		
 		String h = new String();
-		for(int i=0; i<house.length; i++){
-			h = new String( h + ", " + house[i]);
+		for(String house : houseList) {
+			h += ", " + house;
 		}
 		
-		s = new String( time + " " + location + "..." + h + covenant + note );
+		String n = new String();
+        for(String note : noteList) {
+            n += ", " + note;
+        }
+		
+		s = new String( time + " " + location + "..." + h + covenant + n);
 		return s;
 	}
 	
@@ -165,11 +128,16 @@ public class WorkerSchedule {
 		String s;
 		
 		String h = new String();
-		for(int i=0; i<house.length; i++){
-			h = new String( h + ", " + house[i]);
-		}
+        for(String house : houseList) {
+            h += ", " + house;
+        }
+        
+        String n = new String();
+        for(String note : noteList) {
+            n += ", " + note;
+        }
 		
-		s = new String( time + " " + location + "..." + h + covenant + note );
+		s = new String(time + " " + location + "..." + h + covenant + n);
 		return s;
 	}
 	
@@ -216,12 +184,12 @@ public class WorkerSchedule {
 	}
 
 
-	public String[] getHouse() {
-		return house;
+	public List<String> getHouseList() {
+		return houseList;
 	}
 
-	public void setHouse(String[] house) {
-		this.house = house;
+	public void setHouse(List<String> houseList) {
+		this.houseList = houseList;
 	}
 
 
@@ -234,12 +202,12 @@ public class WorkerSchedule {
 	}
 
 
-	public String[] getNote() {
-		return note;
+	public List<String> getNote() {
+		return noteList;
 	}
 
-	public void setNote(String[] note) {
-		this.note = note;
+	public void setNote(List<String> noteList) {
+		this.noteList = noteList;
 	}
 	
 }

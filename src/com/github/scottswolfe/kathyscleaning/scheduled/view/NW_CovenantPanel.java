@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.scheduled.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -110,6 +111,10 @@ public class NW_CovenantPanel extends JPanel {
 		
 		day_panel.changeCovenantWorkerPanel( new_dwd );
 		
+	}
+	
+	public List<String> getSelectedWorkers() {
+	    return dwp.getSelected();
 	}
 	
 	

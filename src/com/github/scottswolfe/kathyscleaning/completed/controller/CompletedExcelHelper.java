@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.completed.controller;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -124,16 +125,17 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
             boolean names_remaining = true;
             boolean name_match;
             int index = 5;
-            String[] worker = completedModel.dayData[d].getHouseData()[h].getSelectedWorkers();
+            List<String> worker = completedModel.dayData[d].getHouseData()[h].getSelectedWorkers();
 
             // while there are still names remaining in the excel sheet
             while ( names_remaining == true && index < 25 ) {
                 // for the number of selected workers at the house  
                 name_match = false;
-                for ( int j=0; j<worker.length; j++) {
+                // TODO needs refactoring here
+                for ( int j=0; j<worker.size(); j++) {
                     
                     // if selected worker matches name on excel sheet
-                    if ( name_row.getCell(index).getStringCellValue().equals(worker[j]) ) {
+                    if ( name_row.getCell(index).getStringCellValue().equals(worker.get(j)) ) {
                         name_match = true;
                         break;
                     }

@@ -1,5 +1,8 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HeaderPanel;
 
@@ -8,7 +11,7 @@ public class NW_DayData {
 	NW_HeaderData headerData;
 	
 	public NW_HouseData[] houseData;
-	public BeginExceptionData[] bed;
+	public List<BeginExceptionData> beginExceptionList;
 	public String meet_location;
 	public String meet_time;
 	
@@ -20,7 +23,7 @@ public class NW_DayData {
 	
 	// OR
 	
-	WorkerSchedule[] ws;
+	List<WorkerSchedule> ws;
 	
 	
 	
@@ -32,25 +35,18 @@ public class NW_DayData {
 		for (int i = 0; i < 3; i++) {
 		    houseData[i] = new NW_HouseData();
 		}
-		bed = new BeginExceptionData[3];
-		for (int i = 0; i < 3; i++) {
-		    bed[i] = new BeginExceptionData();
-		}
+		beginExceptionList = new ArrayList<>();
 		meet_location = "";
 		meet_time = "";
 		cov_worker = new WorkerList();
 		covNoteData = new NoteData();
-		ws = new WorkerSchedule[8];
-		for (int i = 0; i < 8; i++) {
-		    ws[i] = new WorkerSchedule();
-		}
+		ws = new ArrayList<>();
 	}
 	
-	
-	public NW_DayData(NW_HeaderData headerData, NW_HouseData[] houseData, BeginExceptionData[] bed) {
+	public NW_DayData(NW_HeaderData headerData, NW_HouseData[] houseData, List<BeginExceptionData> bed) {
 		this.headerData = headerData;
 		this.houseData = houseData;
-		this.bed = bed;
+		this.beginExceptionList = bed;
 	}
 	
 	
@@ -59,18 +55,18 @@ public class NW_DayData {
 	
 	public int getNumWorkSchedules(){		
 		if (ws != null) {
-			return ws.length;
+			return ws.size();
 		}
 		else {
 			return 0;
 		}
 	}
 
-	public void setWorkerSchedule( WorkerSchedule[] ws ) {
+	public void setWorkerSchedule(List<WorkerSchedule> ws) {
 		this.ws = ws;
 	}
 	
-	public WorkerSchedule[] getWorkerSchedule() {
+	public List<WorkerSchedule> getWorkerSchedule() {
 		return ws;
 	}
 	
@@ -99,12 +95,12 @@ public class NW_DayData {
 		return houseData;
 	}
 	
-	public BeginExceptionData[] getBeginExceptionData() {
-		return bed;
+	public List<BeginExceptionData> getBeginExceptionData() {
+		return beginExceptionList;
 	}
 
-	public void setBeginExceptionData(BeginExceptionData[] bed) {
-		this.bed = bed;
+	public void setBeginExceptionData(List<BeginExceptionData> bed) {
+		this.beginExceptionList = bed;
 	}
 	
 }

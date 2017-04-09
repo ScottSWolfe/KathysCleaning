@@ -51,10 +51,10 @@ public class NW_ExceptionListener implements ActionListener {
 		
         for (int i=0; i<dp.getNumBED(); i++) {
             
-            panel.setEmployee_combobox_text( dp.bed[i].getName(), i);
-            panel.setTime_textfield_text( dp.bed[i].getTime(), i );
-            panel.setLocation_combobox_text( dp.bed[i].getMeetLocation(), i);
-            panel.setNote_textfield_text(dp.bed[i].getNote(), i);
+            panel.setEmployee_combobox_text( dp.bed.get(i).getName(), i);
+            panel.setTime_textfield_text( dp.bed.get(i).getTime(), i );
+            panel.setLocation_combobox_text( dp.bed.get(i).getMeetLocation(), i);
+            panel.setNote_textfield_text(dp.bed.get(i).getNote(), i);
             
         }
 						

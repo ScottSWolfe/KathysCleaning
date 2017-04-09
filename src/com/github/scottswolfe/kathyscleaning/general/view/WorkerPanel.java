@@ -2,6 +2,8 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -262,26 +264,15 @@ public class WorkerPanel extends JPanel {
 	}
 	
 	
-	public String[] getSelected() {
-		
-		String[] selected_workers = new String[rows*columns];
-		int k=0;
-		for(int i=0; i<rows; i++){
-			for(int j=0; j<columns; j++){
-				if(workerCheckBoxes[i][j].isSelected()){
-					selected_workers[k] = workerCheckBoxes[i][j].getText();
-					k++;
+	public List<String> getSelected() {
+	    List<String> selected_workers = new ArrayList<>();
+		for (int i = 0; i < rows; i++) {
+			for (int j =0 ; j < columns; j++) {
+				if (workerCheckBoxes[i][j].isSelected()) {
+					selected_workers.add(workerCheckBoxes[i][j].getText());
 				}
 			}
-		}
-		
-		// changing selected_workers to correct length
-		String[] temp = new String[k];
-		for(int i=0; i<k; i++){
-			temp[i] = selected_workers[i];
-		}
-		selected_workers = temp;
-		
+		}		
 		return selected_workers;
 	}
 	

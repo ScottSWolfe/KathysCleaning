@@ -1,6 +1,8 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.view;
 
 
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -174,7 +176,7 @@ public class NW_HousePanel extends JPanel {
 		
 	}
 	
-	public String[] getSelectedWorkers() {
+	public List<String> getSelectedWorkers() {
 		return worker_panel.getSelected();
 	}
 	

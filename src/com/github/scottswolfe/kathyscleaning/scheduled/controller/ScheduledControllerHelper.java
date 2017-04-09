@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.SwingUtilities;
@@ -21,6 +23,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HouseData;
@@ -50,7 +53,7 @@ public class ScheduledControllerHelper
             dayData[d] = new NW_DayData();
             completedDayData[d] = new DayData();
 
-            dayData[d].bed = dp.bed;
+            dayData[d].beginExceptionList = dp.bed;
             dayData[d].cov_worker = dp.cov_panel.dwp.getWorkers();
             dayData[d].meet_location = dp.getMeetLocation();
             dayData[d].meet_time = dp.getMeetTime();
@@ -73,7 +76,7 @@ public class ScheduledControllerHelper
             dayData[d].setHouseData(houseData);
             completedDayData[d].setHouseData(completedHouseData);
             
-            WorkerSchedule[] ws = getWorkerSchedules(tp, d);
+            List<WorkerSchedule> ws = getWorkerSchedules(tp.nw_day_panel[d]);
             dayData[d].setWorkerSchedule(ws);
         }
         
@@ -97,7 +100,7 @@ public class ScheduledControllerHelper
             
             dp.meet_location_box.setSelectedItem(dayData.meet_location);                
             dp.meet_time_field.setText(dayData.meet_time);
-            dp.setBeginExceptionData(dayData.bed);
+            dp.setBeginExceptionData(dayData.beginExceptionList);
             tp.nw_day_panel[d].cov_panel.dwp.setWorkers(dayData.cov_worker);            
             tp.nw_day_panel[d].covenant_note_data = dayData.covNoteData;
             
@@ -114,9 +117,10 @@ public class ScheduledControllerHelper
                         tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);
                     }
                 }
-                String[] workers = houseData.getSelectedWorkers();
-                for (int i = 0; i < workers.length; i++) {
-                    String worker = workers[i];
+                // TODO below needs refactoring
+                List<String> workers = houseData.getSelectedWorkers();
+                for (int i = 0; i < workers.size(); i++) {
+                    String worker = workers.get(i);
                     for(int l = 0; l < WorkerPanel.NORM_ROWS; l++){
                         for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++){
                             if (worker.equals(tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText())) {
@@ -258,254 +262,211 @@ public class ScheduledControllerHelper
         frame.eliminate();
     }
 
-    private WorkerSchedule[] getWorkerSchedules(TabbedPane tp, int d) {
+    private List<WorkerSchedule> getWorkerSchedules(NW_DayPanel dp) {
         
-        WorkerSchedule[] ws;
-        NW_DayPanel dp;
-        dp = tp.nw_day_panel[d];
+        List<WorkerSchedule> scheduleList = new ArrayList<>();
         
-        String[] dworkers = dp.getWorkers();
-        String[] exceptnames = dp.getExceptionNames();
-       
-        if (dworkers != null) {
-                        
-            // setting the worker names for the day
-            ws = new WorkerSchedule[dworkers.length];       // one schedule for each worker that day
-            for (int i=0; i<dworkers.length; i++) {
-                ws[i] = new WorkerSchedule();
-                ws[i].setName(dworkers[i]);
+        List<String> workers = dp.getUniqueWorkersForDay();        
+        List<String> covWorkers = dp.cov_panel.getSelectedWorkers();
+
+        // for each worker for the day
+        for (String worker : workers) {
+            WorkerSchedule schedule = new WorkerSchedule();
+            schedule.setName(worker);
+            
+            // for each house of the day
+            for (int j = 0; j < dp.house_panel.length; j++) {
+                
+                NW_HousePanel house = dp.house_panel[j];
+                List<String> hworkers = house.getSelectedWorkers();
+                
+                if (hworkers.contains(worker)) {
+                    schedule.addHouse(house.house_name_txt.getText());
+                }
+            }
+                
+            // if current worker has a note, add the note to the worker's schedule
+            if (dp.getCovenant_note_data() != null &&
+                dp.getCovenant_note_data().name_box_data != null &&
+                dp.getCovenant_note_data().note_field_data != null) {
+                
+                // iterating through names in note data
+                for (int j = 0; j < dp.getCovenant_note_data().name_box_data.length; j++) {
+                    
+                    if (worker.equals(dp.getCovenant_note_data().name_box_data[j])
+                            && !dp.getCovenant_note_data().equals("")) {
+                        schedule.addNote(dp.getCovenant_note_data().note_field_data[j]);                        
+                    }
+                }
             }
             
-            // for each worker for that day
-            for (int w=0; w<ws.length; w++) {
-                
-                // a) Add houses they will work at
-                
-                // for each house of the day
-                for(int j=0; j<dp.house_panel.length; j++) {
-                    
-                    NW_HousePanel house = dp.house_panel[j];
-                    String[] hworkers = house.getSelectedWorkers();
-                    
-                    // for each worker at the house
-                    for (int h=0; h<hworkers.length; h++) {
-                                                
-                        // if current worker is selected at the house, add the house to the worker's schedule
-                        if (ws[w].getName() != null && hworkers[h] != null) {
-                            if (ws[w].getName().equals(hworkers[h])) {
-                                ws[w].addHouse( house.house_name_txt.getText() );
-                                break;
-                            }
-                        }
-                    }
-                    
-                }
-                
-                // b) If they have an exception, add exception location, time, note
-                //    If no exception, add general location, time, note
-                
-                // for each exception, check if worker matches exception
-                Boolean isException = false;
-                int index = 0;
-                if(exceptnames != null){
-                    for (int i=0; i<exceptnames.length; i++) {
-                        if ( ws[w].getName().equals(exceptnames[i]) ) {
-                            isException = true;
-                            index = i;
-                            break;
-                        }
+            // adding Covenant
+            // if current worker is selected on Covenant panel
+            for (int k = 0; k < dp.cov_panel.dwp.rows; k++) {
+                for (int l = 0; l < dp.cov_panel.dwp.columns; l++) {
+                    if ( schedule.getName().equals(dp.cov_panel.dwp.workerCheckBoxes[k][l].getText()) &&
+                         dp.cov_panel.dwp.workerCheckBoxes[k][l].isSelected() ) {
+                        schedule.working_covenant = true;
                     }
                 }
-                
-                // adding general notes and covenant notes
-                
-                // if current worker has a note, add the note to the worker's schedule
-                if (ws[w].getName() != null && dp.getCovenant_note_data() != null &&
-                        dp.getCovenant_note_data().name_box_data != null &&
-                        dp.getCovenant_note_data().note_field_data != null) {
-                    
-                    // iterating through names in note data
-                    for (int j=0; j<dp.getCovenant_note_data().name_box_data.length; j++) {
-                        
-                        
-                        if ( ws[w].getName().equals(dp.getCovenant_note_data().name_box_data[j]) ) {
-                            
-                            // adding covenant note
-                            ws[w].addNote( dp.getCovenant_note_data().note_field_data[j]);
-                            
-                        }
-                    }
-                }
-                /*
-                if (ws[w].getName() != null && dp.getDay_note_data() != null &&
-                        dp.getDay_note_data().name_box_data != null &&
-                        dp.getDay_note_data().note_field_data != null) {
-                    
-                    // iterating through each name in note data
-                    for (int j=0; j<dp.getDay_note_data().name_box_data.length; j++) {
-                        
-                        if ( ws[w].getName().equals(dp.getDay_note_data().name_box_data[j]) ) {
-                            
-                            // adding day note
-                            ws[w].addNote( dp.getDay_note_data().note_field_data[j]);
-                            
-                        }
-                    }
-                }
-                */
-                
-                // if worker matches an exception
-                if ( isException ) {
-                    ws[w].setTime( dp.bed[index].getTime() );
-                    ws[w].setMeetLocation( dp.bed[index].getMeetLocation() );
-                    ws[w].ex_note = dp.bed[index].getNote();
-                }
-                // if worker does not have an exception
-                else {
-                    // if worker is at first house
-                    if (ws[w].getHouse() != null && ws[w].getHouse()[0].equals(dp.house_panel[0].house_name_txt.getText())) {
-                        ws[w].setTime( dp.getMeetTime() );
-                        ws[w].setMeetLocation( dp.getMeetLocation() );
-                    }
-                    // if worker joins midday
-                    else {
-                        
-                    }
-                }
-                
-                // adding Covenant
-                // if current worker is selected on Covenant panel
-                for (int k=0; k<dp.cov_panel.dwp.rows; k++) {
-                    for (int l=0; l<dp.cov_panel.dwp.columns; l++) {
-                        if ( ws[w].getName().equals(dp.cov_panel.dwp.workerCheckBoxes[k][l].getText()) &&
-                             dp.cov_panel.dwp.workerCheckBoxes[k][l].isSelected() ) {
-                            
-                            ws[w].working_covenant = true;
-                        }
-                    }
-                }
-                
-                String s = new String();
-                
-                // add the time
-                if( ws[w].time != null && ws[w].time.length() > 2 ) {
-                    s = new String(s + ws[w].time );
-                }
-                
-                // add the meeting location 
-                // if has a meeting location
-                if( ws[w].getMeetLocation() != null &&
-                    ws[w].getMeetLocation().length() > 0 &&
-                    ws[w].getHouse() != null &&
-                    !ws[w].getMeetLocation().equals( ws[w].getHouse()[0] )) {
-                    
-                    // if has an exception note
-                    if (ws[w].ex_note != null && ws[w].ex_note.length() > 0) {
-                        s = new String( s + " " + ws[w].getMeetLocation() + " (" + ws[w].ex_note + ")..." );
-                        ws[w].ex_note_written = true;
-                    }
-                    // if no exception note
-                    else {
-                        s = new String( s + " " + ws[w].getMeetLocation() + "..." );
-                    }
-                    
-                }
-                // if no meeting location
-                else {
-                    // if time has already been written
-                    if (ws[w].time != null && ws[w].time.length() > 2) {
-                        s = new String( s + "...");
-                    }
-                    // if time has not been written
-                    else {
-                        // do nothing
-                    }
-                }
-                
-                // add the houses
-                if (ws[w].getHouse() != null) {
-                    for (int i=0; i<ws[w].house.length; i++) {
-                        // if last house, don't add a comma
-                        if (i >= ws[w].house.length - 1) {
-                            
-                            s = new String( s + ws[w].getHouse()[i] );
-                            
-                            // ex_note exists that has not yet been written to the string
-                            if ( ws[w].ex_note_written == false && ws[w].ex_note != null &&
-                                 ws[w].ex_note.length() > 0 ){
-                                
-                                s = new String( s + " (" + ws[w].ex_note + ")");
-                                ws[w].ex_note_written = true;
-                            }
-                        }
-                        // if first house and ex_note exists and it has not already been written 
-                        else if ( i==0 && ws[w].ex_note_written == false &&
-                                ws[w].ex_note != null && ws[w].ex_note.length() > 0 ) {
-                            
-                            s = new String( s + ws[w].getHouse()[i] + " (" + ws[w].ex_note + "), ");
-                            ws[w].ex_note_written = true;
-                            
-                        }
-                        // if every other house, add a comma
-                        else {
-                            s = new String(s + ws[w].getHouse()[i] + ", ");
-                        }
-                    }
-                }
-                
-                // add Covenant Info
-                if (ws[w].working_covenant == true) {
-                    // if employee worked at houses as well, add a comma
-                    if(ws[w].getHouse() != null && ws[w].getHouse()[0].length() > 0) {
-                        s = new String( s + ", Covenant" );
-                    }
-                    // if employee only working at Covenant, no comma
-                    else {
-                        s = new String( s + "Covenant" );
-                    }
-                }
-                
-                // add any notes
-                if (ws[w].getNote() != null) {
-                    for (int i=0; i<ws[w].note.length; i++) {
-                        // if only note and either houses or covenant exist, add a preceding semicolon
-                        if (ws[w].note.length <= 1 && ( ws[w].getHouse() != null || ws[w].working_covenant == true ) ) {
-                            s = new String( s + "; " + ws[w].getNote()[i] );
-                        }
-                        // if only note and houses and covenant do not exist, no preceding semicolon
-                        else if (ws[w].note.length <= 1 && ( ws[w].getHouse() == null && ws[w].working_covenant == false ) ) {
-                            s = new String( s + ws[w].getNote()[i] );
-                        }
-                        // if last note, don't add a semicolon
-                        else if (i >= ws[w].note.length - 1) {
-                            s = new String( s + ws[w].getNote()[i] );
-                        }
-                        // if first note and either houses or covenant exist, add a preceding semicolon and succeeding semicolon
-                        else if (i<=0 && ( ws[w].getHouse() != null || ws[w].working_covenant == true ) ) {
-                            s = new String( s + "; " + ws[w].getNote()[i] + "; ");
-                        }
-                        // if first note and houses and covenant do not exist, no preceding semicolon and succeeding semicolon
-                        else if (i<=0 && ( ws[w].getHouse() == null  && ws[w].working_covenant == false ) ) {
-                            s = new String( s + ws[w].getNote()[i] + "; ");
-                        }
-                        // for every other note, add a semicolon
-                        else {
-                            // was this: s = new String(s + ws[w].getHouse()[i] + "; ");
-                            s = new String(s + ws[w].getNote()[i] + "; ");
-                        }
-                    }
-                }
-                
-                if (s.equals("...")) {
-                    s = "";
-                }
-                
-                ws[w].setSchedule(s);
             }
-        } else {
-            ws = new WorkerSchedule[0];
+
+            if (covWorkers.contains(worker)) {
+                schedule.working_covenant = true;
+            }
+
+            // adding meeting information
+            Boolean hasException = false;
+            for (BeginExceptionData exception : dp.bed) {
+                // if worker matches an exception
+                if (exception.getName().equals(worker)) {
+                    schedule.setTime(exception.getTime());
+                    schedule.setMeetLocation(exception.getMeetLocation());
+                    schedule.ex_note = exception.getNote();
+                    hasException = true;
+                    break;
+                }
+            }
+            // if worker does not have an exception
+            if (!hasException) {
+                // if worker is at first house
+                if (schedule.getHouseList().size() > 0 && schedule.getHouseList().get(0).equals(dp.house_panel[0].house_name_txt.getText())) {
+                    schedule.setTime(dp.getMeetTime());
+                    schedule.setMeetLocation(dp.getMeetLocation());
+                }
+                // if worker joins midday
+                else {
+                    // do nothing
+                }
+            }
+                
+            String s = createScheduleString(schedule);
+            schedule.setSchedule(s);
+            scheduleList.add(schedule);
         }
-        return ws;
+        return scheduleList;
+    }
+                        
+    private String createScheduleString(WorkerSchedule schedule) {
+        String s = new String();
+        
+        // add the time
+        if( schedule.time != null && schedule.time.length() > 2 ) {
+            s += schedule.time;
+        }
+        
+        // add the meeting location 
+        // if has a meeting location
+        if( schedule.getMeetLocation() != null &&
+            schedule.getMeetLocation().length() > 0 &&
+            schedule.getHouseList() != null &&
+            !schedule.getMeetLocation().equals( schedule.getHouseList().get(0) )) {
+            
+            // if has an exception note
+            if (schedule.ex_note != null && schedule.ex_note.length() > 0) {
+                s += " " + schedule.getMeetLocation() + " (" + schedule.ex_note + ")...";
+                schedule.ex_note_written = true;
+            }
+            // if no exception note
+            else {
+                s += " " + schedule.getMeetLocation() + "...";
+            }
+            
+        }
+        // if no meeting location
+        else {
+            // if time has already been written
+            if (schedule.time != null && schedule.time.length() > 2) {
+                s += "...";
+            }
+            // if time has not been written
+            else {
+                // do nothing
+            }
+        }
+        
+        // add the houses
+        int numHouses = schedule.houseList.size();
+        for (int i = 0; i < numHouses; i++) {
+            
+            String house = schedule.houseList.get(i);
+            if (house.length() > 0) {
+                
+                // if last house, don't add a comma
+                if (i >= numHouses - 1) {
+                    
+                    s += house;
+                    
+                    // ex_note exists that has not yet been written to the string
+                    if (schedule.ex_note_written == false && schedule.ex_note != null &&
+                         schedule.ex_note.length() > 0) {
+                        
+                        s += " (" + schedule.ex_note + ")";
+                        schedule.ex_note_written = true;
+                    }
+                }
+                // if first house and ex_note exists and it has not already been written 
+                else if (i == 0 && schedule.ex_note_written == false &&
+                        schedule.ex_note != null && schedule.ex_note.length() > 0) {
+                    
+                    s += house + " (" + schedule.ex_note + "), ";
+                    schedule.ex_note_written = true;
+                }
+                // if every other house, add a comma
+                else {
+                    s += house + ", ";
+                }
+            }
+        }
+        
+        // add Covenant Info
+        if (schedule.working_covenant == true) {
+            // if employee worked at houses as well, add a comma
+            if(schedule.getHouseList().size() > 0) {
+                s += ", Covenant" ;
+            }
+            // if employee only working at Covenant, no comma
+            else {
+                s += "Covenant";
+            }
+        }
+        
+        // add any notes
+        int numNotes = schedule.noteList.size();
+        for (String note : schedule.noteList) {
+            if (note.length() > 0) {
+                // if only note and either houses or covenant exist, add a preceding semicolon
+                if (numNotes <= 1 && (numHouses > 0 || schedule.working_covenant == true)) {
+                    s += "; " + note;
+                }
+                // if only note and houses and covenant do not exist, no preceding semicolon
+                else if (numNotes <= 1 && (numHouses == 0 && schedule.working_covenant == false)) {
+                    s += note;
+                }
+                // if last note, don't add a semicolon
+                else if (schedule.noteList.indexOf(note) >= numNotes - 1) {
+                    s += note;
+                }
+                // if first note and either houses or covenant exist, add a preceding semicolon and succeeding semicolon
+                else if (schedule.noteList.indexOf(note) <=0 && (numHouses > 0 || schedule.working_covenant == true)) {
+                    s += "; " + note + "; ";
+                }
+                // if first note and houses and covenant do not exist, no preceding semicolon and succeeding semicolon
+                else if (schedule.noteList.indexOf(note) <=0 && (numHouses == 0 && schedule.working_covenant == false)) {
+                    s += note + "; ";
+                }
+                // for every other note, add a semicolon
+                else {
+                    // was this: s = new String(s + ws[w].getHouse()[i] + "; ");
+                    s += note + "; ";
+                }
+            }
+        }    
+        
+        if (s.equals("...")) {
+            s = "";
+        }
+        return s;
     }
     
 }

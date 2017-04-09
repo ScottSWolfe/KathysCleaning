@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.BorderFactory;
@@ -52,7 +54,7 @@ public class NW_DayPanel extends JPanel{
 	NoteData day_note_data;
 	
 	WorkerList workers;
-	public BeginExceptionData[] bed;
+	public List<BeginExceptionData> bed;
 	
 	boolean exception_exist = false;
 	
@@ -340,41 +342,19 @@ public class NW_DayPanel extends JPanel{
 	}
 	
 	
-	public void setBeginExceptionData( BeginExceptionData[] bed ) {
-		this.bed = new BeginExceptionData[ bed.length ];
-		for(int i=0; i<bed.length; i++){
-			this.bed[i] = new BeginExceptionData();
-			if (bed[i].getName() != null) {
-			    this.bed[i].setName(bed[i].getName());
-			}
-			if (bed[i].getTime() != null) {
-			    this.bed[i].setTime( bed[i].getTime() );
-			}
-			if (bed[i].getMeetLocation() != null) {
-			    this.bed[i].setMeetLocation( bed[i].getMeetLocation() );
-			}
-			if (bed[i].getNote() != null) {
-			    this.bed[i].setNote( bed[i].getNote() );
-			}
-		}
+	public void setBeginExceptionData(List<BeginExceptionData> bed) {
+		this.bed = bed;
 	}
 	
 	
-	public String[] getExceptionNames() {
-		
-		String[] s;
-		
-		if ( !this.doesBedExist() ) {
-			s = null;
+	public List<String> getExceptionNames() {
+		List<String> s = new ArrayList<>();
+		if (!this.doesBedExist()) {
 			return s;
-		}
-		else {
-			s = new String[bed.length];
-			
-			for (int i=0; i<bed.length; i++) {
-				s[i] = bed[i].getName();
+		} else {
+			for (BeginExceptionData exception : bed) {
+				s.add(exception.getName());
 			}
-			
 			return s;
 		}
 	}
@@ -410,177 +390,63 @@ public class NW_DayPanel extends JPanel{
 			return 0;
 		}
 		else {
-			return bed.length;
+			return bed.size();
 		}
 		
 	}
 	
 	
 	// this method returns the number of unique employees for a given day
-	public int getNumberWorkers() {
+	public int getNumberUniqueWorkers() {
 		
-		int num = 0;
-		String[] workers = new String[50]; 		// 50 is arbitrary large number
-		boolean match;
-		int index;
-		
-		// for each house panel in the day
-		for (int h=0; h<house_panel.length; h++) {
-			
-			String[] s = house_panel[h].getSelectedWorkers();
-			
-			// for each selected worker
-			for (int w=0; w<s.length; w++) {
-				
-				match = false;
-				index = 0;
-				// compare to list of accumulating worker names
-				for (int i=0; i<workers.length; i++) {
-					
-					// check that next worker exists and is not null
-					if (workers[i] == null) {
-						index = i;
-						break;
-					}
-					
-					// if it equals one of the names, break out of the loop, and go on to the next employee
-					if ( s[w].equals(workers[i])) {
-						match = true;
-						break;
-					}
-					
-				}
-				
-				// if no matches were found, then current worker is a new addition
-				if ( match == false) {
-					num++;
-					workers[index] = s[w];
-				}
-				
-			}
-			
-		}
-		
-		// for the covenant panel
-		for(int i=0; i<cov_panel.dwp.rows; i++) {
-			
-			for (int j=0; j<cov_panel.dwp.columns; j++) {
-				
-				if (cov_panel.dwp.workerCheckBoxes[i][j].isSelected()) {
-					
-					for (int k=0; k<workers.length; k++) {
-						
-						// check that next worker exists and is not null
-						if (workers[k] == null) {
-							workers[k] = cov_panel.dwp.workerCheckBoxes[i][j].getText();
-							num++;
-							break;
-						}
-						
-						// if it equals one of the names, break out of the loop, and go on to the next employee
-						else if ( cov_panel.dwp.workerCheckBoxes[i][j].getText().equals(workers[k]) ) {
-							break;
-						}
-						
-					}
-					
-				}
-				
-			}
-			
-		}
-		
-		return num;
+        List<String> workers = new ArrayList<>();
+        
+        // add workers from houses
+        for (int h = 0; h < house_panel.length; h++) {
+            List<String> workerList = house_panel[h].getSelectedWorkers();
+            for (String worker : workerList) {
+                if (!workers.contains(worker)) {
+                    workers.add(worker);
+                }
+            }
+        }
+        
+        // add workers from covenant panel
+        List<String> covWorkers = cov_panel.getSelectedWorkers();
+        for (String worker : covWorkers) {
+            if (!workers.contains(worker)) {
+                workers.add(worker);
+            }
+        }
+        
+        return workers.size(); 
 	}
 	
 	
 	// this method returns a list of the unique employees for a given day
-	public String[] getWorkers() {
+	public List<String> getUniqueWorkersForDay() {
 			
-		String[] workers = new String[50]; 		// 50 is arbitrary large number
-		boolean match;
-		int index = 0;
+	    List<String> workers = new ArrayList<>();
 		
-		// for each house panel in the day
-		for (int h=0; h<house_panel.length; h++) {
-			
-			String[] s = house_panel[h].getSelectedWorkers();
-			
-			// for each selected worker
-			for (int w=0; w<s.length; w++) {
-				
-				match = false;
-				
-				// compare to list of accumulating worker names
-				for (int i=0; i<workers.length; i++) {
-					
-					// check that next worker exists and is not null
-					if (workers[i] == null) {
-						index = i;
-						break;
-					}
-					
-					// if it equals one of the names, break out of the loop, and go on to the next employee
-					if ( s[w].equals(workers[i])) {
-						match = true;
-						break;
-					}
-					
-				}
-				
-				// if no matches were found, then current worker is a new addition
-				if ( match == false) {
-					workers[index] = s[w];
-				}
-				
+		// add workers from houses
+		for (int h = 0; h < house_panel.length; h++) {
+			List<String> workerList = house_panel[h].getSelectedWorkers();
+			for (String worker : workerList) {
+			    if (!workers.contains(worker)) {
+			        workers.add(worker);
+			    }
 			}
-			
 		}
 		
-		
-		// for the covenant panel
-		for(int i=0; i<cov_panel.dwp.rows; i++) {
-			
-			for (int j=0; j<cov_panel.dwp.columns; j++) {
-				
-				if (cov_panel.dwp.workerCheckBoxes[i][j].isSelected()) {
-					
-					
-					for (int k=0; k<workers.length; k++) {
-						
-						// check that next worker exists and is not null
-						if (workers[k] == null) {
-							workers[k] = cov_panel.dwp.workerCheckBoxes[i][j].getText();
-							index = k;
-							break;
-						}
-						
-						// if it equals one of the names, break out of the loop, and go on to the next employee
-						else if ( cov_panel.dwp.workerCheckBoxes[i][j].getText().equals(workers[k]) ) {
-							break;
-						}
-						
-					}
-					
-				}
-				
-			}
-			
+		// add workers from covenant panel
+		List<String> covWorkers = cov_panel.getSelectedWorkers();
+		for (String worker : covWorkers) {
+		    if (!workers.contains(worker)) {
+		        workers.add(worker);
+		    }
 		}
 		
-		// adjust string to correct length
-		if (workers[0] == null) {
-			return null;
-		}
-		else {
-			String[] s_adjusted = new String[index+1];
-			for (int i=0; i<index+1; i++) {
-				s_adjusted[i] = workers[i];
-			}
-			
-			return s_adjusted;
-		}
-		
+		return workers; 
 	}
 	
 	
@@ -739,23 +605,23 @@ public class NW_DayPanel extends JPanel{
 				
 				dp.meet_time_field.setText( input.nextLine() );
 				
-	
-				BeginExceptionData[] bed = new BeginExceptionData[NW_ExceptionPanel.NUM_EXCEPTIONS];
+				List<BeginExceptionData> bedList = new ArrayList<>();
 				for (int i=0; i<NW_ExceptionPanel.NUM_EXCEPTIONS; i++) {
+	               BeginExceptionData bed = new BeginExceptionData();
+
+					bed = new BeginExceptionData();
 					
-					bed[i] = new BeginExceptionData();
+					bed.setName( input.nextLine() );
+					bed.setMeetLocation( input.nextLine() );
+					bed.setTime( input.nextLine() );
+					bed.setNote( input.nextLine() );
 					
-					bed[i].setName( input.nextLine() );
-					bed[i].setMeetLocation( input.nextLine() );
-					bed[i].setTime( input.nextLine() );
-					bed[i].setNote( input.nextLine() );
-					
-					if (bed[i].getName() != null && bed[i].getName().length() > 0) {
+					if (bed.getName() != null && bed.getName().length() > 0) {
 						dp.setException_exist(true);
 					}
-					
+					bedList.add(bed);
 				}
-				dp.setBeginExceptionData(bed);
+				dp.setBeginExceptionData(bedList);
 				
 				// reading covenant workers
 				String line = input.nextLine();

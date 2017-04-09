@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -103,22 +105,24 @@ public class NW_WeekListener implements ActionListener {
 			dp.meet_time_field.setText( input.nextLine() );
 			
 
-			BeginExceptionData[] bed = new BeginExceptionData[NW_ExceptionPanel.NUM_EXCEPTIONS];
+			List<BeginExceptionData> bedList = new ArrayList<>();
 			for (int i=0; i<NW_ExceptionPanel.NUM_EXCEPTIONS; i++) {
 				
-				bed[i] = new BeginExceptionData();
+			    BeginExceptionData bed = new BeginExceptionData();
+			    
+				bed = new BeginExceptionData();
 				
-				bed[i].setName( input.nextLine() );
-				bed[i].setMeetLocation( input.nextLine() );
-				bed[i].setTime( input.nextLine() );
-				bed[i].setNote( input.nextLine() );
+				bed.setName(input.nextLine());
+				bed.setMeetLocation(input.nextLine());
+				bed.setTime(input.nextLine());
+				bed.setNote(input.nextLine());
 				
-				if (bed[i].getName() != null && bed[i].getName().length() > 0) {
+				if (bed.getName() != null && bed.getName().length() > 0) {
 					dp.setException_exist(true);
 				}
-				
+				bedList.add(bed);
 			}
-			dp.setBeginExceptionData(bed);
+			dp.setBeginExceptionData(bedList);
 			
 			// reading covenant workers
 			String line = input.nextLine();

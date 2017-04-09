@@ -1,22 +1,20 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class NW_HouseData {
 
 	
 	// FIELDS
 	private String house_name;
-	private String[] selected_workers;
-	
+	private List<String> selected_workers;
 	
 	
 	// CONSTRUCTORS
 	public NW_HouseData() {
 	    house_name = "";
-	    selected_workers = new String[3];
-	    for (int i = 0; i < 3; i++) {
-	        selected_workers[i] = "";
-	    }
+	    selected_workers = new ArrayList<>();
 	}
 	
 		
@@ -28,7 +26,7 @@ public class NW_HouseData {
 	}
 	
 	// Set Selected Workers
-	public void setSelectedWorkers( String[] selected_workers ){
+	public void setSelectedWorkers(List<String> selected_workers) {
 		this.selected_workers = selected_workers;
 	}
 	
@@ -37,9 +35,8 @@ public class NW_HouseData {
 		return house_name;	
 	}
 	
-	public String[] getSelectedWorkers() {
+	public List<String> getSelectedWorkers() {
 		return selected_workers;
 	}
-	
 	
 }

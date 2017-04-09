@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -300,37 +302,37 @@ public class NW_ExceptionPanel extends JPanel {
 		// ACTION METHOD
 		public void actionPerformed( ActionEvent e ) {
 		    
-	        BeginExceptionData[] bed = new BeginExceptionData[NUM_EXCEPTIONS];
+	        List<BeginExceptionData> bedList = new ArrayList<>();
 			for (int i = 0; i < NUM_EXCEPTIONS; i++) {
 				
-			    bed[i] = new BeginExceptionData();
+			    BeginExceptionData bed = new BeginExceptionData();
 			    
 			    if (employee_combobox[i].getSelectedItem() != null) {
-			        bed[i].setName((String) employee_combobox[i].getSelectedItem());
+			        bed.setName((String) employee_combobox[i].getSelectedItem());
 			    } else {
-			        bed[i].setName("");
+			        bed.setName("");
 			    }
 			    
 			    if (location_combobox[i].getSelectedItem() != null) {
-			        bed[i].setMeetLocation((String) location_combobox[i].getSelectedItem());
+			        bed.setMeetLocation((String) location_combobox[i].getSelectedItem());
 			    } else {
-			        bed[i].setMeetLocation("");
+			        bed.setMeetLocation("");
 			    }
 			    
 	            if (time_textfield[i].getText() != null) {
-	                bed[i].setTime(String.valueOf(time_textfield[i].getText()));
+	                bed.setTime(String.valueOf(time_textfield[i].getText()));
 	            } else {
-	                bed[i].setTime("");
+	                bed.setTime("");
 	            }
 	            
 	            if (note_textfield[i].getText() != null) {
-	                bed[i].setNote(note_textfield[i].getText());
+	                bed.setNote(note_textfield[i].getText());
 	            } else {
-	                bed[i].setNote("");
+	                bed.setNote("");
 	            }
-	            										
+	            bedList.add(bed);								
 			}
-			dp.setBeginExceptionData( bed );
+			dp.setBeginExceptionData(bedList);
 			
 	        dp.setException_exist(true);
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));

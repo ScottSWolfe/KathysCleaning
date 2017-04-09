@@ -1,5 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -46,10 +48,10 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
             NW_DayData dayData = days[d];
             
             // for each employee
-            WorkerSchedule[] workSchedules = dayData.getWorkerSchedule();
-            for (int w = 0; w < workSchedules.length; w++) {
+            List<WorkerSchedule> workSchedules = dayData.getWorkerSchedule();
+            for (int w = 0; w < workSchedules.size(); w++) {
                 
-                ws = workSchedules[w];
+                ws = new WorkerSchedule();
                 
                 nnum = 0;
                 nrow = sheet.getRow(nnum);
