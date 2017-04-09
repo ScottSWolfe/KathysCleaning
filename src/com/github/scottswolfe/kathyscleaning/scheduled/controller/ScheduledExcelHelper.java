@@ -174,15 +174,5 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
         }
         return cell;
     }
-    
-    private boolean equalsDayOfWeek(String value) {
-        if (value.equals("Monday") || value.equals("Tuesday") ||
-                value.equals("Thursday") || value.equals("Wednesday") ||
-                value.equals("Friday") || value.equals("Sunday") ||
-                value.equals("WEEKEND WORK")) {
-            return true;
-        }
-        return false;
-    }
-    
+        
 }
