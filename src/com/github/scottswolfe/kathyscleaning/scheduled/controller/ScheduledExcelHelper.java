@@ -130,6 +130,7 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
 
         FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
         Cell cell;
+        CellValue value;
         
         int house_column = 3;
         int hours_column = 4;
@@ -138,30 +139,16 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
         
         int counter = 0;
         while (counter < 50) {
-            
-            cell = getCellSafely(sheet, row, house_column, evaluator);
+            cell = getCellSafely(sheet, row, hours_column, evaluator);
             if (cell != null) {
-                
-                String cellValue = cell.getStringCellValue();
-                
-                if (equalsDayOfWeek(cellValue)) {
-                    
-                    row++;
-                    int i = 0;
-                    cell = getCellSafely(sheet, row, hours_column, evaluator);
-                    while (cell != null && 
-                           evaluator.evaluate(cell).getCellType() == Cell.CELL_TYPE_NUMERIC && 
-                           i < 6 && evaluator.evaluate(cell).getNumberValue() == 0) {
+                value = evaluator.evaluate(cell);
+                if (value.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                    if (value.getNumberValue() == 0) {
                         sheet.getRow(row).getCell(house_column).setCellValue("");
                         sheet.getRow(row).getCell(hours_column).setCellValue("");
                         sheet.getRow(row).getCell(total_column).setCellValue("");
-
                         counter = 0;
-                        row++;
-                        i++;
-                        cell = getCellSafely(sheet, row, hours_column, evaluator);
                     }
-                    row--;
                 }
             }
             row++;
@@ -191,7 +178,8 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
     private boolean equalsDayOfWeek(String value) {
         if (value.equals("Monday") || value.equals("Tuesday") ||
                 value.equals("Thursday") || value.equals("Wednesday") ||
-                value.equals("Friday") || value.equals("Sunday")) {
+                value.equals("Friday") || value.equals("Sunday") ||
+                value.equals("WEEKEND WORK")) {
             return true;
         }
         return false;
