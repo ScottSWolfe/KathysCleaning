@@ -2,7 +2,12 @@ package com.github.scottswolfe.kathyscleaning.weekend.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -171,9 +176,23 @@ public class WeekendPanel extends JPanel {
 			customer_combobox.setEditable(true);
 			customer_combobox.addItem("");
 			
-			WorkerList weekendWorkers = new WorkerList(WorkerList.WEEKEND_WORKERS);
-			for (Worker worker : weekendWorkers) {
-				customer_combobox.addItem(worker.getName());
+			// TODO temporary, move this elsewhere
+			List<String> weekendCustomers = new ArrayList<>();
+
+		    try {
+		        File file = new File((System.getProperty("user.dir") +
+		                        "\\save\\WeekendWorkSaveFile"));
+		        Scanner input = new Scanner(file);
+		        while(input.hasNext()) {
+		            weekendCustomers.add(input.nextLine());
+		        }
+		        input.close(); 
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+
+			for (String customer : weekendCustomers) {
+				customer_combobox.addItem(customer);
 			}
 			
 			jobpaid_field = new JTextField();
