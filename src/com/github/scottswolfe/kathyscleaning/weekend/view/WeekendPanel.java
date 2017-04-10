@@ -203,10 +203,24 @@ public class WeekendPanel extends JPanel {
 			employee_combobox.setFont( employee_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
 			employee_combobox.setEditable(true);
 			employee_combobox.addItem("");
+			
+			// TODO move this code elsewhere; also duplicated elsewhere
+			WorkerList workers = new WorkerList();
 			WorkerList houseWorkers = new WorkerList(WorkerList.HOUSE_WORKERS);
+			WorkerList covWorkers = new WorkerList(WorkerList.COVENANT_WORKERS);
 			for (Worker worker : houseWorkers) {
-				employee_combobox.addItem(worker.getName());
+			    if (!workers.containsName(worker)) {
+			        workers.add(worker);
+			    }
 			}
+			for (Worker worker : covWorkers) {
+                if (!workers.containsName(worker)) {
+                    workers.add(worker);
+                }
+            }
+			for (Worker worker : workers) {
+                employee_combobox.addItem(worker.getName());
+            }
 			
 			workerpaid_field = new JTextField();
 			workerpaid_field.setColumns( 5 );
