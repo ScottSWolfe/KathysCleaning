@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
+import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -48,30 +49,30 @@ public class NW_CovenantPanel extends JPanel {
 	// CONSTRUCTOR
 	public NW_CovenantPanel( NW_DayPanel day_panel, WorkerList dwd, JFrame container_frame ) {
 		
+	    // TODO temporary hack
+	    dwd = new WorkerList();
+	    WorkerList covWorkers = new WorkerList(WorkerList.COVENANT_WORKERS);
+	    WorkerList houseWorkers = new WorkerList(WorkerList.HOUSE_WORKERS);
+	    for (Worker worker : covWorkers.getWorkers()) {
+	        if (!dwd.containsName(worker)) {
+	            dwd.add(worker);
+	        }
+	    }
+	    for (Worker worker : houseWorkers.getWorkers()) {
+            if (!dwd.containsName(worker)) {
+                dwd.add(worker);
+            }
+        }
+	    
 		this.day_panel = day_panel;
 		this.dwd = dwd;
 		this.container_frame = container_frame;
 		
 		setLayout( new MigLayout( "insets 10, fillx", "[]10[]10[]10[]30[]", "[grow]" ) );
 		setBackground( Settings.BACKGROUND_COLOR );
-		//setBorder( BorderFactory.createLineBorder( null ));
-		/*
-		Border border = BorderFactory.createLineBorder(null,1);
-		MatteBorder mborder = BorderFactory.createMatteBorder(1, 0, 1, 1, Color.BLACK);
-		Border eborder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-		CompoundBorder border2 = BorderFactory.createCompoundBorder(mborder, eborder);
-		
-		CompoundBorder border3 = BorderFactory.createCompoundBorder(border2, BorderFactory.createLoweredBevelBorder());
-
-		setBorder(border3);
-		*/
-		//Border border = BorderFactory.createLineBorder(null,2);
 		MatteBorder mborder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK);
-		//CompoundBorder border2 = BorderFactory.createCompoundBorder(mborder, BorderFactory.createLoweredBevelBorder());
-				
 		setBorder( mborder );
 				
-		
 		header_label = new JLabel();
 		header_label.setText( "Covenant" );
 		header_label.setFont( header_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
@@ -99,18 +100,14 @@ public class NW_CovenantPanel extends JPanel {
 		add(dwp, "grow");
 		add(edit_button, "growx");
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-		add(covenant_note_button, "growx, hmin 50");
-		
-		
+		add(covenant_note_button, "growx, hmin 50");		
 	}
 	
 	
 	// PUBLIC METHODS
 	
 	public void changeWorkerPanel( WorkerList new_dwd ) throws Exception{
-		
 		day_panel.changeCovenantWorkerPanel( new_dwd );
-		
 	}
 	
 	public List<String> getSelectedWorkers() {

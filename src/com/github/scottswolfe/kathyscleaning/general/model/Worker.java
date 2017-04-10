@@ -78,5 +78,5 @@ public class Worker {
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
-    
+        
 }

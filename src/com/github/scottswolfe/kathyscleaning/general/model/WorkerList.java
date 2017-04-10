@@ -29,13 +29,6 @@ public class WorkerList implements Iterable<Worker> {
             (System.getProperty("user.dir") +
                     "\\save\\CovenantWorkerSaveFile"));
     
-    /**
-     * Save file with list of default Weekend workers.
-     */
-    public static final File WEEKEND_WORKERS = new File(
-            (System.getProperty("user.dir") + "\\save\\WeekendWorkSaveFile"));
-
-    
     
     
 /* FIELDS =================================================================== */
@@ -69,7 +62,6 @@ public class WorkerList implements Iterable<Worker> {
 	        this.workers.add(worker);
 	    }
 	}
-	
 	
 	public WorkerList(File file) {
 	    this.workers = readWorkers(file);
@@ -144,7 +136,15 @@ public class WorkerList implements Iterable<Worker> {
         }
         return workers.get(index).getName();
 	}
-		
+
+	public boolean containsName(Worker worker) {
+	    for (Worker w : workers) {
+	        if (w.getName().equals(worker.getName())) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 	
 	
 /* PRIVATE METHODS ========================================================== */
