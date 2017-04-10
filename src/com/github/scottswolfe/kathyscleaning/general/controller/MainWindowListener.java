@@ -42,7 +42,7 @@ public class MainWindowListener implements WindowListener {
 	
 	@SuppressWarnings("rawtypes")
 	public static boolean askUserIfSaveBeforeClose(Controller controller, boolean initializeMenu) {
-	    String[] options = {"Save", "Cancel", "Do not Save"};
+	    String[] options = {"Save", "Cancel", "Don't Save"};
         int SAVE = 0; int CANCEL = 1; int NOT_SAVE = 2;
         int response = JOptionPane.showOptionDialog(new JFrame(), "<html>Would you like to save your file before closing?",
                                      null, JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, 0);
