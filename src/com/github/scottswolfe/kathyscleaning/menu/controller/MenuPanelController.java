@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 
 import javax.swing.JFrame;
 
+import com.github.scottswolfe.kathyscleaning.Main;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
@@ -127,7 +128,7 @@ public class MenuPanelController {
      */
     public static void initializeMenuPanelFrame() {
         
-        SessionModel.initialize();
+        Main.setupSaveFileStuff();
         
         JFrame frame = new JFrame();
         MenuPanel menuPanel = new MenuPanel(frame);

@@ -9,6 +9,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener.Action;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
@@ -69,10 +70,13 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
 
     @Override
     public void menuItemOpen() {
-        File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
-        if (file != null) {
-            SessionModel.setSaveFile(file);
-            controller.readFileAndWriteToView(file);
+        boolean response = MainWindowListener.askUserIfSaveBeforeAction(controller, Action.OPEN, false);
+        if (response == true) {
+            File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
+            if (file != null) {
+                SessionModel.setSaveFile(file);
+                controller.readFileAndWriteToView(file);
+            }
         }
     }
     

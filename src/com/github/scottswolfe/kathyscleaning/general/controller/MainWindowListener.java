@@ -15,6 +15,10 @@ import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController
 
 public class MainWindowListener implements WindowListener {
 	
+    public enum Action {
+        CLOSE, OPEN;
+    }
+    
     @SuppressWarnings("rawtypes")
     Controller controller;
     
@@ -37,17 +41,23 @@ public class MainWindowListener implements WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-	    askUserIfSaveBeforeClose(controller, true);
+	    askUserIfSaveBeforeAction(controller, Action.CLOSE, true);
 	}
 	
+	// TODO refactor this method...
 	@SuppressWarnings("rawtypes")
-	public static boolean askUserIfSaveBeforeClose(Controller controller, boolean initializeMenu) {
-	    String[] options = {"Save", "Cancel", "Don't Save"};
-        int SAVE = 0; int CANCEL = 1; int NOT_SAVE = 2;
-        int response = JOptionPane.showOptionDialog(new JFrame(), "<html>Would you like to save your file before closing?",
+	public static boolean askUserIfSaveBeforeAction(Controller controller, Action action, boolean shouldInitializeMenu) {
+	    String[] options = {"Save",  "Don't Save", "Cancel"};
+        int SAVE = 0; int NOT_SAVE = 1; int CANCEL = 2;
+        String message;
+        if (action == Action.OPEN) {
+            message = "<html>Would you like to save the current file before opening another?";
+        } else {
+            message = "<html>Would you like to save your file before closing?";
+        }
+        int response = JOptionPane.showOptionDialog(new JFrame(), message,
                                      null, JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, 0);
         if (response == SAVE) {
-            // TODO this is repeat code; copied from MenuBarController
             File file = null;
             if (!SessionModel.isSaveFileChosen()) {
                 file = FileChooserHelper.saveAs(
@@ -62,7 +72,9 @@ public class MainWindowListener implements WindowListener {
             }
             if (file != null) {
                 controller.readInputAndWriteToFile(file);
-                closeProgram(controller, initializeMenu);
+                if (action == Action.CLOSE) {
+                    closeProgram(controller, shouldInitializeMenu);
+                }
                 return true;
             } else {
                 return false;
@@ -70,13 +82,15 @@ public class MainWindowListener implements WindowListener {
         } else if (response == CANCEL) {
             return false;
         } else if (response == NOT_SAVE) {
-            closeProgram(controller, initializeMenu);
+            if (action == Action.CLOSE) {
+                closeProgram(controller, shouldInitializeMenu);
+            }
             return true;
         } else {
             return false;
         }
 	}
-	
+		
     @SuppressWarnings("rawtypes")
     private static void closeProgram(Controller controller, boolean initializeMenu) {
         controller.eliminateWindow();

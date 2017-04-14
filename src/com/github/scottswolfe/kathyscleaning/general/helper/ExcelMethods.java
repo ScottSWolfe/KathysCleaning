@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener.Action;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 
@@ -65,7 +66,7 @@ public class ExcelMethods {
     public static void chooseFileAndGenerateExcelDoc(Controller controller) {
 
         controller.readInputAndWriteToFile(null);
-        boolean response = MainWindowListener.askUserIfSaveBeforeClose(controller, false);
+        boolean response = MainWindowListener.askUserIfSaveBeforeAction(controller, Action.CLOSE, false);
         if (response == false) {
             return;
         }

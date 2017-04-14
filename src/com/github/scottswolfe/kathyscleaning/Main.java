@@ -32,7 +32,7 @@ public class Main {
 	}
 	
 	// TODO put this somewhere else and refactor
-	private static void setupSaveFileStuff() {
+	public static void setupSaveFileStuff() {
 	    
 	    try {
 	        SettingsModel.load(Settings.SETTINGS_SAVE_FILE);
