@@ -74,7 +74,7 @@ public class MenuPanelController {
     public class OpenListener implements ActionListener {
         public void actionPerformed(ActionEvent e)  {                        
             File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR,
-                                               FileChooserHelper.TXT);
+                                               FileChooserHelper.KC);
             if (file == null) {
                 return;
             }

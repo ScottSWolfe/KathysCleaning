@@ -30,7 +30,7 @@ public class FileChooserHelper {
     
 
     public final static String XLSX = "xlsx";
-    public final static String TXT = "txt";
+    public final static String KC = "kc";
     
 /* PRIVATE CLASS VARIABLES ================================================== */
     

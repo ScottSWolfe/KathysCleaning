@@ -63,7 +63,7 @@ public class MainWindowListener implements WindowListener {
                 file = FileChooserHelper.saveAs(
                        FileChooserHelper.SAVE_FILE_DIR, FileNameHelper.createDatedFileName(
                        FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
-                       FileChooserHelper.TXT), FileChooserHelper.TXT);
+                       FileChooserHelper.KC), FileChooserHelper.KC);
             } else {
                 file = SessionModel.getSaveFile();
             }

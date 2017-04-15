@@ -35,10 +35,10 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
      */
     Controller<ViewObject, ModelObject> controller;
     
-    private static final List<String> a = new ArrayList<>();
+    private static final List<String> WEEK_TEMPLATE_LIST = new ArrayList<>();
     {
-        a.add("Week A Template.txt");
-        a.add("Week B Template.txt");
+        WEEK_TEMPLATE_LIST.add("Week A Template" + FileChooserHelper.KC);
+        WEEK_TEMPLATE_LIST.add("Week B Template" + FileChooserHelper.KC);
     }
     
     
@@ -73,7 +73,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             file = FileChooserHelper.saveAs(
                     FileChooserHelper.SAVE_FILE_DIR, createSuggestedName(
                     FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
-                    FileChooserHelper.TXT), FileChooserHelper.TXT);
+                    FileChooserHelper.KC), FileChooserHelper.KC);
         } else {
             file = FileChooserHelper.saveAs(SessionModel.getSaveFile()); 
         }
@@ -91,7 +91,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     public void menuItemOpen() {
         boolean response = MainWindowListener.askUserIfSaveBeforeAction(controller, Action.OPEN, false);
         if (response == true) {
-            File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
+            File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
             if (file != null) {
                 boolean result = askIfOverwriteTemplate(file);
                 if (result == false) {
@@ -238,7 +238,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         if (SessionModel.isSaveFileChosen() == false) {
             return true;
         }
-        if (a.contains(file.getName()) == false) {
+        if (WEEK_TEMPLATE_LIST.contains(file.getName()) == false) {
             return true;
         }
         String[] options = {"Overwrite",  "Don't Overwrite"};
