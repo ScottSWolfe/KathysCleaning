@@ -162,9 +162,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
     @Override
     public void initializeForm(GeneralController<TabbedPane, CompletedModel> controller) {
 
-        //Reading Default Worker Data from save file
-        WorkerList workers = new WorkerList();
-        workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+        WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
         
         TabbedPane tp = new TabbedPane();
         tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));

@@ -11,7 +11,7 @@ public class HeaderData {
 	private Calendar date;
 	
 	public HeaderData() {
-		workers = new WorkerList();
+		workers = new WorkerList(WorkerList.HOUSE_WORKERS);
 		date = SessionModel.getCompletedStartDay();
 	}
 		

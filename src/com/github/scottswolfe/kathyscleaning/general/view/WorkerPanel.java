@@ -167,6 +167,9 @@ public class WorkerPanel extends JPanel {
 	            if (columns * i + j < workers.size()) {
 	                workerCheckBoxes[i][j].setText(workers.get(columns * i + j).getName());
 	                workerCheckBoxes[i][j].setSelected(workers.get(columns * i + j).isSelected());
+	            } else {
+	                workerCheckBoxes[i][j].setText("");
+	                workerCheckBoxes[i][j].setSelected(false);
 	            }
 	        }
 	    }

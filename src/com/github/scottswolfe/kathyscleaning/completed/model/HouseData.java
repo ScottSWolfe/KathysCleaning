@@ -21,7 +21,7 @@ public class HouseData {
 	    time_begin = "";
 	    time_end = "";
 	    selected_workers = new ArrayList<>();
-	    workers = new WorkerList();
+	    workers = new WorkerList(WorkerList.HOUSE_WORKERS);
 	    exception_data = new ExceptionData();
 	}
 	

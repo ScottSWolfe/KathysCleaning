@@ -76,9 +76,11 @@ public class HousePanel extends JPanel {
 	public HousePanel(String title, WorkerList dwd, DayPanel day_panel, JFrame frame, TabbedPane tp) {
 		
 		this.day_panel = day_panel;
-		this.dwd = dwd;
 		this.frame = frame;
 		this.tp = tp;
+		
+		// TODO temporary hack
+		dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
 		
 		this.exception_data = new ExceptionData();
 		
