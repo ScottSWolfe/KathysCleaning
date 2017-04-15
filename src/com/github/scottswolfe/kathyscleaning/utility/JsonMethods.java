@@ -20,7 +20,7 @@ public class JsonMethods {
      */
     private static Gson gson = new Gson();
     
-    
+
     
 /* PUBLIC METHODS =========================================================== */
     
@@ -47,6 +47,7 @@ public class JsonMethods {
      */
     public static void saveToFileJSON(Object data, Class<?> type,
                                       File file, int lineNumber) {
+        
         
         saveToFile(data, type, file, lineNumber);
     }

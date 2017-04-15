@@ -16,7 +16,7 @@ import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController
 public class MainWindowListener implements WindowListener {
 	
     public enum Action {
-        CLOSE, OPEN;
+        CLOSE, OPEN, OVERWRITE;
     }
     
     @SuppressWarnings("rawtypes")
@@ -52,6 +52,8 @@ public class MainWindowListener implements WindowListener {
         String message;
         if (action == Action.OPEN) {
             message = "<html>Would you like to save the current file before opening another?";
+        } else if (action == Action.OVERWRITE) {
+            message = "<html>Are you sure you want overwrite the template file?";
         } else {
             message = "<html>Would you like to save your file before closing?";
         }
@@ -59,18 +61,20 @@ public class MainWindowListener implements WindowListener {
                                      null, JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, 0);
         if (response == SAVE) {
             File file = null;
-            if (!SessionModel.isSaveFileChosen()) {
+            if (SessionModel.isSaveFileChosen() == false) {
                 file = FileChooserHelper.saveAs(
                        FileChooserHelper.SAVE_FILE_DIR, FileNameHelper.createDatedFileName(
                        FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
                        FileChooserHelper.TXT), FileChooserHelper.TXT);
-                if (file != null) {
-                    SessionModel.setSaveFile(file);
-                }
             } else {
                 file = SessionModel.getSaveFile();
             }
             if (file != null) {
+                boolean result = MenuBarController.askIfOverwriteTemplate(file);
+                if (result == false) {
+                    return false;
+                }
+                SessionModel.setSaveFile(file);
                 controller.readInputAndWriteToFile(file);
                 if (action == Action.CLOSE) {
                     closeProgram(controller, shouldInitializeMenu);

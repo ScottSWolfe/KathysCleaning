@@ -3,6 +3,11 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
@@ -30,6 +35,11 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
      */
     Controller<ViewObject, ModelObject> controller;
     
+    private static final List<String> a = new ArrayList<>();
+    {
+        a.add("Week A Template.txt");
+        a.add("Week B Template.txt");
+    }
     
     
 /* CONSTRUCTORS ============================================================= */
@@ -47,7 +57,12 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         if (!SessionModel.isSaveFileChosen()) {
             menuItemSaveAs();
         } else {
-            controller.readInputAndWriteToFile(SessionModel.getSaveFile());
+            File file = SessionModel.getSaveFile();
+            boolean response = askIfOverwriteTemplate(file);
+            if (response == false) {
+                return;
+            }
+            controller.readInputAndWriteToFile(file);
         }
     }
 
@@ -63,6 +78,10 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             file = FileChooserHelper.saveAs(SessionModel.getSaveFile()); 
         }
         if (file != null) {
+            boolean response = askIfOverwriteTemplate(file);
+            if (response == false) {
+                return;
+            }
             SessionModel.setSaveFile(file);
             controller.readInputAndWriteToFile(file);
         }
@@ -74,6 +93,10 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         if (response == true) {
             File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
             if (file != null) {
+                boolean result = askIfOverwriteTemplate(file);
+                if (result == false) {
+                    return;
+                }
                 SessionModel.setSaveFile(file);
                 controller.readFileAndWriteToView(file);
             }
@@ -209,6 +232,28 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     
     private String createSuggestedName(String directory, String extension) {
         return FileNameHelper.createDatedFileName(directory, extension);
+    }
+
+    public static boolean askIfOverwriteTemplate(File file) {
+        if (SessionModel.isSaveFileChosen() == false) {
+            return true;
+        }
+        if (a.contains(file.getName()) == false) {
+            return true;
+        }
+        String[] options = {"Overwrite",  "Don't Overwrite"};
+        @SuppressWarnings("unused")
+        int OVERWRITE = 0; int NOT_OVERWRITE = 1;
+        String message  = "<html>Are you sure you want overwrite " + file.getName() + "?";
+        int response = JOptionPane.showOptionDialog(new JFrame(), message,
+                                     null, JOptionPane.DEFAULT_OPTION,
+                                     JOptionPane.WARNING_MESSAGE, null, options, 0);
+
+        if (response == NOT_OVERWRITE) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }
