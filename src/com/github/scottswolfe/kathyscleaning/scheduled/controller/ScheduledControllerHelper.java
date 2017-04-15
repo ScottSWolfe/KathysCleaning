@@ -72,6 +72,7 @@ public class ScheduledControllerHelper
                 completedHouseData[h] = new HouseData();
                 completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].house_name_txt.getText()); 
                 completedHouseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panel[h].worker_panel.getSelected());
+                completedHouseData[h].setWorkerList(tp.nw_day_panel[d].house_panel[h].worker_panel.getWorkers());
             }
             dayData[d].setHouseData(houseData);
             completedDayData[d].setHouseData(completedHouseData);
@@ -110,26 +111,8 @@ public class ScheduledControllerHelper
 
                 NW_HouseData houseData = houses[h];
 
-                tp.nw_day_panel[d].house_panel[h].house_name_txt.setText(houseData.getHouseName());
-                                    
-                for(int l = 0; l < WorkerPanel.NORM_ROWS; l++){
-                    for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++){
-                        tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(false);
-                    }
-                }
-                // TODO below needs refactoring
-                List<String> workers = houseData.getSelectedWorkers();
-                for (int i = 0; i < workers.size(); i++) {
-                    String worker = workers.get(i);
-                    for(int l = 0; l < WorkerPanel.NORM_ROWS; l++){
-                        for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++){
-                            if (worker.equals(tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].getText())) {
-                                tp.nw_day_panel[d].house_panel[h].worker_panel.workerCheckBoxes[l][m].setSelected(true);
-                                break;
-                            }
-                        }
-                    }
-                }
+                tp.nw_day_panel[d].house_panel[h].house_name_txt.setText(houseData.getHouseName());                
+                tp.nw_day_panel[d].house_panel[h].worker_panel.setWorkers(houseData.getWorkers());
                 
                 // 4. making sure there is a correct number of house panels available to fill
                 
@@ -173,7 +156,8 @@ public class ScheduledControllerHelper
     @Override
     public void initializeForm(GeneralController<TabbedPane, NW_Data> controller) {
         
-        WorkerList workers = new WorkerList();
+        WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+
         try {
             workers = new WorkerList(WorkerList.HOUSE_WORKERS);
         } catch (Exception e1) {
