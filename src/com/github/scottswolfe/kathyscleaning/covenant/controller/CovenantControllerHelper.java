@@ -1,11 +1,14 @@
 package com.github.scottswolfe.kathyscleaning.covenant.controller;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantEntry;
@@ -133,7 +136,12 @@ public class CovenantControllerHelper
         
         controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
 
-        mainFrame.add(covPanel);
+        // TODO temporary hack
+        JScrollPane scrollPane = new JScrollPane(covPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        mainFrame.add(scrollPane);
+        Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        mainFrame.setMaximizedBounds(effectiveScreenSize);
+        
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
