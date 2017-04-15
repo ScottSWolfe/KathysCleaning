@@ -52,8 +52,6 @@ public class MainWindowListener implements WindowListener {
         String message;
         if (action == Action.OPEN) {
             message = "<html>Would you like to save the current file before opening another?";
-        } else if (action == Action.OVERWRITE) {
-            message = "<html>Are you sure you want overwrite the template file?";
         } else {
             message = "<html>Would you like to save your file before closing?";
         }
