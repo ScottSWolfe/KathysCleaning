@@ -68,6 +68,7 @@ public class MainWindowListener implements WindowListener {
                 file = SessionModel.getSaveFile();
             }
             if (file != null) {
+                file = MenuBarController.checkExtension(file);
                 boolean result = MenuBarController.askIfOverwriteTemplate(file);
                 if (result == false) {
                     return false;

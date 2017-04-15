@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
@@ -58,6 +60,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             menuItemSaveAs();
         } else {
             File file = SessionModel.getSaveFile();
+            file = checkExtension(file);
             boolean response = askIfOverwriteTemplate(file);
             if (response == false) {
                 return;
@@ -78,6 +81,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             file = FileChooserHelper.saveAs(SessionModel.getSaveFile()); 
         }
         if (file != null) {
+            file = checkExtension(file);
             boolean response = askIfOverwriteTemplate(file);
             if (response == false) {
                 return;
@@ -93,6 +97,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         if (response == true) {
             File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
             if (file != null) {
+                file = checkExtension(file);
                 boolean result = askIfOverwriteTemplate(file);
                 if (result == false) {
                     return;
@@ -253,6 +258,15 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             return false;
         } else {
             return true;
+        }
+    }
+    
+    public static File checkExtension(File file) {
+        String path = file.getPath();
+        if (FilenameUtils.isExtension(path, FileChooserHelper.KC)) {
+            return file;
+        } else {
+            return new File(path + "." + FileChooserHelper.KC);    
         }
     }
 
