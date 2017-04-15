@@ -27,7 +27,6 @@ import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_EditDefault
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HeaderData;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -218,35 +217,5 @@ public class NW_HeaderPanel extends JPanel {
 		return panel;
 		
 	}
-	
-	
-//  
-	public NW_HeaderData getHeaderData() {
-		
-		NW_HeaderData header_data = new NW_HeaderData( this.getWeek(), this.dwd );
-		
-		return header_data;
-	}
-	
-	
-	public String getWeek() {
-		
-		if( week_A.isSelected() ){
-			return "Week A";
-		}
-		else if( week_B.isSelected() ) {
-			return "Week B";
-		}
-		else if( neither.isSelected() ) {
-			return "Neither";
-		}
-		else {
-			return null;
-		}
-		
-	}
-	
-	
-	
 	
 }

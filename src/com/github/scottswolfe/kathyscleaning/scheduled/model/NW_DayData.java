@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HeaderPanel;
 
 public class NW_DayData {
 	
@@ -38,7 +37,7 @@ public class NW_DayData {
 		beginExceptionList = new ArrayList<>();
 		meet_location = "";
 		meet_time = "";
-		cov_worker = new WorkerList();
+		cov_worker = new WorkerList(WorkerList.COVENANT_WORKERS);
 		covNoteData = new NoteData();
 		ws = new ArrayList<>();
 	}
@@ -68,15 +67,7 @@ public class NW_DayData {
 	
 	public List<WorkerSchedule> getWorkerSchedule() {
 		return ws;
-	}
-	
-	public NW_HeaderData getHeaderData( NW_HeaderPanel header_panel ) {
-		
-		return header_panel.getHeaderData();
-		
-	}
-	
-	
+	}	
 	
 	public void setHeader(NW_HeaderData headerData) {
 		this.headerData = headerData;

@@ -60,19 +60,7 @@ public class NW_DayPanel extends JPanel{
 	
 	int mode;
 	int wk;
-	
-	
-/*
-	public final static int PANEL_PADDING = 12;
-	public final static int TOP_INSET = 5;
-	
-	public final static float FONT_SIZE = 18;
-	public final static float HEADER_FONT_SIZE = 22;
-	public final static float TAB_FONT_SIZE = 18;
-	
-	public final static int NUM_HOUSE_PANELS = 3;
-*/	
-	
+		
 	TabbedPane tp;
 	DayData day_data;
 	Calendar date;
@@ -111,10 +99,7 @@ public class NW_DayPanel extends JPanel{
 		this.wk = wk;
 		this.tp = tp;
 		
-		//covenant_note_data = new NoteData( NW_NotePanel.ROWS );
-		//day_note_data = new NoteData( NW_NotePanel.ROWS );
-		
-		setLayout( new MigLayout() ); //( new String("insets " + DayPanel.TOP_INSET + " 5 0 5"),"","") );
+		setLayout(new MigLayout());
 		setBackground(Settings.BACKGROUND_COLOR);
 		
 		header_panel = new NW_HeaderPanel(controller, tp, dwd, this, date, frame, mode, wk);
@@ -135,15 +120,12 @@ public class NW_DayPanel extends JPanel{
 			jsp_panel.add(house_panel[i], new String("wrap " + DayPanel.PANEL_PADDING + ", grow") );
 		}
 		jsp_panel.add(house_panel[house_panel.length-1], new String("wrap " + DayPanel.PANEL_PADDING + ", grow") );
-		//jsp_panel.add(cov_panel, "dock south, growx");
 		
 		jsp = new JScrollPane(jsp_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				   ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 		jsp.setBackground( Settings.BACKGROUND_COLOR );
 		
-		//Border border = BorderFactory.createLineBorder(null,2);
-				MatteBorder mborder2 = BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK);
-				//CompoundBorder border2 = BorderFactory.createCompoundBorder(mborder, BorderFactory.createLoweredBevelBorder());
+		MatteBorder mborder2 = BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK);
 				
 		jsp.setBorder( mborder2 );
 		
@@ -153,14 +135,7 @@ public class NW_DayPanel extends JPanel{
 		add(header_panel, new String("dock north, grow") );
 		add(begin_panel, new String("dock north, grow"));
 		add(jsp, new String("grow") );
-		add(cov_panel, "dock south, grow");
-		
-		
-		//add(header_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", growx, span 2") );
-		//add(begin_panel, new String("cell 0 1 1 50, growy"));
-
-		
-		//add(footer_panel, new String( "wrap " + DayPanel.PANEL_PADDING + ", growx" ) );
+		add(cov_panel, "dock south, grow");		
 	}
 	
 	
@@ -178,9 +153,7 @@ public class NW_DayPanel extends JPanel{
 		panel.setLayout( new MigLayout( "insets 10, fill" ) );
 		panel.setBackground( Settings.BACKGROUND_COLOR );
 
-		//Border border = BorderFactory.createLineBorder(null,2);
 		MatteBorder mborder = BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK);
-		//CompoundBorder border2 = BorderFactory.createCompoundBorder(mborder, BorderFactory.createLoweredBevelBorder());
 		
 		panel.setBorder( mborder );
 				
@@ -206,20 +179,14 @@ public class NW_DayPanel extends JPanel{
 		
 		exception_button = new JButton();
 		exception_button.setText("Exceptions");
-		//exception_button.setBackground( Settings.MAIN_COLOR);
 		exception_button.setFont( exception_button.getFont().deriveFont(Settings.FONT_SIZE));
-		//exception_button.setForeground( Settings.FOREGROUND_COLOR );
 		exception_button.addActionListener( new NW_ExceptionListener( this, workers, frame ) );
 		
 		note_button = new JButton();
 		note_button.setText( "Note");
-		//note_button.setBackground( Settings.MAIN_COLOR);
 		note_button.setFont( note_button.getFont().deriveFont(Settings.FONT_SIZE));
-		//note_button.setForeground( Settings.FOREGROUND_COLOR );
 		note_button.addActionListener( new NW_NoteListener( this, workers, day_note_data, NW_NotePanel.DAY_NOTE, frame ) );
-		
-		// Adding Elements onto Panel
-		
+				
 		panel.add(meet_location_label,"gapx 0, align right");
 		panel.add(meet_location_box,"gapx 0, align left");
 		panel.add(meet_time_label,"gapx 0, align right");

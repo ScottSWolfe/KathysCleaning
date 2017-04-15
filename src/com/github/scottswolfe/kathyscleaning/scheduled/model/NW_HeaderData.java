@@ -16,16 +16,9 @@ public class NW_HeaderData {
 	
 	public NW_HeaderData() {
 	    week = "";
-	    dwd = new WorkerList();
+	    dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
 	}
-	
-	public NW_HeaderData(String week, WorkerList dwd) {
-		
-		this.week = week;
-		this.dwd = dwd;
-		
-	}
-		
+			
 	public void setWeek(String week) {
 		this.week = week;
 	}

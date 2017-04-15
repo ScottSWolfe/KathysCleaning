@@ -41,7 +41,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public EditCovenantWorkersPanel( NW_CovenantPanel cov_panel, JFrame frame, WorkerList dwd, WorkerPanel dwp   ) throws Exception {
+    public EditCovenantWorkersPanel(NW_CovenantPanel cov_panel, JFrame frame, WorkerList dwd, WorkerPanel dwp) {
 		
 		this.dwd = dwd;
 		this.dwp = dwp;
@@ -49,7 +49,6 @@ public class EditCovenantWorkersPanel extends JPanel {
 		this.cov_panel = cov_panel;
 		
 		worker_combo = new JComboBox[rows][columns];
-		
 		
 		for (int i=0; i<rows; i++) {
 			
@@ -66,7 +65,6 @@ public class EditCovenantWorkersPanel extends JPanel {
 				}
 			
 				worker_combo[i][j].setSelectedItem( dwp.workerCheckBoxes[i][j].getText() );
-				
 			}
 		
 		}
@@ -181,18 +179,14 @@ public class EditCovenantWorkersPanel extends JPanel {
 		
 	//  CONSTRUCTORS
 		private CancelListener( JFrame frame ) {
-			
 			this.frame = frame;
-			
 		}
 		
 		
 	//  LISTENER
 		
 		public void actionPerformed(ActionEvent e){
-			
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-			
 		}
 		
 	}
@@ -201,7 +195,6 @@ public class EditCovenantWorkersPanel extends JPanel {
 	private class SubmitListener implements ActionListener {
 		
 	//  FIELDS
-		
 		JFrame frame;
 		NW_CovenantPanel cov_panel;
 		EditCovenantWorkersPanel ecwp;
@@ -210,11 +203,9 @@ public class EditCovenantWorkersPanel extends JPanel {
 	//  CONSTRUCTOR
 		
 		private SubmitListener(JFrame frame, NW_CovenantPanel cov_panel, EditCovenantWorkersPanel ecwp) {
-			
 			this.frame = frame;
 			this.cov_panel = cov_panel;
 			this.ecwp = ecwp;
-			
 		}
 	
 		
@@ -223,7 +214,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 		public void actionPerformed(ActionEvent e){
 			
 			// check for repeat selections and reprimand user, end method
-			if ( StaticMethods.isRepeatWorker( worker_combo ) ) {
+			if (StaticMethods.isRepeatWorker(worker_combo)) {
 							
 				StaticMethods.shareRepeatWorker();
 				return;
@@ -239,11 +230,7 @@ public class EditCovenantWorkersPanel extends JPanel {
 			}
 			
 			// change workers on Covenant Panel's worker panel
-			try {
-				cov_panel.changeWorkerPanel(workerList);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+			cov_panel.changeWorkerPanel(workerList);
 
 			// close EditDefaultWorkersPanel
 			frame.dispatchEvent(

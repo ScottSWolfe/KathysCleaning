@@ -18,7 +18,7 @@ public class NW_HouseData {
 	public NW_HouseData() {
 	    house_name = "";
 	    selected_workers = new ArrayList<>();
-	    workers = new WorkerList();
+	    workers = new WorkerList(WorkerList.HOUSE_WORKERS);
 	}
 	
 		

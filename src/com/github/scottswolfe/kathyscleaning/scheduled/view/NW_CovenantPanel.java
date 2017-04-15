@@ -47,25 +47,24 @@ public class NW_CovenantPanel extends JPanel {
 	
 	
 	// CONSTRUCTOR
-	public NW_CovenantPanel( NW_DayPanel day_panel, WorkerList dwd, JFrame container_frame ) {
+	public NW_CovenantPanel(NW_DayPanel day_panel, WorkerList notNeeded, JFrame container_frame ) {
 		
 	    // TODO temporary hack
-	    dwd = new WorkerList();
+	    WorkerList allWorkers = new WorkerList();
 	    WorkerList covWorkers = new WorkerList(WorkerList.COVENANT_WORKERS);
 	    WorkerList houseWorkers = new WorkerList(WorkerList.HOUSE_WORKERS);
 	    for (Worker worker : covWorkers.getWorkers()) {
-	        if (!dwd.containsName(worker)) {
-	            dwd.add(worker);
+	        if (!allWorkers.containsName(worker)) {
+	            allWorkers.add(worker);
 	        }
 	    }
 	    for (Worker worker : houseWorkers.getWorkers()) {
-            if (!dwd.containsName(worker)) {
-                dwd.add(worker);
+            if (!allWorkers.containsName(worker)) {
+                allWorkers.add(worker);
             }
         }
 	    
 		this.day_panel = day_panel;
-		this.dwd = dwd;
 		this.container_frame = container_frame;
 		
 		setLayout( new MigLayout( "insets 10, fillx", "[]10[]10[]10[]30[]", "[grow]" ) );
@@ -77,7 +76,7 @@ public class NW_CovenantPanel extends JPanel {
 		header_label.setText( "Covenant" );
 		header_label.setFont( header_label.getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
 		
-		dwp = new WorkerPanel( dwd, Settings.BACKGROUND_COLOR, WorkerPanel.COV_ROWS, WorkerPanel.COV_COLUMNS,
+		dwp = new WorkerPanel( covWorkers, Settings.BACKGROUND_COLOR, WorkerPanel.COV_ROWS, WorkerPanel.COV_COLUMNS,
 										null, null);
 		
 		edit_button = new JButton();
@@ -85,14 +84,14 @@ public class NW_CovenantPanel extends JPanel {
 		//edit_button.setBackground( Settings.MAIN_COLOR);
 		edit_button.setFont( edit_button.getFont().deriveFont(Settings.FONT_SIZE));
 		//edit_button.setForeground( Settings.FOREGROUND_COLOR );
-		edit_button.addActionListener( new EditWorkersListener(this, dwd, dwp) );
+		edit_button.addActionListener( new EditWorkersListener(this, covWorkers, dwp) );
 		
 		covenant_note_button = new JButton();
 		covenant_note_button.setText( "Note");
 		//covenant_note_button.setBackground( Settings.MAIN_COLOR);
 		covenant_note_button.setFont( covenant_note_button.getFont().deriveFont(Settings.FONT_SIZE));
 		//covenant_note_button.setForeground( Settings.FOREGROUND_COLOR );
-		covenant_note_button.addActionListener( new NW_NoteListener( day_panel, dwd, day_panel.covenant_note_data, NW_NotePanel.COVENANT_NOTE, container_frame ) );
+		covenant_note_button.addActionListener( new NW_NoteListener( day_panel, allWorkers, day_panel.covenant_note_data, NW_NotePanel.COVENANT_NOTE, container_frame ) );
 		
 		
 		add(header_label, "grow" );
@@ -106,8 +105,8 @@ public class NW_CovenantPanel extends JPanel {
 	
 	// PUBLIC METHODS
 	
-	public void changeWorkerPanel( WorkerList new_dwd ) throws Exception{
-		day_panel.changeCovenantWorkerPanel( new_dwd );
+	public void changeWorkerPanel( WorkerList new_dwd ) {
+		dwp.setWorkers( new_dwd );
 	}
 	
 	public List<String> getSelectedWorkers() {
@@ -147,12 +146,7 @@ public class NW_CovenantPanel extends JPanel {
 			frame.addWindowListener( new FrameCloseListener( container_frame ));
 			container_frame.setEnabled(false);
 			
-			try {
-			frame.add( new EditCovenantWorkersPanel( cov_panel, frame, dwd, dwp ) );
-			} catch (Exception e1) {
-				
-			}
-			
+			frame.add(new EditCovenantWorkersPanel(cov_panel, frame, dwd, dwp));
 			
 			frame.pack();
 			StaticMethods.findSetLocation(frame);

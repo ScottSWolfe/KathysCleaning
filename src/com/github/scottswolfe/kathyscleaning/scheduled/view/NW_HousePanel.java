@@ -26,13 +26,8 @@ import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_MoveUpListe
 import net.miginfocom.swing.MigLayout;
 
 
-public class NW_HousePanel extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8949680089019757964L;
-	
+@SuppressWarnings("serial")
+public class NW_HousePanel extends JPanel {	
 	
 	
 // FIELDS
@@ -63,10 +58,10 @@ public class NW_HousePanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public NW_HousePanel( WorkerList dwd, NW_DayPanel day_panel, JFrame frame ) {
+	public NW_HousePanel( WorkerList not_used, NW_DayPanel day_panel, JFrame frame ) {
 		
+	    this.dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
 		this.day_panel = day_panel;
-		this.dwd = dwd;
 		this.frame = frame;
 				
 		setBorder(BorderFactory.createTitledBorder( new String() ));
