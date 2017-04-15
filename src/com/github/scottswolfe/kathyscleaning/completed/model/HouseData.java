@@ -3,6 +3,8 @@ package com.github.scottswolfe.kathyscleaning.completed.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+
 public class HouseData {
 
 	private String house_name;
@@ -10,6 +12,7 @@ public class HouseData {
 	private String time_begin;
 	private String time_end;
 	private List<String> selected_workers;
+	private WorkerList workers;
 	private ExceptionData exception_data;
 	
 	public HouseData() {
@@ -18,6 +21,7 @@ public class HouseData {
 	    time_begin = "";
 	    time_end = "";
 	    selected_workers = new ArrayList<>();
+	    workers = new WorkerList();
 	    exception_data = new ExceptionData();
 	}
 	
@@ -68,6 +72,10 @@ public class HouseData {
 		this.selected_workers = selected_workers;
 	}
 	
+	public void setWorkerList(WorkerList workers) {
+	    this.workers = workers;
+	}
+	
 	// Set Exception Data
 	public void setExceptionData( ExceptionData exception_data ){
 		this.exception_data = exception_data;
@@ -92,6 +100,10 @@ public class HouseData {
 	
 	public List<String> getSelectedWorkers() {
 		return selected_workers;
+	}
+	
+	public WorkerList getWorkerList() {
+	    return workers;
 	}
 	
 	public ExceptionData getExceptionData() {

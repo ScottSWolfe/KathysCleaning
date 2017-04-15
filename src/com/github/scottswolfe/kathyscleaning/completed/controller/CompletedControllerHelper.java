@@ -23,7 +23,6 @@ import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
@@ -62,7 +61,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 houseData[h].setHousePay(tp.day_panel[d].house_panel[h].pay_txt.getText());
                 houseData[h].setTimeBegin(tp.day_panel[d].house_panel[h].time_begin_txt.getText());
                 houseData[h].setTimeEnd(tp.day_panel[d].house_panel[h].time_end_txt.getText());
-                houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].worker_panel.getSelected()); 
+                houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].worker_panel.getSelected());
+                houseData[h].setWorkerList(tp.day_panel[d].house_panel[h].worker_panel.getWorkers());
                 houseData[h].setExceptionData(tp.day_panel[d].house_panel[h].exception_data.getExceptionData());
             }
             
@@ -113,31 +113,9 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                             String.valueOf(house_data.getHousePay()));
                 }
                 house_panel.time_begin_txt.setText(house_data.getTimeBegin());
-                house_panel.time_end_txt.setText(house_data.getTimeEnd());
-                
-                // TODO create method to set view blank before filling in ??
-                // unselect any selected workers
-                for(int l = 0; l < WorkerPanel.NORM_ROWS; l++) {
-                    for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++) {
-                        house_panel.worker_panel.workerCheckBoxes[l][m].setSelected(false);
-                    }
-                }
-                
-                // set selected workers
-                // TODO this can be made more efficient by breaking out of
-                // the double for loop when finding a match
-                for (String worker : house_data.getSelectedWorkers()) {
-                    for(int l = 0; l < WorkerPanel.NORM_ROWS; l++){
-                        for(int m = 0; m < WorkerPanel.NORM_COLUMNS; m++){
-                            if (worker.equals(house_panel.worker_panel.workerCheckBoxes[l][m].getText())) {
-                                house_panel.worker_panel.workerCheckBoxes[l][m].setSelected(true);
-                            }
-                        }
-                    }
-                }
-                
+                house_panel.time_end_txt.setText(house_data.getTimeEnd());                
+                house_panel.worker_panel.setWorkers(house_data.getWorkerList());
                 house_panel.exception_data = house_data.getExceptionData();
-                
                 
                 // if there are more houses to fill in
                 // and there are more empty house panels
