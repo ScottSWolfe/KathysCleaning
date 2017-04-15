@@ -98,7 +98,7 @@ public class ScheduledControllerHelper
             dayData = model.dayData[d];
             NW_DayPanel dp = tp.nw_day_panel[d];
             
-            dp.meet_location_box.setSelectedItem(dayData.meet_location);                
+            dp.meet_location_box.setSelectedItem(dayData.meet_location);
             dp.meet_time_field.setText(dayData.meet_time);
             dp.setBeginExceptionData(dayData.beginExceptionList);
             tp.nw_day_panel[d].cov_panel.dwp.setWorkers(dayData.cov_worker);            

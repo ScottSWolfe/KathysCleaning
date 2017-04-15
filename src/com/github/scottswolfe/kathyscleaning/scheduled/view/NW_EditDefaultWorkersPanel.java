@@ -34,7 +34,7 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public NW_EditDefaultWorkersPanel( WorkerPanel dwp, JFrame frame, NW_DayPanel day_panel ) throws Exception {
+    public NW_EditDefaultWorkersPanel( WorkerPanel dwp, JFrame frame, NW_DayPanel day_panel ) {
 	
 		this.dwp = dwp;
 		this.frame = frame;
@@ -183,15 +183,7 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 		
 	//  LISTENER
 		
-		public void actionPerformed(ActionEvent e){
-			
-			// possible JOptionPane message asking if sure they want to cancel
-			
-			/*
-			frame.setVisible(false);
-			frame.dispose();
-			*/
-			
+		public void actionPerformed(ActionEvent e){			
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			
 		}
@@ -223,24 +215,19 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e){
 			
-			// check for repeat selections and reprimand user, end method
 			if ( StaticMethods.isRepeatWorker( worker_combo ) ) {
-							
 				StaticMethods.shareRepeatWorker();
 				return;
 			}			
 			
 			// copy workers selected
-			WorkerList workers = new WorkerList();			
+			WorkerList workers = new WorkerList();		
 			for (int i=0; i<rows; i++){
 				for (int j=0; j<columns; j++) {
 					workers.add(String.valueOf(
 					        edwp.worker_combo[i][j].getSelectedItem()));
 				}
 			}
-			
-			
-			
 			
 			// paste workers selected on header dwp and house panel dwps
 			day_panel.changeWorkerPanels(workers);

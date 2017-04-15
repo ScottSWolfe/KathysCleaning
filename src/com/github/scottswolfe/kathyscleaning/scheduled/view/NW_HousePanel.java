@@ -177,27 +177,9 @@ public class NW_HousePanel extends JPanel {
 	
 	
 	
-	public NW_HousePanel changeHouseWorkers( WorkerList dwd ) {
+	public void changeHouseWorkers( WorkerList dwd ) {
 		
-		NW_HousePanel new_panel = new NW_HousePanel( dwd, this.day_panel, this.frame);
-		
-		//create public methods to do this in best practice:
-		new_panel.title = this.title;
-		new_panel.house_name_txt.setText(this.house_name_txt.getText());
-		
-		/*
-		int rows = DefaultWorkerPanel.ROWS;
-		int columns = DefaultWorkerPanel.COLUMNS;
-		for(int i=0; i<rows; i++){
-			for(int j=0; j<columns; j++){
-				if(this.worker_panel.worker[i][j].isSelected()){
-					new_panel.worker_panel.worker[i][j].setSelected(true);
-				}
-			}
-		}
-		*/
-		
-		return new_panel;
+	    worker_panel.setWorkers(dwd);
 		
 	}
 	

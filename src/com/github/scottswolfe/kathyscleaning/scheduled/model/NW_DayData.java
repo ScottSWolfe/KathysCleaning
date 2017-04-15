@@ -94,4 +94,12 @@ public class NW_DayData {
 		this.beginExceptionList = bed;
 	}
 	
+	public void setMeetLocation(String location) {
+	    if (location != null) {
+	        meet_location = location;
+	    } else {
+	        meet_location = "";
+	    }
+	}
+	
 }
