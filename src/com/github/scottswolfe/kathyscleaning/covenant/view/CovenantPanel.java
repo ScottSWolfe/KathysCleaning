@@ -124,10 +124,6 @@ public class CovenantPanel extends JPanel {
 	        Calendar date, int mode, int wk) {
 				
 		controller = listeners;
-		//TODO temporary hack
-		CovenantModel covModel = new CovenantModel(
-		        new WorkerList(WorkerList.COVENANT_WORKERS), date, mode, wk); 
-		controller.setCovModel(covModel);
 		
 		setLayout(new MigLayout());
 		setBackground(Settings.BACKGROUND_COLOR);
@@ -145,16 +141,15 @@ public class CovenantPanel extends JPanel {
 		
 		String layout_format;
 		
+		WorkerList workers = new WorkerList(WorkerList.COVENANT_WORKERS);
 		//worker labels
 		for(int i=0; i<rows; i++){
 			
 			nameLabels[i] = new JLabel();
 			
-			//TODO this is a temporary hack
-			if (controller.getCovModel() != null && controller.getCovModel().getDwd().getWorkers() != null &&
-			        i<controller.getCovModel().getDwd().size() &&
-			        controller.getCovModel().getDwd().get(i) != null) {
-				nameLabels[i].setText(controller.getCovModel().getDwd().get(i).getName() );
+			
+			if (i < workers.size()) {
+			    nameLabels[i].setText(workers.getName(i));
 			}
 			else {
 				nameLabels[i].setText("");
