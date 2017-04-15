@@ -62,10 +62,11 @@ public class SettingsPanelController {
             try {
                 Desktop.getDesktop().open(SettingsModel.getExcelTemplateFile());
             } catch (IllegalArgumentException e1) {
-                    System.out.println("Desktop Open Error");
-                    JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen document could not be opened");
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen file could not be opened");
             } catch (IOException e2) {
                 e2.printStackTrace();
+                JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen file could not be opened");
             } 
         }
         
@@ -92,19 +93,18 @@ public class SettingsPanelController {
         // ACTION LISTENER
         public void actionPerformed( ActionEvent e ) {
             
-            // Change look and feel to default system look and feel
             Settings.changeLookAndFeelSystem();
             
             JFileChooser chooser = new JFileChooser();
-            chooser.setCurrentDirectory( new File(System.getProperty("user.home") + "\\Desktop") );
+            chooser.setCurrentDirectory(SettingsModel.getExcelTemplateFile().getParentFile());
             chooser.setDialogTitle("Choose Default Excel Template");
             FileNameExtensionFilter filter = new FileNameExtensionFilter("XLSX files", "xlsx");
             chooser.setFileFilter(filter);
             chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                
-                SettingsModel.setExcelTemplateFile(chooser.getSelectedFile());
+                File file = new File(chooser.getSelectedFile().getPath());
+                SettingsModel.setExcelTemplateFile(file);
                 settingsPanel.setExcelSelectionTextfield(
                         chooser.getSelectedFile().getName());
                 SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
@@ -124,20 +124,19 @@ public class SettingsPanelController {
             Settings.changeLookAndFeelSystem();
             
             JFileChooser chooser = new JFileChooser();
-            chooser.setCurrentDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
+            chooser.setCurrentDirectory(SettingsModel.getExcelSaveLocation());
             chooser.setDialogTitle("Choose Save Location");
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                SettingsModel.setExcelSaveLocation(chooser.getSelectedFile());
+                File file = new File(chooser.getSelectedFile().getPath());
+                SettingsModel.setExcelSaveLocation(file);
                 settingsPanel.setExcelSaveLocationTextfield(
                         SettingsModel.getExcelSaveLocation().getName());
                 SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
             } else {
               // do nothing
-            }
-            
-            // change look and feel back to nimbus
+            }            
             Settings.changeLookAndFeelProgram();    
         }
     }

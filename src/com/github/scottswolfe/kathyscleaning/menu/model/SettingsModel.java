@@ -21,7 +21,7 @@ public class SettingsModel {
      */
     private static int fontSizeFactor;
     
-    
+
     
 /* PUBLIC METHODS =========================================================== */
     
@@ -68,8 +68,8 @@ public class SettingsModel {
         }
         
         void load() {
-            SettingsModel.setExcelTemplateFile(excelTemplateFile);
-            SettingsModel.setExcelSaveLocation(excelSaveLocation);
+            SettingsModel.setExcelTemplateFile(new File(excelTemplateFile.getPath()));
+            SettingsModel.setExcelSaveLocation(new File(excelSaveLocation.getPath()));
             SettingsModel.setFontSizeFactor(fontSizeFactor);
         }
         
