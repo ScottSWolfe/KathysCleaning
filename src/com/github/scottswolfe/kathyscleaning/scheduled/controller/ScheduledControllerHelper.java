@@ -25,6 +25,7 @@ import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HeaderData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HouseData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.WorkerSchedule;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
@@ -52,6 +53,10 @@ public class ScheduledControllerHelper
             dayData[d] = new NW_DayData();
             completedDayData[d] = new DayData();
 
+            NW_HeaderData header = new NW_HeaderData();
+            header.setDWD(dp.header_panel.dwp.getWorkers());
+            dayData[d].setHeader(header);
+            
             dayData[d].beginExceptionList = dp.bed;
             dayData[d].cov_worker = dp.cov_panel.dwp.getWorkers();
             dayData[d].meet_location = dp.getMeetLocation();
@@ -67,7 +72,8 @@ public class ScheduledControllerHelper
                 houseData[h] = new NW_HouseData();
                 houseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].house_name_txt.getText());
                 houseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panel[h].getSelectedWorkers());
-
+                houseData[h].setWorkerList(tp.nw_day_panel[d].house_panel[h].worker_panel.getWorkers());
+                
                 completedHouseData[h] = new HouseData();
                 completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].house_name_txt.getText()); 
                 completedHouseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panel[h].worker_panel.getSelected());
@@ -97,7 +103,9 @@ public class ScheduledControllerHelper
             
             dayData = model.dayData[d];
             NW_DayPanel dp = tp.nw_day_panel[d];
+            DayData completedDayData = model.completedDayData[d];
             
+            dp.header_panel.dwp.setWorkers(dayData.getHeaderData().getDWD());
             dp.meet_location_box.setSelectedItem(dayData.meet_location);
             dp.meet_time_field.setText(dayData.meet_time);
             dp.setBeginExceptionData(dayData.beginExceptionList);
@@ -106,12 +114,13 @@ public class ScheduledControllerHelper
             
             // iterate through houses
             NW_HouseData[] houses = dayData.houseData;
+            HouseData[] completedHouses = completedDayData.houseData;
             for (int h = 0; h < houses.length; h++) {
 
-                NW_HouseData houseData = houses[h];
+                HouseData houseData = completedHouses[h];
 
                 tp.nw_day_panel[d].house_panel[h].house_name_txt.setText(houseData.getHouseName());                
-                tp.nw_day_panel[d].house_panel[h].worker_panel.setWorkers(houseData.getWorkers());
+                tp.nw_day_panel[d].house_panel[h].worker_panel.setWorkers(houseData.getWorkerList());
                 
                 // 4. making sure there is a correct number of house panels available to fill
                 
