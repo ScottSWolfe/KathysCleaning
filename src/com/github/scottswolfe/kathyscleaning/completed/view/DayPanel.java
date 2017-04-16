@@ -169,29 +169,10 @@ public class DayPanel extends JPanel{
 		int header_width = header_panel.getWidth();
 		int house_panel_width = house_panel[0].getWidth();
 		
-		//copy and edit old panels
-		HeaderPanel new_header_panel = new HeaderPanel(controller, tp, new_dwd, this, date, frame, mode, wk);
-		HousePanel[] new_house_panel = new HousePanel[ house_panel.length ];
-		for(int i=0; i<house_panel.length; i++){
-			new_house_panel[i] = house_panel[i].changeHouseWorkers(new_dwd);
+		header_panel.dwp.setWorkers(new_dwd);
+		for (int i = 0; i < house_panel.length; i++) {
+		    house_panel[i].worker_panel.setWorkers(new_dwd);
 		}
-		
-		//removing old panels
-		remove( header_panel );
-		for(int i=0; i<house_panel.length; i++){
-			jsp_panel.remove(house_panel[i]);
-		}
-		
-		//changing field data
-		this.header_panel = new_header_panel;
-		this.house_panel = new_house_panel;
-		
-		// add new panels
-		add(header_panel, "dock north" );
-		for(int i=0; i<house_panel.length - 1; i++) {
-			jsp_panel.add(house_panel[i], new String("wrap " + PANEL_PADDING + ", growx") );
-		}
-		jsp_panel.add(house_panel[house_panel.length-1], new String("wrap " + PANEL_PADDING + ", growx") );
 		
 		// revalidate and repaint
 		frame.revalidate();
