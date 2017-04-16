@@ -32,7 +32,7 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
         WeekendEntry entry;
         
         // for each job entry
-        for (int i = 0; i < WeekendPanel.NUM_JOB_PANELS; i++) {
+        for (int i = 0; i < entries.size(); i++) {
             
             entry = entries.get(i);
 
