@@ -115,7 +115,7 @@ public class FileChooserHelper {
     public static File saveAs(File suggestedFile) {
         File directory = suggestedFile.getParentFile();
         String extension =
-                FilenameUtils.getExtension(suggestedFile.getAbsolutePath());
+                FilenameUtils.getExtension(suggestedFile.getPath());
         Settings.changeLookAndFeelSystem();
         JFileChooser chooser = createChooser(directory, saveAsTitle,
                                              extension, Method.saveAs);
@@ -152,7 +152,7 @@ public class FileChooserHelper {
     private static JFileChooser createChooser(File directory, String title,
                                               String extension, Method method) {
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(directory);
+        chooser.setCurrentDirectory(new File(directory.getPath()));
         chooser.setDialogTitle(title);
         setFileSelectionMode(chooser, method);
         setApproveButtonText(chooser, method);

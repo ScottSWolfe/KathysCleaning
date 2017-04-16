@@ -39,8 +39,8 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     
     private static final List<String> WEEK_TEMPLATE_LIST = new ArrayList<>();
     {
-        WEEK_TEMPLATE_LIST.add("Week A Template" + FileChooserHelper.KC);
-        WEEK_TEMPLATE_LIST.add("Week B Template" + FileChooserHelper.KC);
+        WEEK_TEMPLATE_LIST.add("Week A Template" + "." + FileChooserHelper.KC);
+        WEEK_TEMPLATE_LIST.add("Week B Template" + "." + FileChooserHelper.KC);
     }
     
     
