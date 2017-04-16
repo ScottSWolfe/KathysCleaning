@@ -22,6 +22,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.EditDefaultWorke
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -87,7 +88,7 @@ public class HeaderPanel extends JPanel {
 		setBackground(Settings.HEADER_BACKGROUND);
 		setBorder(BorderFactory.createLineBorder(null, 2));
 		
-		JPanel date_panel = datePanel(date);
+		JPanel date_panel = datePanel(SessionModel.getCompletedStartDay());
 		JPanel worker_panel = workerPanel(dwd);
 		JPanel change_day_panel = changeDayPanel();
 		JPanel submit_week_panel = submitWeekPanel(controller);
@@ -215,9 +216,9 @@ public class HeaderPanel extends JPanel {
 	
 	public void setDate(Calendar c) {
 	    SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
-	    String weekDay = dayFormat.format(date.getTime());
+	    String weekDay = dayFormat.format(c.getTime());
 	    day_label.setText(weekDay);
-	    date_label.setText((Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) + "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR));
+	    date_label.setText((Integer.parseInt(String.valueOf(c.get(Calendar.MONTH)))+1 ) + "/" + c.get(Calendar.DATE) + "/" + c.get(Calendar.YEAR));
 	}
 	
 }

@@ -123,7 +123,11 @@ public class SessionModel {
      * @param scheduledStartDay the scheduledStartDay to set
      */
     public static void setScheduledStartDay(Calendar scheduledStartDay) {
-        SessionModel.scheduledStartDay = (Calendar) scheduledStartDay.clone();
+        if (scheduledStartDay == null) {
+            SessionModel.scheduledStartDay = null;
+        } else {
+            SessionModel.scheduledStartDay = (Calendar) scheduledStartDay.clone();
+        }
     }
 
     

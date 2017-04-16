@@ -78,7 +78,7 @@ public class MenuPanelController {
             if (file == null) {
                 return;
             }
-            SessionModel.setSaveFile(file);
+            SessionModel.load(file);
             try {
                 Files.copy(file.toPath(), GeneralController.TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {

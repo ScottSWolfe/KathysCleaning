@@ -117,6 +117,11 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 house_panel.worker_panel.setWorkers(house_data.getWorkerList());
                 house_panel.exception_data = house_data.getExceptionData();
                 
+                // TODO add in this sort of functionality
+                //if (house_data.getExceptionData().edited) {
+                //    house_panel.exceptions.setBackground(Settings.MAIN_COLOR);
+                //}
+                
                 // if there are more houses to fill in
                 // and there are more empty house panels
                 if (h < num_house_datas - 1 && h < num_house_panels - 1) {

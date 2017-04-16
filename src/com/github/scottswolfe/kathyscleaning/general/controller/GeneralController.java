@@ -12,6 +12,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcel
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantExcelHelper;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
@@ -101,6 +102,7 @@ public class GeneralController<ViewObject, ModelObject>
     public void readInputAndWriteToFile(File file) {
         model = helper.readViewIntoModel(view);
         helper.saveToFile(model, TEMP_SAVE_FILE);
+        SessionModel.save(TEMP_SAVE_FILE);
         if (!TEMP_SAVE_FILE.equals(file) && file != null) {
             try {
                 Files.copy(TEMP_SAVE_FILE.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);

@@ -102,7 +102,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
                 if (result == false) {
                     return;
                 }
-                SessionModel.setSaveFile(file);
+                SessionModel.load(file);
                 controller.readFileAndWriteToView(file);
             }
         }
