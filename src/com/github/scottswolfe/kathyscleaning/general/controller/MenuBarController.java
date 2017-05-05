@@ -60,12 +60,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             menuItemSaveAs();
         } else {
             File file = SessionModel.getSaveFile();
-            file = checkExtension(file);
-            boolean response = askIfOverwriteTemplate(file);
-            if (response == false) {
-                return;
-            }
-            controller.readInputAndWriteToFile(file);
+            saveFile(file);
         }
     }
 
@@ -81,13 +76,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             file = FileChooserHelper.saveAs(SessionModel.getSaveFile()); 
         }
         if (file != null) {
-            file = checkExtension(file);
-            boolean response = askIfOverwriteTemplate(file);
-            if (response == false) {
-                return;
-            }
-            SessionModel.setSaveFile(file);
-            controller.readInputAndWriteToFile(file);
+            saveFile(file);
         }
     }
 
@@ -97,13 +86,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         if (response == true) {
             File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
             if (file != null) {
-                file = checkExtension(file);
-                boolean result = askIfOverwriteTemplate(file);
-                if (result == false) {
-                    return;
-                }
-                SessionModel.load(file);
-                controller.readFileAndWriteToView(file);
+                loadFile(file);
             }
         }
     }
@@ -238,8 +221,33 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     private String createSuggestedName(String directory, String extension) {
         return FileNameHelper.createDatedFileName(directory, extension);
     }
+    
+    private void saveFile(File file) {
+        if (prepareFileName(file) == false) {
+            return;
+        }
+        SessionModel.setSaveFile(file);
+        controller.readInputAndWriteToFile(file);
+    }
+    
+    private void loadFile(File file) {
+        if (prepareFileName(file) == false) {
+            return;
+        }
+        SessionModel.load(file);
+        controller.readFileAndWriteToView(file);
+    }
+    
+    public static boolean prepareFileName(File file) {
+        file = checkExtension(file);
+        boolean response = askIfOverwriteTemplate(file);
+        if (response == false) {
+            return false;
+        }
+        return true;
+    }
 
-    public static boolean askIfOverwriteTemplate(File file) {
+    private static boolean askIfOverwriteTemplate(File file) {
         if (SessionModel.isSaveFileChosen() == false) {
             return true;
         }
@@ -247,21 +255,22 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             return true;
         }
         String[] options = {"Overwrite",  "Don't Overwrite"};
+        int OVERWRITE = 0;
         @SuppressWarnings("unused")
-        int OVERWRITE = 0; int NOT_OVERWRITE = 1;
+        int NOT_OVERWRITE = 1;
         String message  = "<html>Are you sure you want overwrite " + file.getName() + "?";
         int response = JOptionPane.showOptionDialog(new JFrame(), message,
                                      null, JOptionPane.DEFAULT_OPTION,
                                      JOptionPane.WARNING_MESSAGE, null, options, 0);
 
-        if (response == NOT_OVERWRITE) {
-            return false;
-        } else {
+        if (response == OVERWRITE) {
             return true;
+        } else {
+            return false;
         }
     }
     
-    public static File checkExtension(File file) {
+    private static File checkExtension(File file) {
         String path = file.getPath();
         if (FilenameUtils.isExtension(path, FileChooserHelper.KC)) {
             return file;
