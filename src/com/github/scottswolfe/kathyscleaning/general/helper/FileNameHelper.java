@@ -27,6 +27,7 @@ public class FileNameHelper {
         return fileName;
     }
     
+    // TODO do not need completedModel as parameter here
     public static String generateSaveName(CompletedModel completedModel) {
         String save_name = new String();
         Calendar c = SessionModel.getCompletedStartDay();

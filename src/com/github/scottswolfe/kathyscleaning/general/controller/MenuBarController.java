@@ -37,11 +37,12 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
      */
     Controller<ViewObject, ModelObject> controller;
     
-    private static final List<String> WEEK_TEMPLATE_LIST = new ArrayList<>();
+    private static final List<String> TEMPLATE_LIST = new ArrayList<>();
     {
-        WEEK_TEMPLATE_LIST.add("Week A Template" + "." + FileChooserHelper.KC);
-        WEEK_TEMPLATE_LIST.add("Week B Template" + "." + FileChooserHelper.KC);
+        TEMPLATE_LIST.add("Week A Template" + "." + FileChooserHelper.KC);
+        TEMPLATE_LIST.add("Week B Template" + "." + FileChooserHelper.KC);
     }
+    
     
     
 /* CONSTRUCTORS ============================================================= */
@@ -67,13 +68,15 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     @Override
     public void menuItemSaveAs() {
         File file = null;
-        if (!SessionModel.isSaveFileChosen()) {
+        if (SessionModel.isSaveFileChosen() == false) {
             file = FileChooserHelper.saveAs(
                     FileChooserHelper.SAVE_FILE_DIR, createSuggestedName(
                     FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
                     FileChooserHelper.KC), FileChooserHelper.KC);
         } else {
-            file = FileChooserHelper.saveAs(SessionModel.getSaveFile()); 
+            file = SessionModel.getSaveFile();
+            file = checkNameForTemplate(file);
+            file = FileChooserHelper.saveAs(file);
         }
         if (file != null) {
             saveFile(file);
@@ -218,7 +221,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     
 /* PRIVATE METHODS ========================================================== */
     
-    private String createSuggestedName(String directory, String extension) {
+    private static String createSuggestedName(String directory, String extension) {
         return FileNameHelper.createDatedFileName(directory, extension);
     }
     
@@ -251,7 +254,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         if (SessionModel.isSaveFileChosen() == false) {
             return true;
         }
-        if (WEEK_TEMPLATE_LIST.contains(file.getName()) == false) {
+        if (TEMPLATE_LIST.contains(file.getName()) == false) {
             return true;
         }
         String[] options = {"Overwrite",  "Don't Overwrite"};
@@ -276,6 +279,18 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             return file;
         } else {
             return new File(path + "." + FileChooserHelper.KC);    
+        }
+    }
+    
+    private static File checkNameForTemplate(File file) {
+        if (TEMPLATE_LIST.contains(file.getName()) == false) {
+            return file;
+        } else {
+            String fileName = createSuggestedName(
+                            FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(),
+                            FileChooserHelper.KC);
+            file = new File(FileChooserHelper.SAVE_FILE_DIR + "/" + fileName + "." + FileChooserHelper.KC);
+            return file;
         }
     }
 
