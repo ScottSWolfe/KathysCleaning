@@ -97,8 +97,7 @@ public class HousePanel extends JPanel {
 		
 		exceptions = new JButton("Exceptions");
 		exceptions.setFont( exceptions.getFont().deriveFont( Settings.FONT_SIZE ) );
-		exceptions.addActionListener( new ExceptionListener( this, dwd, frame ) );
-
+		exceptions.addActionListener(new ExceptionListener(exception_data, dwd, frame));
 		
 		add(house_name_panel, "growy");
 		add(pay_panel, "growy");
@@ -110,7 +109,6 @@ public class HousePanel extends JPanel {
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
 		
 		add(button_panel, "growy");
-		
 	}
 
 	

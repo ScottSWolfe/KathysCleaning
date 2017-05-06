@@ -22,13 +22,23 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
 
-
 @SuppressWarnings("serial")
 public class ExceptionPanel extends JPanel {
 
+/* INSTANCE VARIABLES ======================================================= */
+    
 	JFrame frame;
-	WorkerList dwd;
-	HousePanel hp;
+	WorkerList workers;
+
+
+	
+/* CLASS VARIABLES ========================================================== */
+	
+	public final static int EXCEPTION_ROWS = 3; 
+
+	   
+	   
+/* COMPONENTS =============================================================== */
 	
 	JLabel name_label;
 	JLabel time_label;
@@ -40,19 +50,16 @@ public class ExceptionPanel extends JPanel {
 	
 	JButton cancel_button;
 	JButton submit_button;
+		
 	
-	public final static int EXCEPTION_ROWS = 3; 
 	
-	
-//  CONSTRUCTOR
+/* CONSTRUCTORS ============================================================= */
 	
 	@SuppressWarnings("unchecked")
-    public ExceptionPanel( JFrame frame, WorkerList dwd, HousePanel hp ) {
+    public ExceptionPanel(JFrame frame, WorkerList dwd, ExceptionData exceptionData) {
 		
 		this.frame = frame;
-		this.dwd = dwd;
-		this.hp = hp;
-		ExceptionData exception_data = hp.exception_data;
+		this.workers = dwd;
 		
 		// generating string for migLayout based on EXCEPTION_ROWS
 		String temp = "[grow]";
@@ -77,15 +84,13 @@ public class ExceptionPanel extends JPanel {
 		time_end = new JTextField[EXCEPTION_ROWS];
 		AbstractDocument[] time_end_doc = new AbstractDocument[EXCEPTION_ROWS];
 		
-		
-		for(int i=0; i<EXCEPTION_ROWS; i++){
+		for (int i = 0; i < EXCEPTION_ROWS; i++) {
 			name_box[i] = new JComboBox<String>();
 			name_box[i].setEditable(true);
 			name_box[i].setSize(10, UNDEFINED_CONDITION);
 			name_box[i].setFont( name_box[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
-			
-			name_box[i].addItem("");   // empty choice
+			name_box[i].addItem("");
 			for(int k = 0; k < dwd.size(); k++){
 				name_box[i].addItem(dwd.get(k).getName());
 			}
@@ -96,7 +101,6 @@ public class ExceptionPanel extends JPanel {
 				TimeDocFilter tdf_begin = new TimeDocFilter(time_begin[i] );
 			time_begin_doc[i].setDocumentFilter( tdf_begin );
 			time_begin[i].addKeyListener( new TimeKeyListener( tdf_begin ) );
-			//time_begin[i].addFocusListener(  );
 			
 			time_end[i] = new JTextField(5);
 			time_end[i].setFont( time_end[i].getFont().deriveFont( Settings.FONT_SIZE ) );
@@ -104,20 +108,13 @@ public class ExceptionPanel extends JPanel {
 				TimeDocFilter tdf_end = new TimeDocFilter(time_end[i] );
 			time_end_doc[i].setDocumentFilter( tdf_end );
 			time_end[i].addKeyListener( new TimeKeyListener( tdf_end) );
-			//time_begin[i].addFocusListener(  );
 			
-			
-			// Setting Values if exception_data exists
-			if(exception_data.edited){
-				
-				name_box[i].setSelectedItem(exception_data.worker_name[i]);				
-				time_begin[i].setText(exception_data.time_begin[i]);
-				time_end[i].setText(exception_data.time_end[i]);
-				
-				
-			}
-			
-			
+			// Setting Values if exceptionData exists
+			if (exceptionData.edited) {
+				name_box[i].setSelectedItem(exceptionData.worker_name[i]);				
+				time_begin[i].setText(exceptionData.time_begin[i]);
+				time_end[i].setText(exceptionData.time_end[i]);	
+			}			
 		}
 		
 		cancel_button = new JButton("Cancel");
@@ -128,7 +125,7 @@ public class ExceptionPanel extends JPanel {
 		
 		submit_button = new JButton("Submit");
 		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
-		submit_button.addActionListener( new SubmitListener(frame, this, hp) );
+		submit_button.addActionListener( new SubmitListener(frame, this, exceptionData) );
 		submit_button.setBackground(Settings.MAIN_COLOR);
 		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		
@@ -150,15 +147,13 @@ public class ExceptionPanel extends JPanel {
 		p.add(submit_button, "");
 		
 		add (p, new String ("span "+EXCEPTION_ROWS+", growx"));
-		//add(cancel_button, new String("span "+EXCEPTION_ROWS+", split 2, growx") );
-		//add(submit_button, "growx");
 	}
 
 	
 	
+/* PRIVATE METHODS ========================================================== */
 	
-//  PRIVATE METHODS
-	
+	// TODO make all the focus listeners their own class or find a library
 	private void addFlexibleFocusListeners() {
 		
 		for (int i=0; i<EXCEPTION_ROWS; i++) {
@@ -208,90 +203,64 @@ public class ExceptionPanel extends JPanel {
 					time_begin[i], null,
 					up_end_field, down_end_field,
 					down_cb) );
-			
 		}
-		
 	}
-
 	
 	
 	
-	
-//  PRIVATE LISTENER
+/* PRIVATE LISTENERS ======================================================== */
 	
 	// if cancel button is selected
 	private class CancelListener implements ActionListener {
 		
-	//  FIELDS
+	    //  FIELDS
 		JFrame frame;
 
-		
-	//  CONSTRUCTORS
+		//  CONSTRUCTORS
 		private CancelListener( JFrame frame ) {
-			
 			this.frame = frame;
 		}
 		
-		
-	//  LISTENER
-		public void actionPerformed(ActionEvent e){
-			
-			// possible JOptionPane message asking if sure they want to cancel
-			
-			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-			
+		//  LISTENER
+		public void actionPerformed(ActionEvent e) {			
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));			
 		}
-		
 	}
-	
 	
 	// if submit button is selected
 	private class SubmitListener implements ActionListener {
-		
-		//  FIELDS
-			JFrame frame;
-			ExceptionPanel ep;
-			HousePanel hp;
-			
-			
-		//  CONSTRUCTORS
-			private SubmitListener( JFrame frame, ExceptionPanel ep, HousePanel hp ) {
-				
-				this.frame = frame;
-				this.ep = ep;
-				this.hp = hp;
-			}
-			
-			
-		//  LISTENER
-			public void actionPerformed(ActionEvent e){
+	    //  FIELDS
+        JFrame frame;
+        ExceptionPanel ep;
+        ExceptionData exceptionData;
+            
+        //  CONSTRUCTORS
+        private SubmitListener(JFrame frame, ExceptionPanel ep, ExceptionData exceptionData) {
+            this.frame = frame;
+            this.ep = ep;
+            this.exceptionData = exceptionData;
+        }
+            
+        //  LISTENER
+        public void actionPerformed(ActionEvent e){
 
-				// create ExceptionData
-				
-				String[] workers = new String[EXCEPTION_ROWS];
-				String[] time_begin = new String[EXCEPTION_ROWS];
-				String[] time_end = new String[EXCEPTION_ROWS];
-				
-				
-				for(int i=0; i<EXCEPTION_ROWS; i++){
-					
-					workers[i] = String.valueOf(ep.name_box[i].getSelectedItem());
-												
-					time_begin[i] = ep.time_begin[i].getText();
-					time_end[i] = ep.time_end[i].getText();
-					
-				}
-				
-				hp.exception_data.setWorkers( workers );
-				hp.exception_data.setTimeBegin(time_begin);
-				hp.exception_data.setTimeEnd(time_end);
-				hp.exception_data.edited = true;
-				
-				// close exceptionpanel
-				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-				
-			}
-			
+            String[] workers = new String[EXCEPTION_ROWS];
+            String[] time_begin = new String[EXCEPTION_ROWS];
+            String[] time_end = new String[EXCEPTION_ROWS];
+                
+            for(int i = 0; i < EXCEPTION_ROWS; i++) {
+                workers[i] = String.valueOf(ep.name_box[i].getSelectedItem());
+                time_begin[i] = ep.time_begin[i].getText();
+                time_end[i] = ep.time_end[i].getText();
+            }
+            
+            exceptionData.setWorkers( workers );
+            exceptionData.setTimeBegin(time_begin);
+            exceptionData.setTimeEnd(time_end);
+            exceptionData.edited = true;
+            
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }       
 	}
 	
 }
