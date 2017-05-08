@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
+import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -15,16 +15,16 @@ import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 public class ExceptionListener implements ActionListener {
 
     // FIELDS
-    ExceptionData exceptionData;
 	WorkerList dwd;
 	JFrame frame;
 	JFrame local_frame;
+	HousePanel housePanel;
 	
 	// CONSTRUCTOR	
-	public ExceptionListener(ExceptionData exceptionData, WorkerList dwd, JFrame frame) {
-		this.exceptionData = exceptionData;
+	public ExceptionListener(WorkerList dwd, JFrame frame, HousePanel housePanel) {
 		this.dwd = dwd;
-		this.frame = frame;		
+		this.frame = frame;
+		this.housePanel = housePanel;
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public class ExceptionListener implements ActionListener {
 		local_frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		local_frame.addWindowListener( new FrameCloseListener(frame) );
 		
-		local_frame.add( new ExceptionPanel(local_frame, dwd, exceptionData));
+		local_frame.add(new ExceptionPanel(local_frame, dwd, housePanel));
 		local_frame.pack();
 				
 		StaticMethods.findSetLocation(local_frame);

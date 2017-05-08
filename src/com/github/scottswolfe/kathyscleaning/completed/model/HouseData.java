@@ -25,13 +25,17 @@ public class HouseData {
 	    exception_data = new ExceptionData();
 	}
 	
-	// Set Houe Name
+	public boolean isException() {
+	    if (exception_data == null) {
+	        return false;
+	    }
+	    return exception_data.isException();
+	}
+	
 	public void setHouseName(String house_name) {
 		this.house_name = house_name;
 	}
 	
-	
-	// Set House Pay
 	public void setHousePay(double money_earned) {
 		this.house_pay = money_earned;
 	}
@@ -45,8 +49,6 @@ public class HouseData {
 		}
 	}
 	
-	
-	// Set Time Begin
 	public void setTimeBegin(int time_begin) {
 		this.time_begin = String.valueOf(time_begin);
 	}
@@ -56,8 +58,6 @@ public class HouseData {
 		
 	}
 	
-	
-	// Set Time End
 	public void setTimeEnd(int time_begin) {
 		this.time_end = String.valueOf(time_end);
 	}
@@ -66,8 +66,6 @@ public class HouseData {
 		this.time_end = time_begin;
 	}
 	
-	
-	// Set Selected Workers
 	public void setSelectedWorkers(List<String> selected_workers) {
 		this.selected_workers = selected_workers;
 	}
@@ -76,11 +74,9 @@ public class HouseData {
 	    this.workers = workers;
 	}
 	
-	// Set Exception Data
-	public void setExceptionData( ExceptionData exception_data ){
+	public void setExceptionData(ExceptionData exception_data) {
 		this.exception_data = exception_data;
 	}
-	
 	
 	public String getHouseName() {		
 		return house_name;	
@@ -109,7 +105,6 @@ public class HouseData {
 	public ExceptionData getExceptionData() {
 		return exception_data;
 	}
-	
 	
 	// TODO move the logic for this to another class
 	public double getHours(){

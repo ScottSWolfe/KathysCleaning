@@ -110,7 +110,6 @@ public class WorkerPanel extends JPanel {
 		}
 		
 		addFlexibleFocusListeners();
-		
 	}
 	
 	

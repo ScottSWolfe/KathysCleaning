@@ -32,6 +32,7 @@ import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledContr
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
+
 public class CompletedControllerHelper implements ControllerHelper<TabbedPane, CompletedModel> {
    
 /* PUBLIC METHODS =========================================================== */
@@ -63,7 +64,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 houseData[h].setTimeEnd(tp.day_panel[d].house_panel[h].time_end_txt.getText());
                 houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].worker_panel.getSelected());
                 houseData[h].setWorkerList(tp.day_panel[d].house_panel[h].worker_panel.getWorkers());
-                houseData[h].setExceptionData(tp.day_panel[d].house_panel[h].exception_data.getExceptionData());
+                houseData[h].setExceptionData(tp.day_panel[d].house_panel[h].getExceptionData());
             }
             
             dayData[d] = new DayData();
@@ -115,12 +116,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 house_panel.time_begin_txt.setText(house_data.getTimeBegin());
                 house_panel.time_end_txt.setText(house_data.getTimeEnd());                
                 house_panel.worker_panel.setWorkers(house_data.getWorkerList());
-                house_panel.exception_data = house_data.getExceptionData();
-                
-                // TODO add in this sort of functionality
-                //if (house_data.getExceptionData().edited) {
-                //    house_panel.exceptions.setBackground(Settings.MAIN_COLOR);
-                //}
+                house_panel.setExceptionData(house_data.getExceptionData());
                 
                 // if there are more houses to fill in
                 // and there are more empty house panels

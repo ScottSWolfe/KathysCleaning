@@ -25,4 +25,7 @@ public class CompletedController
         housePanel.setExceptionButtonColor(houseData.isException());
     }
     
+    public void setExceptionButtoncolor() {
+    }
+    
 }

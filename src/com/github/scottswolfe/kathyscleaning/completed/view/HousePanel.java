@@ -1,6 +1,8 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
 
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +22,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.HousePayDocFil
 import com.github.scottswolfe.kathyscleaning.completed.controller.MoveDownListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.MoveUpListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
+import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -30,15 +33,10 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
 
+@SuppressWarnings("serial")
 public class HousePanel extends JPanel {
 
-// FIELDS
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4893953882769089967L;
-	
+/* INSTANCE VARIABLES ======================================================= */	
 	
 	DayPanel day_panel;
 	WorkerList dwd;
@@ -46,13 +44,17 @@ public class HousePanel extends JPanel {
 	TabbedPane tp;
 	
 	AbstractDocument abdoc;
+	private ExceptionData exception_data;
 	
-	public ExceptionData exception_data;
+
+	
+/* COMPONENTS =============================================================== */
 	
 	String title;
 	Border border;
-	
+		
 	public WorkerPanel worker_panel;
+	
 	public JButton exceptions;
 	
 	JLabel house_name_label;
@@ -71,7 +73,7 @@ public class HousePanel extends JPanel {
 	
 	
 	
-// CONSTRUCTOR
+/* CONSTRUCTORS ============================================================= */
 	
 	public HousePanel(String title, WorkerList dwd, DayPanel day_panel, JFrame frame, TabbedPane tp) {
 		
@@ -82,7 +84,7 @@ public class HousePanel extends JPanel {
 		// TODO temporary hack
 		dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
 		
-		this.exception_data = new ExceptionData();
+		exception_data = new ExceptionData();
 		
 		setLayout(new MigLayout("insets 0","[grow][grow][grow][grow][grow][grow]","[]"));
 		setBackground(Settings.BACKGROUND_COLOR);
@@ -91,13 +93,12 @@ public class HousePanel extends JPanel {
 		JPanel house_name_panel = houseNamePanel();
 		JPanel pay_panel = payPanel();
 		JPanel time_panel = timePanel();
-		worker_panel = new WorkerPanel( dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions );
-		//JPanel exceptions_panel = exceptionsPanel();
+		worker_panel = new WorkerPanel(dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions);
 		JPanel button_panel = buttonPanel();
-		
+				
 		exceptions = new JButton("Exceptions");
-		exceptions.setFont( exceptions.getFont().deriveFont( Settings.FONT_SIZE ) );
-		exceptions.addActionListener(new ExceptionListener(exception_data, dwd, frame));
+		exceptions.setFont(exceptions.getFont().deriveFont(Settings.FONT_SIZE));
+		exceptions.addActionListener(new ExceptionListener(dwd, frame, this));
 		
 		add(house_name_panel, "growy");
 		add(pay_panel, "growy");
@@ -110,7 +111,6 @@ public class HousePanel extends JPanel {
 		
 		add(button_panel, "growy");
 	}
-
 	
 	public HousePanel() {
 		
@@ -118,7 +118,7 @@ public class HousePanel extends JPanel {
 	
 	
 	
-// PRIVATE CONSTRUCTION METHODS
+/* PRIVATE CONSTRUCTION METHODS ============================================= */
 	
 	//house name panel
 	private JPanel houseNamePanel(){
@@ -134,20 +134,11 @@ public class HousePanel extends JPanel {
 		house_name_txt.setFont( house_name_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
 		house_name_txt.getDocument().addDocumentListener( new HouseNameDocListener( this ) );
 		
-		/*
-		 * this works but to be even better I changed to above
-			AbstractDocument house_name_doc = (AbstractDocument) house_name_txt.getDocument();
-		HouseNameDocFilter house_name_doc_filter = new HouseNameDocFilter( this );
-		house_name_doc.setDocumentFilter( house_name_doc_filter );
-		*/
-		
-		 
 		panel.add(house_name_label,"wrap, gap 3");
 		panel.add(house_name_txt);
 		 
 		return panel;
 	}
-	
 	
 	//pay panel
 	private JPanel payPanel(){
@@ -169,10 +160,8 @@ public class HousePanel extends JPanel {
 		panel.add(pay_txt);
 		
 		return panel;
-			
 	}
 	
-		
 	//time panel
 	private JPanel timePanel(){
 		JPanel panel = new JPanel();
@@ -186,8 +175,6 @@ public class HousePanel extends JPanel {
 			TimeDocFilter tdf_begin = new TimeDocFilter(time_begin_txt );
 		time_begin_doc.setDocumentFilter( tdf_begin );
 		time_begin_txt.addKeyListener( new TimeKeyListener( tdf_begin ) );
-		//time_begin_txt.addFocusListener(  );
-		
 		
 		time_end_txt = new JTextField(5);
 		time_end_txt.setFont( time_end_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
@@ -195,68 +182,32 @@ public class HousePanel extends JPanel {
 			TimeDocFilter tdf_end = new TimeDocFilter(time_end_txt );
 		time_end_doc.setDocumentFilter( tdf_end );
 		time_end_txt.addKeyListener( new TimeKeyListener( tdf_end ) );
-		//time_end_txt.addFocusListener(  );
-		
-		
 		
 		panel.setLayout( new MigLayout("insets 0, ay 50%") );
 		panel.setBackground( Settings.BACKGROUND_COLOR );
 		
-		/*
-		panel.add(time_label, "cell 0 0 2 1, wrap, ax 50%");
-		panel.add(time_begin_txt);
-		panel.add(time_end_txt, "gap 0");
-		*/
 		panel.add(time_label, "cell 0 0 1 1, wrap, ax 50%");
 		panel.add(time_begin_txt, "cell 0 1");
 		panel.add(time_end_txt, "cell 0 1, gap 0");
 		
 		return panel;
-		
 	}
-	
-	
-	
-	
-	/*
-	//exception panel
-	private JPanel exceptionsPanel(){
-		JPanel panel = new JPanel();
 		
-		exceptions = new JButton("Exceptions");
-		
-		panel.add(exceptions);
-			 
-		//panel.setBorder(new EmptyBorder(10,10,10,10));
-			 
-		return panel;
-	}
-	*/
-	
-	
 	// button panel
 	private JPanel buttonPanel(){
 		JPanel panel = new JPanel();
 		
 		move_up = new JButton("Up");
 		move_up.setFont( move_up.getFont().deriveFont( Settings.FONT_SIZE ) );
-		//move_up.setBackground( DayPanel.MOVE_COLOR );
-		//move_up.setForeground( Settings.FOREGROUND_COLOR );
 		
 		move_down = new JButton("Down");
 		move_down.setFont( move_down.getFont().deriveFont( Settings.FONT_SIZE ) );
-		//move_down.setBackground( DayPanel.MOVE_COLOR );
-		//move_down.setForeground( Settings.FOREGROUND_COLOR );
 		
 		add_house = new JButton("Add");
 		add_house.setFont( add_house.getFont().deriveFont( Settings.FONT_SIZE ) );
-		//add_house.setBackground( DayPanel.ADD_HOUSE_COLOR );
-		//add_house.setForeground( Settings.FOREGROUND_COLOR );
 		
 		delete_house = new JButton("Delete");
 		delete_house.setFont( delete_house.getFont().deriveFont( Settings.FONT_SIZE ) );
-		//delete_house.setBackground( DayPanel.DELETE_HOUSE_COLOR );
-		//delete_house.setForeground( Settings.FOREGROUND_COLOR );
 		
 		panel.setLayout( new MigLayout("insets 0") );
 		panel.setBackground( Settings.BACKGROUND_COLOR );
@@ -272,96 +223,22 @@ public class HousePanel extends JPanel {
 		delete_house.addActionListener( new DeleteHouseListener(day_panel,this,dwd,frame,tp) );
 		
 		return panel;
-	}
+	}	
 
 	
 	
-	// PRIVATE METHODS
-	
-	/*
-	private void addFlexibleFocusListeners(){
-		
-		// adding focus listeners for textfields and buttons
-		
-		int length = day_panel.house_panel.length;
-		int index = 0;
-		for (int i=0; i<length; i++) {
-			if ( day_panel.house_panel[i] == this ) {
-				index = i;
-			}
-		}
-			
-		HousePanel hp_up;
-		HousePanel hp_down;
-					
-		if( index > 0 ){
-			hp_up = day_panel.house_panel[index-1];
-		}
-		else {
-			hp_up = new HousePanel();  // all null fields
-		}
-		if ( index < length - 1 ) {
-			hp_down = day_panel.house_panel[index+1];
-		}
-		else {
-			hp_down = new HousePanel(); // all null fields
-		}
-			
-			house_name_txt.addFocusListener( new FlexibleFocusListener( house_name_txt,
-					FlexibleFocusListener.TEXTFIELD,
-					null, pay_txt,
-					hp_up.house_name_txt, hp_down.house_name_txt, 
-					null) );
-			
-			pay_txt.addFocusListener( new FlexibleFocusListener(pay_txt, 
-					FlexibleFocusListener.TEXTFIELD,
-					house_name_txt, time_begin_txt,
-					hp_up.pay_txt, hp_down.pay_txt,
-					null));
-				
-			time_begin_txt.addFocusListener(new FlexibleFocusListener(time_begin_txt, 
-					FlexibleFocusListener.TEXTFIELD,
-					pay_txt, time_end_txt,
-					hp_up.time_begin_txt, hp_down.time_begin_txt,
-					null));
-			
-			time_end_txt.addFocusListener(new FlexibleFocusListener(time_end_txt, 
-					FlexibleFocusListener.TEXTFIELD,
-					time_begin_txt, null,  // TODO: add in worker checkboxes
-					hp_up.time_end_txt, hp_down.time_end_txt,
-					hp_down.time_begin_txt));
-			
-			exceptions.addFocusListener( new FlexibleFocusListener(exceptions, 
-					FlexibleFocusListener.BUTTON, null, null, null, null, null));
-		
-
-		
-	}
-	*/
-	
-	
-//  PUBLIC METHODS
+/* PUBLIC METHODS =========================================================== */
 
 	public HousePanel copyPanel( ) {
 		
 		HousePanel new_panel = new HousePanel(this.title, this.dwd, this.day_panel, this.frame, this.tp);
 		
-		//create public methods to do this in best practice:
-		//new_panel.title = this.title;
 		new_panel.house_name_txt.setText(this.house_name_txt.getText());
 		new_panel.pay_txt.setText(this.pay_txt.getText());
 		new_panel.time_begin_txt.setText(this.time_begin_txt.getText());
 		new_panel.time_end_txt.setText(this.time_end_txt.getText());
-		
-		
-		for (int i=0; i<ExceptionPanel.EXCEPTION_ROWS; i++) {  
-			new_panel.exception_data.worker_name[i] = this.exception_data.worker_name[i];
-			new_panel.exception_data.time_begin[i] = this.exception_data.time_begin[i];
-			new_panel.exception_data.time_end[i] = this.exception_data.time_end[i];
-		}
-		new_panel.exception_data.edited = true;
-		
-		
+		new_panel.exception_data = this.exception_data;
+				
 		int rows = WorkerPanel.NORM_ROWS;
 		int columns = WorkerPanel.NORM_COLUMNS;
 		for(int i=0; i<rows; i++){
@@ -373,44 +250,55 @@ public class HousePanel extends JPanel {
 		}
 		
 		return new_panel;
-		
 	}
 	
-	
-	public HousePanel changeHouseWorkers( WorkerList dwd ) {
-		
-		HousePanel new_panel = new HousePanel(this.title, dwd, this.day_panel, this.frame, this.tp);
-		
-		//create public methods to do this in best practice:
+	public HousePanel changeHouseWorkers(WorkerList dwd) {
+		HousePanel new_panel = new HousePanel(this.title, dwd, this.day_panel, this.frame, this.tp);		
 		new_panel.title = this.title;
 		new_panel.house_name_txt.setText(this.house_name_txt.getText());
 		new_panel.pay_txt.setText(this.pay_txt.getText());
 		new_panel.time_begin_txt.setText(this.time_begin_txt.getText());
 		new_panel.time_end_txt.setText(this.time_end_txt.getText());
-		
-		/*
-		int rows = DefaultWorkerPanel.ROWS;
-		int columns = DefaultWorkerPanel.COLUMNS;
-		for(int i=0; i<rows; i++){
-			for(int j=0; j<columns; j++){
-				if(this.worker_panel.worker[i][j].isSelected()){
-					new_panel.worker_panel.worker[i][j].setSelected(true);
-				}
-			}
-		}
-		*/
-		
 		return new_panel;
-		
 	}
-	
 	
 	public void setTitle( String title ){
 		this.title = title;
 		this.setBorder(BorderFactory.createTitledBorder(border,title));
 	}
 	
+	/**
+	 * Sets the exception button to a new color if an exception exists
+	 *  
+	 * @param isException true if there is an exception, otherwise false
+	 */
+	public void setExceptionButtonColor(boolean isException) {
+	    exceptions.setForeground(Settings.MAIN_COLOR);
+	}
 	
+	public ExceptionData getExceptionData() {
+	    return exception_data;
+	}
 	
+	public void setExceptionData(ExceptionData exceptionData) {
+	    exception_data = exceptionData;
+	    setExceptionButtonColor();
+	}
+	
+	public void setExceptionDataEntries(List<ExceptionEntry> entries) {
+	    exception_data.setEntries(entries);
+	    setExceptionButtonColor();
+	}
+	
+	public boolean hasExceptionData() {
+	    return exception_data.isException();
+	}
+	
+	private void setExceptionButtonColor() {
+        if (exception_data.isException()) {
+            exceptions.setBackground(Settings.MAIN_COLOR);
+        }
+        // TODO add code to set button to default if no exceptions
+	}
 	
 }

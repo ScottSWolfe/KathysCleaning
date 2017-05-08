@@ -3,6 +3,8 @@ package com.github.scottswolfe.kathyscleaning.completed.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
+import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
@@ -56,7 +59,7 @@ public class ExceptionPanel extends JPanel {
 /* CONSTRUCTORS ============================================================= */
 	
 	@SuppressWarnings("unchecked")
-    public ExceptionPanel(JFrame frame, WorkerList dwd, ExceptionData exceptionData) {
+    public ExceptionPanel(JFrame frame, WorkerList dwd, HousePanel housePanel) {
 		
 		this.frame = frame;
 		this.workers = dwd;
@@ -109,12 +112,13 @@ public class ExceptionPanel extends JPanel {
 			time_end_doc[i].setDocumentFilter( tdf_end );
 			time_end[i].addKeyListener( new TimeKeyListener( tdf_end) );
 			
-			// Setting Values if exceptionData exists
-			if (exceptionData.edited) {
-				name_box[i].setSelectedItem(exceptionData.worker_name[i]);				
-				time_begin[i].setText(exceptionData.time_begin[i]);
-				time_end[i].setText(exceptionData.time_end[i]);	
-			}			
+			ExceptionData temp_exceptionData = housePanel.getExceptionData();
+			if (temp_exceptionData.isException()) {
+			    ExceptionEntry entry = temp_exceptionData.getEntry(i);
+				name_box[i].setSelectedItem(entry.getWorker_name());				
+				time_begin[i].setText(entry.getTime_begin());
+				time_end[i].setText(entry.getTime_end());	
+			}
 		}
 		
 		cancel_button = new JButton("Cancel");
@@ -124,8 +128,8 @@ public class ExceptionPanel extends JPanel {
 		cancel_button.setForeground( Settings.FOREGROUND_COLOR );
 		
 		submit_button = new JButton("Submit");
-		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
-		submit_button.addActionListener( new SubmitListener(frame, this, exceptionData) );
+		submit_button.setFont(submit_button.getFont().deriveFont(Settings.FONT_SIZE));
+		submit_button.addActionListener(new SubmitListener(frame, this, housePanel));
 		submit_button.setBackground(Settings.MAIN_COLOR);
 		submit_button.setForeground( Settings.FOREGROUND_COLOR );
 		
@@ -232,32 +236,32 @@ public class ExceptionPanel extends JPanel {
 	    //  FIELDS
         JFrame frame;
         ExceptionPanel ep;
-        ExceptionData exceptionData;
+        HousePanel housePanel;
             
         //  CONSTRUCTORS
-        private SubmitListener(JFrame frame, ExceptionPanel ep, ExceptionData exceptionData) {
+        private SubmitListener(JFrame frame, ExceptionPanel ep, HousePanel housePanel) {
             this.frame = frame;
             this.ep = ep;
-            this.exceptionData = exceptionData;
+            this.housePanel = housePanel;
         }
             
         //  LISTENER
         public void actionPerformed(ActionEvent e){
-
-            String[] workers = new String[EXCEPTION_ROWS];
-            String[] time_begin = new String[EXCEPTION_ROWS];
-            String[] time_end = new String[EXCEPTION_ROWS];
-                
-            for(int i = 0; i < EXCEPTION_ROWS; i++) {
-                workers[i] = String.valueOf(ep.name_box[i].getSelectedItem());
-                time_begin[i] = ep.time_begin[i].getText();
-                time_end[i] = ep.time_end[i].getText();
-            }
             
-            exceptionData.setWorkers( workers );
-            exceptionData.setTimeBegin(time_begin);
-            exceptionData.setTimeEnd(time_end);
-            exceptionData.edited = true;
+            String worker;
+            String time_begin;
+            String time_end;
+            ExceptionEntry entry;
+            List<ExceptionEntry> entries = new ArrayList<>();
+            
+            for(int i = 0; i < EXCEPTION_ROWS; i++) {
+                worker = String.valueOf(ep.name_box[i].getSelectedItem());
+                time_begin = ep.time_begin[i].getText();
+                time_end = ep.time_end[i].getText();
+                entry = new ExceptionEntry(worker, time_begin, time_end);
+                entries.add(entry);
+            }
+            housePanel.setExceptionDataEntries(entries);
             
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }       

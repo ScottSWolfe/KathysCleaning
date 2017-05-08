@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
+import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
@@ -179,19 +180,12 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
         // if there is exception data, add data to excel sheet
         if (!completedModel.dayData[d].houseData[h].getHouseName().isEmpty()) { // only if the house has been named
         
-        ExceptionData exd = completedModel.dayData[d].houseData[h].getExceptionData();
-        if ( exd.edited == true ) {
-            
-            // iterate through the names in the exception data
-            for (int m=0; m<exd.worker_name.length; m++) {
+            ExceptionData exceptionData = completedModel.dayData[d].houseData[h].getExceptionData();
+            if (exceptionData.isException()) {
                 
-                // checking that worker name and times are not null or empty
-                if (exd.worker_name[m] != null && !exd.worker_name[m].isEmpty() &&
-                    exd.time_begin[m] != null && !exd.time_begin[m].isEmpty() &&
-                    exd.time_end[m] != null && !exd.time_end[m].isEmpty()) {
-                    
-                    
-                    // find name row; trace down name row looking for match with worker_name[m]
+                // iterate through the names in the exception data
+                for (ExceptionEntry entry : exceptionData.getEntries()) {                    
+                 // find name row; trace down name row looking for match with worker_name[m]
                     //      if no match (find kathy) send error report and move on
                     boolean name_found = false;
                     //Cell name_cell = row.getCell(5);
@@ -199,10 +193,10 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                     while (name_found == false) {
                         
                         // if cell name matches current worker name
-                        if ( name_row.getCell(cell_number).getStringCellValue().equals(exd.worker_name[m]) ) {
+                        if (name_row.getCell(cell_number).getStringCellValue().equals(entry.getWorker_name())) {
                             
                             // calculate hours worked
-                            double hours = TimeMethods.getHours(exd.time_begin[m], exd.time_end[m]);
+                            double hours = TimeMethods.getHours(entry.getTime_begin(), entry.getTime_end());
                             
                             // insert data into excel doc
                             Row house_row = sheet.getRow( d*9 + 2 + h );
@@ -215,8 +209,8 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                             
                         }
                         // if cell name is Kathy
-                        else if ( name_row.getCell(cell_number).getStringCellValue().equals("Kathy") ) {
-                            String message = "Error: Employee " + exd.worker_name[m] + 
+                        else if (name_row.getCell(cell_number).getStringCellValue().equals("Kathy") ) {
+                            String message = "Error: Employee " + entry.getWorker_name() + 
                                              " from the exception at " + completedModel.dayData[d].houseData[h].getHouseName() +
                                              "could not be found on the excel document.\n" +
                                              "You will need to enter the data manually.";
@@ -229,26 +223,10 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                             cell_number++;
                         }
                     }
-                    
-                    
-                     /* 
-                     * find house row
-                     * 
-                     * calculate length of time
-                     * find worker's pay
-                     * calculate amount earned for worker
-                     * 
-                     * insert amount earned into correct cell
-                     * 
-                     * done!
-                     * 
-                     */
-                    
                 }
                 
             }
-            
-        }} // ending if house named
+        } // ending if house named
     }
     
 }

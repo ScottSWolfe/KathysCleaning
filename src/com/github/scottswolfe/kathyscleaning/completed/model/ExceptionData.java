@@ -1,93 +1,60 @@
 package com.github.scottswolfe.kathyscleaning.completed.model;
 
-import com.github.scottswolfe.kathyscleaning.completed.view.ExceptionPanel;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ExceptionData {
 
-//  FIELDS
+/* INSTANCE VARIABLES ======================================================= */
 	
-	public String[] worker_name;
-	public String[] time_begin;
-	public String[] time_end;
+    private List<ExceptionEntry> entries; 
+
+    
 	
-	public boolean edited = false;
+/* CONSTRUCTORS ============================================================= */
 	
-	
-//  CONSTRUCTOR
-	
-	public ExceptionData( String[] worker_name, String[] time_begin, String[] time_end ) {
-		this.worker_name = worker_name;
-		this.time_begin = time_begin;
-		this.time_end = time_end;
-		
-		edited = true;
+	public ExceptionData(List<ExceptionEntry> entries) {
+	    this.entries = entries;
 	}
 	
-	public ExceptionData(){
-		worker_name = new String[ExceptionPanel.EXCEPTION_ROWS];
-		for (int i=0; i<ExceptionPanel.EXCEPTION_ROWS; i++) {
-			worker_name[i] = "";
-		}
-		
-		time_begin = new String[ExceptionPanel.EXCEPTION_ROWS];
-		for (int i=0; i<ExceptionPanel.EXCEPTION_ROWS; i++) {
-			time_begin[i] = "";
-		}
-		
-		time_end = new String[ExceptionPanel.EXCEPTION_ROWS];
-		for (int i=0; i<ExceptionPanel.EXCEPTION_ROWS; i++) {
-			time_end[i] = "";
-		}
-		
-		edited = false;
+	public ExceptionData() {
+	    entries = new ArrayList<>();
 	}
 	
 	
-//  METHODS
 	
-	public void setWorkers( String[] s ){
-		
-		worker_name = s;
+/* PUBLIC METHODS =========================================================== */
+	
+	/**
+	 * Checks if an exception entry exists
+	 * 
+	 * @return return true if there is an exception entry, false otherwise
+	 */
+	public boolean isException() {
+	    if (entries.isEmpty()) {
+	        return false;
+	    }
+	    for (ExceptionEntry entry : entries) {
+	        if (!entry.getWorker_name().equals("") || 
+	                !entry.getTime_begin().equals("") ||
+	                !entry.getTime_end().equals("")) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 	
-	
-	public void setTimeBegin( String[] s ){
-		
-		time_begin = s;
+	public List<ExceptionEntry> getEntries() {
+	    return entries;
 	}
 	
-	
-	public void setTimeEnd( String[] s ){
-		
-		time_end = s;
+	public ExceptionEntry getEntry(int index) {
+	    return entries.get(index);
 	}
 	
-	/*
-	private String setTime( String s ){
-		
-		char[] ch = s.toCharArray();
-		char[] temp = new char[ch.length - 1];
-		String time;
-		int shift = 0;
-		 
-		// removing ':'
-		for(int i=0; i<ch.length; i++ ){
-			Character k = ch[i];
-			if (!k.isDigit(k)){
-				shift++;
-			}
-			else{
-				temp[i-shift]=ch[i];
-			}
-		}
-		time = new String(temp);
-		
-		return time;
+	public void setEntries(List<ExceptionEntry> entries) {
+	    this.entries = entries;
 	}
-	*/
 	
-	public ExceptionData getExceptionData(){
-		
-		return this;
-	}
 }
