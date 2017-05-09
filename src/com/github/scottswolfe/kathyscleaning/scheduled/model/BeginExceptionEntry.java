@@ -13,7 +13,6 @@ public class BeginExceptionEntry {
 	
 	// CONSTRUCTORS
 	public BeginExceptionEntry(String name, String location, String time, String note) {
-		super();
 		this.name = name;
 		this.location = location;
 		this.time = time;
@@ -29,14 +28,41 @@ public class BeginExceptionEntry {
 	
 	
 	// PUBLIC METHODS
-	public boolean doesExist() {
 	
-		boolean exist = false;
-		if (name != null) {
-			exist = true;
+	/**
+	 * Checks if the exception has all the necessary data to add into the excel
+	 * document.
+	 * 
+	 * @return true if the entry has the necessary data, false otherwise.
+	 */
+	public boolean isException() {
+		if (name != null && !name.equals("") &&
+		        location != null && !location.equals("") &&
+		        time != null && !time.equals("")) {
+			return true;
 		}
-		
-		return exist;
+		return false;
+	}
+	
+	/**
+	 * Checks if the exception entry has any data.
+	 * 
+	 * @return true if every field is empty, false otherwise.
+	 */
+	public boolean isBlank() {
+	    if (name != null && !name.equals("")) {
+            return false;
+        }
+	    if (location != null && !location.equals("")) {
+	        return false;
+	    }
+	    if (time != null && !time.equals("")) {
+            return false;
+        }
+	    if (note != null && !note.equals("")) {
+            return false;
+        }
+	    return true;
 	}
 	
 	
