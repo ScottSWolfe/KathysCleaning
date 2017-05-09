@@ -25,15 +25,8 @@ import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import net.miginfocom.swing.MigLayout;
 
 
+@SuppressWarnings("serial")
 public class NW_CovenantPanel extends JPanel {
-
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 780236108036077938L;
-	
-	
 	
 	// FIELDS
 	JLabel header_label;
@@ -81,21 +74,15 @@ public class NW_CovenantPanel extends JPanel {
 		
 		edit_button = new JButton();
 		edit_button.setText( "Edit");
-		//edit_button.setBackground( Settings.MAIN_COLOR);
 		edit_button.setFont( edit_button.getFont().deriveFont(Settings.FONT_SIZE));
-		//edit_button.setForeground( Settings.FOREGROUND_COLOR );
 		edit_button.addActionListener( new EditWorkersListener(this, covWorkers, dwp) );
 		
 		covenant_note_button = new JButton();
 		covenant_note_button.setText( "Note");
-		//covenant_note_button.setBackground( Settings.MAIN_COLOR);
 		covenant_note_button.setFont( covenant_note_button.getFont().deriveFont(Settings.FONT_SIZE));
-		//covenant_note_button.setForeground( Settings.FOREGROUND_COLOR );
-		covenant_note_button.addActionListener( new NW_NoteListener( day_panel, allWorkers, day_panel.covenant_note_data, NW_NotePanel.COVENANT_NOTE, container_frame ) );
-		
+		covenant_note_button.addActionListener(new NW_NoteListener( day_panel, allWorkers, day_panel.getNoteData(), container_frame));
 		
 		add(header_label, "grow" );
-		//add( new JSeparator(SwingConstants.VERTICAL), "growy" );
 		add(dwp, "grow");
 		add(edit_button, "growx");
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );

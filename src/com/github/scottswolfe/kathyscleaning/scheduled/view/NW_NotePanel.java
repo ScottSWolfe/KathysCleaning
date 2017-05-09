@@ -20,14 +20,8 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 import net.miginfocom.swing.MigLayout;
 
 
-
-public class NW_NotePanel extends JPanel {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4583101260944936897L;
-	
+@SuppressWarnings("serial")
+public class NW_NotePanel extends JPanel {	
 	
 	// FIELDS
 	JFrame frame;
@@ -35,6 +29,11 @@ public class NW_NotePanel extends JPanel {
 	WorkerList dwd;
 	NW_NoteListener listener;
 	
+	public static final int ROWS = 8;
+
+	   
+	
+	// COMPONENTS
 	JLabel name_label;
 	JLabel note_label;
 	
@@ -42,29 +41,21 @@ public class NW_NotePanel extends JPanel {
 	JTextField[] note_field;
 	
 	JButton cancel_button;
-	JButton submit_button;
-	
-	public static final int ROWS = 8;
-	
-	private int note_type;
-	public final static int DAY_NOTE = 0;
-	public final static int COVENANT_NOTE = 1;
+	JButton submit_button;	
 	
 	
 	
-//  CONSTRUCTOR
-	
+	//  CONSTRUCTOR	
 	@SuppressWarnings("unchecked")
     public NW_NotePanel( JFrame frame, NW_DayPanel day_panel, WorkerList dwd,
-						 String[] selected_workers, NoteData note_data, int note_type, NW_NoteListener listener ) {
+						 String[] selected_workers, NoteData note_data, NW_NoteListener listener ) {
 		
 		this.frame = frame;
 		this.day_panel = day_panel;
 		this.dwd = dwd;
-		this.note_type = note_type;
 		this.listener = listener;
 		
-		note_data = day_panel.covenant_note_data;
+		note_data = day_panel.noteData;
 		
 		// generating string for migLayout format based on number of rows
 		String column_format = "[grow]";
@@ -147,7 +138,6 @@ public class NW_NotePanel extends JPanel {
 	
 	
 	// PRIVATE METHODS
-
 	private void addFlexibleFocusListeners() {
 		
 		Component box_up = null;
@@ -189,7 +179,7 @@ public class NW_NotePanel extends JPanel {
 	
 	
 	
-//  PRIVATE LISTENER
+	//  PRIVATE LISTENER
 	
 	// if cancel button is selected
 	private class CancelListener implements ActionListener {
@@ -218,20 +208,7 @@ public class NW_NotePanel extends JPanel {
 	
 	// if submit button is selected
 	private class SubmitListener implements ActionListener {
-		
-		//  FIELDS
-		//JFrame frame;
-		//NW_DayPanel day_panel;
-		
 			
-		
-		//  CONSTRUCTORS
-		private SubmitListener( ) {
-			
-		}
-			
-			
-		
 		//  LISTENER
 		public void actionPerformed(ActionEvent e){
 			
@@ -241,52 +218,20 @@ public class NW_NotePanel extends JPanel {
 			String[] note = new String[ROWS];
 
 			for(int i=0; i<ROWS; i++){
-				/*
-				System.out.println(" *** BEGIN TEST *** ");
-				System.out.println("Name: " + String.valueOf(name_box[i].getSelectedItem() ) );
-				System.out.println("equal blank: " + (String.valueOf(name_box[i].getSelectedItem() ).equals( "")) );
-				System.out.println("Note: " +  note_field[i].getText());
-				System.out.println("equal blank: " + ( note_field[i].getText().equals( new String("") ) ) );
-				*/
-				//if (name_box[i].getSelectedItem() != null) {
-					worker[i] = String.valueOf(name_box[i].getSelectedItem());
-				//}
-				//else {
-				//	worker[i] = "";
-				//}
-				//if(note_field[i].getText() != null && note_field[i].getText().length() != 0){
-					note[i] = note_field[i].getText();
-				//}
-				//else {
-				//	note[i] = "";
-				//}
-				
+			    worker[i] = String.valueOf(name_box[i].getSelectedItem());
+			    note[i] = note_field[i].getText();
 			}
 			
-			nd = new NoteData( worker, note, dwd );
-			
+			nd = new NoteData(worker, note, dwd);
 			
 			// set nw day panel's note data and listener data
-			if ( note_type == DAY_NOTE ) {
-				day_panel.setDay_note_data(nd);
-				listener.note_data = nd;
-			}
-			else if ( note_type == COVENANT_NOTE ) {
-				day_panel.setCovenant_note_data(nd);
-				listener.note_data = nd;
-			}
-			else {
-				day_panel.setDay_note_data(nd);
-				listener.note_data = nd;
-			}
-			
+			day_panel.setNoteData(nd);
+			listener.note_data = nd;
 			
 			// close note panel
 			frame.setVisible( false );
 			frame.dispose();
-			
 		}
-			
 	}
 	
 }

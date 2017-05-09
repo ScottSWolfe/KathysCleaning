@@ -61,8 +61,7 @@ public class ScheduledControllerHelper
             dayData[d].cov_worker = dp.cov_panel.dwp.getWorkers();
             dayData[d].meet_location = dp.getMeetLocation();
             dayData[d].meet_time = dp.getMeetTime();
-            dayData[d].covNoteData = dp.getCovenant_note_data();
-            dayData[d].dayNoteData = dp.getDay_note_data();
+            dayData[d].covNoteData = dp.getNoteData();
             
             NW_HouseData[] houseData = new NW_HouseData[tp.nw_day_panel[d].house_panel.length];
             HouseData[] completedHouseData = new HouseData[tp.nw_day_panel[d].house_panel.length];
@@ -110,7 +109,7 @@ public class ScheduledControllerHelper
             dp.meet_time_field.setText(dayData.meet_time);
             dp.setBeginExceptionData(dayData.beginExceptionList);
             tp.nw_day_panel[d].cov_panel.dwp.setWorkers(dayData.cov_worker);            
-            tp.nw_day_panel[d].covenant_note_data = dayData.covNoteData;
+            tp.nw_day_panel[d].setNoteData(dayData.covNoteData);
             
             // iterate through houses
             NW_HouseData[] houses = dayData.houseData;
@@ -278,16 +277,16 @@ public class ScheduledControllerHelper
             }
                 
             // if current worker has a note, add the note to the worker's schedule
-            if (dp.getCovenant_note_data() != null &&
-                dp.getCovenant_note_data().name_box_data != null &&
-                dp.getCovenant_note_data().note_field_data != null) {
+            if (dp.getNoteData() != null &&
+                dp.getNoteData().name_box_data != null &&
+                dp.getNoteData().note_field_data != null) {
                 
                 // iterating through names in note data
-                for (int j = 0; j < dp.getCovenant_note_data().name_box_data.length; j++) {
+                for (int j = 0; j < dp.getNoteData().name_box_data.length; j++) {
                     
-                    if (worker.equals(dp.getCovenant_note_data().name_box_data[j])
-                            && !dp.getCovenant_note_data().equals("")) {
-                        schedule.addNote(dp.getCovenant_note_data().note_field_data[j]);                        
+                    if (worker.equals(dp.getNoteData().name_box_data[j])
+                            && !dp.getNoteData().equals("")) {
+                        schedule.addNote(dp.getNoteData().note_field_data[j]);                        
                     }
                 }
             }

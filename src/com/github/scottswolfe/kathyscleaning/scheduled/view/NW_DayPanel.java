@@ -27,7 +27,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
@@ -42,8 +41,7 @@ public class NW_DayPanel extends JPanel{
 	//  FIELDS
     GeneralController<TabbedPane, NW_Data> controller;
 	
-	public NoteData covenant_note_data;
-	NoteData day_note_data;
+	NoteData noteData;
 	
 	WorkerList workers;
 	public List<BeginExceptionEntry> bed;
@@ -146,8 +144,7 @@ public class NW_DayPanel extends JPanel{
 		panel.setBackground( Settings.BACKGROUND_COLOR );
 
 		MatteBorder mborder = BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK);
-		
-		panel.setBorder( mborder );
+		panel.setBorder(mborder);
 				
 		meet_location_label = new JLabel("Meet Location:");
 		meet_location_label.setFont( meet_location_label.getFont().deriveFont(Settings.FONT_SIZE));
@@ -177,15 +174,12 @@ public class NW_DayPanel extends JPanel{
 		note_button = new JButton();
 		note_button.setText( "Note");
 		note_button.setFont( note_button.getFont().deriveFont(Settings.FONT_SIZE));
-		note_button.addActionListener( new NW_NoteListener( this, workers, day_note_data, NW_NotePanel.DAY_NOTE, frame ) );
 				
 		panel.add(meet_location_label,"gapx 0, align right");
 		panel.add(meet_location_box,"gapx 0, align left");
 		panel.add(meet_time_label,"gapx 0, align right");
 		panel.add(meet_time_field,"gapx 0, align left");
 		panel.add(exception_button,"gapx 0, align right");
-		//panel.add( new JSeparator(SwingConstants.HORIZONTAL), "gapx 6, growy, wrap 20" );
-		//panel.add(note_button, "gapx 6, growx");
 		
 		return panel;
 	}
@@ -373,50 +367,15 @@ public class NW_DayPanel extends JPanel{
 	}
 	
 	
-	/*
-	public Component getPanelComponents(int x, int y) {
-		
-		return this.getComponentAt(new Point(x,y) );
-		
-	}
-	*/
-	
-	
-	public NoteData getCovenant_note_data() {
-		return covenant_note_data;
+	public NoteData getNoteData() {
+		return noteData;
 	}
 
 	
-	public void setCovenant_note_data(NoteData covenant_note_data) {
-		this.covenant_note_data = covenant_note_data;
+	public void setNoteData(NoteData covenant_note_data) {
+		this.noteData = covenant_note_data;
 	}
-
 	
-	public NoteData getDay_note_data() {
-		return day_note_data;
-	}
-
-	
-	public void setDay_note_data(NoteData day_note_data) {
-		/*
-		System.out.println(this.day_note_data.toString());
-		this.day_note_data.name_box_data = new String[day_note_data.name_box_data.length];
-		this.day_note_data.note_field_data = new String[day_note_data.note_field_data.length];
-		
-		for(int i=0; i<day_note_data.name_box_data.length; i++){
-			this.day_note_data.name_box_data[i] = new String();
-			this.day_note_data.name_box_data[i] = day_note_data.name_box_data[i];
-		}
-		for(int i=0; i<day_note_data.note_field_data.length; i++){
-			this.day_note_data.note_field_data[i] = new String();
-			this.day_note_data.note_field_data[i] = day_note_data.note_field_data[i];
-		}
-		*/
-		//this.day_note_data.name_box_data = day_note_data.name_box_data;
-		//this.day_note_data.note_field_data = day_note_data.note_field_data;
-		this.day_note_data = day_note_data;
-	}
-
 	
 	public void addFlexibleFocusListeners(){
 		
