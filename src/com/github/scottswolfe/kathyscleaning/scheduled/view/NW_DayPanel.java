@@ -72,7 +72,6 @@ public class NW_DayPanel extends JPanel{
 	JLabel meet_time_label;
 	public JTextField meet_time_field;
 	JButton exception_button;
-	JButton note_button;
 	
 	
 	
@@ -170,11 +169,7 @@ public class NW_DayPanel extends JPanel{
 		exception_button.setText("Exceptions");
 		exception_button.setFont( exception_button.getFont().deriveFont(Settings.FONT_SIZE));
 		exception_button.addActionListener( new NW_ExceptionListener( this, workers, frame ) );
-		
-		note_button = new JButton();
-		note_button.setText( "Note");
-		note_button.setFont( note_button.getFont().deriveFont(Settings.FONT_SIZE));
-				
+						
 		panel.add(meet_location_label,"gapx 0, align right");
 		panel.add(meet_location_box,"gapx 0, align left");
 		panel.add(meet_time_label,"gapx 0, align right");
@@ -372,8 +367,11 @@ public class NW_DayPanel extends JPanel{
 	}
 
 	
-	public void setNoteData(NoteData covenant_note_data) {
-		this.noteData = covenant_note_data;
+	public void setNoteData(NoteData noteData) {
+		this.noteData = noteData;
+		if (!noteData.isBlank()) {
+		    cov_panel.setNoteButtonColor(Settings.MAIN_COLOR);
+		}
 	}
 	
 	

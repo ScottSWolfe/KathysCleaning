@@ -10,7 +10,8 @@ public class NoteData {
 	public String[] note_field_data;
 	WorkerList dwd;
 	
-	// CONSTRUCTOR
+	
+	// CONSTRUCTORS
 	public NoteData() {
 	    name_box_data = new String[NW_NotePanel.ROWS];
 	    note_field_data = new String[NW_NotePanel.ROWS];
@@ -26,6 +27,23 @@ public class NoteData {
 		this.note_field_data = note_field_data;
 		this.dwd = dwd;
 	}
+	
+	
+	// PUBLIC METHODS
+	public boolean isBlank() {
+	    for (String name : name_box_data) {
+	        if (name != null && !name.equals("")) {
+	            return false;
+	        }
+	    }
+	    for (String note : note_field_data) {
+            if (note != null && !note.equals("")) {
+                return false;
+            }
+        }
+	    return true;
+	}
+	
 	
 	// GETTERS & SETTERS
 	public String[] getNameBoxData () {

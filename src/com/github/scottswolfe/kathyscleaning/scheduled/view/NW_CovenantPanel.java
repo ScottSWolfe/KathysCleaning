@@ -33,7 +33,7 @@ public class NW_CovenantPanel extends JPanel {
 	WorkerList dwd;
 	public WorkerPanel dwp;
 	JButton edit_button;
-	JButton covenant_note_button;
+	JButton note_button;
 	
 	NW_DayPanel day_panel;
 	JFrame container_frame;
@@ -77,16 +77,16 @@ public class NW_CovenantPanel extends JPanel {
 		edit_button.setFont( edit_button.getFont().deriveFont(Settings.FONT_SIZE));
 		edit_button.addActionListener( new EditWorkersListener(this, covWorkers, dwp) );
 		
-		covenant_note_button = new JButton();
-		covenant_note_button.setText( "Note");
-		covenant_note_button.setFont( covenant_note_button.getFont().deriveFont(Settings.FONT_SIZE));
-		covenant_note_button.addActionListener(new NW_NoteListener( day_panel, allWorkers, day_panel.getNoteData(), container_frame));
+		note_button = new JButton();
+		note_button.setText( "Note");
+		note_button.setFont( note_button.getFont().deriveFont(Settings.FONT_SIZE));
+		note_button.addActionListener(new NW_NoteListener( day_panel, allWorkers, day_panel.getNoteData(), container_frame));
 		
 		add(header_label, "grow" );
 		add(dwp, "grow");
 		add(edit_button, "growx");
 		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-		add(covenant_note_button, "growx, hmin 50");		
+		add(note_button, "growx, hmin 50");		
 	}
 	
 	
@@ -98,6 +98,10 @@ public class NW_CovenantPanel extends JPanel {
 	
 	public List<String> getSelectedWorkers() {
 	    return dwp.getSelected();
+	}
+	
+	public void setNoteButtonColor(Color color) {
+	    note_button.setBackground(color);
 	}
 	
 	
