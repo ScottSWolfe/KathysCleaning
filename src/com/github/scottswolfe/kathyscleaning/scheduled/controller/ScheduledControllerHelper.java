@@ -22,7 +22,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HeaderData;
@@ -309,7 +309,7 @@ public class ScheduledControllerHelper
 
             // adding meeting information
             Boolean hasException = false;
-            for (BeginExceptionData exception : dp.bed) {
+            for (BeginExceptionEntry exception : dp.bed) {
                 // if worker matches an exception
                 if (exception.getName().equals(worker)) {
                     schedule.setTime(exception.getTime());

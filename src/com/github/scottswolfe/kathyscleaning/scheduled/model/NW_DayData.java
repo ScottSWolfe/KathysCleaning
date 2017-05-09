@@ -10,7 +10,7 @@ public class NW_DayData {
 	NW_HeaderData headerData;
 	
 	public NW_HouseData[] houseData;
-	public List<BeginExceptionData> beginExceptionList;
+	public List<BeginExceptionEntry> beginExceptionList;
 	public String meet_location;
 	public String meet_time;
 	
@@ -42,7 +42,7 @@ public class NW_DayData {
 		ws = new ArrayList<>();
 	}
 	
-	public NW_DayData(NW_HeaderData headerData, NW_HouseData[] houseData, List<BeginExceptionData> bed) {
+	public NW_DayData(NW_HeaderData headerData, NW_HouseData[] houseData, List<BeginExceptionEntry> bed) {
 		this.headerData = headerData;
 		this.houseData = houseData;
 		this.beginExceptionList = bed;
@@ -86,11 +86,11 @@ public class NW_DayData {
 		return houseData;
 	}
 	
-	public List<BeginExceptionData> getBeginExceptionData() {
+	public List<BeginExceptionEntry> getBeginExceptionData() {
 		return beginExceptionList;
 	}
 
-	public void setBeginExceptionData(List<BeginExceptionData> bed) {
+	public void setBeginExceptionData(List<BeginExceptionEntry> bed) {
 		this.beginExceptionList = bed;
 	}
 	

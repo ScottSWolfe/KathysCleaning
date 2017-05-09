@@ -1,8 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
-
-public class BeginExceptionData {
-	// this is an object class that contains the data for one employee's meeting exception
+/**
+ *  This contains the data for one employee's meeting exception.
+ */
+public class BeginExceptionEntry {
 	
 	// FIELDS
 	private String name;
@@ -10,10 +11,8 @@ public class BeginExceptionData {
 	private String time;
 	private String note;
 	
-
-	
-	// CONSTRUCTOR
-	public BeginExceptionData(String name, String location, String time, String note) {
+	// CONSTRUCTORS
+	public BeginExceptionEntry(String name, String location, String time, String note) {
 		super();
 		this.name = name;
 		this.location = location;
@@ -21,7 +20,7 @@ public class BeginExceptionData {
 		this.note = note;
 	}
 	
-	public BeginExceptionData() {
+	public BeginExceptionEntry() {
 		name = "";
 		location = "";
 		time = "";
@@ -29,13 +28,7 @@ public class BeginExceptionData {
 	}
 	
 	
-	
-	// PRIVATE METHODS
-	
-	
-	
 	// PUBLIC METHODS
-	
 	public boolean doesExist() {
 	
 		boolean exist = false;
@@ -47,7 +40,7 @@ public class BeginExceptionData {
 	}
 	
 	
-	// BASIC GETTERS and SETTERS
+	// GETTERS and SETTERS
 	public String getName() {
 		return name;
 	}
@@ -100,7 +93,5 @@ public class BeginExceptionData {
 			this.note = "";
 		}
 	}
-	
-	
 	
 }

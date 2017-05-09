@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_ExceptionPanel;
@@ -105,12 +105,12 @@ public class NW_WeekListener implements ActionListener {
 			dp.meet_time_field.setText( input.nextLine() );
 			
 
-			List<BeginExceptionData> bedList = new ArrayList<>();
+			List<BeginExceptionEntry> bedList = new ArrayList<>();
 			for (int i=0; i<NW_ExceptionPanel.NUM_EXCEPTIONS; i++) {
 				
-			    BeginExceptionData bed = new BeginExceptionData();
+			    BeginExceptionEntry bed = new BeginExceptionEntry();
 			    
-				bed = new BeginExceptionData();
+				bed = new BeginExceptionEntry();
 				
 				bed.setName(input.nextLine());
 				bed.setMeetLocation(input.nextLine());

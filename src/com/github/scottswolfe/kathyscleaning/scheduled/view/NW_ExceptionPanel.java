@@ -20,7 +20,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -302,10 +302,10 @@ public class NW_ExceptionPanel extends JPanel {
 		// ACTION METHOD
 		public void actionPerformed( ActionEvent e ) {
 		    
-	        List<BeginExceptionData> bedList = new ArrayList<>();
+	        List<BeginExceptionEntry> bedList = new ArrayList<>();
 			for (int i = 0; i < NUM_EXCEPTIONS; i++) {
 				
-			    BeginExceptionData bed = new BeginExceptionData();
+			    BeginExceptionEntry bed = new BeginExceptionEntry();
 			    
 			    if (employee_combobox[i].getSelectedItem() != null) {
 			        bed.setName((String) employee_combobox[i].getSelectedItem());

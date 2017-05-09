@@ -28,7 +28,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 
@@ -46,7 +46,7 @@ public class NW_DayPanel extends JPanel{
 	NoteData day_note_data;
 	
 	WorkerList workers;
-	public List<BeginExceptionData> bed;
+	public List<BeginExceptionEntry> bed;
 	
 	boolean exception_exist = false;
 	
@@ -277,7 +277,7 @@ public class NW_DayPanel extends JPanel{
 	}
 	
 	
-	public void setBeginExceptionData(List<BeginExceptionData> bed) {
+	public void setBeginExceptionData(List<BeginExceptionEntry> bed) {
 		this.bed = bed;
 	}
 	
@@ -287,7 +287,7 @@ public class NW_DayPanel extends JPanel{
 		if (!this.doesBedExist()) {
 			return s;
 		} else {
-			for (BeginExceptionData exception : bed) {
+			for (BeginExceptionEntry exception : bed) {
 				s.add(exception.getName());
 			}
 			return s;

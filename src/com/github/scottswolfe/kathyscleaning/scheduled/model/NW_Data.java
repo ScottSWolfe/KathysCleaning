@@ -7,7 +7,7 @@ public class NW_Data {
 	public NW_DayData[] dayData;
 	public DayData[] completedDayData;
 	
-	public NW_Data(NW_DayData[] dayData, BeginExceptionData bed) {
+	public NW_Data(NW_DayData[] dayData, BeginExceptionEntry bed) {
 		this.dayData = dayData;
 	}
 	
