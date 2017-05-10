@@ -34,7 +34,6 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 import net.miginfocom.swing.MigLayout;
 
 
-
 @SuppressWarnings("serial")
 public class NW_DayPanel extends JPanel{	
 	
@@ -42,14 +41,9 @@ public class NW_DayPanel extends JPanel{
     GeneralController<TabbedPane, NW_Data> controller;
 	
 	NoteData noteData;
-	
+    List<BeginExceptionEntry> bed;
+
 	WorkerList workers;
-	public List<BeginExceptionEntry> bed;
-	
-	boolean exception_exist = false;
-	
-	int mode;
-	int wk;
 		
 	TabbedPane tp;
 	DayData day_data;
@@ -57,9 +51,7 @@ public class NW_DayPanel extends JPanel{
 	JFrame frame;
 	
 	
-	
-	// COMPONENTS
-	
+	// COMPONENTS	
 	public NW_HeaderPanel header_panel;
 	public NW_HousePanel[] house_panel;
 	public NW_CovenantPanel cov_panel;
@@ -74,9 +66,7 @@ public class NW_DayPanel extends JPanel{
 	JButton exception_button;
 	
 	
-	
 	// CONSTRUCTORS
-
 	public NW_DayPanel(GeneralController<TabbedPane, NW_Data> controller, TabbedPane tp,
 	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ) {
 		
@@ -84,8 +74,6 @@ public class NW_DayPanel extends JPanel{
 		this.workers = dwd;
 		this.date = date;
 		this.frame = frame;
-		this.mode = mode;
-		this.wk = wk;
 		this.tp = tp;
 		
 		setLayout(new MigLayout());
@@ -233,16 +221,17 @@ public class NW_DayPanel extends JPanel{
 		
 	}
 
-	
 	public boolean isException_exist() {
-		return exception_exist;
+	    if (bed == null) {
+	        return false;
+	    }
+	    for (BeginExceptionEntry entry : bed) {
+	        if (!entry.isBlank()) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
-
-	
-	public void setException_exist(boolean exception_exist) {
-		this.exception_exist = exception_exist;
-	}
-	
 	
 	public String getMeetLocation() {
 		if ( String.valueOf(meet_location_box.getSelectedItem()) != null &&
@@ -255,7 +244,6 @@ public class NW_DayPanel extends JPanel{
 		}
 	}
 	
-	
 	public String getMeetTime() {
 		if (meet_time_field.getText() != null) {
 			return meet_time_field.getText();
@@ -264,16 +252,10 @@ public class NW_DayPanel extends JPanel{
 			return "";
 		}
 	}
-	
-	
-	public void setBeginExceptionData(List<BeginExceptionEntry> bed) {
-		this.bed = bed;
-	}
-	
-	
+		
 	public List<String> getExceptionNames() {
 		List<String> s = new ArrayList<>();
-		if (!this.doesBedExist()) {
+		if (!isException_exist()) {
 			return s;
 		} else {
 			for (BeginExceptionEntry exception : bed) {
@@ -281,32 +263,16 @@ public class NW_DayPanel extends JPanel{
 			}
 			return s;
 		}
-	}
-	
-	
-	public boolean doesBedExist() {
-		
-		if (bed == null) {
-			return false;
-		}
-		else {
-			return true;
-		}
-		
-	}
-	
+	}	
 	
 	public int getNumBED() {
-		
 		if (bed == null) {
 			return 0;
 		}
 		else {
 			return bed.size();
 		}
-		
 	}
-	
 	
 	// this method returns the number of unique employees for a given day
 	public int getNumberUniqueWorkers() {
@@ -366,7 +332,6 @@ public class NW_DayPanel extends JPanel{
 		return noteData;
 	}
 
-	
 	public void setNoteData(NoteData noteData) {
 		this.noteData = noteData;
 		if (!noteData.isBlank()) {
@@ -374,13 +339,17 @@ public class NW_DayPanel extends JPanel{
 		}
 	}
 	
+	public List<BeginExceptionEntry> getExceptionData() {
+	    return bed;
+	}
 	
-	public void addFlexibleFocusListeners(){
+	public void setExceptionData(List<BeginExceptionEntry> beginExceptions) {
+	    this.bed = beginExceptions;
+	}
 		
-
-		// adding focus listeners for textfields and buttons
+	public void addFlexibleFocusListeners() {
+	    
 		for (int i=0; i<house_panel.length; i++) {
-					
 			NW_HousePanel hp = house_panel[i];
 			
 			NW_HousePanel hp_up;
@@ -404,7 +373,6 @@ public class NW_DayPanel extends JPanel{
 					null, hp.worker_panel.workerCheckBoxes[0][0],
 					hp_up.house_name_txt, hp_down.house_name_txt, 
 					null) );
-				
 		}
 		
 		meet_location_box.getEditor().getEditorComponent().addFocusListener(new FlexibleFocusListener(meet_location_box, 
@@ -424,8 +392,6 @@ public class NW_DayPanel extends JPanel{
 				meet_time_field, null,
 				null, null,
 				null));
-
-		
 	}	
 
 }
