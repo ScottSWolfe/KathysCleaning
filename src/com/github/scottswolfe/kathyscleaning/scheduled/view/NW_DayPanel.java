@@ -345,6 +345,9 @@ public class NW_DayPanel extends JPanel{
 	
 	public void setExceptionData(List<BeginExceptionEntry> beginExceptions) {
 	    this.bed = beginExceptions;
+	    if (isException_exist()) {
+	        exception_button.setBackground(Settings.MAIN_COLOR);
+	    }
 	}
 		
 	public void addFlexibleFocusListeners() {
