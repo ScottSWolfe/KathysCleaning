@@ -57,7 +57,7 @@ public class ScheduledControllerHelper
             header.setDWD(dp.header_panel.dwp.getWorkers());
             dayData[d].setHeader(header);
             
-            dayData[d].beginExceptionList = dp.getExceptionData();
+            dayData[d].beginExceptionList = dp.getBeginExceptionList();
             dayData[d].cov_worker = dp.cov_panel.dwp.getWorkers();
             dayData[d].meet_location = dp.getMeetLocation();
             dayData[d].meet_time = dp.getMeetTime();
@@ -107,7 +107,7 @@ public class ScheduledControllerHelper
             dp.header_panel.dwp.setWorkers(dayData.getHeaderData().getDWD());
             dp.meet_location_box.setSelectedItem(dayData.meet_location);
             dp.meet_time_field.setText(dayData.meet_time);
-            dp.setExceptionData(dayData.beginExceptionList);
+            dp.setBeginExceptionList(dayData.beginExceptionList);
             tp.nw_day_panel[d].cov_panel.dwp.setWorkers(dayData.cov_worker);            
             tp.nw_day_panel[d].setNoteData(dayData.covNoteData);
             
@@ -308,7 +308,7 @@ public class ScheduledControllerHelper
 
             // adding meeting information
             Boolean hasException = false;
-            for (BeginExceptionEntry entry : dp.getExceptionData()) {
+            for (BeginExceptionEntry entry : dp.getBeginExceptionList()) {
                 // if worker matches an exception
                 if (entry.getName().equals(worker)) {
                     schedule.setTime(entry.getTime());

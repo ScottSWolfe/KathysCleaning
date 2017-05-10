@@ -49,8 +49,8 @@ public class NW_ExceptionListener implements ActionListener {
 		NW_ExceptionPanel panel = new NW_ExceptionPanel(frame, dp, dwd);
 		
 		BeginExceptionEntry entry;
-        for (int i=0; i < dp.getNumBED(); i++) {
-            entry = dp.getExceptionData().get(i);
+        for (int i=0; i < dp.getNumBeginExceptionEntries(); i++) {
+            entry = dp.getBeginExceptionList().get(i);
             panel.setEmployee_combobox_text(entry.getName(), i);
             panel.setTime_textfield_text(entry.getTime(), i);
             panel.setLocation_combobox_text(entry.getMeetLocation(), i);

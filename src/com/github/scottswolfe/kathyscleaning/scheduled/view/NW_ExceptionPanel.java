@@ -332,7 +332,7 @@ public class NW_ExceptionPanel extends JPanel {
 	            }
 	            bedList.add(bed);								
 			}
-			dp.setExceptionData(bedList);
+			dp.setBeginExceptionList(bedList);
 			
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}

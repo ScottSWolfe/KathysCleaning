@@ -41,8 +41,7 @@ public class NW_DayPanel extends JPanel{
     GeneralController<TabbedPane, NW_Data> controller;
 	
 	NoteData noteData;
-    List<BeginExceptionEntry> bed;
-
+    List<BeginExceptionEntry> beginExceptionList;
 	WorkerList workers;
 		
 	TabbedPane tp;
@@ -208,8 +207,7 @@ public class NW_DayPanel extends JPanel{
 	
 	
 	public void changeCovenantWorkerPanel( WorkerList dwd ) {
-		
-		remove( cov_panel );
+		remove(cov_panel);
 		
 		NW_CovenantPanel new_panel = new NW_CovenantPanel( this, dwd, frame );
 		
@@ -218,14 +216,13 @@ public class NW_DayPanel extends JPanel{
 		
 		frame.revalidate();
 		frame.repaint();
-		
 	}
 
-	public boolean isException_exist() {
-	    if (bed == null) {
+	public boolean isBeginException() {
+	    if (beginExceptionList == null) {
 	        return false;
 	    }
-	    for (BeginExceptionEntry entry : bed) {
+	    for (BeginExceptionEntry entry : beginExceptionList) {
 	        if (!entry.isBlank()) {
 	            return true;
 	        }
@@ -255,22 +252,22 @@ public class NW_DayPanel extends JPanel{
 		
 	public List<String> getExceptionNames() {
 		List<String> s = new ArrayList<>();
-		if (!isException_exist()) {
+		if (!isBeginException()) {
 			return s;
 		} else {
-			for (BeginExceptionEntry exception : bed) {
+			for (BeginExceptionEntry exception : beginExceptionList) {
 				s.add(exception.getName());
 			}
 			return s;
 		}
 	}	
 	
-	public int getNumBED() {
-		if (bed == null) {
+	public int getNumBeginExceptionEntries() {
+		if (beginExceptionList == null) {
 			return 0;
 		}
 		else {
-			return bed.size();
+			return beginExceptionList.size();
 		}
 	}
 	
@@ -327,7 +324,6 @@ public class NW_DayPanel extends JPanel{
 		return workers; 
 	}
 	
-	
 	public NoteData getNoteData() {
 		return noteData;
 	}
@@ -339,13 +335,13 @@ public class NW_DayPanel extends JPanel{
 		}
 	}
 	
-	public List<BeginExceptionEntry> getExceptionData() {
-	    return bed;
+	public List<BeginExceptionEntry> getBeginExceptionList() {
+	    return beginExceptionList;
 	}
 	
-	public void setExceptionData(List<BeginExceptionEntry> beginExceptions) {
-	    this.bed = beginExceptions;
-	    if (isException_exist()) {
+	public void setBeginExceptionList(List<BeginExceptionEntry> beginExceptions) {
+	    this.beginExceptionList = beginExceptions;
+	    if (isBeginException()) {
 	        exception_button.setBackground(Settings.MAIN_COLOR);
 	    }
 	}
