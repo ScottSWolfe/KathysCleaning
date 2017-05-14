@@ -52,10 +52,15 @@ public interface Controller<ViewObject, ModelObject> {
      */
     public void eliminateWindow();
     
-    /*
+    /**
      * Returns the form type that the controller controls
      */
     public Form getFormType();
+    
+    /**
+     * Sets the title for the frame of the current window
+     */
+    public void setTitleText();
     
     
     

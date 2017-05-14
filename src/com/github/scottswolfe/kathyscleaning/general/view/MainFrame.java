@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 
 @SuppressWarnings("serial")
@@ -37,12 +38,9 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
         this.dispose();
     }
     
-    
-    
-/* PRIVATE METHODS ========================================================== */
-    
-    private void setTitleText(Controller<ViewObject, ModelObject> controller) {
+    public void setTitleText(Controller<ViewObject, ModelObject> controller) {
         String text = "";
+        
         if (controller.getFormType() == Form.COMPLETED) {
             text = "Houses";
         } else if (controller.getFormType() == Form.COVENANT) {
@@ -52,8 +50,17 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
         } else if (controller.getFormType() == Form.SCHEDULED) {
             text = "Next Week";
         }
+        
+        if (SessionModel.isSaveFileChosen()) {
+            text += " - " + SessionModel.getSaveFile().getName();
+        }
+        
         setTitle(text);
     }
+    
+    
+    
+/* PRIVATE METHODS ========================================================== */
     
     private void addMenuBar(Controller<ViewObject, ModelObject> controller) {
         menuBar = new MenuBar<>(controller);

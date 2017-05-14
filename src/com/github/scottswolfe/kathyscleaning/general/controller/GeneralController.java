@@ -1,9 +1,12 @@
 package com.github.scottswolfe.kathyscleaning.general.controller;
 
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+
+import javax.swing.SwingUtilities;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -13,6 +16,7 @@ import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControl
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantExcelHelper;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
@@ -150,6 +154,15 @@ public class GeneralController<ViewObject, ModelObject>
     public Form getFormType() {
         return form;
     }
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public void setTitleText() {
+        @SuppressWarnings("rawtypes")
+        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor((Component) view);
+        frame.setTitleText(this);
+    }
+    
     
     /**
      * @return true if currently loading file into view; false otherwise

@@ -231,6 +231,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         }
         SessionModel.setSaveFile(file);
         controller.readInputAndWriteToFile(file);
+        controller.setTitleText();
     }
     
     private void loadFile(File file) {
@@ -239,6 +240,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         }
         SessionModel.load(file);
         controller.readFileAndWriteToView(file);
+        controller.setTitleText();
     }
     
     public static boolean prepareFileName(File file) {
