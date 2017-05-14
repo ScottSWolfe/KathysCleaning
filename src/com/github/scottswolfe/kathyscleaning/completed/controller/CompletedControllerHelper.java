@@ -329,6 +329,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
         ScheduledControllerHelper helper = new ScheduledControllerHelper();
         NW_Data scheduledModel = helper.loadFromFile(file);
         CompletedModel completedModel = scheduledToCompletedModel(scheduledModel);
+        completedModel.setDates(SessionModel.getCompletedStartDay());
         CompletedControllerHelper completedHelper = new CompletedControllerHelper();
         completedHelper.writeModelToView(completedModel, tp);
     }
@@ -342,5 +343,5 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
         completedModel.setDayData(scheduledModel.completedDayData);
         return completedModel;
     }
-    
+        
 }

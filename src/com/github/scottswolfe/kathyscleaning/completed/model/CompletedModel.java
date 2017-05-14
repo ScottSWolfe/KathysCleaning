@@ -10,12 +10,10 @@ public class CompletedModel {
 	
 	public CompletedModel() {
 	    dayData = new DayData[5];
-	    Calendar date = CalendarMethods.getFirstDayOfWeek();
 	    for (int i = 0; i < 5; i++) {
 	        dayData[i] = new DayData();
-	        dayData[i].setDate(date);
-	        date.add(Calendar.DATE, 1);
 	    }
+	    setDates(CalendarMethods.getFirstDayOfWeek());
 	}
 	
 	public DayData[] getDay() {
@@ -24,6 +22,14 @@ public class CompletedModel {
 	
 	public void setDayData(DayData[] dayData) {
 	    this.dayData = dayData;
+	}
+	
+	public void setDates(Calendar firstDayOfWeek) {
+	    Calendar date = (Calendar) firstDayOfWeek.clone();
+        for (int i = 0; i < dayData.length; i++) {
+            dayData[i].setDate(date);
+            date.add(Calendar.DATE, 1);
+        }
 	}
 	
 }
