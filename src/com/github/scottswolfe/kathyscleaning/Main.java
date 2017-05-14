@@ -36,7 +36,7 @@ public class Main {
 	    
 	    try {
 	        SettingsModel.load(Settings.SETTINGS_SAVE_FILE);
-	    } catch (Exception e) {
+	    } catch (Exception e) { // TODO change this to FileNotFoundException
 	        SettingsModel.initialize();
 	        SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
 	    }
