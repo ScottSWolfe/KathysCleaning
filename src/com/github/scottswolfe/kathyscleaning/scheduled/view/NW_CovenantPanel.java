@@ -78,9 +78,9 @@ public class NW_CovenantPanel extends JPanel {
 		edit_button.addActionListener( new EditWorkersListener(this, covWorkers, dwp) );
 		
 		note_button = new JButton();
-		note_button.setText( "Note");
-		note_button.setFont( note_button.getFont().deriveFont(Settings.FONT_SIZE));
-		note_button.addActionListener(new NW_NoteListener( day_panel, allWorkers, day_panel.getNoteData(), container_frame));
+		note_button.setText("Note");
+		note_button.setFont(note_button.getFont().deriveFont(Settings.FONT_SIZE));
+		note_button.addActionListener(new NW_NoteListener(day_panel, allWorkers, day_panel.getNoteData(), container_frame));
 		
 		add(header_label, "grow" );
 		add(dwp, "grow");

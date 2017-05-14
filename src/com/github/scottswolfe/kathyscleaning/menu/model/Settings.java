@@ -42,8 +42,10 @@ public class Settings {
     public final static Color FOREGROUND_COLOR = Color.WHITE;
     public static final Color HEADER_BACKGROUND = new Color(245,245,245); 
     public static final Color CHANGE_DAY_COLOR = new Color (100, 149, 237);
-    public static final Color ADD_HOUSE_COLOR = new Color (113, 198, 113).brighter() ;
-    public static final Color DELETE_HOUSE_COLOR = new Color (240, 128, 128) ;
+    public static final Color ADD_HOUSE_COLOR = new Color (113, 198, 113).brighter();
+    public static final Color DELETE_HOUSE_COLOR = new Color (240, 128, 128);
+    public static final Color DEFAULT_BUTTON_COLOR = UIManager.getColor("Button.background");
+    public static final Color EDITED_BUTTON_COLOR = MAIN_COLOR; 
     
     /**
      * Settings and Data Save Files

@@ -330,8 +330,10 @@ public class NW_DayPanel extends JPanel{
 
 	public void setNoteData(NoteData noteData) {
 		this.noteData = noteData;
-		if (!noteData.isBlank()) {
-		    cov_panel.setNoteButtonColor(Settings.MAIN_COLOR);
+		if (noteData.isBlank()) {
+		    cov_panel.setNoteButtonColor(Settings.DEFAULT_BUTTON_COLOR);
+		} else {
+	        cov_panel.setNoteButtonColor(Settings.EDITED_BUTTON_COLOR);
 		}
 	}
 	
@@ -342,8 +344,10 @@ public class NW_DayPanel extends JPanel{
 	public void setBeginExceptionList(List<BeginExceptionEntry> beginExceptions) {
 	    this.beginExceptionList = beginExceptions;
 	    if (isBeginException()) {
-	        exception_button.setBackground(Settings.MAIN_COLOR);
-	    }
+	        exception_button.setBackground(Settings.EDITED_BUTTON_COLOR);
+	    } else {
+	        exception_button.setBackground(Settings.DEFAULT_BUTTON_COLOR);
+        }
 	}
 		
 	public void addFlexibleFocusListeners() {

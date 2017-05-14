@@ -296,9 +296,10 @@ public class HousePanel extends JPanel {
 	
 	private void setExceptionButtonColor() {
         if (exception_data.isException()) {
-            exceptions.setBackground(Settings.MAIN_COLOR);
+            exceptions.setBackground(Settings.EDITED_BUTTON_COLOR);
+        } else {
+            exceptions.setBackground(Settings.DEFAULT_BUTTON_COLOR);
         }
-        // TODO add code to set button to default if no exceptions
 	}
 	
 }
