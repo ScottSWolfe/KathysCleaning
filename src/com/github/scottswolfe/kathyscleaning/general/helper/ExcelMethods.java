@@ -8,10 +8,13 @@ import java.text.DecimalFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener.Action;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 
@@ -75,9 +78,7 @@ public class ExcelMethods {
         
         File file = FileChooserHelper.saveAs(
                     SettingsModel.getExcelSaveLocation(),
-                    FileNameHelper.createDatedFileName(
-                    SettingsModel.getExcelSaveLocation().getPath(),
-                    FileChooserHelper.XLSX),
+                    getDefaultSaveFileName(),
                     FileChooserHelper.XLSX);
         
         if (file != null) {
@@ -93,6 +94,17 @@ public class ExcelMethods {
         
         controller.initializeForm(
                 new GeneralController(controller.getFormType()));
+    }
+    
+    private static String getDefaultSaveFileName() {
+        if (SessionModel.isSaveFileChosen()) {
+            String fileName = SessionModel.getSaveFile().getName();
+            return FilenameUtils.removeExtension(fileName);
+        } else {
+            return FileNameHelper.createDatedFileName(
+                    SettingsModel.getExcelSaveLocation().getPath(),
+                    FileChooserHelper.XLSX);
+        }
     }
     
 }
