@@ -221,4 +221,8 @@ public class HeaderPanel extends JPanel {
 	    date_label.setText((Integer.parseInt(String.valueOf(c.get(Calendar.MONTH)))+1 ) + "/" + c.get(Calendar.DATE) + "/" + c.get(Calendar.YEAR));
 	}
 	
+	public Calendar getDate() {
+	    return (Calendar) date.clone();
+	}
+	
 }

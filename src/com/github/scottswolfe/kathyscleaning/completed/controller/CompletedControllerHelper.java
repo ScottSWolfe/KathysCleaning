@@ -49,7 +49,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             
             // Header for day
             HeaderData headerData = new HeaderData();
-            headerData.setDate(SessionModel.getCompletedStartDay());
+            headerData.setDate(tp.day_panel[d].header_panel.getDate());
             headerData.setWorkers(tp.day_panel[d].header_panel.getWorkers());
             
             // Houses in day
@@ -332,6 +332,10 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
         CompletedControllerHelper completedHelper = new CompletedControllerHelper();
         completedHelper.writeModelToView(completedModel, tp);
     }
+    
+    
+    
+/* PRIVATE METHODS ========================================================== */
 
     private static CompletedModel scheduledToCompletedModel(NW_Data scheduledModel) {
         CompletedModel completedModel = new CompletedModel();

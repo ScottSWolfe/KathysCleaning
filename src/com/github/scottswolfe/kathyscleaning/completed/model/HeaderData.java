@@ -24,11 +24,11 @@ public class HeaderData {
 	}
 	
 	public void setDate(Calendar date) {
-	    this.date = date;
+	    this.date = (Calendar) date.clone();
 	}
 	
 	public Calendar getDate() {
-	    return date;
+	    return (Calendar) date.clone();
 	}
 	
 }

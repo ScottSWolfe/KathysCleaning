@@ -1,5 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.completed.model;
 
+import java.util.Calendar;
+
 public class DayData {
 
 	HeaderData headerData;
@@ -27,6 +29,10 @@ public class DayData {
 
 	public HouseData[] getHouseData() {
 		return houseData;
+	}
+	
+	public void setDate(Calendar date) {
+	    headerData.setDate(date);
 	}
 	
 }
