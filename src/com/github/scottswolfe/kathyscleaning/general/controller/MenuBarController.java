@@ -235,9 +235,6 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     }
     
     private void loadFile(File file) {
-        if (prepareFileName(file) == false) {
-            return;
-        }
         SessionModel.load(file);
         controller.readFileAndWriteToView(file);
         controller.setTitleText();
