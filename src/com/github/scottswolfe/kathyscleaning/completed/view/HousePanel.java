@@ -4,7 +4,6 @@ package com.github.scottswolfe.kathyscleaning.completed.view;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +22,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.MoveDownListen
 import com.github.scottswolfe.kathyscleaning.completed.controller.MoveUpListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
+import com.github.scottswolfe.kathyscleaning.component.KcButton;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -55,7 +55,7 @@ public class HousePanel extends JPanel {
 		
 	public WorkerPanel worker_panel;
 	
-	public JButton exceptions;
+	public KcButton exceptions;
 	
 	JLabel house_name_label;
 	JLabel pay_label;
@@ -66,10 +66,10 @@ public class HousePanel extends JPanel {
 	public JTextField time_begin_txt;
 	public JTextField time_end_txt;
 	
-	JButton move_up;
-	JButton move_down;
-	public JButton add_house;
-	public JButton delete_house;
+	KcButton move_up;
+	KcButton move_down;
+	public KcButton add_house;
+	public KcButton delete_house;
 	
 	
 	
@@ -96,9 +96,7 @@ public class HousePanel extends JPanel {
 		worker_panel = new WorkerPanel(dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions);
 		JPanel button_panel = buttonPanel();
 				
-		exceptions = new JButton("Exceptions");
-		exceptions.setFont(exceptions.getFont().deriveFont(Settings.FONT_SIZE));
-		exceptions.addActionListener(new ExceptionListener(dwd, frame, this));
+		exceptions = new KcButton("Exceptions", new ExceptionListener(dwd, frame, this));
 		
 		add(house_name_panel, "growy");
 		add(pay_panel, "growy");
@@ -196,31 +194,18 @@ public class HousePanel extends JPanel {
 	// button panel
 	private JPanel buttonPanel(){
 		JPanel panel = new JPanel();
-		
-		move_up = new JButton("Up");
-		move_up.setFont( move_up.getFont().deriveFont( Settings.FONT_SIZE ) );
-		
-		move_down = new JButton("Down");
-		move_down.setFont( move_down.getFont().deriveFont( Settings.FONT_SIZE ) );
-		
-		add_house = new JButton("Add");
-		add_house.setFont( add_house.getFont().deriveFont( Settings.FONT_SIZE ) );
-		
-		delete_house = new JButton("Delete");
-		delete_house.setFont( delete_house.getFont().deriveFont( Settings.FONT_SIZE ) );
-		
-		panel.setLayout( new MigLayout("insets 0") );
-		panel.setBackground( Settings.BACKGROUND_COLOR );
+        panel.setLayout(new MigLayout("insets 0"));
+        panel.setBackground(Settings.BACKGROUND_COLOR);
+
+        move_up = new KcButton("Up", new MoveUpListener(day_panel,this,dwd,frame,tp));		
+        move_down = new KcButton("Down", new MoveDownListener(day_panel,this,dwd,frame,tp));
+        add_house = new KcButton("Add", new AddHouseListener(day_panel,this,dwd,frame,tp));
+        delete_house = new KcButton("Delete", new DeleteHouseListener(day_panel,this,dwd,frame,tp));
 		
 		panel.add(move_up, "growx");
 		panel.add(add_house,"wrap, growx");
 		panel.add(move_down);
 		panel.add(delete_house);
-		
-		move_up.addActionListener( new MoveUpListener(day_panel,this,dwd,frame,tp) );
-		add_house.addActionListener( new AddHouseListener(day_panel,this,dwd,frame,tp) );
-		move_down.addActionListener( new MoveDownListener(day_panel,this,dwd,frame,tp) );
-		delete_house.addActionListener( new DeleteHouseListener(day_panel,this,dwd,frame,tp) );
 		
 		return panel;
 	}	

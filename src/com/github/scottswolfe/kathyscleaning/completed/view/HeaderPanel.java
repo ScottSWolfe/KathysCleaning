@@ -18,6 +18,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.CopyWorkersLis
 import com.github.scottswolfe.kathyscleaning.completed.controller.SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
+import com.github.scottswolfe.kathyscleaning.component.KcButton;
 import com.github.scottswolfe.kathyscleaning.general.controller.EditDefaultWorkersListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
@@ -141,13 +142,8 @@ public class HeaderPanel extends JPanel {
 		
 		dwp = new WorkerPanel(dwd, Settings.HEADER_BACKGROUND, null, null );
 		
-		edit_default_workers = new JButton("Edit");
-		edit_default_workers.addActionListener( new EditDefaultWorkersListener(dwd, day_panel, frame) );
-		edit_default_workers.setFont( edit_default_workers.getFont().deriveFont( Settings.FONT_SIZE ) );
-		
-		copy_workers = new JButton("Copy");
-		copy_workers.addActionListener( new CopyWorkersListener(tp, day_data, day_panel) );
-		copy_workers.setFont( copy_workers.getFont().deriveFont( Settings.FONT_SIZE ) );
+		edit_default_workers = new KcButton("Edit", new EditDefaultWorkersListener(dwd, day_panel, frame));
+		copy_workers = new KcButton("Copy", new CopyWorkersListener(tp, day_data, day_panel));
 		
 		panel.add(dwp, "span 1 2, pushy");
 		panel.add(copy_workers, "growx, pushy");
@@ -163,46 +159,33 @@ public class HeaderPanel extends JPanel {
 		panel.setLayout( new MigLayout("insets 2","[][]","[grow]") );
 		panel.setBackground( Settings.HEADER_BACKGROUND );
 
-		previous_day = new JButton("Previous");
-		next_day = new JButton("  Next  ");
-		
-		previous_day.setFont( previous_day.getFont().deriveFont( Settings.FONT_SIZE ) );
-		next_day.setFont( next_day.getFont().deriveFont( Settings.FONT_SIZE ) );
-		
-		previous_day.setBackground(Settings.CHANGE_DAY_COLOR);
+		previous_day = new KcButton("Previous", new PreviousDayListener(tp,frame));
+	    previous_day.setBackground(Settings.CHANGE_DAY_COLOR);
+        previous_day.setForeground( Settings.FOREGROUND_COLOR );
+        previous_day.setPreferredSize(new Dimension(100,40));
+
+		next_day = new KcButton("  Next  ", new NextDayListener(tp,frame));
 		next_day.setBackground(Settings.CHANGE_DAY_COLOR);
-		
-		previous_day.setForeground( Settings.FOREGROUND_COLOR );
-		next_day.setForeground( Settings.FOREGROUND_COLOR );
-		
-		previous_day.addActionListener( new PreviousDayListener(tp,frame) );
-		next_day.addActionListener( new NextDayListener(tp,frame) );
-		
-		previous_day.setPreferredSize(new Dimension(100,40));
+	    next_day.setForeground( Settings.FOREGROUND_COLOR );
 		next_day.setPreferredSize(new Dimension(100,40));
 		
 		panel.add(previous_day, "");
 		panel.add(next_day, "");
-
-		
 		return panel;
 	}
 	
 	private JPanel submitWeekPanel(GeneralController<TabbedPane, CompletedModel> controller) {
 		
 		JPanel panel = new JPanel();
-		panel.setLayout( new MigLayout("insets 2","[]","[grow]") );
-		panel.setBackground( Settings.HEADER_BACKGROUND );
+		panel.setLayout(new MigLayout("insets 2","[]","[grow]"));
+		panel.setBackground(Settings.HEADER_BACKGROUND);
 		
-		submit_week = new JButton("Next");
-		submit_week.setFont( submit_week.getFont().deriveFont( Settings.FONT_SIZE ) );
+		submit_week = new KcButton("Next", new SubmitWeekListener(controller, tp, frame, date, mode, wk));
 		submit_week.setPreferredSize(new Dimension(100,40));
-		submit_week.addActionListener(new SubmitWeekListener(controller, tp, frame, date, mode, wk));
 		submit_week.setBackground(Settings.MAIN_COLOR);
-		submit_week.setForeground( Settings.FOREGROUND_COLOR );
+		submit_week.setForeground(Settings.FOREGROUND_COLOR);
 		
 		panel.add(submit_week);
-		
 		return panel;
 	}
 	
