@@ -136,7 +136,6 @@ public class SessionModel {
 /* PRIVATE METHODS ========================================================== */
     
     private static void updateCurrentFileIfChanged(SessionSaveObject object, File file) {
-        
         if (!object.saveFile.getAbsolutePath().equals(file.getAbsolutePath())) {
             object.saveFile = file;
         }
