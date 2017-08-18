@@ -49,6 +49,7 @@ public class SessionModel {
     public static void load(File file) {
         SessionSaveObject object = (SessionSaveObject)
                 JsonMethods.loadFromFileJSON(SessionSaveObject.class, file, 4);
+        updateCurrentFileIfChanged(object, file);
         object.load();
     }
     
@@ -127,6 +128,17 @@ public class SessionModel {
             SessionModel.scheduledStartDay = null;
         } else {
             SessionModel.scheduledStartDay = (Calendar) scheduledStartDay.clone();
+        }
+    }
+    
+    
+    
+/* PRIVATE METHODS ========================================================== */
+    
+    private static void updateCurrentFileIfChanged(SessionSaveObject object, File file) {
+        
+        if (!object.saveFile.getAbsolutePath().equals(file.getAbsolutePath())) {
+            object.saveFile = file;
         }
     }
 
