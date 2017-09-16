@@ -64,8 +64,11 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
                     
                     if (nrow != null) {
                         
-                        if (nrow.getCell(n_column) != null && nrow.getCell(n_column).getCellType() == Cell.CELL_TYPE_STRING) {
-                            s1 = nrow.getCell(n_column).getStringCellValue();
+                        if (nrow.getCell(n_column) != null &&
+                            nrow.getCell(n_column).getCellType() == Cell.CELL_TYPE_FORMULA &&
+                            nrow.getCell(n_column).getCachedFormulaResultType() == Cell.CELL_TYPE_STRING)
+                        {    
+                            s1 = nrow.getCell(n_column).getRichStringCellValue().getString();//getStringCellValue(); // NOTE: this gets the last cached value of the formula
                         }
                         else {
                             s1 = null;
