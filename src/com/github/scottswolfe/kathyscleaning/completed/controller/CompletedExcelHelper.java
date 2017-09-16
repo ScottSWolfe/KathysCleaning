@@ -156,7 +156,7 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                     }
                     else if (row.getCell(index) != null && row.getCell(index).getCellType() == Cell.CELL_TYPE_FORMULA) {
                         String s = row.getCell(index).getCellFormula();
-                        s = ExcelMethods.changeFormula(s,0.0);
+                        s = ExcelMethods.insertHoursWorkedInPlaceOfCellReference(s,0.0);
                         row.getCell(index).setCellFormula(s);
                     }
                     else {
@@ -190,10 +190,23 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                     boolean name_found = false;
                     //Cell name_cell = row.getCell(5);
                     int cell_number = 5;
+                    
+                    if (entry.getWorker_name() == null || entry.getWorker_name().length() == 0) {
+                        continue;
+                    }
+                    
                     while (name_found == false) {
                         
                         // if cell name matches current worker name
-                        if (name_row.getCell(cell_number).getStringCellValue().equals(entry.getWorker_name())) {
+                        Cell cell = name_row.getCell(cell_number);
+                        String name = "";
+                        if (cell != null &&
+                            cell.getCellType() == Cell.CELL_TYPE_FORMULA &&
+                            cell.getCachedFormulaResultType() == Cell.CELL_TYPE_STRING)
+                        {
+                            name = cell.getRichStringCellValue().getString();
+                        }
+                        if (name.equals(entry.getWorker_name())) {
                             
                             // calculate hours worked
                             double hours = TimeMethods.getHours(entry.getTime_begin(), entry.getTime_end());
@@ -202,7 +215,7 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                             Row house_row = sheet.getRow( d*9 + 2 + h );
 
                                 String s = house_row.getCell(cell_number).getCellFormula(); // issue with numeric cells??
-                                s = ExcelMethods.changeFormula(s,hours);
+                                s = ExcelMethods.insertHoursWorkedInPlaceOfCellReference(s,hours);
                                 house_row.getCell(cell_number).setCellFormula(s);
 
                             break;
@@ -212,7 +225,7 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                         else if (name_row.getCell(cell_number).getStringCellValue().equals("Kathy") ) {
                             String message = "Error: Employee " + entry.getWorker_name() + 
                                              " from the exception at " + completedModel.dayData[d].houseData[h].getHouseName() +
-                                             "could not be found on the excel document.\n" +
+                                             " could not be found on the excel document.\n" +
                                              "You will need to enter the data manually.";
                             JOptionPane.showMessageDialog(new JFrame(), message, null, JOptionPane.ERROR_MESSAGE);
                             break;
