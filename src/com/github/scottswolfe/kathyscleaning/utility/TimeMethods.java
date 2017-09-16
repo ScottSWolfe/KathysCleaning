@@ -25,56 +25,49 @@ public class TimeMethods {
      * ending time.
      */
     public static double getHours(String time_begin, String time_end){
-        
-        double hours;
-
-        int minutes = convertToMinutes(time_end) - convertToMinutes(time_begin);
-        hours = convertToHours(minutes);
-        
-        return hours;
+        int minutes = 0;
+        int begin_minutes = convertToMinutes(time_begin);
+        int end_minutes = convertToMinutes(time_end);
+        if (end_minutes >= begin_minutes) {
+            minutes = end_minutes - begin_minutes;
+        }
+        else {
+            minutes = end_minutes + (720 - begin_minutes);
+        }
+        return convertToHours(minutes);
     }
     
     
     /**
-     * Converts the given string into number of minutes.
+     * Converts the given string into number of minutes past 12:00.
      */
-    public static int convertToMinutes(String time){
+    public static int convertToMinutes(String time) {
         
-        char[] temp_ch = time.toCharArray();
-        char[] ch = new char[ temp_ch.length - 1 ];
-        int minutes;
+        // doctoring the input
+        time = time.replace(":","");
+        StringBuilder builder = new StringBuilder();
+        builder.append(time);
+        builder.reverse();
+        time = builder.toString();
         
-        // remove the ':'
-        int shift = 0;
-        for(int i=0; i<temp_ch.length; i++){
-            Character k = temp_ch[i];
-            if(!Character.isDigit(k)){
-                shift++;
+        int minutes = 0;
+        
+        int n = time.length();
+        for (int i = 0; i < n; i++) {
+            double digit_factor = 1;
+            if (i == 1) {
+                digit_factor = 10;
             }
-            else{
-                ch[i-shift]=temp_ch[i];
+            else if (i > 1) {
+                digit_factor = Math.pow(10, i - 1) * 6;
             }
+            minutes += Character.getNumericValue(time.charAt(i)) * digit_factor;
         }
         
-        // TODO: **ERROR occurs for work times beginning before 10am and ending after 10am**
-        // converting from hhmm to minutes
-        if ( ch.length == 4) {
-            minutes = (Character.getNumericValue(ch[0]) * 600 + Character.getNumericValue(ch[1]) * 60 + Character.getNumericValue(ch[2]) * 10 + Character.getNumericValue(ch[3]) );
+        if (time.length() == 4 && time.charAt(3) == '1' && time.charAt(2) == '2') {
+            minutes -= 720;
         }
-        // TODO: I would like to make this time calculation work more generally (eg if she started covenant before 9am or 
-        //        finished after 9pm)
-        else if ( ch.length == 3) {
-            if (Character.getNumericValue(ch[0]) <= 9) { 
-                minutes =  (Character.getNumericValue(ch[0]) + 12) * 60 + Character.getNumericValue(ch[1]) * 10 + Character.getNumericValue(ch[2]);
-            }
-            else {
-                minutes =  ((Character.getNumericValue(ch[0]) - 7)%12 + 7) * 60 + Character.getNumericValue(ch[1]) * 10 + Character.getNumericValue(ch[2]);
-            }
-        }
-        else {
-            minutes = 0;  // TODO throw some type of error message here??
-        }
-        
+ 
         return minutes;
     }
     
