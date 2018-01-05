@@ -11,10 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.text.AbstractDocument;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -28,48 +25,42 @@ import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class NW_HousePanel extends JPanel {	
-	
-	
-// FIELDS
-	
-	NW_DayPanel day_panel;
-	WorkerList dwd;
-	JFrame frame;
-	
-	AbstractDocument abdoc;
-	public int lastKeyPress = 0;
-	
-	ExceptionData exception_data;
-	
+
+    
+// TODO: TO BE REMOVED 
+
+    WorkerList workers;
+    
+    
+// COMPONENTS
+    
+    JFrame parent_frame;
+	NW_DayPanel parent_day_panel;
+		
 	String title;
-	Border border;
-	
 	public WorkerPanel worker_panel;
-	
 	JLabel house_name_label;
-	public JTextField house_name_txt;
-	
+	public JTextField house_name_text_field;
 	JButton move_up;
 	JButton move_down;
 	public JButton add_house;
 	public JButton delete_house;
 	
 	
-	
 // CONSTRUCTOR
 	
-	public NW_HousePanel( WorkerList not_used, NW_DayPanel day_panel, JFrame frame ) {
+	public NW_HousePanel(WorkerList not_used, NW_DayPanel day_panel, JFrame frame) {
 		
-	    this.dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
-		this.day_panel = day_panel;
-		this.frame = frame;
+	    this.workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+		this.parent_day_panel = day_panel;
+		this.parent_frame = frame;
 				
 		setBorder(BorderFactory.createTitledBorder( new String() ));
 		setBackground(Settings.BACKGROUND_COLOR);
 		setLayout(new MigLayout("insets 0","[grow][grow][grow]","[]"));
 
 		JPanel house_name_panel = houseNamePanel();
-		worker_panel = new WorkerPanel( dwd, Settings.BACKGROUND_COLOR, house_name_txt, null );
+		worker_panel = new WorkerPanel( workers, Settings.BACKGROUND_COLOR, house_name_text_field, null );
 		JPanel button_panel = buttonPanel();
 		
 		add(house_name_panel, "growy");
@@ -98,14 +89,14 @@ public class NW_HousePanel extends JPanel {
 		house_name_label.setFont( house_name_label.getFont().deriveFont( Settings.FONT_SIZE ) );
 		house_name_label.setForeground(Settings.MAIN_COLOR);
 		
-		house_name_txt = new JTextField(10);
-		house_name_txt.setFont( house_name_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
+		house_name_text_field = new JTextField(10);
+		house_name_text_field.setFont( house_name_text_field.getFont().deriveFont( Settings.FONT_SIZE ) );
 		 
 		panel.setLayout(new MigLayout("insets 0 1 0 1, ay 50%"));
 		panel.setBackground(Settings.BACKGROUND_COLOR);
 		
 		panel.add(house_name_label,"wrap");
-		panel.add(house_name_txt);
+		panel.add(house_name_text_field);
 		 
 		return panel;
 	}
@@ -138,10 +129,10 @@ public class NW_HousePanel extends JPanel {
 		panel.add(move_down);
 		panel.add(delete_house);
 		
-		move_up.addActionListener( new NW_MoveUpListener(day_panel,this,dwd,frame) );
-		add_house.addActionListener( new NW_AddHouseListener(day_panel,this,dwd,frame) );
-		move_down.addActionListener( new NW_MoveDownListener(day_panel,this,dwd,frame) );
-		delete_house.addActionListener( new NW_DeleteHouseListener(day_panel,this,dwd,frame) );
+		move_up.addActionListener(new NW_MoveUpListener(parent_day_panel, this, workers, parent_frame));
+		add_house.addActionListener(new NW_AddHouseListener(parent_day_panel,this, workers, parent_frame));
+		move_down.addActionListener(new NW_MoveDownListener(parent_day_panel,this, workers, parent_frame));
+		delete_house.addActionListener(new NW_DeleteHouseListener(parent_day_panel,this, workers, parent_frame));
 		
 		return panel;
 	}
@@ -152,10 +143,10 @@ public class NW_HousePanel extends JPanel {
 
 	public NW_HousePanel copyPanel( ) {
 		
-		NW_HousePanel new_panel = new NW_HousePanel( this.dwd, this.day_panel, this.frame );
+		NW_HousePanel new_panel = new NW_HousePanel( this.workers, this.parent_day_panel, this.parent_frame );
 		
 		//create public methods to do this in best practice:
-		new_panel.house_name_txt.setText(this.house_name_txt.getText());
+		new_panel.house_name_text_field.setText(this.house_name_text_field.getText());
 		
 		int rows = WorkerPanel.NORM_ROWS;
 		int columns = WorkerPanel.NORM_COLUMNS;
@@ -177,19 +168,24 @@ public class NW_HousePanel extends JPanel {
 	
 	
 	
-	public void changeHouseWorkers( WorkerList dwd ) {
+	public void changeHouseWorkers( WorkerList workers ) {
 		
-	    worker_panel.setWorkers(dwd);
+	    worker_panel.setWorkers(workers);
 		
 	}
 	
 	
 	public void setTitle( String title ){
 		this.title = title;
-		this.setBorder(BorderFactory.createTitledBorder(border,title));
+		this.setBorder(BorderFactory.createTitledBorder(null, title));
 	}
 	
+	public String getHouseName() {
+	    return house_name_text_field.getText();
+	}
 	
-	
+	public void setHouseName(String house_name) {
+        house_name_text_field.setText(house_name);
+    }
 	
 }

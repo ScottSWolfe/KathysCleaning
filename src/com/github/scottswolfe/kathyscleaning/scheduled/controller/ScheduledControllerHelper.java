@@ -69,12 +69,12 @@ public class ScheduledControllerHelper
             // for each house panel in the day
             for (int h = 0; h < completedHouseData.length; h++) {
                 houseData[h] = new NW_HouseData();
-                houseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].house_name_txt.getText());
+                houseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].getHouseName());
                 houseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panel[h].getSelectedWorkers());
                 houseData[h].setWorkerList(tp.nw_day_panel[d].house_panel[h].worker_panel.getWorkers());
                 
                 completedHouseData[h] = new HouseData();
-                completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].house_name_txt.getText()); 
+                completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].getHouseName()); 
                 completedHouseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panel[h].worker_panel.getSelected());
                 completedHouseData[h].setWorkerList(tp.nw_day_panel[d].house_panel[h].worker_panel.getWorkers());
             }
@@ -118,7 +118,7 @@ public class ScheduledControllerHelper
 
                 HouseData houseData = completedHouses[h];
 
-                tp.nw_day_panel[d].house_panel[h].house_name_txt.setText(houseData.getHouseName());                
+                tp.nw_day_panel[d].house_panel[h].setHouseName(houseData.getHouseName());                
                 tp.nw_day_panel[d].house_panel[h].worker_panel.setWorkers(houseData.getWorkerList());
                 
                 // 4. making sure there is a correct number of house panels available to fill
@@ -265,7 +265,7 @@ public class ScheduledControllerHelper
                 List<String> hworkers = house.getSelectedWorkers();
                 
                 if (hworkers.contains(worker)) {
-                    schedule.addHouse(house.house_name_txt.getText());
+                    schedule.addHouse(house.getHouseName());
                 }
             }
                 
@@ -314,7 +314,7 @@ public class ScheduledControllerHelper
             // if worker does not have an exception
             if (!hasException) {
                 // if worker is at first house
-                if (schedule.getHouseList().size() > 0 && schedule.getHouseList().get(0).equals(dp.house_panel[0].house_name_txt.getText())) {
+                if (schedule.getHouseList().size() > 0 && schedule.getHouseList().get(0).equals(dp.house_panel[0].getHouseName())) {
                     schedule.setTime(dp.getMeetTime());
                     schedule.setMeetLocation(dp.getMeetLocation());
                 }
