@@ -7,6 +7,7 @@ import java.util.List;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 
 
 
@@ -32,10 +33,9 @@ public class NW_CopyWorkersListener implements ActionListener {
 		
 	public void actionPerformed(ActionEvent e) {		
 		List<String> selected_names = day_panel.header_panel.dwp.getSelected();
-		for(int k = 0; k < day_panel.house_panel.length; k++) {
-		    day_panel.house_panel[k].worker_panel.setSelected(selected_names);
+		for(NW_HousePanel house_panel : day_panel.house_panels) {
+		    house_panel.worker_panel.setSelected(selected_names);
 		}
 	}
-		
 	
 }

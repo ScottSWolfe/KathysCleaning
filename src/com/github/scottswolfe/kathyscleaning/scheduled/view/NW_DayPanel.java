@@ -30,6 +30,7 @@ import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionLi
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -42,7 +43,6 @@ public class NW_DayPanel extends JPanel{
 	
 	NoteData noteData;
     List<BeginExceptionEntry> beginExceptionList;
-	WorkerList workers;
 		
 	TabbedPane tp;
 	DayData day_data;
@@ -52,7 +52,7 @@ public class NW_DayPanel extends JPanel{
 	
 	// COMPONENTS	
 	public NW_HeaderPanel header_panel;
-	public NW_HousePanel[] house_panel;
+	public List<NW_HousePanel> house_panels;
 	public NW_CovenantPanel cov_panel;
 	public JPanel jsp_panel;
 	public JScrollPane jsp;
@@ -67,10 +67,9 @@ public class NW_DayPanel extends JPanel{
 	
 	// CONSTRUCTORS
 	public NW_DayPanel(GeneralController<TabbedPane, NW_Data> controller, TabbedPane tp,
-	        WorkerList dwd, Calendar date, JFrame frame, int mode, int wk ) {
+	        WorkerList workers, Calendar date, JFrame frame, int mode, int wk ) {
 		
 	    this.controller = controller;
-		this.workers = dwd;
 		this.date = date;
 		this.frame = frame;
 		this.tp = tp;
@@ -78,13 +77,13 @@ public class NW_DayPanel extends JPanel{
 		setLayout(new MigLayout());
 		setBackground(Settings.BACKGROUND_COLOR);
 		
-		header_panel = new NW_HeaderPanel(controller, tp, dwd, this, date, frame, mode, wk);
-		begin_panel = createBeginPanel();
-		house_panel = new NW_HousePanel[DayPanel.NUM_HOUSE_PANELS];
-		for(int i=0; i<DayPanel.NUM_HOUSE_PANELS; i++) {
-			house_panel[i] = new NW_HousePanel(dwd,this,frame);
+		header_panel = new NW_HeaderPanel(controller, tp, workers, this, date, frame, mode, wk);
+		begin_panel = createBeginPanel(workers);
+		house_panels = new ArrayList<NW_HousePanel>();
+		for(int i = 0; i < DayPanel.NUM_HOUSE_PANELS; i++) {
+			house_panels.add(new NW_HousePanel(workers, this, frame));
 		}
-		cov_panel = new NW_CovenantPanel( this, new WorkerList(), frame );
+		cov_panel = new NW_CovenantPanel(this, new WorkerList(), frame);
 		
 		
 		// creating scroll pane and adding house panels
@@ -92,10 +91,9 @@ public class NW_DayPanel extends JPanel{
 		jsp_panel.setLayout( new MigLayout("fillx") );
 		jsp_panel.setBackground( Settings.BACKGROUND_COLOR );
 		
-		for(int i=0; i<house_panel.length - 1; i++) {
-			jsp_panel.add(house_panel[i], new String("wrap " + DayPanel.PANEL_PADDING + ", grow") );
+		for(NW_HousePanel house_panel : house_panels) {
+			jsp_panel.add(house_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", grow") );
 		}
-		jsp_panel.add(house_panel[house_panel.length-1], new String("wrap " + DayPanel.PANEL_PADDING + ", grow") );
 		
 		jsp = new JScrollPane(jsp_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				   ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );
@@ -123,7 +121,7 @@ public class NW_DayPanel extends JPanel{
 	
 	// PRIVATE CONSTRUCTION METHOD
 	
-	protected JPanel createBeginPanel() {
+	protected JPanel createBeginPanel(WorkerList workers) {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout( new MigLayout( "insets 10, fill" ) );
@@ -171,22 +169,21 @@ public class NW_DayPanel extends JPanel{
 	
 	//  PUBLIC METHODS	
 	
-	public void changeWorkerPanels( WorkerList new_dwd ){
+	public void changeWorkerPanels(WorkerList new_workers){
 		
         int header_width = header_panel.getWidth();
-        int house_panel_width = house_panel[0].getWidth();
+        int house_panel_width = house_panels.get(0).getWidth();
 
-        
-	    header_panel.dwp.setWorkers(new_dwd);
-	    for (int i = 0; i < house_panel.length; i++) {
-	        house_panel[i].changeHouseWorkers(new_dwd);
+	    header_panel.dwp.setWorkers(new_workers);
+	    for (NW_HousePanel house_panel : house_panels) {
+	        house_panel.changeHouseWorkers(new_workers);
 	    }		
 
 	    frame.revalidate();
         frame.repaint();
         
         int new_header_width = header_panel.getWidth();
-        int new_house_panel_width = house_panel[0].getWidth();
+        int new_house_panel_width = house_panels.get(0).getWidth();
         
         int header_change = new_header_width - header_width;
         int house_panel_change = new_house_panel_width - house_panel_width;
@@ -197,10 +194,8 @@ public class NW_DayPanel extends JPanel{
         else {
             change = house_panel_change;
         }
-         
         
         frame.setSize( frame.getWidth() + change , frame.getHeight() );
-        
         frame.revalidate();
         frame.repaint();
 	}
@@ -273,12 +268,18 @@ public class NW_DayPanel extends JPanel{
 	
 	// this method returns the number of unique employees for a given day
 	public int getNumberUniqueWorkers() {
-		
-        List<String> workers = new ArrayList<>();
+        List<String> workers = getUniqueWorkersForDay();
+        return workers.size(); 
+	}
+	
+	// this method returns a list of the unique employees for a given day
+	public List<String> getUniqueWorkersForDay() {
+			
+	    List<String> workers = new ArrayList<>();
         
         // add workers from houses
-        for (int h = 0; h < house_panel.length; h++) {
-            List<String> workerList = house_panel[h].getSelectedWorkers();
+        for (NW_HousePanel house_panel : house_panels) {
+            List<String> workerList = house_panel.getSelectedWorkers();
             for (String worker : workerList) {
                 if (!workers.contains(worker)) {
                     workers.add(worker);
@@ -293,33 +294,6 @@ public class NW_DayPanel extends JPanel{
                 workers.add(worker);
             }
         }
-        
-        return workers.size(); 
-	}
-	
-	
-	// this method returns a list of the unique employees for a given day
-	public List<String> getUniqueWorkersForDay() {
-			
-	    List<String> workers = new ArrayList<>();
-		
-		// add workers from houses
-		for (int h = 0; h < house_panel.length; h++) {
-			List<String> workerList = house_panel[h].getSelectedWorkers();
-			for (String worker : workerList) {
-			    if (!workers.contains(worker)) {
-			        workers.add(worker);
-			    }
-			}
-		}
-		
-		// add workers from covenant panel
-		List<String> covWorkers = cov_panel.getSelectedWorkers();
-		for (String worker : covWorkers) {
-		    if (!workers.contains(worker)) {
-		        workers.add(worker);
-		    }
-		}
 		
 		return workers; 
 	}
@@ -352,20 +326,20 @@ public class NW_DayPanel extends JPanel{
 		
 	public void addFlexibleFocusListeners() {
 	    
-		for (int i=0; i<house_panel.length; i++) {
-			NW_HousePanel hp = house_panel[i];
+		for (int i = 0; i < house_panels.size(); i++) {
+			NW_HousePanel hp = house_panels.get(i);
 			
 			NW_HousePanel hp_up;
 			NW_HousePanel hp_down;
 					
-			if ( i > 0 ) {
-				hp_up = house_panel[i-1];
+			if (i > 0) {
+				hp_up = house_panels.get(i - 1);
 			}
 			else {
 				hp_up = new NW_HousePanel();  // all null fields
 			}
-			if ( i < house_panel.length - 1 ) {
-				hp_down = house_panel[i+1];
+			if (i < house_panels.size() - 1) {
+				hp_down = house_panels.get(i + 1);
 			}
 			else {
 				hp_down = new NW_HousePanel(); // all null fields
@@ -395,7 +369,19 @@ public class NW_DayPanel extends JPanel{
 				meet_time_field, null,
 				null, null,
 				null));
-	}	
+	}
+	
+	public int getNumHousePanels() {
+	    return house_panels.size();
+	}
+	
+	public List<NW_HousePanel> copyHousePanels() {
+	    List<NW_HousePanel> list = new ArrayList<>();
+	    for (NW_HousePanel house_panel : house_panels) {
+	        list.add(house_panel.copyPanel());
+	    }
+	    return list;
+	}
 
 }
 

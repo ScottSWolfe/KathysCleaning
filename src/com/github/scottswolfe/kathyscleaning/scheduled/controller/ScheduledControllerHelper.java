@@ -33,7 +33,7 @@ import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class ScheduledControllerHelper 
-                        implements ControllerHelper<TabbedPane, NW_Data>{
+                        implements ControllerHelper<TabbedPane, NW_Data> {
 
     TabbedPane tp;
     
@@ -63,20 +63,20 @@ public class ScheduledControllerHelper
             dayData[d].meet_time = dp.getMeetTime();
             dayData[d].covNoteData = dp.getNoteData();
             
-            NW_HouseData[] houseData = new NW_HouseData[tp.nw_day_panel[d].house_panel.length];
-            HouseData[] completedHouseData = new HouseData[tp.nw_day_panel[d].house_panel.length];
+            NW_HouseData[] houseData = new NW_HouseData[tp.nw_day_panel[d].getNumHousePanels()];
+            HouseData[] completedHouseData = new HouseData[tp.nw_day_panel[d].getNumHousePanels()];
             
             // for each house panel in the day
             for (int h = 0; h < completedHouseData.length; h++) {
                 houseData[h] = new NW_HouseData();
-                houseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].getHouseName());
-                houseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panel[h].getSelectedWorkers());
-                houseData[h].setWorkerList(tp.nw_day_panel[d].house_panel[h].worker_panel.getWorkers());
+                houseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName());
+                houseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panels.get(h).getSelectedWorkers());
+                houseData[h].setWorkerList(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getWorkers());
                 
                 completedHouseData[h] = new HouseData();
-                completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panel[h].getHouseName()); 
-                completedHouseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panel[h].worker_panel.getSelected());
-                completedHouseData[h].setWorkerList(tp.nw_day_panel[d].house_panel[h].worker_panel.getWorkers());
+                completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName()); 
+                completedHouseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getSelected());
+                completedHouseData[h].setWorkerList(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getWorkers());
             }
             dayData[d].setHouseData(houseData);
             completedDayData[d].setHouseData(completedHouseData);
@@ -118,32 +118,32 @@ public class ScheduledControllerHelper
 
                 HouseData houseData = completedHouses[h];
 
-                tp.nw_day_panel[d].house_panel[h].setHouseName(houseData.getHouseName());                
-                tp.nw_day_panel[d].house_panel[h].worker_panel.setWorkers(houseData.getWorkerList());
+                tp.nw_day_panel[d].house_panels.get(h).setHouseName(houseData.getHouseName());                
+                tp.nw_day_panel[d].house_panels.get(h).worker_panel.setWorkers(houseData.getWorkerList());
                 
                 // 4. making sure there is a correct number of house panels available to fill
                 
                 // if there are more empty house panels and there are more houses to fill in
-                if (h < (houses.length - 1) && (h + 1) < dp.house_panel.length ) {
+                if (h < (houses.length - 1) && (h + 1) < dp.getNumHousePanels() ) {
                     // do nothing
                 }
                 // if there are no more empty house panels and there are more houses to fill in
-                else if (h + 1 >= tp.nw_day_panel[d].house_panel.length && h < (houses.length - 1) ){
+                else if (h + 1 >= tp.nw_day_panel[d].getNumHousePanels() && h < (houses.length - 1) ){
                     ActionEvent event = new ActionEvent(tp.nw_day_panel[d], 0, "test");
-                    ActionListener[] al = tp.nw_day_panel[d].house_panel[h].add_house.getActionListeners();
+                    ActionListener[] al = tp.nw_day_panel[d].house_panels.get(h).add_house.getActionListeners();
                     al[0].actionPerformed(event);
                 }
                 // if there are more empty house panels and there are no more houses to fill in
-                else if (( h+ 1) < tp.nw_day_panel[d].house_panel.length && h >= (houses.length - 1)) {
-                    int numrepeat = tp.nw_day_panel[d].house_panel.length - h - 1;
+                else if (( h+ 1) < tp.nw_day_panel[d].getNumHousePanels() && h >= (houses.length - 1)) {
+                    int numrepeat = tp.nw_day_panel[d].getNumHousePanels() - h - 1;
                     for (int k = h; k < numrepeat + h; k++) {
                         ActionEvent event = new ActionEvent(tp.nw_day_panel[d], 0, "test");
-                        ActionListener[] al = tp.nw_day_panel[d].house_panel[h + 1].delete_house.getActionListeners();
+                        ActionListener[] al = tp.nw_day_panel[d].house_panels.get(h + 1).delete_house.getActionListeners();
                         al[0].actionPerformed(event);
                     }
                 }
                 // no empty house panels and there are no more houses to fill in
-                else if (h + 1 >= tp.nw_day_panel[d].house_panel.length && h >= (houses.length - 1)) {
+                else if (h + 1 >= tp.nw_day_panel[d].getNumHousePanels() && h >= (houses.length - 1)) {
                     // do nothing
                 }    
             }
@@ -258,9 +258,9 @@ public class ScheduledControllerHelper
             schedule.setName(worker);
             
             // for each house of the day
-            for (int j = 0; j < dp.house_panel.length; j++) {
+            for (int j = 0; j < dp.getNumHousePanels(); j++) {
                 
-                NW_HousePanel house = dp.house_panel[j];
+                NW_HousePanel house = dp.house_panels.get(j);
                 List<String> hworkers = house.getSelectedWorkers();
                 
                 if (hworkers.contains(worker)) {
@@ -304,7 +304,7 @@ public class ScheduledControllerHelper
             // if worker does not have an exception
             if (!hasException) {
                 // if worker is at first house
-                if (schedule.getHouseList().size() > 0 && schedule.getHouseList().get(0).equals(dp.house_panel[0].getHouseName())) {
+                if (schedule.getHouseList().size() > 0 && schedule.getHouseList().get(0).equals(dp.house_panels.get(0).getHouseName())) {
                     schedule.setTime(dp.getMeetTime());
                     schedule.setMeetLocation(dp.getMeetLocation());
                 }

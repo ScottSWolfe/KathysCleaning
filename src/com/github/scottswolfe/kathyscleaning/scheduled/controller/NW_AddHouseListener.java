@@ -41,56 +41,36 @@ public class NW_AddHouseListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){
 		
-		
-		if (day_panel.house_panel.length < MAX_HOUSE_PANELS) {
-			
-		
+	    if (day_panel.getNumHousePanels() >= MAX_HOUSE_PANELS) {
+            return;
+        }
+	    			
 		// getting data for resizing at end of method
-		int panel_height = day_panel.house_panel[0].getHeight() + DayPanel.PANEL_PADDING;
+		int panel_height = day_panel.house_panels.get(0).getHeight() + DayPanel.PANEL_PADDING;
 		
 		// initializing variables
-		int num = day_panel.house_panel.length;
+		int num = day_panel.getNumHousePanels();
 		int index = -1;
-		for(int i=0; i<day_panel.house_panel.length; i++){
-			if (day_panel.house_panel[i] == house_panel){
+		for(int i = 0; i < num; i++) {
+			if (day_panel.house_panels.get(i) == house_panel){
 				index = i;
 			}
 		}
 		
-		
-		//remove old panels
-		for(int i=0; i<num; i++){
-			day_panel.jsp_panel.remove(day_panel.house_panel[i]);
-		}
-
-		
-		// creating new array of house panels for the day panel
-		NW_HousePanel[] new_house_panel = new NW_HousePanel[num+1];
-
-		
-		// copy panels that don't change
-		for(int i=0; i<index+1; i++){
-			new_house_panel[i] = day_panel.house_panel[i].copyPanel(); 
+		//remove old panels scroll pane
+		for(int i = 0; i < num; i++) {
+			day_panel.jsp_panel.remove(day_panel.house_panels.get(i));
 		}
 		
-		
-		// new panel
-		new_house_panel[index+1] = new NW_HousePanel( dwd, day_panel, frame );
-		
-		
-		// copy panels moved down one index
-		for(int i=index+2; i<num+1; i++){
-			new_house_panel[i] = day_panel.house_panel[i-1].copyPanel();
-		}
-		
-		
-		// set field in day_panel to new array of house panels
-		day_panel.house_panel = new_house_panel;
+		// add new house panel
+		day_panel.house_panels.add(index + 1, new NW_HousePanel(dwd, day_panel, frame));
+				
+		// reset focus listeners
 		day_panel.addFlexibleFocusListeners();
 		
-		//add new panels
-		for(int i=0; i<num+1; i++){
-			day_panel.jsp_panel.add(day_panel.house_panel[i], new String("wrap " + DayPanel.PANEL_PADDING + ", growx") );
+		// add panels back to scroll pane
+		for(NW_HousePanel house_panel : day_panel.house_panels) {
+			day_panel.jsp_panel.add(house_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", growx") );
 		}
 
 		
@@ -122,10 +102,7 @@ public class NW_AddHouseListener implements ActionListener {
 			
 		frame.setSize(newSize);
 		frame.revalidate();
-		frame.repaint();
-		
-		} 	// end if length < 5
-	
+		frame.repaint();	
 	} 
 	
 }
