@@ -164,13 +164,6 @@ public class ScheduledControllerHelper
     public void initializeForm(GeneralController<TabbedPane, NW_Data> controller) {
         
         WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
-
-        try {
-            workers = new WorkerList(WorkerList.HOUSE_WORKERS);
-        } catch (Exception e1) {
-            System.out.println("failed to read house worker save file");
-            e1.printStackTrace();
-        }
         
         TabbedPane tp = new TabbedPane();
         tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
