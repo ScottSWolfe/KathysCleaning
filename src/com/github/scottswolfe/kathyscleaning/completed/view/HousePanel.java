@@ -43,7 +43,6 @@ public class HousePanel extends JPanel {
 	JFrame frame;
 	TabbedPane tp;
 	
-	AbstractDocument abdoc;
 	private ExceptionData exception_data;
 	
 
