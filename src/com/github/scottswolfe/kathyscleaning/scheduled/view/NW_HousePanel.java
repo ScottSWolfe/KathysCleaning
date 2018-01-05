@@ -25,19 +25,16 @@ import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class NW_HousePanel extends JPanel {	
-
     
-// TODO: TO BE REMOVED 
 
-    WorkerList workers;
+// INSTANCE VARIABLES
+    
+    JFrame parent_frame;
+    NW_DayPanel parent_day_panel;
     
     
 // COMPONENTS
-    
-    JFrame parent_frame;
-	NW_DayPanel parent_day_panel;
-		
-	String title;
+    		
 	public WorkerPanel worker_panel;
 	JLabel house_name_label;
 	public JTextField house_name_text_field;
@@ -51,7 +48,6 @@ public class NW_HousePanel extends JPanel {
 	
 	public NW_HousePanel(String house_name, WorkerList workers, NW_DayPanel day_panel, JFrame frame) {
 		
-	    this.workers = workers;
 		this.parent_day_panel = day_panel;
 		this.parent_frame = frame;
 				
@@ -61,7 +57,7 @@ public class NW_HousePanel extends JPanel {
 
 		JPanel house_name_panel = houseNamePanel(house_name);
 		worker_panel = new WorkerPanel(workers, Settings.BACKGROUND_COLOR, house_name_text_field, null);
-		JPanel button_panel = buttonPanel();
+		JPanel button_panel = buttonPanel(workers);
 		
 		add(house_name_panel, "growy");
 		add(new JSeparator(SwingConstants.VERTICAL), "growy");
@@ -85,7 +81,6 @@ public class NW_HousePanel extends JPanel {
 	
 // PRIVATE METHODS
 	
-	//house name panel
 	private JPanel houseNamePanel(String house_name){
 		JPanel panel = new JPanel();
 		
@@ -106,9 +101,7 @@ public class NW_HousePanel extends JPanel {
 		return panel;
 	}
 	
-	
-	// button panel
-	private JPanel buttonPanel(){
+	private JPanel buttonPanel(WorkerList workers){
 		JPanel panel = new JPanel();
 		
 		move_up = new JButton("Up");
@@ -143,7 +136,6 @@ public class NW_HousePanel extends JPanel {
 	}
 
 	
-	
 //  PUBLIC METHODS
 
 	public NW_HousePanel copyPanel() {
@@ -155,18 +147,8 @@ public class NW_HousePanel extends JPanel {
 		return worker_panel.getSelected();
 	}
 	
-	
-	
-	public void changeHouseWorkers( WorkerList workers ) {
-		
+	public void changeHouseWorkers(WorkerList workers) {
 	    worker_panel.setWorkers(workers);
-		
-	}
-	
-	
-	public void setTitle( String title ){
-		this.title = title;
-		this.setBorder(BorderFactory.createTitledBorder(null, title));
 	}
 	
 	public String getHouseName() {
