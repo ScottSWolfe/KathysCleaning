@@ -371,9 +371,9 @@ public class NW_DayPanel extends JPanel{
 				hp_down = new NW_HousePanel(); // all null fields
 			}
 			
-			hp.house_name_text_field.addFocusListener( new FlexibleFocusListener(hp.house_name_text_field,
+			hp.house_name_text_field.addFocusListener(new FlexibleFocusListener(hp.house_name_text_field,
 					FlexibleFocusListener.TEXTFIELD,
-					null, hp.worker_panel.workerCheckBoxes[0][0],
+					null, hp.worker_panel.getFirstCheckBox(),
 					hp_up.house_name_text_field, hp_down.house_name_text_field, 
 					null) );
 		}

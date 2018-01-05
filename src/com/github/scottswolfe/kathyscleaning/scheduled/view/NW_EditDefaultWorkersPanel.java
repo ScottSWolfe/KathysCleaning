@@ -21,7 +21,7 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class NW_EditDefaultWorkersPanel extends JPanel {	
 	
-	WorkerPanel dwp;
+	WorkerPanel worker_panel;
 	JFrame frame;
 	NW_DayPanel day_panel;
 	
@@ -34,9 +34,9 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public NW_EditDefaultWorkersPanel( WorkerPanel dwp, JFrame frame, NW_DayPanel day_panel ) {
+    public NW_EditDefaultWorkersPanel(WorkerPanel worker_panel, JFrame frame, NW_DayPanel day_panel) {
 	
-		this.dwp = dwp;
+		this.worker_panel = worker_panel;
 		this.frame = frame;
 		this.day_panel = day_panel;
 		
@@ -58,7 +58,7 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 					worker_combo[i][j].addItem(dwd.getName(k));
 				}
 			
-				worker_combo[i][j].setSelectedItem( dwp.workerCheckBoxes[i][j].getText() );
+				worker_combo[i][j].setSelectedItem(worker_panel.getNameAt(i, j));
 				
 			}
 		
@@ -229,7 +229,7 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 				}
 			}
 			
-			// paste workers selected on header dwp and house panel dwps
+			// paste workers selected on header worker_panel and house panel dwps
 			day_panel.changeWorkerPanels(workers);
 			
 			// close EditDefaultWorkersPanel

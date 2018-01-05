@@ -146,7 +146,7 @@ public class DayPanel extends JPanel{
 			
 			hp.time_end_txt.addFocusListener(new FlexibleFocusListener(hp.time_end_txt, 
 					FlexibleFocusListener.TEXTFIELD,
-					hp.time_begin_txt, hp.worker_panel.workerCheckBoxes[0][0],
+					hp.time_begin_txt, hp.worker_panel.getFirstCheckBox(),
 					hp_up.time_end_txt, hp_down.time_end_txt,
 					hp_down.time_begin_txt));
 			

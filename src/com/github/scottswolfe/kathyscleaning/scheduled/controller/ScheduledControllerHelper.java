@@ -251,7 +251,6 @@ public class ScheduledControllerHelper
         List<WorkerSchedule> scheduleList = new ArrayList<>();
         
         List<String> workers = dp.getUniqueWorkersForDay();        
-        List<String> covWorkers = dp.cov_panel.getSelectedWorkers();
 
         // for each worker for the day
         for (String worker : workers) {
@@ -286,16 +285,7 @@ public class ScheduledControllerHelper
             
             // adding Covenant
             // if current worker is selected on Covenant panel
-            for (int k = 0; k < dp.cov_panel.dwp.rows; k++) {
-                for (int l = 0; l < dp.cov_panel.dwp.columns; l++) {
-                    if ( schedule.getName().equals(dp.cov_panel.dwp.workerCheckBoxes[k][l].getText()) &&
-                         dp.cov_panel.dwp.workerCheckBoxes[k][l].isSelected() ) {
-                        schedule.working_covenant = true;
-                    }
-                }
-            }
-
-            if (covWorkers.contains(worker)) {
+            if (dp.cov_panel.dwp.isSelected(schedule.getName())) {
                 schedule.working_covenant = true;
             }
 

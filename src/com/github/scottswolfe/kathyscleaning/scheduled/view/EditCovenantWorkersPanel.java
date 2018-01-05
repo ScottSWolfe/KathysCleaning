@@ -27,8 +27,8 @@ public class EditCovenantWorkersPanel extends JPanel {
 	private static final long serialVersionUID = -3244919183803930036L;
 	
 	
-	WorkerList dwd;
-	WorkerPanel dwp;
+	WorkerList workers;
+	WorkerPanel worker_panel;
 	JFrame frame;
 	NW_CovenantPanel cov_panel;
 	
@@ -41,10 +41,10 @@ public class EditCovenantWorkersPanel extends JPanel {
 	
 	
 	@SuppressWarnings("unchecked")
-    public EditCovenantWorkersPanel(NW_CovenantPanel cov_panel, JFrame frame, WorkerList dwd, WorkerPanel dwp) {
+    public EditCovenantWorkersPanel(NW_CovenantPanel cov_panel, JFrame frame, WorkerList workers, WorkerPanel worker_panel) {
 		
-		this.dwd = dwd;
-		this.dwp = dwp;
+		this.workers = workers;
+		this.worker_panel = worker_panel;
 		this.frame = frame;
 		this.cov_panel = cov_panel;
 		
@@ -60,11 +60,11 @@ public class EditCovenantWorkersPanel extends JPanel {
 				worker_combo[i][j].setFont( worker_combo[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
 			
 				worker_combo[i][j].addItem(null);   // empty choice
-				for(int k=0; k<dwd.size(); k++){
-					worker_combo[i][j].addItem(dwd.getName(k));
+				for(int k=0; k<workers.size(); k++){
+					worker_combo[i][j].addItem(workers.getName(k));
 				}
 			
-				worker_combo[i][j].setSelectedItem( dwp.workerCheckBoxes[i][j].getText() );
+				worker_combo[i][j].setSelectedItem(worker_panel.getNameAt(i, j));
 			}
 		
 		}

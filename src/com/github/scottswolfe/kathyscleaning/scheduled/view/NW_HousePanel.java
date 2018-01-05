@@ -49,9 +49,9 @@ public class NW_HousePanel extends JPanel {
 	
 // CONSTRUCTOR
 	
-	public NW_HousePanel(WorkerList not_used, NW_DayPanel day_panel, JFrame frame) {
+	public NW_HousePanel(String house_name, WorkerList workers, NW_DayPanel day_panel, JFrame frame) {
 		
-	    this.workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+	    this.workers = workers;
 		this.parent_day_panel = day_panel;
 		this.parent_frame = frame;
 				
@@ -59,20 +59,24 @@ public class NW_HousePanel extends JPanel {
 		setBackground(Settings.BACKGROUND_COLOR);
 		setLayout(new MigLayout("insets 0","[grow][grow][grow]","[]"));
 
-		JPanel house_name_panel = houseNamePanel();
-		worker_panel = new WorkerPanel( workers, Settings.BACKGROUND_COLOR, house_name_text_field, null );
+		JPanel house_name_panel = houseNamePanel(house_name);
+		worker_panel = new WorkerPanel(workers, Settings.BACKGROUND_COLOR, house_name_text_field, null);
 		JPanel button_panel = buttonPanel();
 		
 		add(house_name_panel, "growy");
-		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-		
+		add(new JSeparator(SwingConstants.VERTICAL), "growy");
 		add(worker_panel, "push y");
-		add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-		
+		add(new JSeparator(SwingConstants.VERTICAL), "growy");
 		add(button_panel, "growy");
-		
 	}
 	
+	public NW_HousePanel(WorkerList workers, NW_DayPanel day_panel, JFrame frame) { 
+        this("", workers, day_panel, frame);
+    }
+	
+	public NW_HousePanel(NW_DayPanel day_panel, JFrame frame) { 
+        this("", new WorkerList(WorkerList.HOUSE_WORKERS), day_panel, frame);
+    }
 	
 	public NW_HousePanel() {
 		
@@ -82,7 +86,7 @@ public class NW_HousePanel extends JPanel {
 // PRIVATE METHODS
 	
 	//house name panel
-	private JPanel houseNamePanel(){
+	private JPanel houseNamePanel(String house_name){
 		JPanel panel = new JPanel();
 		
 		house_name_label = new JLabel(" House Name");
@@ -90,6 +94,7 @@ public class NW_HousePanel extends JPanel {
 		house_name_label.setForeground(Settings.MAIN_COLOR);
 		
 		house_name_text_field = new JTextField(10);
+		house_name_text_field.setText(house_name);
 		house_name_text_field.setFont( house_name_text_field.getFont().deriveFont( Settings.FONT_SIZE ) );
 		 
 		panel.setLayout(new MigLayout("insets 0 1 0 1, ay 50%"));
@@ -141,25 +146,9 @@ public class NW_HousePanel extends JPanel {
 	
 //  PUBLIC METHODS
 
-	public NW_HousePanel copyPanel( ) {
-		
-		NW_HousePanel new_panel = new NW_HousePanel( this.workers, this.parent_day_panel, this.parent_frame );
-		
-		//create public methods to do this in best practice:
-		new_panel.house_name_text_field.setText(this.house_name_text_field.getText());
-		
-		int rows = WorkerPanel.NORM_ROWS;
-		int columns = WorkerPanel.NORM_COLUMNS;
-		for(int i=0; i<rows; i++){
-			for(int j=0; j<columns; j++){
-				if(this.worker_panel.workerCheckBoxes[i][j].isSelected()){
-					new_panel.worker_panel.workerCheckBoxes[i][j].setSelected(true);
-				}
-			}
-		}
-		
-		return new_panel;
-		
+	public NW_HousePanel copyPanel() {
+		return new NW_HousePanel(this.getHouseName(), this.worker_panel.getWorkers(),
+		                         this.parent_day_panel, this.parent_frame);
 	}
 	
 	public List<String> getSelectedWorkers() {
