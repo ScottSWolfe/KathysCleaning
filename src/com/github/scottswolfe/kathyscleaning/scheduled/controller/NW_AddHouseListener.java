@@ -63,7 +63,7 @@ public class NW_AddHouseListener implements ActionListener {
 		}
 		
 		// add new house panel
-		day_panel.house_panels.add(index + 1, new NW_HousePanel(dwd, day_panel, frame));
+		day_panel.house_panels.add(index + 1, new NW_HousePanel(day_panel.header_panel.getWorkerList(), day_panel, frame));
 				
 		// reset focus listeners
 		day_panel.addFlexibleFocusListeners();

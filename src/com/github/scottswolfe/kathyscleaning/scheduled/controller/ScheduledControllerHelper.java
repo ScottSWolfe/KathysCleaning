@@ -54,7 +54,7 @@ public class ScheduledControllerHelper
             completedDayData[d] = new DayData();
 
             NW_HeaderData header = new NW_HeaderData();
-            header.setDWD(dp.header_panel.dwp.getWorkers());
+            header.setDWD(dp.header_panel.getWorkerList());
             dayData[d].setHeader(header);
             
             dayData[d].beginExceptionList = dp.getBeginExceptionList();
@@ -104,7 +104,7 @@ public class ScheduledControllerHelper
             NW_DayPanel dp = tp.nw_day_panel[d];
             DayData completedDayData = model.completedDayData[d];
             
-            dp.header_panel.dwp.setWorkers(dayData.getHeaderData().getDWD());
+            dp.header_panel.setWorkers(dayData.getHeaderData().getDWD());
             dp.meet_location_box.setSelectedItem(dayData.meet_location);
             dp.meet_time_field.setText(dayData.meet_time);
             dp.setBeginExceptionList(dayData.beginExceptionList);

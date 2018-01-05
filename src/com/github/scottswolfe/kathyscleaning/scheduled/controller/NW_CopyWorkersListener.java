@@ -32,7 +32,7 @@ public class NW_CopyWorkersListener implements ActionListener {
 //  LISTENER
 		
 	public void actionPerformed(ActionEvent e) {		
-		List<String> selected_names = day_panel.header_panel.dwp.getSelected();
+		List<String> selected_names = day_panel.header_panel.getSelectedWorkers();
 		for(NW_HousePanel house_panel : day_panel.house_panels) {
 		    house_panel.worker_panel.setSelected(selected_names);
 		}

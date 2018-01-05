@@ -174,7 +174,7 @@ public class NW_DayPanel extends JPanel{
         int header_width = header_panel.getWidth();
         int house_panel_width = house_panels.get(0).getWidth();
 
-	    header_panel.dwp.setWorkers(new_workers);
+	    header_panel.setWorkers(new_workers);
 	    for (NW_HousePanel house_panel : house_panels) {
 	        house_panel.changeHouseWorkers(new_workers);
 	    }		
@@ -381,6 +381,10 @@ public class NW_DayPanel extends JPanel{
 	        list.add(house_panel.copyPanel());
 	    }
 	    return list;
+	}
+	
+	public WorkerList getHeaderPanelWorkerList() {
+	    return header_panel.getWorkerList();
 	}
 
 }

@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.scheduled.view;
 import java.awt.Dimension;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -51,7 +52,7 @@ public class NW_HeaderPanel extends JPanel {
 	public JRadioButton neither;
 	ButtonGroup button_group;
 	
-	public WorkerPanel dwp;
+	private WorkerPanel worker_panel;
 	JButton copy_workers;
 	JButton edit_default_workers;
 	
@@ -152,7 +153,7 @@ public class NW_HeaderPanel extends JPanel {
 		panel.setBackground(Settings.BACKGROUND_COLOR);
 		panel.setBackground(Settings.HEADER_BACKGROUND);
 			
-		dwp = new WorkerPanel(dwd, Settings.HEADER_BACKGROUND, null, null );
+		worker_panel = new WorkerPanel(dwd, Settings.HEADER_BACKGROUND, null, null );
 		
 		edit_default_workers = new JButton("Edit");
 		edit_default_workers.addActionListener( new NW_EditDefaultWorkersListener(dwd, day_panel, frame) );
@@ -162,7 +163,7 @@ public class NW_HeaderPanel extends JPanel {
 		copy_workers.addActionListener( new NW_CopyWorkersListener(tp, day_data, day_panel) );
 		copy_workers.setFont( copy_workers.getFont().deriveFont( Settings.FONT_SIZE ) );
 		
-		panel.add(dwp, "span 1 2, push y");
+		panel.add(worker_panel, "span 1 2, push y");
 		panel.add(copy_workers, "push y, growx");
 		panel.add(edit_default_workers, "push y, growx");
 		
@@ -216,6 +217,22 @@ public class NW_HeaderPanel extends JPanel {
 		
 		return panel;
 		
+	}
+	
+	public void setWorkers(WorkerList workers) {
+	    worker_panel.setWorkers(workers);
+	}
+	
+	public WorkerList getWorkerList() {
+	    return worker_panel.getWorkers();
+	}
+	
+	public List<String> getSelectedWorkers() {
+	    return worker_panel.getSelected();
+	}
+	
+	public WorkerPanel getWorkerPanel() {
+	    return worker_panel;
 	}
 	
 }
