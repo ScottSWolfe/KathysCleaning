@@ -42,13 +42,13 @@ public class MoveDownListener implements ActionListener {
 	
 //  LISTENER
 	
-	public void actionPerformed(ActionEvent e){
+	public void actionPerformed(ActionEvent e) {
 		
 		// initializing variables
 		int num = day_panel.house_panel.length;
 		int index = -1;
-		for(int i=0; i<day_panel.house_panel.length; i++){
-			if (day_panel.house_panel[i] == house_panel){
+		for(int i=0; i<day_panel.house_panel.length; i++) {
+			if (day_panel.house_panel[i] == house_panel) {
 				index = i;
 			}
 		}
@@ -59,7 +59,7 @@ public class MoveDownListener implements ActionListener {
 		
 					
 		//remove old panels
-		for(int i=0; i<num; i++){
+		for(int i=0; i<num; i++) {
 			day_panel.jsp_panel.remove(day_panel.house_panel[i]);
 		}
 		
@@ -69,7 +69,7 @@ public class MoveDownListener implements ActionListener {
 		
 		
 		// copying first set of panels that don't change
-		for(int i=0; i<index; i++){
+		for(int i=0; i<index; i++) {
 			new_house_panel_array[i] = day_panel.house_panel[i].copyPanel(); 
 		}
 		
@@ -80,7 +80,7 @@ public class MoveDownListener implements ActionListener {
 		
 		
 		// copying second set of panels that don't move
-		for(int i=index+2; i<num; i++){
+		for(int i=index+2; i<num; i++) {
 			new_house_panel_array[i] = day_panel.house_panel[i].copyPanel();
 		}
 		
@@ -91,7 +91,7 @@ public class MoveDownListener implements ActionListener {
 		
 		
 		//add new panels
-		for(int i=0; i<num; i++){
+		for(int i=0; i<num; i++) {
 			day_panel.jsp_panel.add(day_panel.house_panel[i], "wrap 6, growx");
 		}
 		
