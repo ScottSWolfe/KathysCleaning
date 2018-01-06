@@ -57,7 +57,7 @@ public class GeneralExcelHelper {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(new JFrame(),
-                    "Error: Excel document was not created properly.");
+                    "Error: Excel template could not be found.");
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(new JFrame(),
