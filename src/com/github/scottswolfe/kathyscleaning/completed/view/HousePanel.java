@@ -222,9 +222,10 @@ public class HousePanel extends JPanel {
 		new_panel.time_begin_txt.setText(this.time_begin_txt.getText());
 		new_panel.time_end_txt.setText(this.time_end_txt.getText());
 		new_panel.exception_data = this.exception_data;
-
-		List<String> selected = worker_panel.getSelected();
-		new_panel.worker_panel.setSelected(selected);
+		
+		// temporary hack
+		WorkerList workers = this.day_panel.header_panel.getWorkers();
+		new_panel.worker_panel.setWorkers(workers);
 		
 		return new_panel;
 	}

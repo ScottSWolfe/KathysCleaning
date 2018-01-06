@@ -129,6 +129,7 @@ public class WorkerPanel extends JPanel {
     }
 	
 	public void setSelected(List<String> workers) {
+	    uncheckAllWorkers();
 	    for (int i = 0; i < workerCheckBoxes.length; i++) {
             for (int j = 0; j < workerCheckBoxes[i].length; j++) {
                 for (String worker : workers) {
@@ -194,14 +195,7 @@ public class WorkerPanel extends JPanel {
 	    for(int i=0; i < rows; i++) {
             for(int j=0; j < columns; j++) {
                 
-                if (columns*i + j < workers.size()) {
-                    workerCheckBoxes[i][j] =
-                            new JCheckBox(workers.get(columns*i + j).getName()); 
-                }
-                else {
-                    workerCheckBoxes[i][j] = new JCheckBox("");
-                }
-                
+                workerCheckBoxes[i][j] = new JCheckBox(); 
                 workerCheckBoxes[i][j].setFont(workerCheckBoxes[i][j].getFont()
                         .deriveFont(Settings.FONT_SIZE));
                 workerCheckBoxes[i][j].setBackground(color);
@@ -215,6 +209,15 @@ public class WorkerPanel extends JPanel {
                 
             }
         }
+	    setWorkers(workers);
+	}
+	
+	private void uncheckAllWorkers() {
+	    for (int i = 0; i < rows; i++) {
+	        for (int j = 0; j < columns; j++) {
+	            workerCheckBoxes[i][j].setSelected(false);
+	        }
+	    }
 	}
 	
 	private void addFlexibleFocusListeners() {

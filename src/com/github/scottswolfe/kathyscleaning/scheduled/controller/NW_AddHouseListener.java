@@ -23,7 +23,7 @@ public class NW_AddHouseListener implements ActionListener {
 	WorkerList dwd;
 	JFrame frame;
 	
-	public static final int MAX_HOUSE_PANELS = 5;
+	public static final int MAX_HOUSE_PANELS = 8;
 	
 	
 //  CONSTRUCTOR
