@@ -37,19 +37,14 @@ public class WorkerPanel extends JPanel {
 /* FIELDS =================================================================== */
 	
 	/**
-	 * List of avilable workers.
-	 */
-	WorkerList workers;
-
-	/**
 	 * Number of rows of workers on this panel.
 	 */
-	public int rows;
+	private int rows;
 	
 	/**
      * Number of columns of workers on this panel.
      */
-	public int columns;
+	private int columns;
 	
 	
 	
@@ -59,110 +54,48 @@ public class WorkerPanel extends JPanel {
 	/**
 	 * Checkboxes for each worker.
 	 */
-	public JCheckBox[][] workerCheckBoxes;
+	private JCheckBox[][] workerCheckBoxes;
 
 	/*
 	 * Components for focus listener.
 	 */
-	Component left_component;
-	Component right_component;
+	private Component left_component;
+	private Component right_component;
+	
+	
 	
 	
 /* CONSTRUCTOR ============================================================== */
 	
 	public WorkerPanel(WorkerList workers, Color color,
 	        Component left_component, Component right_component) {
-		
-		this.workers = workers;
-		this.rows = NORM_ROWS;
-		this.columns = NORM_COLUMNS;
-		this.left_component = left_component;
-		this.right_component = right_component;
-		
-		workerCheckBoxes = new JCheckBox[rows][columns];
-		
-		setLayout( new MigLayout("insets 0") );
-		setBackground(color);
-		
-		for(int i=0; i < rows; i++) {
-			for(int j=0; j < columns; j++) {
-				
-				if (columns*i + j < workers.size()) {
-					workerCheckBoxes[i][j] =
-					        new JCheckBox(workers.get(columns*i + j).getName()); 
-				}
-				else {
-					workerCheckBoxes[i][j] = new JCheckBox("");
-				}
-				
-				workerCheckBoxes[i][j].setFont(workerCheckBoxes[i][j].getFont()
-				        .deriveFont(Settings.FONT_SIZE));
-				workerCheckBoxes[i][j].setBackground(color);
-				
-				if(i<columns-1 && j>columns-2) {
-					add(workerCheckBoxes[i][j], "grow, wrap");
-				}
-				else {
-					add(workerCheckBoxes[i][j], "grow");
-				}
-				
-			}
-		}
-		
-		addFlexibleFocusListeners();
+
+	    this(workers, color, NORM_ROWS, NORM_COLUMNS, left_component, right_component);
 	}
-	
 	
 	public WorkerPanel(WorkerList workers, Color color,
 	        int rows, int columns,
 	        Component left_component, Component right_component) {
 		
-		this.workers = workers;
 		this.rows = rows;
 		this.columns = columns;
 		this.left_component = left_component;
 		this.right_component = right_component;
 		
-		workerCheckBoxes = new JCheckBox[rows][columns];
-		
-		
-		setLayout( new MigLayout("insets 0") );
+		setLayout(new MigLayout("insets 0"));
 		setBackground(color);
-		
-		for(int i=0; i < rows; i++) {
-			for(int j=0; j < columns; j++) {
-				
-				if (columns*i + j < workers.size()) {
-					workerCheckBoxes[i][j] =
-					        new JCheckBox(workers.get(columns*i + j).getName()); 
-				}
-				else {
-					workerCheckBoxes[i][j] = new JCheckBox("");
-				}
-				
-				//worker[i][j].(Settings.MAIN_COLOR);
-				workerCheckBoxes[i][j].setFont(workerCheckBoxes[i][j].getFont()
-				        .deriveFont(Settings.FONT_SIZE));
-				workerCheckBoxes[i][j].setBackground(color);
-				
-				if(i<rows-1 && j>columns-2) {
-					add(workerCheckBoxes[i][j], "grow, wrap");
-				}
-				else {
-					add(workerCheckBoxes[i][j], "grow");
-				}
-				
-			}
-		}
-		
+	    initializeWorkerCheckBoxes(workers, color);
 		addFlexibleFocusListeners();
-		
 	}
+	
+	
+	
+	
+/* PUBLIC METHODS =========================================================== */
 	
 	public void setWorkers(WorkerList workers) {
 	    for(int i = 0; i < rows; i++) {
 	        for(int j = 0; j < columns; j++) {
-	                
 	            if (columns * i + j < workers.size()) {
 	                workerCheckBoxes[i][j].setText(workers.get(columns * i + j).getName());
 	                workerCheckBoxes[i][j].setSelected(workers.get(columns * i + j).isSelected());
@@ -187,7 +120,105 @@ public class WorkerPanel extends JPanel {
 	    return workers;
 	}
 	
-	// PRIVATE METHODS
+	public void setSelected(String[] sel_workers) {
+        List<String> list = new ArrayList<String>();
+        for (String worker : sel_workers) {
+            list.add(worker);
+        }
+        setSelected(list);
+    }
+	
+	public void setSelected(List<String> workers) {
+	    uncheckAllWorkers();
+	    for (int i = 0; i < workerCheckBoxes.length; i++) {
+            for (int j = 0; j < workerCheckBoxes[i].length; j++) {
+                for (String worker : workers) {
+                    if (worker.equals(workerCheckBoxes[i][j].getText())) {
+                        workerCheckBoxes[i][j].setSelected(true);
+                        break;
+                    }
+                }
+            }
+        }
+	}
+    
+    public List<String> getSelected() {
+        List<String> selected_workers = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j =0 ; j < columns; j++) {
+                if (workerCheckBoxes[i][j].isSelected()) {
+                    selected_workers.add(workerCheckBoxes[i][j].getText());
+                }
+            }
+        }       
+        return selected_workers;
+    }
+    
+    public boolean isSelected(String name) {
+        if (name == null) {
+            return false;
+        }
+        for (int k = 0; k < rows; k++) {
+            for (int l = 0; l < columns; l++) {
+                if (name.equals(workerCheckBoxes[k][l].getText()) &&
+                     workerCheckBoxes[k][l].isSelected()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public String getNameAt(int row, int col) {
+        return workerCheckBoxes[row][col].getText();
+    }
+    
+    public int getNumRows() {
+        return rows;
+    }
+	
+    public int getNumColumns() {
+        return columns;
+    }
+    
+    public JCheckBox getFirstCheckBox() {
+        return workerCheckBoxes[0][0];
+    }
+	
+	
+    
+    
+/* PRIVATE METHODS ========================================================== */
+	
+	private void initializeWorkerCheckBoxes(WorkerList workers, Color color) { // TODO make better solution for getting color
+	    workerCheckBoxes = new JCheckBox[rows][columns];
+	    for(int i=0; i < rows; i++) {
+            for(int j=0; j < columns; j++) {
+                
+                workerCheckBoxes[i][j] = new JCheckBox(); 
+                workerCheckBoxes[i][j].setFont(workerCheckBoxes[i][j].getFont()
+                        .deriveFont(Settings.FONT_SIZE));
+                workerCheckBoxes[i][j].setBackground(color);
+                
+                if(i<columns-1 && j>columns-2) {
+                    add(workerCheckBoxes[i][j], "grow, wrap");
+                }
+                else {
+                    add(workerCheckBoxes[i][j], "grow");
+                }
+                
+            }
+        }
+	    setWorkers(workers);
+	}
+	
+	private void uncheckAllWorkers() {
+	    for (int i = 0; i < rows; i++) {
+	        for (int j = 0; j < columns; j++) {
+	            workerCheckBoxes[i][j].setSelected(false);
+	        }
+	    }
+	}
 	
 	private void addFlexibleFocusListeners() {
 		
@@ -243,42 +274,6 @@ public class WorkerPanel extends JPanel {
 		}
 		
 	}
-	
-	
-	
-	// PUBLIC METHODS
-	
-	public void setSelected(String[] sel_workers) {
-		
-		for(int i=0; i < workerCheckBoxes.length; i++){
-			for(int j=0; j < workerCheckBoxes[i].length; j++) {
-				for(int k=0; k < sel_workers.length; k++) {
-				
-					if (sel_workers[k].equals( workerCheckBoxes[i][j].getText() )) {
-						workerCheckBoxes[i][j].setSelected(true);
-						break;
-					}
-					
-				}
-			}
-		}
-		
-	}
-	
-	
-	public List<String> getSelected() {
-	    List<String> selected_workers = new ArrayList<>();
-		for (int i = 0; i < rows; i++) {
-			for (int j =0 ; j < columns; j++) {
-				if (workerCheckBoxes[i][j].isSelected()) {
-					selected_workers.add(workerCheckBoxes[i][j].getText());
-				}
-			}
-		}		
-		return selected_workers;
-	}
-	
-	
 	
 	
 }

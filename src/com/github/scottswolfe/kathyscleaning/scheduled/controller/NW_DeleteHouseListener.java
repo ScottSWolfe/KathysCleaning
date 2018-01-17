@@ -40,55 +40,37 @@ public class NW_DeleteHouseListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){
 		
+	    if (day_panel.getNumHousePanels() <= 1) {
+	        return;
+	    }
+	    
 		// for resize at end of method
-		int panel_height = day_panel.house_panel[0].getHeight() + DayPanel.PANEL_PADDING;
-		
+		int panel_height = day_panel.house_panels.get(0).getHeight() + DayPanel.PANEL_PADDING;
 		
 		// initializing variables
-		int num = day_panel.house_panel.length;
+		int num = day_panel.getNumHousePanels();
 		int index = -1;
-		for(int i=0; i<day_panel.house_panel.length; i++){
-			if (day_panel.house_panel[i] == house_panel){
+		for(int i = 0; i < num; i++){
+			if (day_panel.house_panels.get(i) == house_panel) {
 				index = i;
 			}
 		}
 		
-		
-		// only delete house if there are more than one house panels remaining
-		if (num > 1) {
-		
-		
 		//remove old panels
 		for(int i=0; i<num; i++){
-			day_panel.jsp_panel.remove(day_panel.house_panel[i]);
-		}
-
+			day_panel.jsp_panel.remove(day_panel.house_panels.get(i));
+		}		
 		
-		// creating new array of house panels for the day panel
-		NW_HousePanel[] new_house_panel_array = new NW_HousePanel[num-1];
+		// delete house panel
+		day_panel.house_panels.remove(index);
 		
-		
-		//copying panels that don't change index
-		for(int i=0; i<index; i++){
-			new_house_panel_array[i] = day_panel.house_panel[i].copyPanel(); 
-		}
-		
-				
-		// copying panels moved up one index
-		for(int i=index; i<num-1; i++){
-			new_house_panel_array[i] = day_panel.house_panel[i+1].copyPanel();
-		}
-		
-		
-		// setting house_panel field in day_panel
-		day_panel.house_panel = new_house_panel_array;
+		// resetting focus listeners
 		day_panel.addFlexibleFocusListeners();
 		
-		//add new panels
-		for(int i=0; i<num-1; i++){
-			day_panel.jsp_panel.add(day_panel.house_panel[i], new String("wrap " + DayPanel.PANEL_PADDING + ", growx") );
-		}
-		
+		// add panels back to scroll pane
+        for(NW_HousePanel house_panel : day_panel.house_panels) {
+            day_panel.jsp_panel.add(house_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", growx") );
+        }
 		
 		// Resizing frame		
 		Dimension newSize = new Dimension( frame.getWidth(), frame.getHeight() );
@@ -118,10 +100,6 @@ public class NW_DeleteHouseListener implements ActionListener {
 		frame.setSize(newSize);
 		frame.revalidate();
 		frame.repaint();
-		
-		
-		} // end if statement that only allows for deleting if more than one house panel remains
-		
 	}
 		
 }

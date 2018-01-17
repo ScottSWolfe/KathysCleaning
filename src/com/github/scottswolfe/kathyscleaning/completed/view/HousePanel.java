@@ -43,7 +43,6 @@ public class HousePanel extends JPanel {
 	JFrame frame;
 	TabbedPane tp;
 	
-	AbstractDocument abdoc;
 	private ExceptionData exception_data;
 	
 
@@ -223,16 +222,10 @@ public class HousePanel extends JPanel {
 		new_panel.time_begin_txt.setText(this.time_begin_txt.getText());
 		new_panel.time_end_txt.setText(this.time_end_txt.getText());
 		new_panel.exception_data = this.exception_data;
-				
-		int rows = WorkerPanel.NORM_ROWS;
-		int columns = WorkerPanel.NORM_COLUMNS;
-		for(int i=0; i<rows; i++){
-			for(int j=0; j<columns; j++){
-				if(this.worker_panel.workerCheckBoxes[i][j].isSelected()){
-					new_panel.worker_panel.workerCheckBoxes[i][j].setSelected(true);
-				}
-			}
-		}
+		
+		// temporary hack
+		WorkerList workers = this.day_panel.header_panel.getWorkers();
+		new_panel.worker_panel.setWorkers(workers);
 		
 		return new_panel;
 	}

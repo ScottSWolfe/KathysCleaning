@@ -43,8 +43,9 @@ public class AddHouseListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){
 		
-		if (day_panel.house_panel.length <
-		        NW_AddHouseListener.MAX_HOUSE_PANELS) {
+		if (day_panel.house_panel.length >= NW_AddHouseListener.MAX_HOUSE_PANELS) {
+		    return;
+		}
 		
 		// info for resizing at end of method
 		int panel_height = day_panel.house_panel[0].getHeight() + DayPanel.PANEL_PADDING;
@@ -60,8 +61,8 @@ public class AddHouseListener implements ActionListener {
 		}
 		
 		
-		//remove old panels
-		for(int i=0; i<num_houses; i++){
+		// remove panels from scroll pane 
+		for (int i = 0; i < num_houses; i++) {
 			day_panel.jsp_panel.remove(day_panel.house_panel[i]);
 		}
 		
@@ -71,14 +72,17 @@ public class AddHouseListener implements ActionListener {
 		
 		
 		// copy panels that don't change
-		for(int i=0; i<index+1; i++){
+		for (int i = 0; i < index + 1; i++){
 			new_house_panel[i] = day_panel.house_panel[i].copyPanel(); 
 		}
 		
 		
 		// creating new panel
-		new_house_panel[index+1] = new HousePanel(new String("House " + (index + 2) ), dwd, day_panel, frame, tp);
+		new_house_panel[index + 1] = new HousePanel(new String("House " + (index + 2) ), dwd, day_panel, frame, tp);
 		
+		// temporary hack
+		WorkerList workers = day_panel.header_panel.getWorkers();
+		new_house_panel[index + 1].worker_panel.setWorkers(workers);
 		
 		// copying panels moved down one index
 		for(int i=index+2; i<num_houses + 1; i++){
@@ -96,11 +100,7 @@ public class AddHouseListener implements ActionListener {
 			day_panel.jsp_panel.add(day_panel.house_panel[i], new String("wrap " + DayPanel.PANEL_PADDING + ", growx") );
 		}
 
-
-		// Resizing frame
-		//frame.revalidate();
-		//frame.pack();
-		
+		// resize
 		Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		
 		Dimension newSize = new Dimension( frame.getWidth(), frame.getHeight() );
@@ -129,10 +129,7 @@ public class AddHouseListener implements ActionListener {
 				
 		frame.setSize(newSize);
 		frame.revalidate();
-		frame.repaint();
-		
-		} // end if length < 5
-		
+		frame.repaint();		
 	}
 	
 }

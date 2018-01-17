@@ -47,7 +47,7 @@ public class NW_EditDefaultWorkersListener implements ActionListener {
 		frame.addWindowListener( new FrameCloseListener( container_frame ));
 		container_frame.setEnabled(false);
 		
-		frame.add( new NW_EditDefaultWorkersPanel( day_panel.header_panel.dwp, frame, day_panel ) );		
+		frame.add( new NW_EditDefaultWorkersPanel( day_panel.header_panel.getWorkerPanel(), frame, day_panel ) );		
 		frame.pack();
 		
 		StaticMethods.findSetLocation(frame);

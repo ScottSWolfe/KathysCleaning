@@ -2,9 +2,11 @@ package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 
 import javax.swing.JFrame;
 
+import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
@@ -23,7 +25,6 @@ public class NW_MoveUpListener implements ActionListener {
 	
 //  CONSTRUCTOR
 	
-	
 	public NW_MoveUpListener(NW_DayPanel day_panel, NW_HousePanel house_panel, WorkerList dwd, JFrame frame) {
 		this.day_panel = day_panel;
 		this.house_panel = house_panel;
@@ -37,63 +38,36 @@ public class NW_MoveUpListener implements ActionListener {
 	public void actionPerformed(ActionEvent e){
 		
 		// initializing variables
-		int num = day_panel.house_panel.length;
+		int num = day_panel.getNumHousePanels();
 		int index = -1;
-		for(int i=0; i<day_panel.house_panel.length; i++){
-			if (day_panel.house_panel[i] == house_panel){
+		for(int i = 0; i < num; i++) {
+			if (day_panel.house_panels.get(i) == house_panel) {
 				index = i;
 			}
 		}
 		
-		
 		// only move up if it is not the first panel
-		if ( index != 0) {
-			
-		
-		
-		//remove old panels
-		for(int i=0; i<num; i++){
-			day_panel.jsp_panel.remove(day_panel.house_panel[i]);
+		if ( index <= 0) {
+		    return;
 		}
 		
+		//remove panels from scroll pane
+        for(int i = 0; i < num; i++){
+            day_panel.jsp_panel.remove(day_panel.house_panels.get(i));
+        }
 		
-		// creating new array of house panels for the day panel
-		NW_HousePanel[] new_house_panel_array = new NW_HousePanel[num];
-		
-		
-		// copying first set of panels that don't change
-		for(int i=0; i<index-1; i++){
-			new_house_panel_array[i] = day_panel.house_panel[i].copyPanel(); 
-		}
-		
-		
-		// Switching Panels
-		new_house_panel_array[index-1] = day_panel.house_panel[index].copyPanel();
-		new_house_panel_array[index] = day_panel.house_panel[index-1].copyPanel();
-		 
-		
-		// copying second set of panels that don't move
-		for(int i=index+1; i<num; i++){
-			new_house_panel_array[i] = day_panel.house_panel[i].copyPanel();
-		}
-		
-		
-		// settting field in day_panel
-		day_panel.house_panel = new_house_panel_array;
-		day_panel.addFlexibleFocusListeners();
-		
-		//add new panels
-		for(int i=0; i<num; i++){
-			day_panel.jsp_panel.add(day_panel.house_panel[i], "wrap 6, growx");
-		}
-		
-		
-		day_panel.revalidate();
-		day_panel.repaint();
-		
-		
-		} // end if index != 0 
-		
+        Collections.swap(day_panel.house_panels, index, index - 1);       
+        
+        // resetting focus listeners
+        day_panel.addFlexibleFocusListeners();
+        
+        // add panels back to scroll pane
+        for(NW_HousePanel house_panel : day_panel.house_panels) {
+            day_panel.jsp_panel.add(house_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", growx") );
+        }
+        
+        day_panel.revalidate();
+        day_panel.repaint();		
 	}
 	
 }
