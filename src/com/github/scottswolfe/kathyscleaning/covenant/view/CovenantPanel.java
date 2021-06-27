@@ -244,7 +244,7 @@ public class CovenantPanel extends JPanel {
 				inp.close();
 			}
 			catch (Exception e1) {
-				
+				e1.printStackTrace();
 			}
 			
 			

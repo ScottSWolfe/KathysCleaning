@@ -96,14 +96,15 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
         Row name_row;
         int row_num;
 
-        name_row = sheet.getRow(d * 9 + 1);
-
+        int name_row_num = getNameRowNumber(sheet, d);
+        name_row = sheet.getRow(name_row_num);
+        
         // if the house data is NOT empty
         if ( !completedModel.dayData[d].houseData[h].getHouseName().isEmpty() &&
                 completedModel.dayData[d].houseData[h].getHours() != 0 ) {
             
             // setting excel row number to write to
-            row_num = d*9 + 2 + h;  // this formula gives the correct line in the excel sheet template
+            row_num = name_row_num + 1 + h;  // this formula gives the correct line in the excel sheet template
             row = sheet.getRow( row_num );
             
             String s1 = TimeMethods.convertFormat( completedModel.dayData[d].houseData[h].getTimeBegin(), TimeMethods.HOUSE_TIME );
@@ -212,7 +213,7 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                             double hours = TimeMethods.getHours(entry.getTime_begin(), entry.getTime_end());
                             
                             // insert data into excel doc
-                            Row house_row = sheet.getRow( d*9 + 2 + h );
+                            Row house_row = sheet.getRow( name_row_num + 1 + h );
 
                                 String s = house_row.getCell(cell_number).getCellFormula(); // issue with numeric cells??
                                 s = ExcelMethods.insertHoursWorkedInPlaceOfCellReference(s,hours);
@@ -240,6 +241,30 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                 
             }
         } // ending if house named
+    }
+    
+    /**
+     * TODO: the name_rows are now variably spaced, some 9 apart, some 10.
+     * This is a temporary fix to allow the 10 row days to work.
+     * This needs to be refactored to be more general and not have 
+     * hardcoded values.
+     */
+    private int getNameRowNumber(final Sheet sheet, int day_num) {
+        int name_row_num = day_num * 9 + 1;
+        int row_count = 0;
+        while (row_count < 100) {
+            Row name_row = sheet.getRow(name_row_num);
+            Cell name_row_first_cell = name_row.getCell(0);
+            if (name_row_first_cell != null && name_row_first_cell.getCellType() == Cell.CELL_TYPE_STRING) {
+                String cellText = name_row_first_cell.getStringCellValue();
+                if (cellText != null && cellText.equals("START")) {
+                    return name_row_num;
+                }
+            }
+            name_row_num++;
+            row_count++;
+        }
+        throw new RuntimeException("Could not find name row.");
     }
     
 }

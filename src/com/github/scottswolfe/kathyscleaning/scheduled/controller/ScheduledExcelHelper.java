@@ -148,16 +148,24 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
             if (cell != null) {
                 value = evaluator.evaluate(cell);
                 if (value.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                    if (value.getNumberValue() == 0) {
-                        sheet.getRow(row).getCell(house_column).setCellValue("");
-                        sheet.getRow(row).getCell(hours_column).setCellValue("");
-                        sheet.getRow(row).getCell(total_column).setCellValue("");
+                    if (value.getNumberValue() == 0) {                        
+                        safeMakeCellBlank(sheet, row, house_column);
+                        safeMakeCellBlank(sheet, row, hours_column);
+                        safeMakeCellBlank(sheet, row, total_column);
                         counter = 0;
                     }
                 }
             }
             row++;
             counter++;
+        }
+    }
+        
+    private void safeMakeCellBlank(Sheet sheet, int row, int col) {
+        try {
+            sheet.getRow(row).getCell(col).setCellValue("");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
     

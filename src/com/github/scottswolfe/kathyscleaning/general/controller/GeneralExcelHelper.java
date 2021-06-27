@@ -63,7 +63,19 @@ public class GeneralExcelHelper {
             JOptionPane.showMessageDialog(new JFrame(),
                     "Error: Excel document was not created properly.");
 
-        } 
+        } catch (Exception e) { 
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    "Unexpected Error :( You can congratulate Scott on how much"
+                    + " better of a programer he is now than when he wrote this"
+                    + " code. Also you can tell him that the error is " 
+                    + e.getClass().getName()
+                    + " and that the error message is '"
+                    + e.getMessage()
+                    + "'"
+            );
+            throw e;
+        }
     }
     
     private static void writeToNewFile(File newExcelFile, XSSFWorkbook wb) {
