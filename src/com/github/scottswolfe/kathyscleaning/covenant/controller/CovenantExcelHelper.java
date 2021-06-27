@@ -23,8 +23,7 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
     @Override
     public void writeModelToExcel(CovenantModel model, XSSFWorkbook wb) {
 
-        String[] days = {"Monday", "Tuesday", "Wednesday",
-                "Thursday", "Friday"};
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         
         Sheet sheet = wb.getSheet("COVENANT");
 
@@ -50,61 +49,61 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
             workTimes = entry.getWorkTimes();
             row = sheet.getRow(0);
                 
-                // iterate through each day of the week
-                for (int j = 0; j < 5; j++) {
+            // iterate through each day of the week
+            for (int j = 0; j < 5; j++) {
                     
-                    worker = entry.getWorker();
-                    workTime = workTimes.get(j);
-                    beginTime = workTime.getBeginTime();
-                    endTime = workTime.getEndTime();
+                worker = entry.getWorker();
+                workTime = workTimes.get(j);
+                beginTime = workTime.getBeginTime();
+                endTime = workTime.getEndTime();
                     
-                    boolean day_match = false;
-                    while (day_match == false) {
+                boolean day_match = false;
+                while (day_match == false) {
                         
-                        // making sure the row and columns are not null
-                        if (row != null && row.getCell(0) != null) {
+                    // making sure the row and columns are not null
+                    if (row != null && row.getCell(0) != null) {        // TODO infinite loop here!!!
                                                             
-                            cell = row.getCell(0);
+                        cell = row.getCell(0);
                                                             
-                            // checking for the cell that matches the current day of week
-                            if (cell.getStringCellValue().equals(days[j])) {
+                        // checking for the cell that matches the current day of week
+                        if (cell.getStringCellValue().equals(days[j])) {
                                 
-                                day_match = true;
+                            day_match = true;
                                                                     
-                                // iterate through list of workers on excel sheet
-                                // to find current worker from Covenant panel
-                                day_complete = false;
-                                while (day_complete == false) {
+                            // iterate through list of workers on excel sheet
+                            // to find current worker from Covenant panel
+                            day_complete = false;
+                            while (day_complete == false) {
                                                                             
-                                    // checking that the row and cell are not null
-                                    if (row != null && row.getCell(0) != null) {
+                                // checking that the row and cell are not null
+                                if (row != null && row.getCell(0) != null) {
                                                                                     
-                                        // checking for the cell that matches the current worker
-                                        if (row.getCell(0).getStringCellValue().equals(entry.getWorker())) {
+                                    // checking for the cell that matches the current worker
+                                    if (row.getCell(0).getStringCellValue().equals(entry.getWorker())) {
                                                                                         
-                                            s1 = TimeMethods.convertFormat(beginTime, TimeMethods.COVENANT_TIME);
-                                            s2 = TimeMethods.convertFormat(endTime, TimeMethods.COVENANT_TIME);
+                                        s1 = TimeMethods.convertFormat(beginTime, TimeMethods.COVENANT_TIME);
+                                        s2 = TimeMethods.convertFormat(endTime, TimeMethods.COVENANT_TIME);
                                                 
-                                            row.getCell(1).setCellValue( DateUtil.convertTime(s1) );
-                                            row.getCell(2).setCellValue( DateUtil.convertTime(s2) );
+                                        row.getCell(1).setCellValue( DateUtil.convertTime(s1) );
+                                        row.getCell(2).setCellValue( DateUtil.convertTime(s2) );
                                                                                                     
-                                            day_complete = true;
-                                            break;
-                                        }
-                                        // or if the next day comes first; the worker is missing from the excel sheet
-                                        else if (j < 4 && row.getCell(0).getStringCellValue().equals(days[j + 1])) {
+                                        day_complete = true;
+                                        break;
+                                    }
+                                    // or if the next day comes first; the worker is missing from the excel sheet
+                                    else if (j < 4 && row.getCell(0).getStringCellValue().equals(days[j + 1])) {
                                             
-                                            String message = "Error: The selected employee " + worker +
-                                                    " cannot be found on the Excel Document.\nYou will need " +
-                                                    "to enter the Employee's payroll data manually on the Excel Sheet.\n" +
-                                                    "Please correct the employee's name so that it matches the Excel Sheet.";
+                                        String message = "Error: The selected employee " + worker +
+                                                " cannot be found on the Excel Document.\nYou will need " +
+                                                "to enter the Employee's payroll data manually on the Excel Sheet.\n" +
+                                                "Please correct the employee's name so that it matches the Excel Sheet.";
                                                     
-                                            JOptionPane.showMessageDialog( new JFrame(), message,
-                                                    null, JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog( new JFrame(), message,
+                                                null, JOptionPane.ERROR_MESSAGE);
                                             
-                                            row = sheet.getRow(row.getRowNum() - 1);
-                                            missing_employee = true;
-                                        }
+                                        row = sheet.getRow(row.getRowNum() - 1);
+                                        missing_employee = true;
+                                    }
                                         
                                     if (missing_employee == true) {
                                         break;
@@ -119,8 +118,12 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                         }
                         row = sheet.getRow(row.getRowNum() + 1);  
                     }
-                    
-                    
+                    else {
+                        String message = "Tell Scott to remove this infinite loop!";
+                        JOptionPane.showMessageDialog( new JFrame(), message,
+                                null, JOptionPane.ERROR_MESSAGE);                            
+                    }
+
                 }
                 if (missing_employee == true) {
                     missing_employee = false;

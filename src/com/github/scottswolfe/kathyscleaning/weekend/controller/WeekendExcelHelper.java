@@ -43,7 +43,8 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                     break;
                 }
                 
-                row = sheet.getRow(0);
+                int row_num = 0;
+                row = sheet.getRow(row_num);
                 
                 // find correct row
                 found_row = false;
@@ -51,10 +52,12 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                     
                     if (row != null && row.getCell(9) != null && String.valueOf(row.getCell(9)).equals("WEEKEND WORK")) {
                         found_row = true;
-                        row = sheet.getRow(row.getRowNum() + 1 + job_num + 1);
+                        row_num = row.getRowNum() + 1 + job_num + 1;
+                        row = sheet.getRow(row_num);
                         break;
                     }
-                    row = sheet.getRow(row.getRowNum() + 1);
+                    row_num++;
+                    row = sheet.getRow(row_num);
                     if (row.getRowNum() > 1000) {
                         throw new RuntimeException("Could not find Weekend Row");
                     }
@@ -67,14 +70,15 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
                 if (entry.getEmployee() != null && !entry.getEmployee().equals("")) {
                     
                     // find worker
-                    row = sheet.getRow(row.getRowNum() - job_num - 1);
+                    row_num = row.getRowNum() - job_num - 1;
+                    row = sheet.getRow(row_num);
                     found_worker = false;
                     int index = 5; // this is where names begin on the excel sheet
                     while (found_worker == false) {
                         
-                        // if cell matches worker's name
-                        if (row.getCell(index) != null &&
-                            String.valueOf(row.getCell(index)).equals(entry.getEmployee())) {
+                        // if cell matches worker's name                        
+                        if (row.getCell(index) != null && 
+                            row.getCell(index).getStringCellValue().equals(entry.getEmployee())) {
                             found_worker = true;
                             break;
                         }
