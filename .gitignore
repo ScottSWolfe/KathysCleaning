@@ -1,9 +1,9 @@
-/bin/
-/TODO
-/todo
-/save/temp/
-/save/user/
-/save/
-save/SettingsSaveFile
-save/CovenantEarnedSaveFile
+*.iml
+*/META-INF/
+.idea/
+bin/
+classes/
+lib/
 save/
+todo
+versions/
