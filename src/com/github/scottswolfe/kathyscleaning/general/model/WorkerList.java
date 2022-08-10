@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
@@ -144,6 +145,12 @@ public class WorkerList implements Iterable<Worker> {
 	        }
 	    }
 	    return false;
+	}
+
+	public List<String> getWorkerNames() {
+		return workers.stream()
+			.map(Worker::getName)
+			.collect(Collectors.toList());
 	}
 	
 	

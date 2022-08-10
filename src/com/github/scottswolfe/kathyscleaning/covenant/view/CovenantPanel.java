@@ -6,8 +6,11 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -599,6 +602,12 @@ public class CovenantPanel extends JPanel {
     public JLabel[] getNameLabels() {
         return nameLabels;
     }
+
+	public List<String> getWorkerNames() {
+		return Arrays.asList(nameLabels).stream()
+			.map(JLabel::getText)
+			.collect(Collectors.toList());
+	}
 
 
 
