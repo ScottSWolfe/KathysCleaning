@@ -7,6 +7,8 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
+import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
@@ -58,9 +60,8 @@ public class CovenantListeners {
             covPanel.getFrame().setVisible(false);
             covPanel.getFrame().dispose();
 
-            GeneralController<WeekendPanel, WeekendModel> weekendController =
-                    new GeneralController<>(Form.WEEKEND);
-            weekendController.initializeForm(weekendController);
+            GeneralController<LBCPanel, LBCModel> controller = new GeneralController<>(Form.LBC);
+            controller.initializeForm(controller);
         }
     }
     
