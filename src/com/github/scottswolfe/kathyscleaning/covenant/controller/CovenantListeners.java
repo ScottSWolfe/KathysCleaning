@@ -2,11 +2,16 @@ package com.github.scottswolfe.kathyscleaning.covenant.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.general.view.EditWorkersPanelLauncher;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
@@ -41,10 +46,34 @@ public class CovenantListeners {
     public class EditListener implements ActionListener {
         public void actionPerformed ( ActionEvent e ) {
             covPanel.getCovFrame().setEnabled(false);
-            EditWorkersController.initializePanelFrame(covPanel);
+
+            EditWorkersPanelLauncher.launchPanel(
+                covPanel.getWorkerNames(),
+                covPanel.getController().getCovModel().getDwd().getWorkerNames(),
+                (updateWorkerNames) -> onEditWorkersSubmit(covPanel, updateWorkerNames),
+                () -> {},
+                new FrameCloseListener(covPanel.getCovFrame())
+            );
         }
     }
-    
+
+    private static void onEditWorkersSubmit(CovenantPanel covPanel, List<String> updatedWorkerNames) {
+        if (StaticMethods.isRepeatWorker(updatedWorkerNames)) {
+            StaticMethods.shareRepeatWorker();
+            return;
+        }
+
+        WorkerList workers = new WorkerList(updatedWorkerNames);
+        covPanel.getController().getCovModel().getDwd().setWorkers(workers);
+        for (int i=0; i<workers.size(); i++) {
+            covPanel.getNameLabels()[i].setText(workers.getName(i));
+        }
+
+        covPanel.getParent().revalidate();
+        covPanel.getFrame().pack();
+        covPanel.getParent().repaint();
+    }
+
     /**
      * Listener for the Submit button.
      */

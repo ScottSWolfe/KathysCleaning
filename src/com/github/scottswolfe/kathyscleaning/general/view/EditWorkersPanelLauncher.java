@@ -1,7 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.general.view;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -13,12 +15,60 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- *  This panel is used to update the names in a list of workers.
- */
-public class EditWorkersPanel extends JPanel {
+import static javax.swing.JComponent.UNDEFINED_CONDITION;
 
-    public EditWorkersPanel(
+/**
+ *  This is used to launch a panel used to update the names in a list of workers.
+ */
+public class EditWorkersPanelLauncher {
+
+    // Clients should use launchPanel to create a panel to edit worker names.
+    private EditWorkersPanelLauncher() {}
+
+    public static void launchPanel(
+        List<String> currentWorkerNames,
+        List<String> availableWorkerNames,
+        Consumer<List<String>> onSubmit,
+        Runnable onCancel,
+        FrameCloseListener frameCloseListener
+    ) {
+        final JFrame editWorkerFrame = createFrame(frameCloseListener);
+
+        final JPanel editWorkersPanel = createEditWorkersPanel(
+            currentWorkerNames,
+            availableWorkerNames,
+            () -> onCancelInternal(editWorkerFrame, onCancel),
+            (updatedWorkerNames) -> onSubmitInternal(editWorkerFrame, onSubmit, updatedWorkerNames)
+        );
+
+        editWorkerFrame.add(editWorkersPanel);
+        editWorkerFrame.pack();
+        StaticMethods.findSetLocation(editWorkerFrame);
+        editWorkerFrame.setVisible(true);
+    }
+
+    private static void onCancelInternal(JFrame frame, Runnable onCancel) {
+        onCancel.run();
+        frame.setVisible(false);
+        frame.dispose();
+    }
+
+    private static void onSubmitInternal(JFrame frame, Consumer<List<String>> onSubmit, List<String> updatedWorkerNames) {
+
+        // if contains repeat selections, notify user and end method
+        if (StaticMethods.isRepeatWorker(updatedWorkerNames)) {
+            StaticMethods.shareRepeatWorker();
+            return;
+        }
+
+        onSubmit.accept(updatedWorkerNames);
+
+        // close EditWorkersPanel
+        frame.setVisible(false);
+        frame.dispose();
+    }
+
+    private static JPanel createEditWorkersPanel(
         List<String> currentWorkerNames,
         List<String> availableWorkerNames,
         Runnable onCancel,
@@ -30,19 +80,23 @@ public class EditWorkersPanel extends JPanel {
         final JButton cancelButton = createCancelButton(onCancel);
         final JButton submitButton = createSubmitButton(onSubmit, workerComboBoxes);
 
-        setLayout(new MigLayout());
-        setBackground(Settings.BACKGROUND_COLOR);
+        addFlexibleFocusListeners(workerComboBoxes);
+
+        final JPanel editWorkersPanel = new JPanel();
+
+        editWorkersPanel.setLayout(new MigLayout());
+        editWorkersPanel.setBackground(Settings.BACKGROUND_COLOR);
 
         for (JComboBox<String> workerComboBox : workerComboBoxes) {
-            add(workerComboBox, "wrap 10");
+            editWorkersPanel.add(workerComboBox, "wrap 10");
         }
-        add(cancelButton, "split 2");
-        add(submitButton, "");
+        editWorkersPanel.add(cancelButton, "split 2");
+        editWorkersPanel.add(submitButton, "");
 
-        addFlexibleFocusListeners(workerComboBoxes);
+        return editWorkersPanel;
     }
 
-    private List<JComboBox<String>> createWorkerComboBoxes(
+    private static List<JComboBox<String>> createWorkerComboBoxes(
         List<String> currentWorkerNames,
         List<String> availableWorkerNames
     ) {
@@ -82,7 +136,7 @@ public class EditWorkersPanel extends JPanel {
         return workerComboBoxes;
     }
 
-    private JButton createCancelButton(Runnable onCancel) {
+    private static JButton createCancelButton(Runnable onCancel) {
         final JButton cancelButton = new JButton("Cancel");
         cancelButton.setFont( cancelButton.getFont().deriveFont( Settings.FONT_SIZE ) );
         cancelButton.setBackground(Settings.MAIN_COLOR);
@@ -91,7 +145,7 @@ public class EditWorkersPanel extends JPanel {
         return cancelButton;
     }
 
-    private JButton createSubmitButton(Consumer<List<String>> onSubmit, List<JComboBox<String>> workerComboBoxes) {
+    private static JButton createSubmitButton(Consumer<List<String>> onSubmit, List<JComboBox<String>> workerComboBoxes) {
         final JButton submitButton = new JButton("Submit");
         submitButton.setFont( submitButton.getFont().deriveFont( Settings.FONT_SIZE ) );
         submitButton.setBackground(Settings.MAIN_COLOR);
@@ -100,7 +154,15 @@ public class EditWorkersPanel extends JPanel {
         return submitButton;
     }
 
-    private void addFlexibleFocusListeners (List<JComboBox<String>> workerComboBoxes) {
+    private static JFrame createFrame(FrameCloseListener frameCloseListener) {
+        final JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setResizable(false);
+        frame.addWindowListener(frameCloseListener);
+        return frame;
+    }
+
+    private static void addFlexibleFocusListeners (List<JComboBox<String>> workerComboBoxes) {
         for (int i = 0; i < workerComboBoxes.size(); i++) {
 
             JComboBox<String> up_cb = null;
@@ -127,7 +189,7 @@ public class EditWorkersPanel extends JPanel {
         }
     }
 
-    private List<String> getSelectedWorkers(List<JComboBox<String>> workerComboBoxes) {
+    private static List<String> getSelectedWorkers(List<JComboBox<String>> workerComboBoxes) {
         return workerComboBoxes.stream()
             .map(JComboBox::getSelectedItem)
             .map(String::valueOf)

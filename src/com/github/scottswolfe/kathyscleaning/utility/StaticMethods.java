@@ -5,6 +5,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JComboBox;
@@ -144,6 +145,10 @@ public class StaticMethods {
 		
 		return false;
 	}
+
+    public static boolean isRepeatWorker(List<String> workerNames) {
+        return workerNames.stream().distinct().count() != workerNames.size();
+    }
 	
 	public static boolean isRepeatWorker( JComboBox<String>[][] box ) {
 		
