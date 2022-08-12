@@ -87,8 +87,7 @@ public class CovenantListeners {
             covPanel.getFrame().setVisible(false);
             covPanel.getFrame().dispose();
 
-            GeneralController<WeekendPanel, WeekendModel> weekendController =
-                    new GeneralController<>(Form.WEEKEND);
+            GeneralController<WeekendPanel, WeekendModel> weekendController = new GeneralController<>(Form.LBC);
             weekendController.initializeForm(weekendController);
         }
     }

@@ -29,10 +29,16 @@ public class WorkerList implements Iterable<Worker> {
     public static final File COVENANT_WORKERS = new File(
             (System.getProperty("user.dir") +
                     "\\save\\CovenantWorkerSaveFile"));
-    
-    
-    
-/* FIELDS =================================================================== */
+
+    /**
+     * Save file with list of default LBC workers.
+     */
+    public static final File LBC_WORKERS = new File(
+        (System.getProperty("user.dir") +
+            "\\save\\LBCWorkerSaveFile"));
+
+
+    /* FIELDS =================================================================== */
 
     /**
      * Array of workers.
@@ -169,9 +175,6 @@ public class WorkerList implements Iterable<Worker> {
             return workers;
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error: Could not find file: " +
-                    file.getAbsolutePath(), "Error Reading Save File",
-                    JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             return workers;
         }

@@ -126,6 +126,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         Menu navMenu = new Menu("Navigate");
         addHousesItem(navMenu);
         addCovenantItem(navMenu);
+        addLBCItem(navMenu);
         addWeekendItem(navMenu);
         addNextWeekItem(navMenu);
         return navMenu;
@@ -144,7 +145,13 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
                 menuController.new CovenantMenuItemListener());
         navMenu.add(covenantMenuItem);
     }
-    
+
+    private void addLBCItem(Menu navMenu) {
+        MenuItem lbcMenuItem = new MenuItem("LBC");
+        lbcMenuItem.addActionListener(menuController.new LBCMenuItemListener());
+        navMenu.add(lbcMenuItem);
+    }
+
     private void addWeekendItem(Menu navMenu) {
         MenuItem weekendMenuItem = new MenuItem("Weekend");
         weekendMenuItem.addActionListener(

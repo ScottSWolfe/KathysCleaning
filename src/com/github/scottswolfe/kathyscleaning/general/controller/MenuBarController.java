@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
+import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
@@ -118,7 +120,14 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
                 new GeneralController<>(Form.COVENANT);
         newController.initializeForm(newController);
     }
-    
+
+    public void menuItemGoLBC() {
+        controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
+        controller.eliminateWindow();
+        GeneralController<LBCPanel, LBCModel> newController = new GeneralController<>(Form.LBC);
+        newController.initializeForm(newController);
+    }
+
     public void menuItemGoWeekend() {
         controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
         controller.eliminateWindow();
@@ -195,7 +204,14 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             menuItemGoCovenant();
         }
     }
-    
+
+    public class LBCMenuItemListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            menuItemGoLBC();
+        }
+    }
+
     public class WeekendMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -60,7 +60,9 @@ public class Settings {
     public static final File SAVED_SCHEDULE = new File(System.getProperty("user.dir") + "\\save\\SavedSchedule");
     public static final File COV_WORKER_SAVE = new File(System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
     public static final File COVENANT_EARNED_SAVE_FILE = new File( System.getProperty("user.dir") + "\\save\\CovenantEarnedSaveFile" );
-    
+    public static final File LBC_WORKER_SAVE = new File(System.getProperty("user.dir") + "\\save\\LBCWorkerSaveFile");
+    public static final File LBC_EARNED_SAVE_FILE = new File( System.getProperty("user.dir") + "\\save\\LBCEarnedSaveFile" );
+
 
     /**
      * Default Excel Template.

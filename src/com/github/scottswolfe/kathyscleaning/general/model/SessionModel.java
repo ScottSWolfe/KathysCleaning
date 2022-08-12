@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.general.model;
 import java.io.File;
 import java.util.Calendar;
 
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
@@ -48,7 +49,7 @@ public class SessionModel {
     
     public static void load(File file) {
         SessionSaveObject object = (SessionSaveObject)
-                JsonMethods.loadFromFileJSON(SessionSaveObject.class, file, 4);
+                JsonMethods.loadFromFileJSON(SessionSaveObject.class, file, Form.SESSION.getNum());
         updateCurrentFileIfChanged(object, file);
         object.load();
     }
@@ -161,7 +162,7 @@ public class SessionModel {
         }
                 
         void save(File file) {
-            JsonMethods.saveToFileJSON(this, SessionSaveObject.class, file, 4);
+            JsonMethods.saveToFileJSON(this, SessionSaveObject.class, file, Form.SESSION.getNum());
         }
         
         void load() {

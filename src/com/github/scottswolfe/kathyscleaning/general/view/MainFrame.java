@@ -45,6 +45,8 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
             text = "Houses";
         } else if (controller.getFormType() == Form.COVENANT) {
             text = "Covenant";
+        } else if (controller.getFormType() == Form.LBC) {
+            text = "LBC";
         } else if (controller.getFormType() == Form.WEEKEND) {
             text = "Weekend";
         } else if (controller.getFormType() == Form.SCHEDULED) {

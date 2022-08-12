@@ -8,6 +8,8 @@ import java.nio.file.StandardCopyOption;
 
 import javax.swing.SwingUtilities;
 
+import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCControllerHelper;
+import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCExcelHelper;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
@@ -87,6 +89,9 @@ public class GeneralController<ViewObject, ModelObject>
         } else if (type == Form.COVENANT) {
             helper = (ControllerHelper<ViewObject, ModelObject>) new CovenantControllerHelper();
             excelHelper = (ExcelHelper<ModelObject>) new CovenantExcelHelper();
+        } else if (type == Form.LBC) {
+            helper = (ControllerHelper<ViewObject, ModelObject>) new LBCControllerHelper();
+            excelHelper = (ExcelHelper<ModelObject>) new LBCExcelHelper();
         } else if (type == Form.WEEKEND) {
             helper = (ControllerHelper<ViewObject, ModelObject>) new WeekendControllerHelper();
             excelHelper = (ExcelHelper<ModelObject>) new WeekendExcelHelper();
