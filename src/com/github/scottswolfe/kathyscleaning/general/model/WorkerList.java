@@ -16,13 +16,13 @@ import javax.swing.JOptionPane;
 public class WorkerList implements Iterable<Worker> {
 
 /* CONSTANTS ================================================================ */
-    
+
     /**
      * Save file with list of default house workers.
      */
     public static final File HOUSE_WORKERS = new File(
             (System.getProperty("user.dir") + "\\save\\HouseWorkerSaveFile"));
-    
+
     /**
      * Save file with list of default Covenant workers.
      */
@@ -197,7 +197,7 @@ public class WorkerList implements Iterable<Worker> {
     public void setWorkers(ArrayList<Worker> workers) {
         this.workers = workers;
     }
-    
+
     /**
      * @param default_workers the default_workers to set
      */

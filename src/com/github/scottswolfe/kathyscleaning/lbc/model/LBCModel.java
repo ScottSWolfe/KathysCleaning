@@ -9,35 +9,35 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LBCModel {
-    
-    
-/* CONSTANTS ================================================================ */
-    
 
-    
-    
-    
+
+/* CONSTANTS ================================================================ */
+
+
+
+
+
 /* FIELDS =================================================================== */
-    
+
     List<LBCEntry> covenantEntries;
     List<Double> amountsEarned;
-    
+
     /**
      * Container for the default workers.
      */
     private WorkerList dwd;
-    
+
     /**
      * Monday's date.
      */
     private Calendar date;
-    
+
     /**
      * Designates whether in submit new data mode or in edit default autofill
      * data mode
      */
     private int mode;
-    
+
     /**
      * Designates whether week A, B, or Neither
      */
@@ -47,43 +47,43 @@ public class LBCModel {
         covenantEntries = new ArrayList<>();
         amountsEarned = new ArrayList<>();
     }
-    
+
     public LBCModel(WorkerList dwd2,
                     Calendar date, int mode, int wk) {
-    
+
         this.dwd = dwd2;
         this.date = date;
         this.mode = mode;
         this.wk = wk;
-        
+
         this.dwd = new WorkerList(Settings.COV_WORKER_SAVE);
     }
-    
 
-    
+
+
 /* GETTERS/SETTERS ========================================================== */
 
     public void addEntry(LBCEntry entry) {
         covenantEntries.add(entry);
     }
-    
+
     public void addAmountEarned(Double amount) {
         amountsEarned.add(amount);
     }
-    
+
     public Iterator<LBCEntry> entryIterator() {
         return covenantEntries.iterator();
     }
-    
+
     public List<Double> getAmountsEarned() {
         return amountsEarned;
     }
-    
+
     public List<LBCEntry> getEntries() {
         return covenantEntries;
     }
-        
-    
+
+
     /**
      * @return the dwd
      */
@@ -139,7 +139,7 @@ public class LBCModel {
     public void setWk(int wk) {
         this.wk = wk;
     }
-    
-    
+
+
 
 }

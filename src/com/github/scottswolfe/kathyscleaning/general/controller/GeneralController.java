@@ -34,39 +34,39 @@ public class GeneralController<ViewObject, ModelObject>
              implements Controller<ViewObject, ModelObject> {
 
 /* INSTANCE VARIABLES ======================================================= */
-    
+
     /**
      * The view this controller controls
      */
     private ViewObject view;
-    
+
     /**
      * The model this controller controls
      */
     private ModelObject model;
-    
+
     /**
      * The helper for this controller
      */
     private ControllerHelper<ViewObject, ModelObject> helper;
-    
+
     /**
      * The excel helper for this controller
      */
     private ExcelHelper<ModelObject> excelHelper;
-    
+
     /**
      * True if currently loading file into view; false otherwise
      */
     private boolean openingFile;
-    
+
     /**
      * The type of form this controller controls
      */
     Form form;
-    
-    
-    
+
+
+
 /* CLASS VARIABLES ========================================================== */
 
     /**
@@ -75,11 +75,11 @@ public class GeneralController<ViewObject, ModelObject>
     public static final File TEMP_SAVE_FILE =
             new File(System.getProperty("user.dir") +
                     "\\save\\temp\\currentSave");
-    
-    
- 
+
+
+
 /* CONSTRUCTORS ============================================================= */
-    
+
     @SuppressWarnings("unchecked")
     public GeneralController(Form type) {
         form = type;
@@ -102,11 +102,11 @@ public class GeneralController<ViewObject, ModelObject>
             throw new RuntimeException("unexpected Form type");
         }
     }
-    
-    
-    
+
+
+
 /* PUBLIC METHODS =========================================================== */
-        
+
     @Override
     public void readInputAndWriteToFile(File file) {
         model = helper.readViewIntoModel(view);
@@ -120,7 +120,7 @@ public class GeneralController<ViewObject, ModelObject>
             }
         }
     }
-    
+
     @Override
     public void readFileAndWriteToView(File file) {
         model = helper.loadFromFile(file);
@@ -134,32 +134,32 @@ public class GeneralController<ViewObject, ModelObject>
             helper.saveToFile(model, TEMP_SAVE_FILE);
         }
     }
-    
+
     @Override
     public void initializeForm(GeneralController<ViewObject, ModelObject> controller) {
         helper.initializeForm(this);
     }
-    
+
     @Override
     public void writeModelToExcel(XSSFWorkbook wb) {
         excelHelper.writeModelToExcel(model, wb);
     }
-    
+
     @Override
     public void updateDate() {
         helper.updateDate(view);
     }
-    
+
     @Override
     public void eliminateWindow() {
         helper.eliminateWindow(view);
     }
-    
+
     @Override
     public Form getFormType() {
         return form;
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public void setTitleText() {
@@ -167,50 +167,50 @@ public class GeneralController<ViewObject, ModelObject>
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor((Component) view);
         frame.setTitleText(this);
     }
-    
-    
+
+
     /**
      * @return true if currently loading file into view; false otherwise
      */
     public boolean isOpeningFile() {
         return openingFile;
     }
-    
-    
-    
+
+
+
 // GETTERS/SETTERS ---------------------------------------------------------- */
-    
+
     @Override
     public void setView(ViewObject obj) {
         this.view = (ViewObject) obj;
     }
-    
+
     @Override
     public ViewObject getView() {
         return view;
     }
-    
+
     @Override
     public void setModel(ModelObject obj) {
         this.model = (ModelObject) obj;
     }
-    
+
     @Override
     public ModelObject getModel() {
         return model;
     }
-    
+
     public void setOpeningFile(boolean opening) {
         openingFile = opening;
     }
-    
+
     public void setControllerHelper(ControllerHelper<ViewObject, ModelObject>
                                                                  helper) {
         this.helper = helper;
     }
-      
+
     public void setExcelHelper(ExcelHelper<ModelObject> excelHelper) {
         this.excelHelper = excelHelper;
     }
-    
+
 }

@@ -30,33 +30,33 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
-public class MenuBarController <ViewObject, ModelObject> implements FileMenuListener { 
-    
+public class MenuBarController <ViewObject, ModelObject> implements FileMenuListener {
+
 /* INSTANCE VARIABLES ======================================================= */
-    
+
     /**
      * The controller that this class calls on to do the reading and writing
      */
     Controller<ViewObject, ModelObject> controller;
-    
+
     private static final List<String> TEMPLATE_LIST = new ArrayList<>();
     {
         TEMPLATE_LIST.add("Week A Template" + "." + FileChooserHelper.KC);
         TEMPLATE_LIST.add("Week B Template" + "." + FileChooserHelper.KC);
     }
-    
-    
-    
+
+
+
 /* CONSTRUCTORS ============================================================= */
-    
+
     public  MenuBarController(Controller<ViewObject, ModelObject> controller) {
         this.controller = controller;
     }
-    
-    
-    
+
+
+
 /* PUBLIC METHODS =========================================================== */
-    
+
     @Override
     public void menuItemSave() {
         if (!SessionModel.isSaveFileChosen()) {
@@ -95,16 +95,16 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             }
         }
     }
-    
+
     @Override
     public void menuItemGenExcel() {
         ExcelMethods.chooseFileAndGenerateExcelDoc(controller);
     }
-    
+
     public void menuItemChangeDate() {
         controller.updateDate();
     }
-    
+
     public void menuItemGoHouses() {
         controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
         controller.eliminateWindow();
@@ -112,7 +112,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
                 new GeneralController<>(Form.COMPLETED);
         newController.initializeForm(newController);
     }
-    
+
     public void menuItemGoCovenant() {
         controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
         controller.eliminateWindow();
@@ -135,7 +135,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
                 new GeneralController<>(Form.WEEKEND);
         newController.initializeForm(newController);
     }
-    
+
     public void menuItemGoNextWeek() {
         controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
         controller.eliminateWindow();
@@ -143,61 +143,61 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
                 new GeneralController<>(Form.SCHEDULED);
         newController.initializeForm(newController);
     }
-    
+
     public void menuItemLoadSchedule() {
         File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
         if (file != null) {
             CompletedControllerHelper.importSchedule(file, (TabbedPane) controller.getView());
         }
     }
-    
-    
-    
+
+
+
 /* LISTENERS ================================================================ */
-    
+
     public class SaveMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemSave();
         }
     }
-    
+
     public class SaveAsMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemSaveAs();
         }
     }
-    
+
     public class LoadMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemOpen();
         }
     }
-    
+
     public class GenExcelMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemGenExcel();
         }
     }
-    
-    
+
+
     public class ChangeDateMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemChangeDate();
         }
     }
-    
+
     public class HousesMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemGoHouses();
         }
     }
-    
+
     public class CovenantMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -218,14 +218,14 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             menuItemGoWeekend();
         }
     }
-    
+
     public class NextWeekMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemGoNextWeek();
         }
     }
-    
+
     public class LoadScheduleMenuItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -233,14 +233,14 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         }
     }
 
-    
-    
+
+
 /* PRIVATE METHODS ========================================================== */
-    
+
     private static String createSuggestedName(String directory, String extension) {
         return FileNameHelper.createDatedFileName(directory, extension);
     }
-    
+
     private void saveFile(File file) {
         if (prepareFileName(file) == false) {
             return;
@@ -249,13 +249,13 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         controller.readInputAndWriteToFile(file);
         controller.setTitleText();
     }
-    
+
     private void loadFile(File file) {
         SessionModel.load(file);
         controller.readFileAndWriteToView(file);
         controller.setTitleText();
     }
-    
+
     public static boolean prepareFileName(File file) {
         file = checkExtension(file);
         boolean response = askIfOverwriteTemplate(file);
@@ -287,16 +287,16 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             return false;
         }
     }
-    
+
     private static File checkExtension(File file) {
         String path = file.getPath();
         if (FilenameUtils.isExtension(path, FileChooserHelper.KC)) {
             return file;
         } else {
-            return new File(path + "." + FileChooserHelper.KC);    
+            return new File(path + "." + FileChooserHelper.KC);
         }
     }
-    
+
     private static File checkNameForTemplate(File file) {
         if (TEMPLATE_LIST.contains(file.getName()) == false) {
             return file;

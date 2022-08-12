@@ -21,20 +21,20 @@ import java.util.List;
 public class LBCListeners {
 
 /* FIELDS =================================================================== */
-    
+
     /**
      * TODO temporary
      */
     LBCModel lbcModel;
-    
+
     /**
      * Panel to which this is listening
      */
     LBCPanel lbcPanel;
-    
+
     private GeneralController<LBCPanel, LBCModel> controller;
 
-    
+
 /* LISTENERS ================================================================ */
 
     /**
@@ -70,13 +70,13 @@ public class LBCListeners {
         lbcPanel.getFrame().pack();
         lbcPanel.getParent().repaint();
     }
-    
+
     /**
      * Listener for the Submit button.
      */
     public class SubmitListener implements ActionListener {
-        
-        public void actionPerformed (ActionEvent e) {            
+
+        public void actionPerformed (ActionEvent e) {
             controller.readInputAndWriteToFile(null);
             LBCControllerHelper.saveChosenWorkers(lbcPanel, lbcModel);
             LBCControllerHelper.saveAmountsEarned(lbcPanel);
@@ -88,11 +88,11 @@ public class LBCListeners {
             weekendController.initializeForm(weekendController);
         }
     }
-    
-    
-    
+
+
+
 /* GETTERS/SETTERS ========================================================== */
-    
+
     /**
      * @return the lbcModel
      */
@@ -120,9 +120,9 @@ public class LBCListeners {
     public void setLbcPanel(LBCPanel lbcPanel) {
         this.lbcPanel = lbcPanel;
     }
-    
+
     public void setController(GeneralController<LBCPanel, LBCModel> controller) {
         this.controller = controller;
     }
-    
+
 }

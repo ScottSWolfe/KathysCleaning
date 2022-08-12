@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel> {
-    
+
     @Override
     public LBCModel readViewIntoModel(LBCPanel view) {
         LBCModel model = new LBCModel();
@@ -57,7 +57,7 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
         LBCEntry entry;
         int row = 0;
         int col;
-        
+
         // TODO temporary hack for when model is empty
         if (!entries.hasNext()) {
             WorkTime times;
@@ -78,7 +78,7 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
             entries = model.entryIterator();
         }
         // end temporary hack
-        
+
         while(entries.hasNext() && row < LBCPanel.ROWS) {
             entry = entries.next();
             view.getNameLabels()[row].setText(entry.getWorker());
@@ -114,21 +114,21 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
 
     @Override
     public void initializeForm(GeneralController<LBCPanel, LBCModel> controller) {
-                
+
         LBCListeners lbcListeners = new LBCListeners();
         LBCModel lbcModel = new LBCModel(
                 new WorkerList(WorkerList.LBC_WORKERS), SessionModel.getCompletedStartDay(), 0, 0); // TODO remove 0, 0...
         LBCPanel lbcPanel = new LBCPanel(lbcListeners);
-  
+
         MainFrame<LBCPanel, LBCModel> mainFrame =
                 new MainFrame<LBCPanel, LBCModel>(controller);
-        
+
         lbcListeners.setLbcModel(lbcModel);
         lbcListeners.setLbcPanel(lbcPanel);
         lbcListeners.setController(controller);
         lbcPanel.setFrame(mainFrame);
         controller.setView(lbcPanel);
-        
+
         controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
 
         // TODO temporary hack
@@ -136,17 +136,17 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
         mainFrame.add(scrollPane);
         Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
         mainFrame.setMaximizedBounds(effectiveScreenSize);
-        
+
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
-    
+
     @Override
     public void updateDate(LBCPanel view) {
         ChooseWeekPanel.initializePanel(this, false);
     }
-    
+
     @Override
     public void updateDateHelper() {
         // do nothing
@@ -158,12 +158,12 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
         frame.eliminate();
     }
-    
+
     /**
      * Saves the current LBC workers into a save file
-     * 
+     *
      * TODO Needs refactoring
-     * 
+     *
      * @param panel
      * @param model
      */
@@ -172,47 +172,47 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
 
             FileWriter fw = new FileWriter(Settings.LBC_WORKER_SAVE.getPath());
             BufferedWriter bw = new BufferedWriter(fw);
-            
+
             for (int i = 0; i < LBCPanel.ROWS; i++) {
                 bw.write(panel.getNameLabels()[i].getText());
                 bw.newLine();
             }
-            
+
             boolean match;
             if (model.getDwd().getWorkers() != null) {
             for (int i = 0; i < model.getDwd().size(); i++) {
-                
+
                 match = false;
-                
+
                 for (int j = 0; j<panel.getNameLabels().length; j++) {
-                
+
                     if (model.getDwd().get(i).equals(panel.getNameLabels()[j].getText())) {
                         match = true;
                         break;
                     }
-                    
+
                 }
-                
+
                 if (match == false) {
                     bw.write(model.getDwd().getName(i));
                     bw.newLine();
                 }
-                
+
             }}
-            
+
             bw.close();
-            
+
         }
         catch(Exception e2) {
             e2.printStackTrace();
-        }  
+        }
     }
-    
+
     /**
      * Saves the amounts earned into a save file
-     * 
+     *
      * TODO Needs refactoring
-     * 
+     *
      * @param panel
      */
     public static void saveAmountsEarned(LBCPanel panel) {
@@ -220,9 +220,9 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
 
             FileWriter fw = new FileWriter(Settings.LBC_EARNED_SAVE_FILE);
             BufferedWriter bw = new BufferedWriter(fw);
-            
+
             for (int i = 0; i < LBCPanel.COLS; i++) {
-                
+
                 if (panel.getEarnedTextfields()[i].getText().length() > 0) {
                     bw.write(panel.getEarnedTextfields()[i].getText() );
                     bw.newLine();
@@ -238,5 +238,5 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
             e2.printStackTrace();
         }
     }
-    
+
 }

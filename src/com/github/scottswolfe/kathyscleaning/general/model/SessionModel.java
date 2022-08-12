@@ -9,55 +9,55 @@ import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class SessionModel {
 
-    
+
     /**
      * The current save file for the week
      */
     private static File saveFile;
-        
+
     /**
      *  Tracks whether a save file been chosen in the current session
      */
     private static boolean saveFileChosen;
-    
+
     /**
      * The first day of the finished week
      */
     private static Calendar completedStartDay;
-    
+
     /**
      * The first day of the upcoming week
      */
     private static Calendar scheduledStartDay;
 
 
-    
+
 /* PUBLIC METHODS =========================================================== */
-    
+
     public static void initialize() {
         SessionModel.saveFile = null;
         SessionModel.saveFileChosen = false;
         SessionModel.completedStartDay = CalendarMethods.getFirstDayOfWeek();
-        SessionModel.scheduledStartDay = null; 
+        SessionModel.scheduledStartDay = null;
     }
 
     public static void save(File file) {
-        SessionSaveObject object = 
+        SessionSaveObject object =
                 new SessionModel().new SessionSaveObject(saveFile, saveFileChosen, completedStartDay, scheduledStartDay);
         object.save(file);
     }
-    
+
     public static void load(File file) {
         SessionSaveObject object = (SessionSaveObject)
                 JsonMethods.loadFromFileJSON(SessionSaveObject.class, file, Form.SESSION.getNum());
         updateCurrentFileIfChanged(object, file);
         object.load();
     }
-    
-    
-    
+
+
+
 /* GETTERS/SETTERS ========================================================== */
-    
+
     /**
      * @return the saveFile
      */
@@ -118,7 +118,7 @@ public class SessionModel {
         returnCalendar.set(currCalendar.get(Calendar.YEAR),
                 currCalendar.get(Calendar.MONTH),
                 currCalendar.get(Calendar.DATE));
-        return returnCalendar;    
+        return returnCalendar;
     }
 
     /**
@@ -131,21 +131,21 @@ public class SessionModel {
             SessionModel.scheduledStartDay = (Calendar) scheduledStartDay.clone();
         }
     }
-    
-    
-    
+
+
+
 /* PRIVATE METHODS ========================================================== */
-    
+
     private static void updateCurrentFileIfChanged(SessionSaveObject object, File file) {
         if (!object.saveFile.getAbsolutePath().equals(file.getAbsolutePath())) {
             object.saveFile = file;
         }
     }
 
-    
-    
+
+
 /* PRIVATE CLASS ============================================================ */
-    
+
     private class SessionSaveObject {
 
         private File saveFile;
@@ -160,11 +160,11 @@ public class SessionModel {
             this.completedStartDay = completedStartDay;
             this.scheduledStartDay = scheduledStartDay;
         }
-                
+
         void save(File file) {
             JsonMethods.saveToFileJSON(this, SessionSaveObject.class, file, Form.SESSION.getNum());
         }
-        
+
         void load() {
             SessionModel.setSaveFile(saveFile);
             SessionModel.setSaveFileChosen(saveFileChosen);
@@ -172,5 +172,5 @@ public class SessionModel {
             SessionModel.setScheduledStartDay(scheduledStartDay);
         }
     }
-    
+
 }

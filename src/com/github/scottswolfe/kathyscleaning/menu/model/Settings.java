@@ -12,41 +12,41 @@ import javax.swing.UIManager.LookAndFeelInfo;
  *
  */
 public class Settings {
-    
+
 /* DEFAULT PROJECT SETTINGS ================================================= */
-    
+
     /**
      * Default Look and Feel
      */
     public static final String LOOK_AND_FEEL = "Nimbus";
-    
+
     /**
      * Default font sizes.
      */
     public static float FONT_SIZE = 20;
     public static float HEADER_FONT_SIZE = 28;
     public static float TAB_FONT_SIZE = 20;
-    
+
     /**
      * Font size bases for calculating font size based on selected size factor.
      */
     public static final int FONT_SIZE_BASE = 12;
     public static final int HEADER_FONT_SIZE_BASE = 20;
     public static final int FONT_SIZE_MULTIPLIER = 4;
-    
+
     /**
      * Default colors
      */
     public final static Color BACKGROUND_COLOR = Color.WHITE;
     public final static Color MAIN_COLOR = new Color(105,139,105).darker(); // dark sea green
     public final static Color FOREGROUND_COLOR = Color.WHITE;
-    public static final Color HEADER_BACKGROUND = new Color(245,245,245); 
+    public static final Color HEADER_BACKGROUND = new Color(245,245,245);
     public static final Color CHANGE_DAY_COLOR = new Color (100, 149, 237);
     public static final Color ADD_HOUSE_COLOR = new Color (113, 198, 113).brighter();
     public static final Color DELETE_HOUSE_COLOR = new Color (240, 128, 128);
     public static final Color DEFAULT_BUTTON_COLOR = UIManager.getColor("Button.background");
-    public static final Color EDITED_BUTTON_COLOR = MAIN_COLOR; 
-    
+    public static final Color EDITED_BUTTON_COLOR = MAIN_COLOR;
+
     /**
      * Settings and Data Save Files
      */
@@ -67,15 +67,15 @@ public class Settings {
     /**
      * Default Excel Template.
      */
-    public static final File DEFAULT_EXCEL_TEMPLATE = 
+    public static final File DEFAULT_EXCEL_TEMPLATE =
             new File(System.getProperty("user.dir") + "\\lib\\Template A.xlsx");
 
     /**
      * Default Save Location.
      */
-    public static final File DEFAULT_EXCEL_SAVE_LOCATION = 
+    public static final File DEFAULT_EXCEL_SAVE_LOCATION =
             new File(System.getProperty("user.home") + "\\Desktop");
-    
+
     /**
      * Current Covenant Save File
      */
@@ -97,35 +97,35 @@ public class Settings {
             new File(System.getProperty("user.dir") +
                     "\\save\\current\\CurrentScheduledData.txt");
 
-    
+
     /**
      * Default Text Size Factor.
      */
     public static final int DEFAULT_TEXT_SIZE_FACTOR = 2;
 
     /**
-     *  Flags for whether editing default autofill data or submitting new data. 
+     *  Flags for whether editing default autofill data or submitting new data.
      */
     public static final int TRUE_MODE = 0;
     public static final int EDIT_MODE = 1;
-    
+
     /**
      * Flags for whether editing house workers or covenant workers.
      */
     public static final int HOUSES_WORKERS = 0;
     public static final int COVENANT_WORKERS = 1;
-    
+
     /**
      * Flags for whether week A, B, or Neither.
      */
     public static final int WEEK_A = 0;
     public static final int WEEK_B = 1;
     public static final int NEITHER = 2;
-    
 
-    
+
+
 /* PUBLIC METHODS =========================================================== */
-    
+
     /**
      * Static method to change Look and Feel to Program Default.
      */
@@ -147,8 +147,8 @@ public class Settings {
             }
         }
     }
-    
-    
+
+
     /**
      * Static method to change Look and Feel to System Default.
      */
@@ -159,24 +159,24 @@ public class Settings {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }        
-    
+    }
+
     public static void setFontSizes(int sizeFactor) {
         FONT_SIZE = FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*sizeFactor;
         HEADER_FONT_SIZE = HEADER_FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*sizeFactor;
         TAB_FONT_SIZE = FONT_SIZE_BASE + FONT_SIZE_MULTIPLIER*sizeFactor;
         try {
-            UIManager.put("OptionPane.messageFont", 
+            UIManager.put("OptionPane.messageFont",
                     new Font("System", Font.PLAIN, (int) FONT_SIZE));
-            UIManager.put("OptionPane.buttonFont", 
+            UIManager.put("OptionPane.buttonFont",
                     new Font("System", Font.PLAIN, (int) FONT_SIZE));
         }
         catch (Exception e) {
-            UIManager.put("OptionPane.messageFont", 
+            UIManager.put("OptionPane.messageFont",
                     new Font("System", Font.PLAIN, 24));
-            UIManager.put("OptionPane.buttonFont", 
+            UIManager.put("OptionPane.buttonFont",
                     new Font("System", Font.PLAIN, 24));
         }
     }
-    
+
 }

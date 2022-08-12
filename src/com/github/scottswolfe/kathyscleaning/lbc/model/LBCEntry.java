@@ -10,11 +10,11 @@ public class LBCEntry {
 
     private String worker;
     List<WorkTime> workTimes;
-    
+
     public LBCEntry() {
         workTimes = new ArrayList<WorkTime>();
     }
-    
+
     /**
      * @return the worker
      */
@@ -27,7 +27,7 @@ public class LBCEntry {
     public void setWorker(String worker) {
         this.worker = worker;
     }
-    
+
     public void addWorkTime(WorkTime times) {
         workTimes.add(times);
     }
@@ -37,5 +37,5 @@ public class LBCEntry {
     public List<WorkTime> getWorkTimes() {
         return workTimes;
     }
-    
+
 }

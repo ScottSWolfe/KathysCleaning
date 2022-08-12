@@ -16,30 +16,30 @@ import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
 /**
- * Listeners of CovenantPanel 
+ * Listeners of CovenantPanel
  */
 public class CovenantListeners {
 
 /* FIELDS =================================================================== */
-    
+
     /**
      * TODO temporary
      */
     CovenantModel covModel;
-    
+
     /**
      * Panel to which this is listening
      */
     CovenantPanel covPanel;
-    
+
     private GeneralController<CovenantPanel, CovenantModel> controller;
 
-    
+
 /* CONSTRUCTORS ============================================================= */
 
-    
+
 /* LISTENERS ================================================================ */
-    
+
     /**
      * Listener for the Edit button.
      */
@@ -78,8 +78,8 @@ public class CovenantListeners {
      * Listener for the Submit button.
      */
     public class SubmitListener implements ActionListener {
-        
-        public void actionPerformed (ActionEvent e) {            
+
+        public void actionPerformed (ActionEvent e) {
             controller.readInputAndWriteToFile(null);
             CovenantControllerHelper.saveChosenWorkers(covPanel, covModel);
             CovenantControllerHelper.saveAmountsEarned(covPanel);
@@ -91,11 +91,11 @@ public class CovenantListeners {
             weekendController.initializeForm(weekendController);
         }
     }
-    
-    
-    
+
+
+
 /* GETTERS/SETTERS ========================================================== */
-    
+
     /**
      * @return the covModel
      */
@@ -123,9 +123,9 @@ public class CovenantListeners {
     public void setCovPanel(CovenantPanel covPanel) {
         this.covPanel = covPanel;
     }
-    
+
     public void setController(GeneralController<CovenantPanel, CovenantModel> controller) {
         this.controller = controller;
     }
-    
+
 }

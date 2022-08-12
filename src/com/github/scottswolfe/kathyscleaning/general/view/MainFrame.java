@@ -10,16 +10,16 @@ import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 
 @SuppressWarnings("serial")
-public class MainFrame<ViewObject, ModelObject> extends JFrame {    
-    
+public class MainFrame<ViewObject, ModelObject> extends JFrame {
+
 /* COMPONENTS =============================================================== */
-    
+
     MenuBar<ViewObject, ModelObject> menuBar;
-    
-    
-    
+
+
+
 /* CONSTRUCTORS ============================================================= */
-    
+
     public MainFrame(Controller<ViewObject, ModelObject> controller) {
         super();
         setTitleText(controller);
@@ -29,18 +29,18 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
         this.setResizable(false);
     }
 
-    
-    
+
+
 /* PUBLIC METHODS =========================================================== */
-    
+
     public void eliminate() {
         this.setVisible(false);
         this.dispose();
     }
-    
+
     public void setTitleText(Controller<ViewObject, ModelObject> controller) {
         String text = "";
-        
+
         if (controller.getFormType() == Form.COMPLETED) {
             text = "Houses";
         } else if (controller.getFormType() == Form.COVENANT) {
@@ -52,23 +52,23 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
         } else if (controller.getFormType() == Form.SCHEDULED) {
             text = "Next Week";
         }
-        
+
         if (SessionModel.isSaveFileChosen()) {
             text += " - " + SessionModel.getSaveFile().getName();
         }
-        
+
         setTitle(text);
     }
-    
-    
-    
+
+
+
 /* PRIVATE METHODS ========================================================== */
-    
+
     private void addMenuBar(Controller<ViewObject, ModelObject> controller) {
         menuBar = new MenuBar<>(controller);
         this.setJMenuBar(menuBar);
     }
-    
+
     private void addWindowListener(Controller<ViewObject, ModelObject> controller) {
         WindowListener listener = new MainWindowListener(controller);
         this.addWindowListener(listener);

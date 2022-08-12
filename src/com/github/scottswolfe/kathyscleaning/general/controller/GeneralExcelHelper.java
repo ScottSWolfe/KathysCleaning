@@ -32,14 +32,14 @@ public class GeneralExcelHelper {
         try {
             InputStream input = new FileInputStream(SettingsModel.getExcelTemplateFile());
             XSSFWorkbook wb = new XSSFWorkbook(input);
-            
+
             // Completed Form
             CompletedModel completedModel = (CompletedModel) JsonMethods.loadFromFileJSON(CompletedModel.class, GeneralController.TEMP_SAVE_FILE, Form.COMPLETED.getNum());
             CompletedExcelHelper comHelper = new CompletedExcelHelper();
             comHelper.writeModelToExcel(completedModel, wb);
-            
+
             // Covenant Form
-            CovenantModel covModel = (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, GeneralController.TEMP_SAVE_FILE, Form.COVENANT.getNum()); 
+            CovenantModel covModel = (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, GeneralController.TEMP_SAVE_FILE, Form.COVENANT.getNum());
             CovenantExcelHelper covHelper = new CovenantExcelHelper();
             covHelper.writeModelToExcel(covModel, wb);
 
@@ -49,17 +49,17 @@ public class GeneralExcelHelper {
             lbcHelper.writeModelToExcel(lbcModel, wb);
 
             // Weekend Form
-            WeekendModel weekendModel = (WeekendModel) JsonMethods.loadFromFileJSON(WeekendModel.class, GeneralController.TEMP_SAVE_FILE, Form.WEEKEND.getNum()); 
+            WeekendModel weekendModel = (WeekendModel) JsonMethods.loadFromFileJSON(WeekendModel.class, GeneralController.TEMP_SAVE_FILE, Form.WEEKEND.getNum());
             WeekendExcelHelper weekendHelper = new WeekendExcelHelper();
             weekendHelper.writeModelToExcel(weekendModel, wb);
-            
+
             // Scheduled Form
-            NW_Data nwData = (NW_Data) JsonMethods.loadFromFileJSON(NW_Data.class, GeneralController.TEMP_SAVE_FILE, Form.SCHEDULED.getNum()); 
+            NW_Data nwData = (NW_Data) JsonMethods.loadFromFileJSON(NW_Data.class, GeneralController.TEMP_SAVE_FILE, Form.SCHEDULED.getNum());
             ScheduledExcelHelper scheduledHelper = new ScheduledExcelHelper();
             scheduledHelper.writeModelToExcel(nwData, wb);
-            
+
             writeToNewFile(newExcelFile, wb);
-            wb.close();      
+            wb.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -70,12 +70,12 @@ public class GeneralExcelHelper {
             JOptionPane.showMessageDialog(new JFrame(),
                     "Error: Excel document was not created properly.");
 
-        } catch (Exception e) { 
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     new JFrame(),
                     "Unexpected Error :( You can congratulate Scott on how much"
                     + " better of a programer he is now than when he wrote this"
-                    + " code. Also you can tell him that the error is " 
+                    + " code. Also you can tell him that the error is "
                     + e.getClass().getName()
                     + " and that the error message is '"
                     + e.getMessage()
@@ -84,7 +84,7 @@ public class GeneralExcelHelper {
             throw e;
         }
     }
-    
+
     private static void writeToNewFile(File newExcelFile, XSSFWorkbook wb) {
         FileOutputStream out = null;
         try {
@@ -105,5 +105,5 @@ public class GeneralExcelHelper {
                     "Error: Excel document was not created properly.");
         }
     }
-    
+
 }

@@ -40,7 +40,7 @@ public class LBCPanel extends JPanel {
      * The controller for this panel.
      */
     LBCListeners controller;
-    
+
     /**
      * The frame containing this panel.
      */
@@ -673,7 +673,7 @@ public class LBCPanel extends JPanel {
     public void setEarnedTextfields(JTextField[] earnedTextfields) {
         this.earnedTextfields = earnedTextfields;
     }
-    
+
     /**
      * Returns the frame that contains this panel
      * @return
@@ -681,9 +681,9 @@ public class LBCPanel extends JPanel {
     public JFrame getFrame() {
         return frame;
     }
-    
+
     /**
-     * Sets the frame that contains this CovenantPanel 
+     * Sets the frame that contains this CovenantPanel
      * @return
      */
     public void setFrame(MainFrame<LBCPanel, LBCModel> frame) {
