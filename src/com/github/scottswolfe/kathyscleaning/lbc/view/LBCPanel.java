@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.lbc.view;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.HousePayDocFilter;
+import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
@@ -20,7 +21,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -28,13 +28,14 @@ import java.util.stream.Collectors;
 /**
  * This is the panel where the user enters beginning and ending times for workers at LBC.
  */
-@SuppressWarnings("serial")
 public class LBCPanel extends JPanel {
 
     public final static int ROWS = 12;
     public final static int COLS = 6;
 
-    private static final String[] DAYS = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    private static final List<String> DAYS = LBCModel.DAYS.stream()
+        .map(DayOfWeek::getName)
+        .collect(Collectors.toList());
 
     /**
      * The controller for this panel.
@@ -103,15 +104,15 @@ public class LBCPanel extends JPanel {
         setBackground(Settings.BACKGROUND_COLOR);
 
         // getting number of rows based on number of workers
-        dayLabels = new JLabel[DAYS.length];
+        dayLabels = new JLabel[DAYS.size()];
         nameLabels = new JLabel[ROWS];
-        beginTimeTextfield = new JTextField[ROWS][DAYS.length];
-        beginTDFs = new TimeDocFilter[ROWS][DAYS.length];
-        beginDocs = new AbstractDocument[ROWS][DAYS.length];
-        endTimeTextfield = new JTextField[ROWS][DAYS.length];
-        endTDFs = new TimeDocFilter[ROWS][DAYS.length];
-        endDocs = new AbstractDocument[ROWS][DAYS.length];
-        earnedTextfields = new JTextField[DAYS.length];
+        beginTimeTextfield = new JTextField[ROWS][DAYS.size()];
+        beginTDFs = new TimeDocFilter[ROWS][DAYS.size()];
+        beginDocs = new AbstractDocument[ROWS][DAYS.size()];
+        endTimeTextfield = new JTextField[ROWS][DAYS.size()];
+        endTDFs = new TimeDocFilter[ROWS][DAYS.size()];
+        endDocs = new AbstractDocument[ROWS][DAYS.size()];
+        earnedTextfields = new JTextField[DAYS.size()];
 
         String layout_format;
 
@@ -155,10 +156,10 @@ public class LBCPanel extends JPanel {
          * TODO: WARNING: I screwed up the i and j here. i is columns and j is rows
          */
 
-        for(int i = 0; i< DAYS.length; i++){
+        for(int i = 0; i< DAYS.size(); i++){
 
             dayLabels[i] = new JLabel();
-            dayLabels[i].setText( DAYS[i] );
+            dayLabels[i].setText( DAYS.get(i) );
             dayLabels[i].setFont( dayLabels[i].getFont().deriveFont( Settings.HEADER_FONT_SIZE ));
             dayLabels[i].setBackground( Settings.BACKGROUND_COLOR );
 
@@ -222,7 +223,7 @@ public class LBCPanel extends JPanel {
             }
 
 
-            if ( i < DAYS.length - 1) {
+            if ( i < DAYS.size() - 1) {
                 add( new JSeparator(SwingConstants.VERTICAL), "cell " + (i+2+num_v_sep) + " " + 1 + ", span 1 " + (ROWS+1) + ", growy, gapx 10" );
                 num_v_sep++;
             }
@@ -272,7 +273,7 @@ public class LBCPanel extends JPanel {
 
         // adding time field focus listeners
         for (int i=0; i<ROWS; i++) {
-            for (int j = 0; j< DAYS.length; j++) {
+            for (int j = 0; j< DAYS.size(); j++) {
 
                 Component up_begin = null;
                 Component up_end = null;
@@ -319,7 +320,7 @@ public class LBCPanel extends JPanel {
 
                 // right components
                 right_begin = endTimeTextfield[i][j];
-                if ( j< DAYS.length-1 ) {
+                if ( j< DAYS.size()-1 ) {
                     right_end = beginTimeTextfield[i][j+1];
                 }
                 else {
@@ -355,7 +356,7 @@ public class LBCPanel extends JPanel {
 
 
         // adding amount earned focus listeners
-        for (int i = 0; i< DAYS.length; i++) {
+        for (int i = 0; i< DAYS.size(); i++) {
 
             Component up = beginTimeTextfield[ROWS-1][i];
             Component down = null;
@@ -369,13 +370,13 @@ public class LBCPanel extends JPanel {
             else {
                 left = null;
             }
-            if ( i< DAYS.length-1 ) {
+            if ( i< DAYS.size()-1 ) {
                 right = earnedTextfields[i+1];
             }
             else{
                 right = null;
             }
-            if ( i< DAYS.length-1 ) {
+            if ( i< DAYS.size()-1 ) {
                 enter = beginTimeTextfield[0][i+1];
             }
             else {

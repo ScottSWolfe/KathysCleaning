@@ -1,9 +1,11 @@
 package com.github.scottswolfe.kathyscleaning.lbc.model;
 
+import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +15,14 @@ public class LBCModel {
 
 /* CONSTANTS ================================================================ */
 
-
+    public static final List<DayOfWeek> DAYS = Arrays.asList(
+        DayOfWeek.MONDAY,
+        DayOfWeek.TUESDAY,
+        DayOfWeek.WEDNESDAY,
+        DayOfWeek.THURSDAY,
+        DayOfWeek.FRIDAY,
+        DayOfWeek.SATURDAY
+    );
 
 
 

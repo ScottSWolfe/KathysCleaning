@@ -1,5 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.lbc.controller;
 
+import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
@@ -28,15 +29,16 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
     public LBCModel readViewIntoModel(LBCPanel view) {
         LBCModel model = new LBCModel();
         LBCEntry entry;
-        WorkTime times;
         for (int i = 0; i < LBCPanel.ROWS; i++) {
             entry = new LBCEntry();
             entry.setWorker(view.getNameLabels()[i].getText());
             for (int j = 0; j < LBCPanel.COLS; j++) {
-                times = new WorkTime();
-                times.setBeginTime(view.getBeginTimeTextfield()[i][j].getText());
-                times.setEndTime(view.getEndTimeTextfield()[i][j].getText());
-                entry.addWorkTime(times);
+                WorkTime workTime = WorkTime.from(
+                    DayOfWeek.fromIndex(j),
+                    view.getBeginTimeTextfield()[i][j].getText(),
+                    view.getEndTimeTextfield()[i][j].getText()
+                );
+                entry.addWorkTime(workTime);
             }
             model.addEntry(entry);
         }
@@ -60,15 +62,18 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
 
         // TODO temporary hack for when model is empty
         if (!entries.hasNext()) {
-            WorkTime times;
             for (int i = 0; i < LBCPanel.ROWS; i++) {
                 entry = new LBCEntry();
                 entry.setWorker(view.getNameLabels()[i].getText());
                 for (int j = 0; j < LBCPanel.COLS; j++) {
-                    times = new WorkTime();
-                    times.setBeginTime("");
-                    times.setEndTime("");
-                    entry.addWorkTime(times);
+                    final String beginTime = "";
+                    final String endTime = "";
+                    final WorkTime workTime = WorkTime.from(
+                        DayOfWeek.fromIndex(j),
+                        beginTime,
+                        endTime
+                    );
+                    entry.addWorkTime(workTime);
                 }
                 model.addEntry(entry);
             }
