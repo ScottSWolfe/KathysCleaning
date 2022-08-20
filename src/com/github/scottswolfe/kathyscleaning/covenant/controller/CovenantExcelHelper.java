@@ -5,6 +5,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.utility.TimeWindow;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -72,6 +74,24 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                 beginTime = workTime.getBeginTime();
                 endTime = workTime.getEndTime();
 
+                if (workTime.getBeginTime().isEmpty() && workTime.getEndTime().isEmpty()) {
+                    continue;
+                } else if (workTime.getBeginTime().isEmpty() || workTime.getEndTime().isEmpty()) {
+                    final String message = String.format(
+                        "Begin time or end time were incorrectly entered for worker %s\n"
+                            + "for day %s on sheet %s. Begin time: '%s'; End time: '%s'.",
+                        worker,
+                        workTime.getDayOfWeek().getName(),
+                        COVENANT_SHEET_NAME,
+                        workTime.getBeginTime(),
+                        workTime.getEndTime()
+                    );
+                    JOptionPane.showMessageDialog(
+                        new JFrame(), message, null, JOptionPane.ERROR_MESSAGE
+                    );
+                    continue;
+                }
+
                 boolean day_match = false;
                 while (day_match == false) {
 
@@ -96,11 +116,11 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                                     // checking for the cell that matches the current worker
                                     if (row.getCell(COVENANT_SHEET_WORKER_COLUMN).getStringCellValue().equals(entry.getWorker())) {
 
-                                        s1 = TimeMethods.convertFormat(beginTime, TimeMethods.COVENANT_TIME);
-                                        s2 = TimeMethods.convertFormat(endTime, TimeMethods.COVENANT_TIME);
-
-                                        row.getCell(COVENANT_SHEET_BEGIN_TIME_COLUMN).setCellValue( DateUtil.convertTime(s1) );
-                                        row.getCell(COVENANT_SHEET_END_TIME_COLUMN).setCellValue( DateUtil.convertTime(s2) );
+                                        Pair<String, String> times = TimeMethods.convertTo24HourFormat(
+                                            workTime.getBeginTime(), workTime.getEndTime(), TimeWindow.COVENANT
+                                        );
+                                        row.getCell(COVENANT_SHEET_BEGIN_TIME_COLUMN).setCellValue(DateUtil.convertTime(times.getLeft()));
+                                        row.getCell(COVENANT_SHEET_END_TIME_COLUMN).setCellValue(DateUtil.convertTime(times.getRight()));
 
                                         day_complete = true;
                                         break;

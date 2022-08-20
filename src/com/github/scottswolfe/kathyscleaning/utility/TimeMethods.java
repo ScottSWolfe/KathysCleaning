@@ -1,253 +1,178 @@
 package com.github.scottswolfe.kathyscleaning.utility;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class TimeMethods {
 
-/* CONSTANTS ================================================================ */
+    public static double getNumberOfHours(
+        final String beginTime,
+        final String endTime,
+        final TimeWindow timeWindow
+    ) {
+        final Pair<String, String> times = convertTo24HourFormat(beginTime, endTime, timeWindow);
 
-    /**
-     * ...
-     */
-    public static final int HOUSE_TIME = 0;
-    public static final int COVENANT_TIME = 1;
-    public static final int LBC_TIME = 2;
-
-
-
-
-
-/* TIME CONVERSIONS ========================================================= */
-
-    /**
-     * Returns the number of hours worked between the given beginning time and
-     * ending time.
-     */
-    public static double getHours(String time_begin, String time_end){
-        int minutes = 0;
-        int begin_minutes = convertToMinutes(time_begin);
-        int end_minutes = convertToMinutes(time_end);
-        if (end_minutes >= begin_minutes) {
-            minutes = end_minutes - begin_minutes;
+        if (times.getLeft().compareTo(times.getRight()) > 0) {
+            throw new RuntimeException("Begin time is greater than end time. This should not be possible. "
+                + "Begin time: " + beginTime + "; End time: " + endTime + ".");
         }
+
+        final int beginTimeMinutes = getMinutesIntoDay(times.getLeft());
+        final int endTimeMinutes = getMinutesIntoDay(times.getRight());
+
+        return (endTimeMinutes - beginTimeMinutes) / 60.0;
+    }
+
+    private static int getMinutesIntoDay(final String time) {
+        final String[] tokens = time.split(":");
+        return Integer.parseInt(tokens[0]) * 60 + Integer.parseInt(tokens[1]);
+    }
+
+    /**
+     *  This method takes a beginning and ending time and converts them to 24-hour format. It
+     *  infers whether the times are AM or PM based on the times and the given TimeWindow which
+     *  suggests which 12-hour time window the times are likely in. This does not allow times to
+     *  wrap around midnight. If times go cross 12:00 it is assumed that they are crossing noon.
+     *
+     *  Example Mappings:
+     *    [7:38 - 9:15]   -> [07:38 - 09:15] or [19:38 - 21:15]
+     *    [9:15 - 1:45]   -> [09:15 - 13:45]
+     *    [11:15 - 11:45] -> [11:15 - 11:45] or [23:15 - 23:45]
+     *    [13:22 - 15:17] -> [13:22 - 15:17]
+     *    [23:45 - 00:15] -> IllegalArgumentException
+     */
+    public static Pair<String, String> convertTo24HourFormat(
+        final String beginTime,
+        final String endTime,
+        final TimeWindow timeWindow
+    ) {
+        if (beginTime == null || beginTime.isEmpty()) {
+            throw new IllegalArgumentException("Begin time is null or empty");
+        }
+        if (endTime == null || endTime.isEmpty()) {
+            throw new IllegalArgumentException("End time is null or empty");
+        }
+
+        if (isInvalid(beginTime) || isInvalid(endTime)) {
+            throw new IllegalArgumentException("Invalid times. Begin Time: '" + beginTime + "'; End Time: '" + endTime + "'");
+        }
+
+        final String normalizedBeginTime = beginTime.length() == 5 ? beginTime : "0" + beginTime;
+        final String normalizedEndTime = endTime.length() == 5 ? endTime : "0" + endTime;
+
+        // The case where we wrap over midnight
+        if (doesCrossMidnight(normalizedBeginTime, normalizedEndTime)) {
+            throw new IllegalArgumentException(
+                "Error: Begin and end times wrap over midnight. Begin Time: '" + beginTime + "'; End Time: '" + endTime + "'"
+            );
+        }
+
+        // The case where we wrap over noon
+        else if (
+            normalizedEndTime.compareTo(normalizedBeginTime) < 0
+            || (normalizedEndTime.split(":")[0].equals("12")
+                && normalizedBeginTime.split(":")[0].compareTo("12") < 0)
+        ) {
+            return new ImmutablePair<>(normalizedBeginTime, to24HourPM(normalizedEndTime));
+        }
+
+        // The case where we don't wrap over noon or midnight
         else {
-            minutes = end_minutes + (720 - begin_minutes);
-        }
-        return convertToHours(minutes);
-    }
-
-
-    /**
-     * Converts the given string into number of minutes past 12:00.
-     */
-    public static int convertToMinutes(String time) {
-
-        // doctoring the input
-        time = time.replace(":","");
-        StringBuilder builder = new StringBuilder();
-        builder.append(time);
-        builder.reverse();
-        time = builder.toString();
-
-        int minutes = 0;
-
-        int n = time.length();
-        for (int i = 0; i < n; i++) {
-            double digit_factor = 1;
-            if (i == 1) {
-                digit_factor = 10;
+            if (normalizedBeginTime.compareTo(timeWindow.getWindowStart()) >= 0
+                || normalizedBeginTime.startsWith("00:")
+                || normalizedBeginTime.compareTo("12:00") >= 0
+            ) {
+                return new ImmutablePair<>(normalizedBeginTime, normalizedEndTime);
+            } else {
+                return new ImmutablePair<>(add12Hours(normalizedBeginTime), add12Hours(normalizedEndTime));
             }
-            else if (i > 1) {
-                digit_factor = Math.pow(10, i - 1) * 6;
-            }
-            minutes += Character.getNumericValue(time.charAt(i)) * digit_factor;
         }
-
-        if (time.length() == 4 && time.charAt(3) == '1' && time.charAt(2) == '2') {
-            minutes -= 720;
-        }
-
-        return minutes;
     }
 
     /**
-     * Converts the given number of minutes into number of hours
+     *  Checking if valid 24-hour time format between 00:00 and 23:59.
+     *  Example times: 0:30, 00:59, 06:20, 9:38, 13:50, 22:09.
      */
-    public static double convertToHours(int minutes) {
+    private static boolean isInvalid(final String time) {
+        if (time.length() < 4 || time.length() > 5) {
+            return true;
+        }
 
-        return ((double) minutes) / 60;
+        final String[] tokens = time.split(":");
+        if (tokens.length != 2) {
+            return true;
+        }
 
+        // Validate the hour
+        if (tokens[0].length() < 1 || tokens[0].length() > 2) {
+            return true;
+        }
+        for (char c : tokens[0].toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return true;
+            }
+        }
+        if (tokens[0].length() == 2) {
+            if (Character.getNumericValue(tokens[0].charAt(0)) > 2) {
+                return true;
+            } else if (
+                Character.getNumericValue(tokens[0].charAt(0)) == 2
+                    && Character.getNumericValue(tokens[0].charAt(1)) > 3
+            ) {
+                return true;
+            }
+        }
+
+        // Validate the minutes
+        if (tokens[1].length() != 2) {
+            return true;
+        }
+        for (char c : tokens[1].toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return true;
+            }
+        }
+        if (Character.getNumericValue(tokens[1].charAt(0)) > 5) {
+            return true;
+        }
+
+        return false;
     }
 
-    /**
-     * Converts ...
-     */
-    public static String convertFormat (JTextField field, int type) {
+    private static String to24HourPM(final String time) {
+        final String[] tokens = time.split(":");
 
-        if ( field.getText() == null ) {
-            return "00:00";
+        if (tokens[0].compareTo("12") >= 0) {
+            return time;
+        } else {
+            final String hour = String.valueOf(Integer.parseInt(tokens[0]) + 12);
+            return hour + ":" + tokens[1];
         }
-        else if ( field.getText().isEmpty() ) {
-            return "00:00";
-        }
-        else {
-
-
-            int time_break = 7;
-            if (type == HOUSE_TIME) {
-                time_break = 7;
-            }
-            else if (type == COVENANT_TIME) {
-                time_break = 9;
-            }
-            else if (type == LBC_TIME) {
-                time_break = 5;
-            }
-            else {
-                throw new RuntimeException("Unexpected time type: " + type);
-            }
-
-            char[] temp_ch = field.getText().toCharArray();
-            char[] ch = new char[ temp_ch.length - 1 ];
-            //int minutes;
-
-            // remove the ':'
-            int shift = 0;
-            for(int i=0; i<temp_ch.length; i++){
-                Character k = temp_ch[i];
-                if(!Character.isDigit(k)){
-                    shift++;
-                }
-                else{
-                    ch[i-shift]=temp_ch[i];
-                }
-            }
-
-            // converting from 12:00 to 24:00
-            if ( ch.length == 4) {
-                return field.getText();
-            }
-
-
-            else if ( ch.length == 3) {
-
-                // if time comes before the time_break: add 12 hours
-                if (Character.getNumericValue(ch[0]) < time_break) {
-
-                    int time = Integer.parseInt( String.valueOf(ch) );
-                    time = time + 1200;
-
-                    String s1 = String.valueOf( time );
-
-                    char[] c = new char[5];
-                    c[0] = s1.charAt(0);
-                    c[1] = s1.charAt(1);
-                    c[2] = ':';
-                    c[3] = s1.charAt(2);
-                    c[4] = s1.charAt(3);
-
-                    return String.valueOf(c);
-
-                }
-                // if time comes after the time break: do nothing
-                else {
-                    return field.getText();
-                }
-            }
-            else {
-                JOptionPane.showMessageDialog(new JFrame(), "Error: Time conversion error.", null, JOptionPane.ERROR_MESSAGE);
-                return "00:00";
-            }
-
-
-        }
-
     }
 
+    private static String add12Hours(final String time) {
+        final String[] tokens = time.split(":");
 
-    /**
-     * Converts ...
-     */
-    public static String convertFormat (String s, int type) {
-
-        if ( s == null ) {
-            return "00:00";
-        }
-        else if ( s.isEmpty() ) {
-            return "00:00";
-        }
-        else {
-
-            int time_break = 7;
-            if (type == HOUSE_TIME) {
-                time_break = 7;
-            }
-            else if (type == COVENANT_TIME) {
-                time_break = 9;
-            }
-            else if (type == LBC_TIME) {
-                time_break = 5;
-            }
-            else {
-                throw new RuntimeException("Unexpected time type: " + type);
-            }
-
-            char[] temp_ch = s.toCharArray();
-            char[] ch = new char[ temp_ch.length - 1 ];
-            //int minutes;
-
-            // remove the ':'
-            int shift = 0;
-            for(int i=0; i<temp_ch.length; i++){
-                Character k = temp_ch[i];
-                if(!Character.isDigit(k)){
-                    shift++;
-                }
-                else{
-                    ch[i-shift]=temp_ch[i];
-                }
-            }
-
-            // converting from 12:00 to 24:00
-            if ( ch.length == 4) {
-                return s;
-            }
-
-
-            else if ( ch.length == 3) {
-
-                // if time comes before the time_break: add 12 hours
-                if (Character.getNumericValue(ch[0]) < time_break) {
-
-                    int time = Integer.parseInt( String.valueOf(ch) );
-                    time = time + 1200;
-
-                    String s1 = String.valueOf( time );
-
-                    char[] c = new char[5];
-                    c[0] = s1.charAt(0);
-                    c[1] = s1.charAt(1);
-                    c[2] = ':';
-                    c[3] = s1.charAt(2);
-                    c[4] = s1.charAt(3);
-
-                    return String.valueOf(c);
-
-                }
-                // if time comes after the time break: do nothing
-                else {
-                    return s;
-                }
-            }
-            else {
-                JOptionPane.showMessageDialog(new JFrame(), "Error: Time conversion error.", null, JOptionPane.ERROR_MESSAGE);
-                return "00:00";
-            }
-
+        String hour;
+        if (tokens[0].compareTo("11") > 0) {
+            hour = String.valueOf(Integer.parseInt(tokens[0]) - 12);
+            hour = hour.length() == 2 ? hour : "0" + hour;
+        } else {
+            hour = String.valueOf(Integer.parseInt(tokens[0]) + 12);
         }
 
+        return hour + ":" + tokens[1];
     }
 
+    private static boolean doesCrossMidnight(final String beginTime, final String endTime) {
+        if (endTime.compareTo(beginTime) >= 0) {
+            return false;
+        }
+
+        if (beginTime.compareTo("13:00") >= 0) {
+            return true;
+        }
+
+        return beginTime.compareTo("12:00") >= 0 && endTime.compareTo("12:00") >= 0;
+    }
 }

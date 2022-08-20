@@ -7,6 +7,8 @@ import com.github.scottswolfe.kathyscleaning.lbc.model.LBCEntry;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.utility.ExcelUtil;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
+import com.github.scottswolfe.kathyscleaning.utility.TimeWindow;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -82,7 +84,7 @@ public class LBCExcelHelper implements ExcelHelper<LBCModel> {
                 }
 
                 if (workTime.getDayOfWeek() == null) {
-                    throw new RuntimeException("Day of week cannot be null here.");
+                    throw new RuntimeException("Day of week cannot be null for LBC WorkTime.");
                 }
 
                 Row row;
@@ -96,15 +98,30 @@ public class LBCExcelHelper implements ExcelHelper<LBCModel> {
                     continue;
                 }
 
-                final String beginTimeConverted = TimeMethods.convertFormat(
-                    workTime.getBeginTime(), TimeMethods.LBC_TIME
-                );
-                row.getCell(LBC_SHEET_BEGIN_TIME_COLUMN).setCellValue(DateUtil.convertTime(beginTimeConverted));
+                /*
+                String beginTimeToSet = "00:00";
+                String endTimeToSet = "00:00";
+                if (workTime.getBeginTime() != null && !workTime.getBeginTime().isEmpty()
+                    && workTime.getEndTime() != null && !workTime.getEndTime().isEmpty()
+                ) {
+                    Pair<String, String> times = TimeMethods.convertTo24HourFormat(
+                        workTime.getBeginTime(), workTime.getEndTime(), TimeWindow.LBC
+                    );
+                    beginTimeToSet = times.getLeft();
+                    endTimeToSet = times.getRight();
+                } else {
+                    System.out.println("LBCExcelHelper: begin time and/or end time is null or empty");
+                }
+                row.getCell(LBC_SHEET_BEGIN_TIME_COLUMN).setCellValue(DateUtil.convertTime(beginTimeToSet));
+                row.getCell(LBC_SHEET_END_TIME_COLUMN).setCellValue(DateUtil.convertTime(endTimeToSet));
 
-                final String endTimeConverted = TimeMethods.convertFormat(
-                    workTime.getEndTime(), TimeMethods.LBC_TIME
+                 */
+
+                Pair<String, String> times = TimeMethods.convertTo24HourFormat(
+                    workTime.getBeginTime(), workTime.getEndTime(), TimeWindow.LBC
                 );
-                row.getCell(LBC_SHEET_END_TIME_COLUMN).setCellValue(DateUtil.convertTime(endTimeConverted));
+                row.getCell(LBC_SHEET_BEGIN_TIME_COLUMN).setCellValue(DateUtil.convertTime(times.getLeft()));
+                row.getCell(LBC_SHEET_END_TIME_COLUMN).setCellValue(DateUtil.convertTime(times.getRight()));
             }
         }
 
