@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.lbc.view;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.HousePayDocFilter;
+import com.github.scottswolfe.kathyscleaning.general.controller.DecimalNumberDocFilter;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
@@ -198,7 +198,7 @@ public class LBCPanel extends JPanel {
             earnedTextfields[i].setFont( earnedTextfields[i].getFont().deriveFont(Settings.FONT_SIZE) );
             earnedTextfields[i].setColumns(7);
             AbstractDocument amount_earned_doc = (AbstractDocument) earnedTextfields[i].getDocument();
-            amount_earned_doc.setDocumentFilter( new HousePayDocFilter() );
+            amount_earned_doc.setDocumentFilter(DecimalNumberDocFilter.from());
 
             layout_format = new String("cell " + (i+1+num_v_sep) + " " + (ROWS+1) + ", center" );
             add(earnedTextfields[i], layout_format);

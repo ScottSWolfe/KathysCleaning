@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.HousePayDocFilter;
+import com.github.scottswolfe.kathyscleaning.general.controller.DecimalNumberDocFilter;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantListeners;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
@@ -33,12 +33,10 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
-
 /**
  * This is the panel where the user enters beginning and ending times for
  * workers at Covenant Academy.
  */
-@SuppressWarnings("serial")
 public class CovenantPanel extends JPanel {
 
 /* FIELDS =================================================================== */
@@ -47,12 +45,12 @@ public class CovenantPanel extends JPanel {
      * The controller for this panel.
      */
     CovenantListeners controller;
-    
+
     /**
      * The frame containing this panel.
      */
     MainFrame<CovenantPanel, CovenantModel> covFrame;
-    
+
     public final static int ROWS = 12;
     int rows = ROWS;
     public final static int COLS = 5;
@@ -201,9 +199,9 @@ public class CovenantPanel extends JPanel {
                 beginTimeTextfield[j][i].setColumns( 5 );
                 beginTimeTextfield[j][i].setFont( beginTimeTextfield[j][i].getFont().deriveFont(Settings.FONT_SIZE) );
                 beginTimeTextfield[j][i].setBackground( Settings.BACKGROUND_COLOR );
-                    beginDocs[j][i] = (AbstractDocument) beginTimeTextfield[j][i].getDocument();
-                    beginTDFs[j][i] = new TimeDocFilter( beginTimeTextfield[j][i] );
-                    beginDocs[j][i].setDocumentFilter( beginTDFs[j][i] );
+                beginDocs[j][i] = (AbstractDocument) beginTimeTextfield[j][i].getDocument();
+                beginTDFs[j][i] = new TimeDocFilter( beginTimeTextfield[j][i] );
+                beginDocs[j][i].setDocumentFilter( beginTDFs[j][i] );
                 beginTimeTextfield[j][i].addKeyListener( new TimeKeyListener( beginTDFs[j][i] ) );
 
 
@@ -211,9 +209,9 @@ public class CovenantPanel extends JPanel {
                 endTimeTextfield[j][i].setColumns( 5 );
                 endTimeTextfield[j][i].setFont( endTimeTextfield[j][i].getFont().deriveFont(Settings.FONT_SIZE) );
                 endTimeTextfield[j][i].setBackground( Settings.BACKGROUND_COLOR );
-                    endDocs[j][i] = (AbstractDocument) endTimeTextfield[j][i].getDocument();
-                    endTDFs[j][i] = new TimeDocFilter( endTimeTextfield[j][i] );
-                    endDocs[j][i].setDocumentFilter( endTDFs[j][i] );
+                endDocs[j][i] = (AbstractDocument) endTimeTextfield[j][i].getDocument();
+                endTDFs[j][i] = new TimeDocFilter( endTimeTextfield[j][i] );
+                endDocs[j][i].setDocumentFilter( endTDFs[j][i] );
                 endTimeTextfield[j][i].addKeyListener( new TimeKeyListener( endTDFs[j][i] ) );
 
                 layout_format = new String("cell " + (i+1+num_v_sep) + " " + (j+1) + ", gapx 10, split 2" );
@@ -226,7 +224,7 @@ public class CovenantPanel extends JPanel {
             earnedTextfields[i].setFont( earnedTextfields[i].getFont().deriveFont(Settings.FONT_SIZE) );
             earnedTextfields[i].setColumns(7);
             AbstractDocument amount_earned_doc = (AbstractDocument) earnedTextfields[i].getDocument();
-            amount_earned_doc.setDocumentFilter( new HousePayDocFilter() );
+            amount_earned_doc.setDocumentFilter(DecimalNumberDocFilter.from());
 
             layout_format = new String("cell " + (i+1+num_v_sep) + " " + (rows+1) + ", center" );
             add(earnedTextfields[i], layout_format);
@@ -725,22 +723,20 @@ public class CovenantPanel extends JPanel {
     public void setEarnedTextfields(JTextField[] earnedTextfields) {
         this.earnedTextfields = earnedTextfields;
     }
-    
+
     /**
-     * Returns the frame that contains this CovenantPanel 
+     * Returns the frame that contains this CovenantPanel
      * @return
      */
     public JFrame getFrame() {
         return covFrame;
     }
-    
+
     /**
-     * Sets the frame that contains this CovenantPanel 
+     * Sets the frame that contains this CovenantPanel
      * @return
      */
     public void setFrame(MainFrame<CovenantPanel, CovenantModel> frame) {
         covFrame = frame;
     }
-
-    
 }

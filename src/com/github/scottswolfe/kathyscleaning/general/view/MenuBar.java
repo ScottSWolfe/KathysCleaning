@@ -6,8 +6,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 
-import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -126,7 +126,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         Menu navMenu = new Menu("Navigate");
         addHousesItem(navMenu);
         addCovenantItem(navMenu);
-        addLBCItem(navMenu);
+        // addLBCItem(navMenu); todo: enable when lbc enabled
         addWeekendItem(navMenu);
         addNextWeekItem(navMenu);
         return navMenu;
