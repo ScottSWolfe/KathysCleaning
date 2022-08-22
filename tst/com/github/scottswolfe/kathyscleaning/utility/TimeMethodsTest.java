@@ -375,6 +375,13 @@ public class TimeMethodsTest {
     }
 
     @Test
+    public void getNumberOfHours_sameStartAndEndTimes() {
+        assertNumberOfHours("9:38", "9:38", TimeWindow.HOUSES, 0);
+        assertNumberOfHours("9:38", "9:38", TimeWindow.COVENANT, 0);
+        assertNumberOfHours("9:38", "9:38", TimeWindow.LBC, 0);
+    }
+
+    @Test
     public void getNumberOfHours_acrossMidnight() {
         assertThrows(
             IllegalArgumentException.class,
