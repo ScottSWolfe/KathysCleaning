@@ -62,8 +62,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 houseData[h].setHousePay(tp.day_panel[d].house_panel[h].getAmountEarnedText());
                 houseData[h].setTimeBegin(tp.day_panel[d].house_panel[h].time_begin_txt.getText());
                 houseData[h].setTimeEnd(tp.day_panel[d].house_panel[h].time_end_txt.getText());
-                houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].worker_panel.getSelected());
-                houseData[h].setWorkerList(tp.day_panel[d].house_panel[h].worker_panel.getWorkers());
+                houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].workerSelectPanel.getSelectedWorkerNames());
+                houseData[h].setWorkerList(tp.day_panel[d].house_panel[h].workerSelectPanel.getWorkers());
                 houseData[h].setExceptionData(tp.day_panel[d].house_panel[h].getExceptionData());
             }
 
@@ -115,7 +115,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 }
                 house_panel.time_begin_txt.setText(house_data.getTimeBegin());
                 house_panel.time_end_txt.setText(house_data.getTimeEnd());
-                house_panel.worker_panel.setWorkers(house_data.getWorkerList());
+                house_panel.workerSelectPanel.setWorkers(house_data.getWorkerList());
                 house_panel.setExceptionData(house_data.getExceptionData());
 
                 // if there are more houses to fill in

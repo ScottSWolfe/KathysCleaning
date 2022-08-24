@@ -26,7 +26,7 @@ import com.github.scottswolfe.kathyscleaning.component.KcButton;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.WorkerPanel;
+import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -50,7 +50,7 @@ public class HousePanel extends JPanel {
     String title;
     Border border;
 
-    public WorkerPanel worker_panel;
+    public WorkerSelectPanel workerSelectPanel;
     private final AmountEarnedPanel amountEarnedPanel;
 
     public KcButton exceptions;
@@ -89,7 +89,7 @@ public class HousePanel extends JPanel {
         JPanel house_name_panel = houseNamePanel();
         amountEarnedPanel = AmountEarnedPanel.from();
         JPanel time_panel = timePanel();
-        worker_panel = new WorkerPanel(dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions);
+        workerSelectPanel = WorkerSelectPanel.from(dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions);
         JPanel button_panel = buttonPanel();
 
         exceptions = new KcButton(
@@ -106,7 +106,7 @@ public class HousePanel extends JPanel {
         add(time_panel, "growy");
         add( new JSeparator(SwingConstants.VERTICAL), "growy" );
 
-        add(worker_panel, "pushy");
+        add(workerSelectPanel, "pushy");
         add(exceptions, "hmin 50, pushy");
         add( new JSeparator(SwingConstants.VERTICAL), "growy" );
 
@@ -202,7 +202,7 @@ public class HousePanel extends JPanel {
 
         // temporary hack
         WorkerList workers = this.day_panel.header_panel.getWorkers();
-        new_panel.worker_panel.setWorkers(workers);
+        new_panel.workerSelectPanel.setWorkers(workers);
 
         return new_panel;
     }

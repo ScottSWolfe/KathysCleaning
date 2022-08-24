@@ -18,7 +18,7 @@ import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
-import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -194,23 +194,32 @@ public class ExceptionPanel extends JPanel {
                 down_end_field = null;
             }
 
-            name_box[i].getEditor().getEditorComponent().addFocusListener( new FlexibleFocusListener( name_box[i],
-                    FlexibleFocusListener.COMBOBOX,
-                    null, time_begin[i],
-                    up_cb, down_cb,
-                    null) );
+            name_box[i].getEditor().getEditorComponent().addFocusListener( KeyboardFocusListener.from(
+                name_box[i],
+                null,
+                time_begin[i],
+                up_cb,
+                down_cb,
+                null
+            ));
 
-            time_begin[i].addFocusListener( new FlexibleFocusListener( time_begin[i],
-                    FlexibleFocusListener.TEXTFIELD,
-                    name_box[i], time_end[i],
-                    up_begin_field, down_begin_field,
-                    null) );
+            time_begin[i].addFocusListener(KeyboardFocusListener.from(
+                time_begin[i],
+                name_box[i],
+                time_end[i],
+                up_begin_field,
+                down_begin_field,
+                null
+            ));
 
-            time_end[i].addFocusListener( new FlexibleFocusListener( time_end[i],
-                    FlexibleFocusListener.TEXTFIELD,
-                    time_begin[i], null,
-                    up_end_field, down_end_field,
-                    down_cb) );
+            time_end[i].addFocusListener(KeyboardFocusListener.from(
+                time_end[i],
+                time_begin[i],
+                null,
+                up_end_field,
+                down_end_field,
+                down_cb
+            ));
         }
     }
 

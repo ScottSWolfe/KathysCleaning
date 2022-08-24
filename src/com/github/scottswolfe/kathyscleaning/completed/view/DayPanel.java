@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
-import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -17,7 +17,7 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
-public class DayPanel extends JPanel{
+public class DayPanel extends JPanel {
 
 // FIELDS ------------------------------------------------------------------- */
 
@@ -123,9 +123,8 @@ public class DayPanel extends JPanel{
                 hp_down = Optional.empty();
             }
 
-            hp.house_name_txt.addFocusListener(new FlexibleFocusListener(
+            hp.house_name_txt.addFocusListener(KeyboardFocusListener.from(
                 hp.house_name_txt,
-                FlexibleFocusListener.TEXTFIELD,
                 null,
                 hp.getAmountEarnedComponent(),
                 hp_up.map(housePanelUp -> housePanelUp.house_name_txt).orElse(null),
@@ -133,9 +132,8 @@ public class DayPanel extends JPanel{
                 null
             ));
 
-            hp.getAmountEarnedComponent().addFocusListener(new FlexibleFocusListener(
+            hp.getAmountEarnedComponent().addFocusListener(KeyboardFocusListener.from(
                 hp.getAmountEarnedComponent(),
-                FlexibleFocusListener.TEXTFIELD,
                 hp.house_name_txt,
                 hp.time_begin_txt,
                 hp_up.map(HousePanel::getAmountEarnedComponent).orElse(null),
@@ -143,9 +141,8 @@ public class DayPanel extends JPanel{
                 null
             ));
 
-            hp.time_begin_txt.addFocusListener(new FlexibleFocusListener(
+            hp.time_begin_txt.addFocusListener(KeyboardFocusListener.from(
                 hp.time_begin_txt,
-                FlexibleFocusListener.TEXTFIELD,
                 hp.getAmountEarnedComponent(),
                 hp.time_end_txt,
                 hp_up.map(housePanelUp -> housePanelUp.time_begin_txt).orElse(null),
@@ -153,20 +150,24 @@ public class DayPanel extends JPanel{
                 null
             ));
 
-            hp.time_end_txt.addFocusListener(new FlexibleFocusListener(hp.time_end_txt,
-                FlexibleFocusListener.TEXTFIELD,
+            hp.time_end_txt.addFocusListener(KeyboardFocusListener.from(
+                hp.time_end_txt,
                 hp.time_begin_txt,
-                hp.worker_panel.getFirstCheckBox(),
+                hp.workerSelectPanel.getComponentToFocusFromLeft(),
                 hp_up.map(housePanelUp -> housePanelUp.time_end_txt).orElse(null),
                 hp_down.map(housePanelDown -> housePanelDown.time_end_txt).orElse(null),
                 hp_down.map(housePanelDown -> housePanelDown.time_begin_txt).orElse(null)
             ));
 
-            hp.exceptions.addFocusListener( new FlexibleFocusListener(hp.exceptions,
-                    FlexibleFocusListener.BUTTON, null, null, null, null, null));
+            hp.exceptions.addFocusListener(KeyboardFocusListener.from(
+                hp.exceptions,
+                hp.workerSelectPanel.getComponentToFocusFromRight(),
+                hp.move_up,
+                hp_up.map(housePanelUp -> housePanelUp.exceptions).orElse(null),
+                hp_down.map(housePanelDown -> housePanelDown.exceptions).orElse(null),
+                null
+            ));
         }
-
-
     }
 
 
@@ -183,7 +184,7 @@ public class DayPanel extends JPanel{
 
         header_panel.dwp.setWorkers(new_dwd);
         for (int i = 0; i < house_panel.length; i++) {
-            house_panel[i].worker_panel.setWorkers(new_dwd);
+            house_panel[i].workerSelectPanel.setWorkers(new_dwd);
         }
 
         // revalidate and repaint

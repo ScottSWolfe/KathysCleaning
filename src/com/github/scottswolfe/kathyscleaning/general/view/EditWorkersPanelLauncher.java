@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.general.view;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -176,9 +176,8 @@ public class EditWorkersPanelLauncher {
             }
 
             workerComboBoxes.get(i).getEditor().getEditorComponent().addFocusListener(
-                new FlexibleFocusListener(
+                KeyboardFocusListener.from(
                     workerComboBoxes.get(i),
-                    FlexibleFocusListener.COMBOBOX,
                     null,
                     null,
                     up_cb,
@@ -195,4 +194,4 @@ public class EditWorkersPanelLauncher {
             .map(String::valueOf)
             .collect(Collectors.toList());
     }
-}	
+}

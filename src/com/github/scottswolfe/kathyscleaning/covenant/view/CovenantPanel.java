@@ -24,7 +24,7 @@ import javax.swing.text.AbstractDocument;
 import com.github.scottswolfe.kathyscleaning.general.controller.DecimalNumberDocFilter;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantListeners;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
-import com.github.scottswolfe.kathyscleaning.general.controller.FlexibleFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -363,19 +363,23 @@ public class CovenantPanel extends JPanel {
                 }
 
 
-                beginTimeTextfield[i][j].addFocusListener( new FlexibleFocusListener(
-                        beginTimeTextfield[i][j],
-                        FlexibleFocusListener.TEXTFIELD,
-                        left_begin, right_begin,
-                        up_begin, down_begin,
-                        enter_begin ) );
+                beginTimeTextfield[i][j].addFocusListener(KeyboardFocusListener.from(
+                    beginTimeTextfield[i][j],
+                    left_begin,
+                    right_begin,
+                    up_begin,
+                    down_begin,
+                    enter_begin
+                ));
 
-                endTimeTextfield[i][j].addFocusListener( new FlexibleFocusListener(
-                        endTimeTextfield[i][j],
-                        FlexibleFocusListener.TEXTFIELD,
-                        left_end, right_end,
-                        up_end, down_end,
-                        enter_end ) );
+                endTimeTextfield[i][j].addFocusListener(KeyboardFocusListener.from(
+                    endTimeTextfield[i][j],
+                    left_end,
+                    right_end,
+                    up_end,
+                    down_end,
+                    enter_end
+                ));
 
             }
         }
@@ -409,15 +413,15 @@ public class CovenantPanel extends JPanel {
                 enter = null;
             }
 
-            earnedTextfields[i].addFocusListener( new FlexibleFocusListener(
-                    earnedTextfields[i],
-                    FlexibleFocusListener.TEXTFIELD,
-                    left, right,
-                    up, down,
-                    enter ) );
-
+            earnedTextfields[i].addFocusListener(KeyboardFocusListener.from(
+                earnedTextfields[i],
+                left,
+                right,
+                up,
+                down,
+                enter
+            ));
         }
-
     }
 
 

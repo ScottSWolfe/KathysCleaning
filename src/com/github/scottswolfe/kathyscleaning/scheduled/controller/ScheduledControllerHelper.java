@@ -32,85 +32,84 @@ import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
-public class ScheduledControllerHelper 
-                        implements ControllerHelper<TabbedPane, NW_Data> {
+public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, NW_Data> {
 
     TabbedPane tp;
-    
+
     @Override
     public NW_Data readViewIntoModel(TabbedPane view) {
-        
+
         NW_Data data = new NW_Data();
         TabbedPane tp = view;
-        
+
         NW_DayData[] dayData = new NW_DayData[5];
         DayData[] completedDayData = new DayData[5];
-        
+
         // for each day
         for (int d = 0; d < dayData.length; d++) {
             NW_DayPanel dp = tp.nw_day_panel[d];
-            
+
             dayData[d] = new NW_DayData();
             completedDayData[d] = new DayData();
 
             NW_HeaderData header = new NW_HeaderData();
             header.setDWD(dp.header_panel.getWorkerList());
             dayData[d].setHeader(header);
-            
+
             dayData[d].beginExceptionList = dp.getBeginExceptionList();
             dayData[d].cov_worker = dp.cov_panel.dwp.getWorkers();
             dayData[d].meet_location = dp.getMeetLocation();
             dayData[d].meet_time = dp.getMeetTime();
             dayData[d].covNoteData = dp.getNoteData();
-            
+
             NW_HouseData[] houseData = new NW_HouseData[tp.nw_day_panel[d].getNumHousePanels()];
             HouseData[] completedHouseData = new HouseData[tp.nw_day_panel[d].getNumHousePanels()];
-            
+
             // for each house panel in the day
             for (int h = 0; h < completedHouseData.length; h++) {
                 houseData[h] = new NW_HouseData();
                 houseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName());
                 houseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panels.get(h).getSelectedWorkers());
                 houseData[h].setWorkerList(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getWorkers());
-                
+
                 completedHouseData[h] = new HouseData();
-                completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName()); 
-                completedHouseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getSelected());
+                completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName());
+                completedHouseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getSelectedWorkerNames());
                 completedHouseData[h].setWorkerList(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getWorkers());
             }
             dayData[d].setHouseData(houseData);
             completedDayData[d].setHouseData(completedHouseData);
-            
+
             List<WorkerSchedule> ws = getWorkerSchedules(tp.nw_day_panel[d]);
             dayData[d].setWorkerSchedule(ws);
         }
-        
+
         data.setDayData(dayData);
         data.completedDayData = completedDayData;
-        
+
         return data;
     }
 
     @Override
     public void writeModelToView(NW_Data model, TabbedPane view) {
-            
+
         TabbedPane tp = view;
         NW_DayData dayData;
 
         // iterate through each day
         for (int d = 0; d < 5; d++) {
-            
+
             dayData = model.dayData[d];
             NW_DayPanel dp = tp.nw_day_panel[d];
             DayData completedDayData = model.completedDayData[d];
-            
+
             dp.header_panel.setWorkers(dayData.getHeaderData().getDWD());
             dp.meet_location_box.setSelectedItem(dayData.meet_location);
             dp.meet_time_field.setText(dayData.meet_time);
             dp.setBeginExceptionList(dayData.beginExceptionList);
-            tp.nw_day_panel[d].cov_panel.dwp.setWorkers(dayData.cov_worker);            
+            tp.nw_day_panel[d].cov_panel.dwp.setWorkers(dayData.cov_worker);
             tp.nw_day_panel[d].setNoteData(dayData.covNoteData);
-            
+
             // iterate through houses
             NW_HouseData[] houses = dayData.houseData;
             HouseData[] completedHouses = completedDayData.houseData;
@@ -118,11 +117,11 @@ public class ScheduledControllerHelper
 
                 HouseData houseData = completedHouses[h];
 
-                tp.nw_day_panel[d].house_panels.get(h).setHouseName(houseData.getHouseName());                
+                tp.nw_day_panel[d].house_panels.get(h).setHouseName(houseData.getHouseName());
                 tp.nw_day_panel[d].house_panels.get(h).worker_panel.setWorkers(houseData.getWorkerList());
-                
+
                 // 4. making sure there is a correct number of house panels available to fill
-                
+
                 // if there are more empty house panels and there are more houses to fill in
                 if (h < (houses.length - 1) && (h + 1) < dp.getNumHousePanels() ) {
                     // do nothing
@@ -145,7 +144,7 @@ public class ScheduledControllerHelper
                 // no empty house panels and there are no more houses to fill in
                 else if (h + 1 >= tp.nw_day_panel[d].getNumHousePanels() && h >= (houses.length - 1)) {
                     // do nothing
-                }    
+                }
             }
         }
     }
@@ -162,12 +161,12 @@ public class ScheduledControllerHelper
 
     @Override
     public void initializeForm(GeneralController<TabbedPane, NW_Data> controller) {
-        
+
         WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
-        
+
         TabbedPane tp = new TabbedPane();
         tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
-                    
+
         // creating array of dates
         Calendar[] day = new Calendar[5];
         Calendar date;
@@ -185,9 +184,9 @@ public class ScheduledControllerHelper
         }
 
         controller.setView(tp);
-                        
+
         MainFrame<TabbedPane, NW_Data> frame = new MainFrame<>(controller);
-        
+
         NW_DayPanel[] day_panel = new NW_DayPanel[5];
         for(int i = 0; i < 5; i++){
             day_panel[i] = new NW_DayPanel(
@@ -195,31 +194,31 @@ public class ScheduledControllerHelper
                     day[i], frame, 0, 0); // TODO remove 0, 0
         }
         tp.nw_day_panel = day_panel;
-        
+
         tp.addTab("Monday", day_panel[0]);
         tp.addTab("Tuesday", day_panel[1]);
         tp.addTab("Wednesday", day_panel[2]);
         tp.addTab("Thursday", day_panel[3]);
         tp.addTab("Friday", day_panel[4]);
-        
+
         tp.changePreviousTab(0);
         tp.addChangeListener(new NW_TabChangeListener(tp, frame));
-        
+
         controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
-        
+
         frame.setBackground(Settings.BACKGROUND_COLOR);
         frame.add(tp);
         frame.pack();
-        frame.setLocationRelativeTo(null);        
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
+
     @Override
     public void updateDate(TabbedPane tp) {
         this.tp = tp;
         ChooseWeekPanel.initializePanel(this, true);
     }
-    
+
     @Override
     public void updateDateHelper() {
         Calendar[] days = new Calendar[5];
@@ -227,7 +226,7 @@ public class ScheduledControllerHelper
         for(int i = 0; i < days.length; i++) {
             days[i] = Calendar.getInstance();
             days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
-            
+
             tp.nw_day_panel[i].header_panel.date = days[i];
             String weekDay;
             SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
@@ -238,7 +237,7 @@ public class ScheduledControllerHelper
             temp_date.add(Calendar.DATE, 1);
         }
     }
-    
+
     @Override
     public void eliminateWindow(TabbedPane view) {
         @SuppressWarnings("rawtypes")
@@ -247,42 +246,42 @@ public class ScheduledControllerHelper
     }
 
     private List<WorkerSchedule> getWorkerSchedules(NW_DayPanel dp) {
-        
+
         List<WorkerSchedule> scheduleList = new ArrayList<>();
-        
-        List<String> workers = dp.getUniqueWorkersForDay();        
+
+        List<String> workers = dp.getUniqueWorkersForDay();
 
         // for each worker for the day
         for (String worker : workers) {
             WorkerSchedule schedule = new WorkerSchedule();
             schedule.setName(worker);
-            
+
             // for each house of the day
             for (int j = 0; j < dp.getNumHousePanels(); j++) {
-                
+
                 NW_HousePanel house = dp.house_panels.get(j);
                 List<String> hworkers = house.getSelectedWorkers();
-                
+
                 if (hworkers.contains(worker)) {
                     schedule.addHouse(house.getHouseName());
                 }
             }
-                
+
             // if current worker has a note, add the note to the worker's schedule
             if (dp.getNoteData() != null &&
                 dp.getNoteData().name_box_data != null &&
                 dp.getNoteData().note_field_data != null) {
-                
+
                 // iterating through names in note data
                 for (int j = 0; j < dp.getNoteData().name_box_data.length; j++) {
-                    
+
                     if (worker.equals(dp.getNoteData().name_box_data[j])
                             && !dp.getNoteData().equals("")) {
-                        schedule.addNote(dp.getNoteData().note_field_data[j]);                        
+                        schedule.addNote(dp.getNoteData().note_field_data[j]);
                     }
                 }
             }
-            
+
             // adding Covenant
             // if current worker is selected on Covenant panel
             if (dp.cov_panel.dwp.isSelected(schedule.getName())) {
@@ -313,29 +312,29 @@ public class ScheduledControllerHelper
                     // do nothing
                 }
             }
-                
+
             String s = createScheduleString(schedule);
             schedule.setSchedule(s);
             scheduleList.add(schedule);
         }
         return scheduleList;
     }
-                        
+
     private String createScheduleString(WorkerSchedule schedule) {
         String s = new String();
-        
+
         // add the time
         if( schedule.time != null && schedule.time.length() > 2 ) {
             s += schedule.time;
         }
-        
-        // add the meeting location 
+
+        // add the meeting location
         // if has a meeting location
         if( schedule.getMeetLocation() != null &&
             schedule.getMeetLocation().length() > 0 &&
             schedule.getHouseList().size() > 0 &&
             !schedule.getMeetLocation().equals( schedule.getHouseList().get(0) )) {
-            
+
             // if has an exception note
             if (schedule.ex_note != null && schedule.ex_note.length() > 0) {
                 s += " " + schedule.getMeetLocation() + " (" + schedule.ex_note + ")...";
@@ -345,7 +344,7 @@ public class ScheduledControllerHelper
             else {
                 s += " " + schedule.getMeetLocation() + "...";
             }
-            
+
         }
         // if no meeting location
         else {
@@ -358,31 +357,31 @@ public class ScheduledControllerHelper
                 // do nothing
             }
         }
-        
+
         // add the houses
         int numHouses = schedule.houseList.size();
         for (int i = 0; i < numHouses; i++) {
-            
+
             String house = schedule.houseList.get(i);
             if (house.length() > 0) {
-                
+
                 // if last house, don't add a comma
                 if (i >= numHouses - 1) {
-                    
+
                     s += house;
-                    
+
                     // ex_note exists that has not yet been written to the string
                     if (schedule.ex_note_written == false && schedule.ex_note != null &&
                          schedule.ex_note.length() > 0) {
-                        
+
                         s += " (" + schedule.ex_note + ")";
                         schedule.ex_note_written = true;
                     }
                 }
-                // if first house and ex_note exists and it has not already been written 
+                // if first house and ex_note exists and it has not already been written
                 else if (i == 0 && schedule.ex_note_written == false &&
                         schedule.ex_note != null && schedule.ex_note.length() > 0) {
-                    
+
                     s += house + " (" + schedule.ex_note + "), ";
                     schedule.ex_note_written = true;
                 }
@@ -392,7 +391,7 @@ public class ScheduledControllerHelper
                 }
             }
         }
-        
+
         // add Covenant Info
         if (schedule.working_covenant == true) {
             // if employee worked at houses as well, add a comma
@@ -404,7 +403,7 @@ public class ScheduledControllerHelper
                 s += "Covenant";
             }
         }
-        
+
         // add any notes
         int numNotes = schedule.noteList.size();
         for (String note : schedule.noteList) {
@@ -435,12 +434,11 @@ public class ScheduledControllerHelper
                     s += note + "; ";
                 }
             }
-        }    
-        
+        }
+
         if (s.equals("...")) {
             s = "";
         }
         return s;
     }
-    
 }
