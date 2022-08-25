@@ -21,8 +21,8 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
     private static final String PAYROLL_SHEET_WEEKEND_WORK_DAY_NAME = "WEEKEND WORK";
     private static final String PAYROLL_SHEET_WORKERS_STOP_LABEL = "Kathy";
     private static final int PAYROLL_SHEET_DAY_COLUMN = 9;
-    private static final int PAYROLL_SHEET_JOB_ROW_OFFSET_FROM_DAY_LABEL = 3;
-    private static final int PAYROLL_SHEET_JOB_ROW_OFFSET_FROM_WORKER_NAMES = 2;
+    private static final int PAYROLL_SHEET_JOB_ROW_OFFSET_FROM_WORKER_NAMES = 1; // todo: set to 2 when LBC form is enabled
+    private static final int PAYROLL_SHEET_JOB_ROW_OFFSET_FROM_DAY_LABEL = PAYROLL_SHEET_JOB_ROW_OFFSET_FROM_WORKER_NAMES + 1;
     private static final int PAYROLL_SHEET_CUSTOMER_COLUMN = 3;
     private static final int PAYROLL_SHEET_JOB_PAY_COLUMN = 4;
     private static final int PAYROLL_SHEET_WORKER_NAMES_START_COLUMN = 5;

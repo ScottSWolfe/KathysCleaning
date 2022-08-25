@@ -21,7 +21,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
+import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
@@ -144,9 +144,9 @@ public class NW_DayPanel extends JPanel{
         meet_time_field = new JTextField();
         meet_time_field.setFont( meet_time_field.getFont().deriveFont(Settings.FONT_SIZE));
         meet_time_field.setColumns( 7 );
-            TimeDocFilter tdf = new TimeDocFilter( meet_time_field );
-            AbstractDocument ad = (AbstractDocument) meet_time_field.getDocument();
-            ad.setDocumentFilter( tdf );
+        TimeDocumentFilter tdf = new TimeDocumentFilter(meet_time_field);
+        AbstractDocument ad = (AbstractDocument) meet_time_field.getDocument();
+        ad.setDocumentFilter(tdf);
         meet_time_field.addKeyListener( new TimeKeyListener( tdf ) );
 
         exception_button = new JButton();

@@ -2,7 +2,9 @@ package com.github.scottswolfe.kathyscleaning.covenant.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
@@ -50,20 +52,25 @@ public class CovenantListeners {
             EditWorkersPanelLauncher.launchPanel(
                 covPanel.getWorkerNames(),
                 covPanel.getController().getCovModel().getDwd().getWorkerNames(),
-                (updateWorkerNames) -> onEditWorkersSubmit(covPanel, updateWorkerNames),
-                () -> {},
+                () -> {}, (updateWorkerNames) -> onEditWorkersSubmit(covPanel, updateWorkerNames),
                 new FrameCloseListener(covPanel.getCovFrame())
             );
         }
     }
 
-    private static void onEditWorkersSubmit(CovenantPanel covPanel, List<String> updatedWorkerNames) {
-        if (StaticMethods.isRepeatWorker(updatedWorkerNames)) {
+    private static void onEditWorkersSubmit(CovenantPanel covPanel, List<List<String>> updatedWorkerNames) {
+
+        // We know that updatedWorkerNames is a single column with many rows
+        final List<String> flatListUpdatedWorkerNames = updatedWorkerNames.stream()
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+
+        if (StaticMethods.isRepeatWorker(flatListUpdatedWorkerNames)) {
             StaticMethods.shareRepeatWorker();
-            return;
+            throw new IllegalArgumentException("Cannot submit the same worker name more than once");
         }
 
-        WorkerList workers = new WorkerList(updatedWorkerNames);
+        WorkerList workers = new WorkerList(flatListUpdatedWorkerNames);
         covPanel.getController().getCovModel().getDwd().setWorkers(workers);
         for (int i=0; i<workers.size(); i++) {
             covPanel.getNameLabels()[i].setText(workers.getName(i));
@@ -87,7 +94,8 @@ public class CovenantListeners {
             covPanel.getFrame().setVisible(false);
             covPanel.getFrame().dispose();
 
-            GeneralController<WeekendPanel, WeekendModel> weekendController = new GeneralController<>(Form.LBC);
+            // todo: revert to LBC when LBC form is ready
+            GeneralController<WeekendPanel, WeekendModel> weekendController = new GeneralController<>(Form.WEEKEND);
             weekendController.initializeForm(weekendController);
         }
     }

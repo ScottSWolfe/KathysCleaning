@@ -138,7 +138,7 @@ public class HeaderPanel extends JPanel {
         panel.setLayout( new MigLayout("insets 2") );
         panel.setBackground( Settings.HEADER_BACKGROUND );
 
-        dwp = WorkerSelectPanel.from(dwd, Settings.HEADER_BACKGROUND, null, null);
+        dwp = WorkerSelectPanel.from(dwd, Settings.HEADER_BACKGROUND);
 
         edit_default_workers = new KcButton("Edit", new EditDefaultWorkersListener(dwd, day_panel, frame));
         copy_workers = new KcButton("Copy", new CopyWorkersListener(tp, day_data, day_panel));

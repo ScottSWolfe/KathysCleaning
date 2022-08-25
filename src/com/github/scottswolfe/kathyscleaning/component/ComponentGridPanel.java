@@ -1,69 +1,44 @@
 package com.github.scottswolfe.kathyscleaning.component;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
+import com.github.scottswolfe.kathyscleaning.interfaces.FocusableComponentCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.utility.FocusableComponentConnector;
+import com.github.scottswolfe.kathyscleaning.utility.GridValidator;
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.Color;
-import java.awt.Component;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * An abstract class with a grid of components.
  */
-public abstract class ComponentGridPanel<T extends JComponent> extends JPanel {
+public abstract class ComponentGridPanel<T extends JComponent> extends JPanel implements FocusableComponentCollection {
 
     private final List<List<T>> components;
 
     protected ComponentGridPanel(
         final List<List<T>> components,
         final Color backgroundColor,
-        final String constraints,
-        final List<Component> componentsOnLeft,
-        final List<Component> componentsOnRight,
-        final List<Component> componentsAbove,
-        final List<Component> componentsBelow
+        final MigLayout migLayout,
+        final ConstraintsBuilder constraintsBuilder
     ) {
-        final int rowCount = components.size();
-        if (rowCount == 0) {
-            throw new IllegalArgumentException("Number of rows must be greater than 0.");
-        }
-
-        final int columnCount = components.get(0).size();
-        if (columnCount == 0) {
-            throw new IllegalArgumentException("Number of columns must be greater than 0.");
-        }
-        for (List<T> column : components) {
-            if (column.size() != columnCount) {
-                throw new IllegalArgumentException("All rows must have the same number of columns.");
-            }
-        }
-
-        validateAdjacentComponents(componentsOnLeft, rowCount);
-        validateAdjacentComponents(componentsOnRight, rowCount);
-        validateAdjacentComponents(componentsAbove, columnCount);
-        validateAdjacentComponents(componentsBelow, columnCount);
-
+        GridValidator.from().validateGrid(components);
         this.components = components;
 
-        setLayout(new MigLayout("insets 0"));
+        setLayout(migLayout);
         setBackground(backgroundColor);
-        addComponents(backgroundColor, constraints);
-        addKeyboardFocusListeners(componentsOnLeft, componentsOnRight, componentsAbove, componentsBelow);
+        addComponents(backgroundColor, constraintsBuilder);
+
+        FocusableComponentConnector.from().connect(components);
     }
 
-    private void validateAdjacentComponents(final List<Component> components, int expectedSize) {
-        if (components.size() != expectedSize) {
-            throw new IllegalArgumentException(
-                "Adjacent components must be the same size as the number of rows or columns."
-            );
-        }
-    }
-
-    private void addComponents(final Color backgroundColor, final String constraints) {
+    private void addComponents(final Color backgroundColor, final ConstraintsBuilder constraintsBuilder) {
         for (int row = 0; row < rowCount(); row++) {
             for (int column = 0; column < columnCount(); column++) {
 
@@ -71,6 +46,7 @@ public abstract class ComponentGridPanel<T extends JComponent> extends JPanel {
                 component.setFont(component.getFont().deriveFont(Settings.FONT_SIZE));
                 component.setBackground(backgroundColor);
 
+                final String constraints = constraintsBuilder.buildConstraints(row, column, rowCount(), columnCount());
                 if (row < rowCount() - 1 && column == columnCount() - 1) {
                     add(component, constraints + ", wrap");
                 } else {
@@ -78,74 +54,6 @@ public abstract class ComponentGridPanel<T extends JComponent> extends JPanel {
                 }
             }
         }
-    }
-
-    private void addKeyboardFocusListeners(
-        final List<Component> componentsOnLeft,
-        final List<Component> componentsOnRight,
-        final List<Component> componentsAbove,
-        final List<Component> componentsBelow
-    ) {
-        for (int row = 0; row < rowCount(); row++) {
-            for (int column = 0; column < columnCount(); column++) {
-
-                final Component componentOnLeft;
-                if (column > 0) {
-                    componentOnLeft = getComponent(row, column - 1);
-                } else {
-                    componentOnLeft = componentsOnLeft.get(row);
-                }
-
-                final Component componentOnRight;
-                if (column < columnCount() - 1) {
-                    componentOnRight = getComponent(row, column + 1);
-                } else {
-                    componentOnRight = componentsOnRight.get(row);
-                }
-
-                final Component componentAbove;
-                if (row > 0) {
-                    componentAbove = getComponent(row - 1, column);
-                } else {
-                    componentAbove = componentsAbove.get(column);
-                }
-
-                final Component componentBelow;
-                if (row < rowCount() - 1) {
-                    componentBelow = getComponent(row + 1, column);
-                } else {
-                    componentBelow = componentsBelow.get(column);
-                }
-
-                final Component componentOnEnter;
-                if (column < columnCount() - 1) {
-                    componentOnEnter = getComponent(row, column + 1);
-                } else if (row < rowCount() - 1) {
-                    componentOnEnter = getComponent(row + 1, 0);
-                } else  {
-                    componentOnEnter = componentsOnRight.get(row);
-                }
-
-                final KeyboardFocusListener keyboardFocusListener = KeyboardFocusListener.from(
-                    getComponent(row, column),
-                    componentOnLeft,
-                    componentOnRight,
-                    componentAbove,
-                    componentBelow,
-                    componentOnEnter
-                );
-
-                getComponent(row, column).addFocusListener(keyboardFocusListener);
-            }
-        }
-    }
-
-    public JComponent getComponentToFocusFromLeft() {
-        return getComponent(0, 0);
-    }
-
-    public JComponent getComponentToFocusFromRight() {
-        return getComponent(rowCount() - 1, columnCount() - 1);
     }
 
     protected T getComponent(int row, int column) {
@@ -168,37 +76,108 @@ public abstract class ComponentGridPanel<T extends JComponent> extends JPanel {
     protected Iterator<T> iterator() {
         return new Iterator<T>() {
 
-            int row = 0;
-            int column = 0;
+            final GridIterator gridIterator = new GridIterator();
 
             @Override
             public boolean hasNext() {
-                if (row < rowCount() - 1) {
-                    return true;
-                } else if (row == rowCount() - 1 && column < columnCount()) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return gridIterator.hasNext();
             }
 
             @Override
             public T next() {
-                if (!hasNext()) {
-                    throw new IllegalArgumentException("Iterator does not have any elements left");
-                }
-
-                final T next = getComponent(row, column);
-
-                if (column < columnCount() - 1) {
-                    column++;
-                } else {
-                    row++;
-                    column = 0;
-                }
-
-                return next;
+                return gridIterator.next().getLeft();
             }
         };
+    }
+
+    protected GridIterator gridIterator() {
+        return new GridIterator();
+    }
+
+    protected class GridIterator implements Iterator<Triple<T, Integer, Integer>> {
+
+        int row = 0;
+        int column = 0;
+
+        @Override
+        public boolean hasNext() {
+            if (row < rowCount() - 1) {
+                return true;
+            } else if (row == rowCount() - 1 && column < columnCount()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public Triple<T, Integer, Integer> next() {
+            if (!hasNext()) {
+                throw new IllegalArgumentException("Iterator does not have any elements left");
+            }
+
+            final Triple<T, Integer, Integer> next = new ImmutableTriple<>(getComponent(row, column), row, column);
+
+            if (column < columnCount() - 1) {
+                column++;
+            } else {
+                row++;
+                column = 0;
+            }
+
+            return next;
+        }
+    }
+
+    @Override
+    public List<T> getComponentsThatTransferFocusLeft() {
+        return components.stream()
+            .map(row -> row.get(0))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<T> getComponentsThatTransferFocusRight() {
+        return components.stream()
+            .map(row -> row.get(columnCount() - 1))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<T> getComponentsThatTransferFocusAbove() {
+        return components.get(0);
+    }
+
+    @Override
+    public List<T> getComponentsThatTransferFocusBelow() {
+        return components.get(rowCount() - 1);
+    }
+
+    @Override
+    public T getComponentToFocusFromLeft(int row) {
+        final int safeRow = Math.min(Math.max(row, 0), rowCount() - 1);
+        return getComponent(safeRow, 0);
+    }
+
+    @Override
+    public T getComponentToFocusFromRight(int row) {
+        final int safeRow = Math.min(Math.max(row, 0), rowCount() - 1);
+        return getComponent(safeRow, columnCount() - 1);
+    }
+
+    @Override
+    public T getComponentToFocusFromAbove(int column) {
+        final int safeColumn = Math.min(Math.max(column, 0), columnCount() - 1);
+        return getComponent(0, safeColumn);
+    }
+
+    @Override
+    public T getComponentToFocusFromBelow(int column) {
+        final int safeColumn = Math.min(Math.max(column, 0), columnCount() - 1);
+        return getComponent(rowCount() - 1, safeColumn);
+    }
+
+    protected interface ConstraintsBuilder {
+        String buildConstraints(int row, int column, int rowCount, int columnCount);
     }
 }

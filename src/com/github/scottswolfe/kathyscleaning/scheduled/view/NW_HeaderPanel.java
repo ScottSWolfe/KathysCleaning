@@ -153,7 +153,7 @@ public class NW_HeaderPanel extends JPanel {
         panel.setBackground(Settings.BACKGROUND_COLOR);
         panel.setBackground(Settings.HEADER_BACKGROUND);
 
-        worker_panel = WorkerSelectPanel.from(dwd, Settings.HEADER_BACKGROUND, null, null );
+        worker_panel = WorkerSelectPanel.from(dwd, Settings.HEADER_BACKGROUND);
 
         edit_default_workers = new JButton("Edit");
         edit_default_workers.addActionListener( new NW_EditDefaultWorkersListener(dwd, day_panel, frame) );

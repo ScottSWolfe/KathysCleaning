@@ -25,7 +25,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.DecimalNumberDoc
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantListeners;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
+import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -77,14 +77,14 @@ public class CovenantPanel extends JPanel {
      */
     JTextField[][] beginTimeTextfield;
     AbstractDocument[][] beginDocs;
-    TimeDocFilter[][] beginTDFs;
+    TimeDocumentFilter[][] beginTDFs;
 
     /**
      * Two-dimensional array of text fields for ending times.
      */
     JTextField[][] endTimeTextfield;
     AbstractDocument[][] endDocs;
-    TimeDocFilter[][] endTDFs;
+    TimeDocumentFilter[][] endTDFs;
 
     /**
      * Label for final column.
@@ -133,10 +133,10 @@ public class CovenantPanel extends JPanel {
         dayLabels = new JLabel[day.length];
         nameLabels = new JLabel[rows];
         beginTimeTextfield = new JTextField[rows][day.length];
-        beginTDFs = new TimeDocFilter[rows][day.length];
+        beginTDFs = new TimeDocumentFilter[rows][day.length];
         beginDocs = new AbstractDocument[rows][day.length];
         endTimeTextfield = new JTextField[rows][day.length];
-        endTDFs = new TimeDocFilter[rows][day.length];
+        endTDFs = new TimeDocumentFilter[rows][day.length];
         endDocs = new AbstractDocument[rows][day.length];
         earnedTextfields = new JTextField[day.length];
 
@@ -200,7 +200,7 @@ public class CovenantPanel extends JPanel {
                 beginTimeTextfield[j][i].setFont( beginTimeTextfield[j][i].getFont().deriveFont(Settings.FONT_SIZE) );
                 beginTimeTextfield[j][i].setBackground( Settings.BACKGROUND_COLOR );
                 beginDocs[j][i] = (AbstractDocument) beginTimeTextfield[j][i].getDocument();
-                beginTDFs[j][i] = new TimeDocFilter( beginTimeTextfield[j][i] );
+                beginTDFs[j][i] = new TimeDocumentFilter( beginTimeTextfield[j][i] );
                 beginDocs[j][i].setDocumentFilter( beginTDFs[j][i] );
                 beginTimeTextfield[j][i].addKeyListener( new TimeKeyListener( beginTDFs[j][i] ) );
 
@@ -210,7 +210,7 @@ public class CovenantPanel extends JPanel {
                 endTimeTextfield[j][i].setFont( endTimeTextfield[j][i].getFont().deriveFont(Settings.FONT_SIZE) );
                 endTimeTextfield[j][i].setBackground( Settings.BACKGROUND_COLOR );
                 endDocs[j][i] = (AbstractDocument) endTimeTextfield[j][i].getDocument();
-                endTDFs[j][i] = new TimeDocFilter( endTimeTextfield[j][i] );
+                endTDFs[j][i] = new TimeDocumentFilter( endTimeTextfield[j][i] );
                 endDocs[j][i].setDocumentFilter( endTDFs[j][i] );
                 endTimeTextfield[j][i].addKeyListener( new TimeKeyListener( endTDFs[j][i] ) );
 

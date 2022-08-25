@@ -56,7 +56,7 @@ public class NW_HousePanel extends JPanel {
         setLayout(new MigLayout("insets 0","[grow][grow][grow]","[]"));
 
         JPanel house_name_panel = houseNamePanel(house_name);
-        worker_panel = WorkerSelectPanel.from(workers, Settings.BACKGROUND_COLOR, house_name_text_field, null);
+        worker_panel = WorkerSelectPanel.from(workers, Settings.BACKGROUND_COLOR);
         JPanel button_panel = buttonPanel(workers);
 
         add(house_name_panel, "growy");

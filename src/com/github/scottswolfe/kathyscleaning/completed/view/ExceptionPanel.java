@@ -19,7 +19,7 @@ import javax.swing.text.AbstractDocument;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
+import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -106,14 +106,14 @@ public class ExceptionPanel extends JPanel {
             time_begin[i] = new JTextField(5);
             time_begin[i].setFont( time_begin[i].getFont().deriveFont( Settings.FONT_SIZE ) );
             time_begin_doc[i] = (AbstractDocument)time_begin[i].getDocument();
-                TimeDocFilter tdf_begin = new TimeDocFilter(time_begin[i] );
+            TimeDocumentFilter tdf_begin = new TimeDocumentFilter(time_begin[i]);
             time_begin_doc[i].setDocumentFilter( tdf_begin );
             time_begin[i].addKeyListener( new TimeKeyListener( tdf_begin ) );
 
             time_end[i] = new JTextField(5);
             time_end[i].setFont( time_end[i].getFont().deriveFont( Settings.FONT_SIZE ) );
             time_end_doc[i] = (AbstractDocument)time_end[i].getDocument();
-                TimeDocFilter tdf_end = new TimeDocFilter(time_end[i] );
+            TimeDocumentFilter tdf_end = new TimeDocumentFilter(time_end[i]);
             time_end_doc[i].setDocumentFilter( tdf_end );
             time_end[i].addKeyListener( new TimeKeyListener( tdf_end) );
 

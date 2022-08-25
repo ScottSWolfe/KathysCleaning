@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
+import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -123,9 +123,9 @@ public class NW_ExceptionPanel extends JPanel {
             time_textfield[i].setBackground( Settings.BACKGROUND_COLOR );
             time_textfield[i].setColumns(6);
             time_textfield[i].setFont( time_textfield[i].getFont().deriveFont( Settings.FONT_SIZE ) );
-                time_textfield_doc[i] = (AbstractDocument) time_textfield[i].getDocument();
-                TimeDocFilter tdf = new TimeDocFilter( time_textfield[i] );
-                time_textfield_doc[i].setDocumentFilter(tdf);
+            time_textfield_doc[i] = (AbstractDocument) time_textfield[i].getDocument();
+            TimeDocumentFilter tdf = new TimeDocumentFilter(time_textfield[i]);
+            time_textfield_doc[i].setDocumentFilter(tdf);
             time_textfield[i].addKeyListener( new TimeKeyListener(tdf) );
 
         }

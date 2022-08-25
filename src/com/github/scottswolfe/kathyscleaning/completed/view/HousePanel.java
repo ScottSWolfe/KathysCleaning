@@ -23,7 +23,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.component.AmountEarnedPanel;
 import com.github.scottswolfe.kathyscleaning.component.KcButton;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocFilter;
+import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
@@ -89,7 +89,7 @@ public class HousePanel extends JPanel {
         JPanel house_name_panel = houseNamePanel();
         amountEarnedPanel = AmountEarnedPanel.from();
         JPanel time_panel = timePanel();
-        workerSelectPanel = WorkerSelectPanel.from(dwd, Settings.BACKGROUND_COLOR, time_end_txt, exceptions);
+        workerSelectPanel = WorkerSelectPanel.from(dwd, Settings.BACKGROUND_COLOR);
         JPanel button_panel = buttonPanel();
 
         exceptions = new KcButton(
@@ -146,14 +146,14 @@ public class HousePanel extends JPanel {
         time_begin_txt = new JTextField( 5 );
         time_begin_txt.setFont( time_begin_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
         AbstractDocument time_begin_doc = (AbstractDocument)time_begin_txt.getDocument();
-        TimeDocFilter tdf_begin = new TimeDocFilter(time_begin_txt );
+        TimeDocumentFilter tdf_begin = new TimeDocumentFilter(time_begin_txt);
         time_begin_doc.setDocumentFilter( tdf_begin );
         time_begin_txt.addKeyListener( new TimeKeyListener( tdf_begin ) );
 
         time_end_txt = new JTextField(5);
         time_end_txt.setFont( time_end_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
         AbstractDocument time_end_doc = (AbstractDocument)time_end_txt.getDocument();
-        TimeDocFilter tdf_end = new TimeDocFilter(time_end_txt );
+        TimeDocumentFilter tdf_end = new TimeDocumentFilter(time_end_txt);
         time_end_doc.setDocumentFilter( tdf_end );
         time_end_txt.addKeyListener( new TimeKeyListener( tdf_end ) );
 

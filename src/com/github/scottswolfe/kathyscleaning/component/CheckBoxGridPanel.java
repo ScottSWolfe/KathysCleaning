@@ -1,31 +1,24 @@
 package com.github.scottswolfe.kathyscleaning.component;
 
+import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.JCheckBox;
 import java.awt.Color;
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CheckboxGridPanel extends ComponentGridPanel<JCheckBox> {
+public abstract class CheckBoxGridPanel extends ComponentGridPanel<JCheckBox> {
 
-    protected CheckboxGridPanel(
-        List<List<Pair<String, Boolean>>> checkBoxLabelsAndStatus,
-        final Color backgroundColor,
-        final List<Component> componentsOnLeft,
-        final List<Component> componentsOnRight,
-        final List<Component> componentsAbove,
-        final List<Component> componentsBelow
+    protected CheckBoxGridPanel(
+        final List<List<Pair<String, Boolean>>> checkBoxLabelsAndStatus,
+        final Color backgroundColor
     ) {
         super(
             createCheckBoxes(checkBoxLabelsAndStatus),
             backgroundColor,
-            createConstraints(),
-            componentsOnLeft,
-            componentsOnRight,
-            componentsAbove,
-            componentsBelow
+            createMigLayout(),
+            CheckBoxGridPanel::createConstraints
         );
     }
 
@@ -44,7 +37,11 @@ public abstract class CheckboxGridPanel extends ComponentGridPanel<JCheckBox> {
         return checkBoxes;
     }
 
-    private static String createConstraints() {
+    private static MigLayout createMigLayout() {
+        return new MigLayout();
+    }
+
+    private static String createConstraints(int row, int column, int rowCount, int columnCount) {
         return "grow";
     }
 

@@ -6,34 +6,34 @@ import java.awt.event.KeyListener;
 
 public class TimeKeyListener implements KeyListener {
 
-	
+
 //  FIELDS
-	
-	TimeDocFilter tdf;
-	
-	
-	
+
+    TimeDocumentFilter tdf;
+
+
+
 //  CONSTRUCTOR
-	
-	public TimeKeyListener( TimeDocFilter tdf ){
-		this.tdf = tdf;
-	}
-	
-	
+
+    public TimeKeyListener( TimeDocumentFilter tdf ){
+        this.tdf = tdf;
+    }
+
+
 //  LISTENER
 
-	public void keyPressed(KeyEvent pressed){
-		tdf.lastkey = pressed.getKeyCode();
-	}
-		
-		
-	public void keyReleased(KeyEvent released){
-			
-	}
-	
-	
-	public void keyTyped(KeyEvent typed){
-		
-	}
-	
+    public void keyPressed(KeyEvent pressed){
+        tdf.lastkey = pressed.getKeyCode();
+    }
+
+
+    public void keyReleased(KeyEvent released){
+
+    }
+
+
+    public void keyTyped(KeyEvent typed){
+
+    }
+
 }

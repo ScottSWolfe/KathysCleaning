@@ -10,6 +10,8 @@ import java.io.InputStream;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCExcelHelper;
+import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
@@ -41,7 +43,7 @@ public class GeneralExcelHelper {
             CovenantExcelHelper covHelper = new CovenantExcelHelper();
             covHelper.writeModelToExcel(covModel, wb);
 
-            // todo: reenable lbc
+            // todo: enable when LBC form is ready
             /*
             // LBC Form
             LBCModel lbcModel = (LBCModel) JsonMethods.loadFromFileJSON(LBCModel.class, GeneralController.TEMP_SAVE_FILE, Form.LBC.getNum());

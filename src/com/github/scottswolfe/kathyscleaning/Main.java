@@ -44,17 +44,19 @@ public class Main {
             SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
         }
 
+        // todo: enable LBC form
+
         SessionModel.initialize();
         CompletedModel completed = new CompletedModel();
         CovenantModel covenant = new CovenantModel();
-        LBCModel lbc = new LBCModel();
+        // LBCModel lbc = new LBCModel();
         WeekendModel weekend = new WeekendModel();
         NW_Data nw_data = new NW_Data();
 
         SessionModel.save(GeneralController.TEMP_SAVE_FILE);
         JsonMethods.saveToFileJSON(completed, CompletedModel.class, GeneralController.TEMP_SAVE_FILE, Form.COMPLETED.getNum());
         JsonMethods.saveToFileJSON(covenant, CovenantModel.class, GeneralController.TEMP_SAVE_FILE, Form.COVENANT.getNum());
-        JsonMethods.saveToFileJSON(lbc, LBCModel.class, GeneralController.TEMP_SAVE_FILE, Form.LBC.getNum());
+        // JsonMethods.saveToFileJSON(lbc, LBCModel.class, GeneralController.TEMP_SAVE_FILE, Form.LBC.getNum());
         JsonMethods.saveToFileJSON(weekend, WeekendModel.class, GeneralController.TEMP_SAVE_FILE, Form.WEEKEND.getNum());
         JsonMethods.saveToFileJSON(nw_data, NW_Data.class, GeneralController.TEMP_SAVE_FILE, Form.SCHEDULED.getNum());
     }

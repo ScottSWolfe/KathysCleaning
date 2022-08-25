@@ -13,7 +13,9 @@ import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Listeners of LBCPanel
@@ -47,20 +49,25 @@ public class LBCListeners {
             EditWorkersPanelLauncher.launchPanel(
                 lbcPanel.getWorkerNames(),
                 lbcPanel.getController().getLbcModel().getDwd().getWorkerNames(),
-                (updateWorkerNames) -> onEditWorkersSubmit(lbcPanel, updateWorkerNames),
-                () -> {},
+                () -> {}, (updateWorkerNames) -> onEditWorkersSubmit(lbcPanel, updateWorkerNames),
                 new FrameCloseListener(lbcPanel.getFrame())
             );
         }
     }
 
-    private static void onEditWorkersSubmit(LBCPanel lbcPanel, List<String> updatedWorkerNames) {
-        if (StaticMethods.isRepeatWorker(updatedWorkerNames)) {
+    private static void onEditWorkersSubmit(LBCPanel lbcPanel, List<List<String>> updatedWorkerNames) {
+
+        // We know that updatedWorkerNames is a single column with many rows
+        final List<String> flatListUpdatedWorkerNames = updatedWorkerNames.stream()
+            .flatMap(Collection::stream)
+            .collect(Collectors.toList());
+
+        if (StaticMethods.isRepeatWorker(flatListUpdatedWorkerNames)) {
             StaticMethods.shareRepeatWorker();
-            return;
+            throw new IllegalArgumentException("Cannot submit the same worker name more than once");
         }
 
-        WorkerList workers = new WorkerList(updatedWorkerNames);
+        WorkerList workers = new WorkerList(flatListUpdatedWorkerNames);
         lbcPanel.getController().getLbcModel().getDwd().setWorkers(workers);
         for (int i=0; i<workers.size(); i++) {
             lbcPanel.getNameLabels()[i].setText(workers.getName(i));

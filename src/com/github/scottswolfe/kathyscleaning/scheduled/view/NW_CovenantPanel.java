@@ -76,9 +76,7 @@ public class NW_CovenantPanel extends JPanel {
             covWorkers,
             WORKER_SELECT_ROW_COUNT,
             WORKER_SELECT_COLUMN_COUNT,
-            Settings.BACKGROUND_COLOR,
-            null,
-            null
+            Settings.BACKGROUND_COLOR
         );
 
         edit_button = new JButton();
