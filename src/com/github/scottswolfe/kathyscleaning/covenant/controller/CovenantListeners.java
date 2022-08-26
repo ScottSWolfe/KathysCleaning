@@ -52,6 +52,7 @@ public class CovenantListeners {
             EditWorkersPanelLauncher.launchPanel(
                 covPanel.getWorkerNames(),
                 covPanel.getController().getCovModel().getDwd().getWorkerNames(),
+                false,
                 () -> {}, (updateWorkerNames) -> onEditWorkersSubmit(covPanel, updateWorkerNames),
                 new FrameCloseListener(covPanel.getCovFrame())
             );

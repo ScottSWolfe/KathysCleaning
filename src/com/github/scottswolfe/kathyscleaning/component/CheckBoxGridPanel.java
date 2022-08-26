@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.component;
 
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.JCheckBox;
@@ -67,5 +68,20 @@ public abstract class CheckBoxGridPanel extends ComponentGridPanel<JCheckBox> {
                 getComponent(row, column).setSelected(false);
             }
         }
+    }
+
+    protected List<List<Pair<String, Boolean>>> getSelectionGrid() {
+        final List<List<Pair<String, Boolean>>> listOfRows = new ArrayList<>(rowCount());
+        for (int row = 0; row < rowCount(); row++) {
+            final List<Pair<String, Boolean>> listOfColumns = new ArrayList<>(columnCount());
+            for (int column = 0; column < columnCount(); column++) {
+                listOfColumns.add(new ImmutablePair<>(
+                    getCheckBoxLabel(row, column),
+                    getCheckBoxStatus(row, column)
+                ));
+            }
+            listOfRows.add(listOfColumns);
+        }
+        return listOfRows;
     }
 }

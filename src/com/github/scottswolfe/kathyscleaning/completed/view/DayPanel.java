@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,6 +15,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class DayPanel extends JPanel {
 
@@ -134,6 +136,10 @@ public class DayPanel extends JPanel {
 
     }
 
-
-
+    // todo: set to private when possible
+    public void setWorkerSelectionsForAllHouses(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
+        for (int index = 0; index < house_panel.length; index++) {
+            house_panel[index].setWorkers(workerSelectionGrid);
+        }
+    }
 }

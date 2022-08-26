@@ -84,13 +84,7 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
     }
 
     public void setWorkers(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
-        if (workerSelectionGrid.size() != rowCount()) {
-            throw new IllegalArgumentException("Given worker selection grid has the wrong number of rows");
-        }
-        if (workerSelectionGrid.get(0).size() != columnCount()) {
-            throw new IllegalArgumentException("Given worker selection grid has the wrong number of columns");
-        }
-
+        validateGrid(workerSelectionGrid);
         for (int row = 0; row < rowCount(); row++) {
             for (int column = 0; column < columnCount(); column++) {
                 setCheckBoxLabel(row, column, workerSelectionGrid.get(row).get(column).getLeft());
@@ -129,6 +123,10 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
         return workers;
     }
 
+    public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
+        return getSelectionGrid();
+    }
+
     public void setSelected(List<String> workers) {
         uncheckAllBoxes();
 
@@ -158,6 +156,18 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
         return selectedWorkers;
     }
 
+    public void updateWorkerNames(final List<List<String>> workerNamesGrid) {
+        validateGrid(workerNamesGrid);
+
+        uncheckAllBoxes();
+
+        for (int row = 0; row < rowCount(); row++) {
+            for (int column = 0; column < columnCount(); column++) {
+                setCheckBoxLabel(row, column, workerNamesGrid.get(row).get(column));
+            }
+        }
+    }
+
     public boolean isSelected(final String name) {
         if (name == null || name.isEmpty()) {
             return false;
@@ -175,5 +185,22 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
 
     public String getNameAt(int row, int column) {
         return getCheckBoxLabel(row, column);
+    }
+
+    private <T> void validateGrid(final List<List<T>> grid) {
+        if (grid.size() != rowCount()) {
+            throw new IllegalArgumentException(String.format(
+                "Given worker selection grid has the wrong number of rows. Expected: %s; Given: %s.",
+                rowCount(),
+                grid.size()
+            ));
+        }
+        if (grid.get(0).size() != columnCount()) {
+            throw new IllegalArgumentException(String.format(
+                "Given worker selection grid has the wrong number of columns. Expected: %s; Given: %s.",
+                columnCount(),
+                grid.get(0).size()
+            ));
+        }
     }
 }

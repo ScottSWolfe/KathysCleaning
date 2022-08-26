@@ -49,6 +49,7 @@ public class LBCListeners {
             EditWorkersPanelLauncher.launchPanel(
                 lbcPanel.getWorkerNames(),
                 lbcPanel.getController().getLbcModel().getDwd().getWorkerNames(),
+                false,
                 () -> {}, (updateWorkerNames) -> onEditWorkersSubmit(lbcPanel, updateWorkerNames),
                 new FrameCloseListener(lbcPanel.getFrame())
             );

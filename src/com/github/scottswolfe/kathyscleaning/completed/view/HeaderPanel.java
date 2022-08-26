@@ -140,8 +140,8 @@ public class HeaderPanel extends JPanel {
 
         dwp = WorkerSelectPanel.from(dwd, Settings.HEADER_BACKGROUND);
 
-        edit_default_workers = new KcButton("Edit", new EditDefaultWorkersListener(dwd, day_panel, frame));
-        copy_workers = new KcButton("Copy", new CopyWorkersListener(tp, day_data, day_panel));
+        edit_default_workers = new KcButton("Edit", new EditDefaultWorkersListener(frame, day_panel));
+        copy_workers = new KcButton("Copy", new CopyWorkersListener(day_panel));
 
         panel.add(dwp, "span 1 2, pushy");
         panel.add(copy_workers, "growx, pushy");
