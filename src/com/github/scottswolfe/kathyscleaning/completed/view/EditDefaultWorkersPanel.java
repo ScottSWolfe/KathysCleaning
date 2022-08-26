@@ -233,9 +233,6 @@ public class EditDefaultWorkersPanel extends JPanel {
             // paste workers selected on header dwp and house panel dwps
             day_panel.changeWorkerPanels(workers);
 
-            // add traversable-enabling focus listeners
-            day_panel.addFlexibleFocusListeners();
-
             // close EditDefaultWorkersPanel
             frame.setVisible(false);
             frame.dispose();

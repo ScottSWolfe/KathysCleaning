@@ -1,14 +1,12 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
 import java.util.Calendar;
-import java.util.Optional;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
-import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -70,10 +68,8 @@ public class DayPanel extends JPanel {
         house_panel = new HousePanel[DayPanel.NUM_HOUSE_PANELS];
         for(int i=0; i<DayPanel.NUM_HOUSE_PANELS; i++) {
             String temp = new String("House " + (i+1) );
-            house_panel[i] = new HousePanel(temp,dwd,this,frame,tp);
+            house_panel[i] = HousePanel.from(frame, tp, this);
         }
-
-        addFlexibleFocusListeners();
 
         setLayout( new MigLayout( /*new String("insets " + TOP_INSET + " 5 0 5"),"",""*/) );
         setBackground(Settings.BACKGROUND_COLOR);
@@ -97,83 +93,6 @@ public class DayPanel extends JPanel {
 
     }
 
-
-
-    // PRIVATE METHODS
-
-    public void addFlexibleFocusListeners(){
-
-
-        // adding focus listeners for textfields and buttons
-        for (int i = 0; i < house_panel.length; i++) {
-
-            HousePanel hp = house_panel[i];
-
-            Optional<HousePanel> hp_up;
-            if (i > 0) {
-                hp_up = Optional.of(house_panel[i - 1]);
-            } else {
-                hp_up = Optional.empty();
-            }
-
-            Optional<HousePanel> hp_down;
-            if (i < house_panel.length - 1) {
-                hp_down = Optional.of(house_panel[i+1]);
-            } else {
-                hp_down = Optional.empty();
-            }
-
-            hp.house_name_txt.addFocusListener(KeyboardFocusListener.from(
-                hp.house_name_txt,
-                null,
-                hp.getAmountEarnedComponent(),
-                hp_up.map(housePanelUp -> housePanelUp.house_name_txt).orElse(null),
-                hp_down.map(housePanelDown -> housePanelDown.house_name_txt).orElse(null),
-                null
-            ));
-
-            hp.getAmountEarnedComponent().addFocusListener(KeyboardFocusListener.from(
-                hp.getAmountEarnedComponent(),
-                hp.house_name_txt,
-                hp.time_begin_txt,
-                hp_up.map(HousePanel::getAmountEarnedComponent).orElse(null),
-                hp_down.map(HousePanel::getAmountEarnedComponent).orElse(null),
-                null
-            ));
-
-            hp.time_begin_txt.addFocusListener(KeyboardFocusListener.from(
-                hp.time_begin_txt,
-                hp.getAmountEarnedComponent(),
-                hp.time_end_txt,
-                hp_up.map(housePanelUp -> housePanelUp.time_begin_txt).orElse(null),
-                hp_down.map(housePanelDown -> housePanelDown.time_begin_txt).orElse(null),
-                null
-            ));
-
-            hp.time_end_txt.addFocusListener(KeyboardFocusListener.from(
-                hp.time_end_txt,
-                hp.time_begin_txt,
-                hp.workerSelectPanel.getComponentToFocusFromLeft(),
-                hp_up.map(housePanelUp -> housePanelUp.time_end_txt).orElse(null),
-                hp_down.map(housePanelDown -> housePanelDown.time_end_txt).orElse(null),
-                hp_down.map(housePanelDown -> housePanelDown.time_begin_txt).orElse(null)
-            ));
-
-            hp.exceptions.addFocusListener(KeyboardFocusListener.from(
-                hp.exceptions,
-                hp.workerSelectPanel.getComponentToFocusFromRight(),
-                hp.move_up,
-                hp_up.map(housePanelUp -> housePanelUp.exceptions).orElse(null),
-                hp_down.map(housePanelDown -> housePanelDown.exceptions).orElse(null),
-                null
-            ));
-        }
-    }
-
-
-
-
-
 //  PUBLIC METHODS
 
     public void changeWorkerPanels(WorkerList new_dwd){
@@ -183,8 +102,10 @@ public class DayPanel extends JPanel {
         int house_panel_width = house_panel[0].getWidth();
 
         header_panel.dwp.setWorkers(new_dwd);
+
+        // todo: don't update house's worker select panels when editing header's workers
         for (int i = 0; i < house_panel.length; i++) {
-            house_panel[i].workerSelectPanel.setWorkers(new_dwd);
+            house_panel[i].setWorkerList(new_dwd);
         }
 
         // revalidate and repaint

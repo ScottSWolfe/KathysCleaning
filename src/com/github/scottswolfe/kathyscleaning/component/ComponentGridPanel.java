@@ -1,8 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.component;
 
-import com.github.scottswolfe.kathyscleaning.interfaces.FocusableComponentCollection;
+import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.utility.FocusableComponentConnector;
 import com.github.scottswolfe.kathyscleaning.utility.GridValidator;
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
@@ -11,6 +10,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * An abstract class with a grid of components.
  */
-public abstract class ComponentGridPanel<T extends JComponent> extends JPanel implements FocusableComponentCollection {
+public abstract class ComponentGridPanel<T extends JComponent> extends JPanel implements FocusableCollection {
 
     private final List<List<T>> components;
 
@@ -35,7 +35,7 @@ public abstract class ComponentGridPanel<T extends JComponent> extends JPanel im
         setBackground(backgroundColor);
         addComponents(backgroundColor, constraintsBuilder);
 
-        FocusableComponentConnector.from().connect(components);
+        connectFocusableComponents();
     }
 
     private void addComponents(final Color backgroundColor, final ConstraintsBuilder constraintsBuilder) {
@@ -130,51 +130,8 @@ public abstract class ComponentGridPanel<T extends JComponent> extends JPanel im
     }
 
     @Override
-    public List<T> getComponentsThatTransferFocusLeft() {
-        return components.stream()
-            .map(row -> row.get(0))
-            .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<T> getComponentsThatTransferFocusRight() {
-        return components.stream()
-            .map(row -> row.get(columnCount() - 1))
-            .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<T> getComponentsThatTransferFocusAbove() {
-        return components.get(0);
-    }
-
-    @Override
-    public List<T> getComponentsThatTransferFocusBelow() {
-        return components.get(rowCount() - 1);
-    }
-
-    @Override
-    public T getComponentToFocusFromLeft(int row) {
-        final int safeRow = Math.min(Math.max(row, 0), rowCount() - 1);
-        return getComponent(safeRow, 0);
-    }
-
-    @Override
-    public T getComponentToFocusFromRight(int row) {
-        final int safeRow = Math.min(Math.max(row, 0), rowCount() - 1);
-        return getComponent(safeRow, columnCount() - 1);
-    }
-
-    @Override
-    public T getComponentToFocusFromAbove(int column) {
-        final int safeColumn = Math.min(Math.max(column, 0), columnCount() - 1);
-        return getComponent(0, safeColumn);
-    }
-
-    @Override
-    public T getComponentToFocusFromBelow(int column) {
-        final int safeColumn = Math.min(Math.max(column, 0), columnCount() - 1);
-        return getComponent(rowCount() - 1, safeColumn);
+    public List<List<? extends JComponent>> getComponentsAsGrid() {
+        return components.stream().map(ArrayList::new).collect(Collectors.toList());
     }
 
     protected interface ConstraintsBuilder {

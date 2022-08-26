@@ -1,264 +1,149 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.AddHouseListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.DeleteHouseListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.ExceptionListener;
-import com.github.scottswolfe.kathyscleaning.completed.controller.HouseNameDocListener;
+import com.github.scottswolfe.kathyscleaning.completed.controller.HouseNameDocumentListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.MoveDownListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.MoveUpListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.component.AmountEarnedPanel;
+import com.github.scottswolfe.kathyscleaning.component.HouseNamePanel;
+import com.github.scottswolfe.kathyscleaning.component.HouseRowButtonPanel;
 import com.github.scottswolfe.kathyscleaning.component.KcButton;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
-import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
+import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.lang3.tuple.Pair;
 
-public class HousePanel extends JPanel {
+public class HousePanel extends JPanel implements FocusableCollection {
 
-/* INSTANCE VARIABLES ======================================================= */
+    public static final int WORKER_SELECTION_ROW_COUNT = 2;
+    public static final int WORKER_SELECTION_COLUMN_COUNT = 5;
 
-    DayPanel day_panel;
-    WorkerList dwd;
-    JFrame frame;
-    TabbedPane tp;
+    private final JFrame parentFrame;
+    private final TabbedPane parentTabbedPane;
+    private final DayPanel parentDayPanel;
 
-    private ExceptionData exception_data;
-
-
-
-/* COMPONENTS =============================================================== */
-
-    String title;
-    Border border;
-
-    public WorkerSelectPanel workerSelectPanel;
+    private final HouseNamePanel houseNamePanel;
     private final AmountEarnedPanel amountEarnedPanel;
+    private final TimeRangePanel timePanel;
+    private final WorkerSelectPanel workerSelectPanel;
+    public final KcButton exceptionsButton;
+    private final HouseRowButtonPanel houseRowButtonPanel;
 
-    public KcButton exceptions;
+    private ExceptionData exceptionData;
 
-    JLabel house_name_label;
-    JLabel time_label;
+    public static HousePanel from(
+        final JFrame parentFrame,
+        final TabbedPane parentTabbedPane,
+        final DayPanel parentDayPanel
+    ) {
+        return new HousePanel(parentDayPanel, parentFrame, parentTabbedPane);
+    }
 
-    public JTextField house_name_txt;
-    public JTextField time_begin_txt;
-    public JTextField time_end_txt;
+    public HousePanel(DayPanel parentDayPanel, JFrame parentFrame, TabbedPane parentTabbedPane) {
 
-    KcButton move_up;
-    KcButton move_down;
-    public KcButton add_house;
-    public KcButton delete_house;
-
-
-
-/* CONSTRUCTORS ============================================================= */
-
-    public HousePanel(String title, WorkerList dwd, DayPanel day_panel, JFrame frame, TabbedPane tp) {
-
-        this.day_panel = day_panel;
-        this.frame = frame;
-        this.tp = tp;
+        this.parentDayPanel = parentDayPanel;
+        this.parentFrame = parentFrame;
+        this.parentTabbedPane = parentTabbedPane;
 
         // TODO temporary hack
-        dwd = new WorkerList(WorkerList.HOUSE_WORKERS);
+        final WorkerList workerList = new WorkerList(WorkerList.HOUSE_WORKERS);
 
-        exception_data = new ExceptionData();
+        exceptionData = new ExceptionData();
 
         setLayout(new MigLayout("insets 0","[grow][grow][grow][grow][grow][grow]","[]"));
         setBackground(Settings.BACKGROUND_COLOR);
         setBorder(BorderFactory.createTitledBorder(new String()));
 
-        JPanel house_name_panel = houseNamePanel();
+        houseNamePanel = HouseNamePanel.from(new HouseNameDocumentListener(this));
         amountEarnedPanel = AmountEarnedPanel.from();
-        JPanel time_panel = timePanel();
-        workerSelectPanel = WorkerSelectPanel.from(dwd, Settings.BACKGROUND_COLOR);
-        JPanel button_panel = buttonPanel();
-
-        exceptions = new KcButton(
+        timePanel = TimeRangePanel.from();
+        workerSelectPanel = WorkerSelectPanel.from(
+            workerList,
+            WORKER_SELECTION_ROW_COUNT,
+            WORKER_SELECTION_COLUMN_COUNT,
+            Settings.BACKGROUND_COLOR
+        );
+        exceptionsButton = new KcButton(
             "Exceptions",
             new ExceptionListener(
-                dwd,
-                frame,
-                () -> this.exception_data,
-                (newExceptionData) -> this.exception_data = newExceptionData)
+                workerList,
+                parentFrame,
+                () -> this.exceptionData,
+                this::setExceptionData
+            )
+        );
+        houseRowButtonPanel = HouseRowButtonPanel.from(
+            new MoveUpListener(parentDayPanel,this, workerList, parentFrame, parentTabbedPane),
+            new MoveDownListener(parentDayPanel,this, workerList, parentFrame, parentTabbedPane),
+            new AddHouseListener(parentDayPanel,this, workerList, parentFrame, parentTabbedPane),
+            new DeleteHouseListener(parentDayPanel,this, workerList, parentFrame, parentTabbedPane)
         );
 
-        add(house_name_panel, "growy");
+        add(houseNamePanel, "growy");
         add(amountEarnedPanel, "growy");
-        add(time_panel, "growy");
-        add( new JSeparator(SwingConstants.VERTICAL), "growy" );
-
+        add(timePanel, "growy");
+        add(new JSeparator(SwingConstants.VERTICAL), "growy");
         add(workerSelectPanel, "pushy");
-        add(exceptions, "hmin 50, pushy");
-        add( new JSeparator(SwingConstants.VERTICAL), "growy" );
+        add(exceptionsButton, "hmin 50, pushy");
+        add(new JSeparator(SwingConstants.VERTICAL), "growy");
+        add(houseRowButtonPanel, "growy");
 
-        add(button_panel, "growy");
+        connectFocusableComponents();
     }
-
-
-/* PRIVATE CONSTRUCTION METHODS ============================================= */
-
-    //house name panel
-    private JPanel houseNamePanel(){
-        JPanel panel = new JPanel();
-
-        panel.setLayout(new MigLayout("insets 0, ay 50%"));
-        panel.setBackground( Settings.BACKGROUND_COLOR );
-
-        house_name_label = new JLabel("House Name");
-        house_name_label.setFont( house_name_label.getFont().deriveFont( Settings.FONT_SIZE ) );
-
-        house_name_txt = new JTextField(10);
-        house_name_txt.setFont( house_name_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
-        house_name_txt.getDocument().addDocumentListener( new HouseNameDocListener( this ) );
-
-        panel.add(house_name_label,"wrap, gap 3");
-        panel.add(house_name_txt);
-
-        return panel;
-    }
-
-    //time panel
-    private JPanel timePanel(){
-        JPanel panel = new JPanel();
-
-        time_label = new JLabel("Time");
-        time_label.setFont( time_label.getFont().deriveFont( Settings.FONT_SIZE ) );
-
-        time_begin_txt = new JTextField( 5 );
-        time_begin_txt.setFont( time_begin_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
-        AbstractDocument time_begin_doc = (AbstractDocument)time_begin_txt.getDocument();
-        TimeDocumentFilter tdf_begin = new TimeDocumentFilter(time_begin_txt);
-        time_begin_doc.setDocumentFilter( tdf_begin );
-        time_begin_txt.addKeyListener( new TimeKeyListener( tdf_begin ) );
-
-        time_end_txt = new JTextField(5);
-        time_end_txt.setFont( time_end_txt.getFont().deriveFont( Settings.FONT_SIZE ) );
-        AbstractDocument time_end_doc = (AbstractDocument)time_end_txt.getDocument();
-        TimeDocumentFilter tdf_end = new TimeDocumentFilter(time_end_txt);
-        time_end_doc.setDocumentFilter( tdf_end );
-        time_end_txt.addKeyListener( new TimeKeyListener( tdf_end ) );
-
-        panel.setLayout( new MigLayout("insets 0, ay 50%") );
-        panel.setBackground( Settings.BACKGROUND_COLOR );
-
-        panel.add(time_label, "cell 0 0 1 1, wrap, ax 50%");
-        panel.add(time_begin_txt, "cell 0 1");
-        panel.add(time_end_txt, "cell 0 1, gap 0");
-
-        return panel;
-    }
-
-    // button panel
-    private JPanel buttonPanel(){
-        JPanel panel = new JPanel();
-        panel.setLayout(new MigLayout("insets 0"));
-        panel.setBackground(Settings.BACKGROUND_COLOR);
-
-        move_up = new KcButton("Up", new MoveUpListener(day_panel,this,dwd,frame,tp));
-        move_down = new KcButton("Down", new MoveDownListener(day_panel,this,dwd,frame,tp));
-        add_house = new KcButton("Add", new AddHouseListener(day_panel,this,dwd,frame,tp));
-        delete_house = new KcButton("Delete", new DeleteHouseListener(day_panel,this,dwd,frame,tp));
-
-        panel.add(move_up, "growx");
-        panel.add(add_house,"wrap, growx");
-        panel.add(move_down);
-        panel.add(delete_house);
-
-        return panel;
-    }
-
-
-
-/* PUBLIC METHODS =========================================================== */
 
     public HousePanel copyPanel( ) {
 
-        HousePanel new_panel = new HousePanel(this.title, this.dwd, this.day_panel, this.frame, this.tp);
+        HousePanel new_panel = HousePanel.from(this.parentFrame, this.parentTabbedPane, this.parentDayPanel);
 
-        new_panel.house_name_txt.setText(this.house_name_txt.getText());
+        new_panel.setHouseNameText(this.getHouseNameText());
         new_panel.amountEarnedPanel.setAmountEarnedText(this.amountEarnedPanel.getAmountEarnedText());
-        new_panel.time_begin_txt.setText(this.time_begin_txt.getText());
-        new_panel.time_end_txt.setText(this.time_end_txt.getText());
-        new_panel.exception_data = this.exception_data;
+        new_panel.setBeginTimeText(getBeginTimeText());
+        new_panel.setEndTimeText(getEndTimeText());
+        new_panel.exceptionData = this.exceptionData;
 
         // temporary hack
-        WorkerList workers = this.day_panel.header_panel.getWorkers();
+        WorkerList workers = this.parentDayPanel.header_panel.getWorkers();
         new_panel.workerSelectPanel.setWorkers(workers);
 
         return new_panel;
     }
 
     public HousePanel changeHouseWorkers(WorkerList dwd) {
-        HousePanel new_panel = new HousePanel(this.title, dwd, this.day_panel, this.frame, this.tp);
-        new_panel.title = this.title;
-        new_panel.house_name_txt.setText(this.house_name_txt.getText());
+        HousePanel new_panel = HousePanel.from(this.parentFrame, this.parentTabbedPane, this.parentDayPanel);
+        new_panel.setHouseNameText(this.getHouseNameText());
         new_panel.amountEarnedPanel.setAmountEarnedText(this.amountEarnedPanel.getAmountEarnedText());
-        new_panel.time_begin_txt.setText(this.time_begin_txt.getText());
-        new_panel.time_end_txt.setText(this.time_end_txt.getText());
+        new_panel.setBeginTimeText(this.getBeginTimeText());
+        new_panel.setEndTimeText(this.getEndTimeText());
+        new_panel.setWorkerList(dwd);
         return new_panel;
     }
 
-    public void setTitle( String title ){
-        this.title = title;
-        this.setBorder(BorderFactory.createTitledBorder(border,title));
+    public String getHouseNameText() {
+        return houseNamePanel.getHouseNameText();
     }
 
-    /**
-     * Sets the exception button to a new color if an exception exists
-     *
-     * @param isException true if there is an exception, otherwise false
-     */
-    public void setExceptionButtonColor(boolean isException) {
-        exceptions.setForeground(Settings.MAIN_COLOR);
-    }
-
-    public ExceptionData getExceptionData() {
-        return exception_data;
-    }
-
-    public void setExceptionData(ExceptionData exceptionData) {
-        exception_data = exceptionData;
-        setExceptionButtonColor();
-    }
-
-    public void setExceptionDataEntries(List<ExceptionEntry> entries) {
-        exception_data.setEntries(entries);
-        setExceptionButtonColor();
-    }
-
-    public boolean hasExceptionData() {
-        return exception_data.isException();
-    }
-
-    private void setExceptionButtonColor() {
-        if (exception_data.isException()) {
-            exceptions.setBackground(Settings.EDITED_BUTTON_COLOR);
-        } else {
-            exceptions.setBackground(Settings.DEFAULT_BUTTON_COLOR);
-        }
-    }
-
-    public JComponent getAmountEarnedComponent() {
-        return amountEarnedPanel.getComponent();
+    public void setHouseNameText(final String houseName) {
+        houseNamePanel.setHouseNameText(houseName);
     }
 
     public String getAmountEarnedText() {
@@ -267,5 +152,94 @@ public class HousePanel extends JPanel {
 
     public void setAmountEarnedText(final String newText) {
         amountEarnedPanel.setAmountEarnedText(newText);
+    }
+
+    public String getBeginTimeText() {
+        return timePanel.getBeginTimeText();
+    }
+
+    public void setBeginTimeText(final String beginTime) {
+        timePanel.setBeginTimeText(beginTime);
+    }
+
+    public String getEndTimeText() {
+        return timePanel.getEndTimeText();
+    }
+
+    public void setEndTimeText(final String endTime) {
+        timePanel.setEndTimeText(endTime);
+    }
+
+    public void setWorkers(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
+        workerSelectPanel.setWorkers(workerSelectionGrid);
+    }
+
+    public WorkerList getWorkerList() {
+        return workerSelectPanel.getWorkers();
+    }
+
+    public void setWorkerList(final WorkerList workerList) {
+        workerSelectPanel.setWorkers(workerList);
+    }
+
+    public List<String> getSelectedWorkerNames() {
+        return workerSelectPanel.getSelectedWorkerNames();
+    }
+
+    public void setSelectedWorkerNames(final List<String> selectedWorkerNames) {
+        workerSelectPanel.setSelected(selectedWorkerNames);
+    }
+
+    /**
+     * Sets the exception button to a new color if an exception exists
+     *
+     * @param isException true if there is an exception, otherwise false
+     */
+    public void setExceptionButtonColor(boolean isException) {
+        exceptionsButton.setForeground(Settings.MAIN_COLOR);
+    }
+
+    public ExceptionData getExceptionData() {
+        return exceptionData;
+    }
+
+    public void setExceptionData(ExceptionData exceptionData) {
+        this.exceptionData = exceptionData;
+        setExceptionButtonColor();
+    }
+
+    public void setExceptionDataEntries(List<ExceptionEntry> entries) {
+        exceptionData.setEntries(entries);
+        setExceptionButtonColor();
+    }
+
+    public boolean hasExceptionData() {
+        return exceptionData.isException();
+    }
+
+    private void setExceptionButtonColor() {
+        if (exceptionData.isException()) {
+            exceptionsButton.setBackground(Settings.EDITED_BUTTON_COLOR);
+        } else {
+            exceptionsButton.setBackground(Settings.DEFAULT_BUTTON_COLOR);
+        }
+    }
+
+    public JFrame getParentFrame() {
+        return this.parentFrame;
+    }
+
+    @Override
+    public List<List<? extends JComponent>> getComponentsAsGrid() {
+        return Collections.singletonList(
+            Arrays.asList(
+                houseNamePanel,
+                amountEarnedPanel,
+                timePanel,
+                workerSelectPanel,
+                exceptionsButton,
+                houseRowButtonPanel
+            )
+        );
     }
 }

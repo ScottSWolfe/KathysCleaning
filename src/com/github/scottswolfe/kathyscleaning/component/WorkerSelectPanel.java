@@ -83,6 +83,22 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
         return checkBoxLabelsAndStatuses;
     }
 
+    public void setWorkers(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
+        if (workerSelectionGrid.size() != rowCount()) {
+            throw new IllegalArgumentException("Given worker selection grid has the wrong number of rows");
+        }
+        if (workerSelectionGrid.get(0).size() != columnCount()) {
+            throw new IllegalArgumentException("Given worker selection grid has the wrong number of columns");
+        }
+
+        for (int row = 0; row < rowCount(); row++) {
+            for (int column = 0; column < columnCount(); column++) {
+                setCheckBoxLabel(row, column, workerSelectionGrid.get(row).get(column).getLeft());
+                setCheckBoxSelected(row, column, workerSelectionGrid.get(row).get(column).getRight());
+            }
+        }
+    }
+
     public void setWorkers(final WorkerList workers) {
         int workerAddedCount = 0;
         final Iterator<JCheckBox> iterator = iterator();

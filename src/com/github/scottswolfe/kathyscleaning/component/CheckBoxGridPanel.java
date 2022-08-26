@@ -57,7 +57,7 @@ public abstract class CheckBoxGridPanel extends ComponentGridPanel<JCheckBox> {
         getComponent(row, column).setText(label);
     }
 
-    protected void setCheckBoxStatus(int row, int column, boolean isSelected) {
+    protected void setCheckBoxSelected(int row, int column, boolean isSelected) {
         getComponent(row, column).setSelected(isSelected);
     }
 

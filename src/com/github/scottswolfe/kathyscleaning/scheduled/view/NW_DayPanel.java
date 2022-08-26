@@ -347,7 +347,7 @@ public class NW_DayPanel extends JPanel{
             hp.house_name_text_field.addFocusListener(KeyboardFocusListener.from(
                 hp.house_name_text_field,
                 null,
-                hp.worker_panel.getComponentToFocusFromLeft(),
+                hp.worker_panel.getComponentOnLeft(),
                 hp_up.house_name_text_field,
                 hp_down.house_name_text_field,
                 null

@@ -3,7 +3,11 @@ package com.github.scottswolfe.kathyscleaning.completed.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class HouseData {
 
@@ -102,7 +106,31 @@ public class HouseData {
 	    return workers;
 	}
 
-	public ExceptionData getExceptionData() {
+    public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
+        int workersAddedCount = 0;
+        final List<List<Pair<String, Boolean>>> listOfRows = new ArrayList<>();
+        for (int row = 0; row < HousePanel.WORKER_SELECTION_ROW_COUNT; row++) {
+            final List<Pair<String, Boolean>> listOfColumns = new ArrayList<>();
+            for (int column = 0; column < HousePanel.WORKER_SELECTION_COLUMN_COUNT; column++) {
+                final String workerName;
+                final boolean isSelected;
+                if (workersAddedCount < workers.size()) {
+                    final Worker worker = workers.get(workersAddedCount);
+                    workerName = worker.getName();
+                    isSelected = worker.isSelected();
+                    workersAddedCount++;
+                } else {
+                    workerName = "";
+                    isSelected = false;
+                }
+                listOfColumns.add(new ImmutablePair<>(workerName, isSelected));
+            }
+            listOfRows.add(listOfColumns);
+        }
+        return listOfRows;
+    }
+
+    public ExceptionData getExceptionData() {
 		return exception_data;
 	}
 }

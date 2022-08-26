@@ -1,7 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.controller;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -58,12 +57,12 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             // for each house panel in the day
             for (int h = 0; h < houseData.length; h++) {
                 houseData[h] = new HouseData();
-                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].house_name_txt.getText());
+                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].getHouseNameText());
                 houseData[h].setHousePay(tp.day_panel[d].house_panel[h].getAmountEarnedText());
-                houseData[h].setTimeBegin(tp.day_panel[d].house_panel[h].time_begin_txt.getText());
-                houseData[h].setTimeEnd(tp.day_panel[d].house_panel[h].time_end_txt.getText());
-                houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].workerSelectPanel.getSelectedWorkerNames());
-                houseData[h].setWorkerList(tp.day_panel[d].house_panel[h].workerSelectPanel.getWorkers());
+                houseData[h].setTimeBegin(tp.day_panel[d].house_panel[h].getBeginTimeText());
+                houseData[h].setTimeEnd(tp.day_panel[d].house_panel[h].getEndTimeText());
+                houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].getSelectedWorkerNames());
+                houseData[h].setWorkerList(tp.day_panel[d].house_panel[h].getWorkerList());
                 houseData[h].setExceptionData(tp.day_panel[d].house_panel[h].getExceptionData());
             }
 
@@ -108,14 +107,14 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 house_panel = day_panel.house_panel[h];
                 house_data = day_data.houseData[h];
 
-                house_panel.house_name_txt.setText(house_data.getHouseName());
+                house_panel.setHouseNameText(house_data.getHouseName());
                 if (house_data.getHousePay() != 0) {
                     house_panel.setAmountEarnedText(
                             String.valueOf(house_data.getHousePay()));
                 }
-                house_panel.time_begin_txt.setText(house_data.getTimeBegin());
-                house_panel.time_end_txt.setText(house_data.getTimeEnd());
-                house_panel.workerSelectPanel.setWorkers(house_data.getWorkerList());
+                house_panel.setBeginTimeText(house_data.getTimeBegin());
+                house_panel.setEndTimeText(house_data.getTimeEnd());
+                house_panel.setWorkers(house_data.getWorkerSelectionGrid());
                 house_panel.setExceptionData(house_data.getExceptionData());
 
                 // if there are more houses to fill in
@@ -127,20 +126,27 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 // but there are no more empty house panels
                 else if (h < num_house_datas - 1 && h >= num_house_panels - 1) {
                     ActionEvent event = new ActionEvent(day_panel, 0, "test");
-                    ActionListener[] al =
-                            house_panel.add_house.getActionListeners();
-                    al[0].actionPerformed(event);
+
+                    // todo: refactor this
+                    new AddHouseListener(
+                        day_panel, house_panel, house_panel.getWorkerList(), house_panel.getParentFrame(), tp
+                    ).actionPerformed(event);
                 }
                 // if there are no more houses to fill in
                 // and there are more empty house panels
                 else if (h >= num_house_datas - 1 && h < num_house_panels - 1) {
                     int numrepeat = num_house_panels - h - 1;
                     for (int k = h; k < numrepeat + h; k++) {
-                        ActionEvent event =
-                                new ActionEvent(day_panel, 0, "test");
-                        ActionListener[] al = day_panel.house_panel[h + 1]
-                                .delete_house.getActionListeners();
-                        al[0].actionPerformed(event);
+                        ActionEvent event = new ActionEvent(day_panel, 0, "test");
+
+                        // todo: refactor this
+                        new DeleteHouseListener(
+                            day_panel,
+                            day_panel.house_panel[h + 1],
+                            day_panel.house_panel[h + 1].getWorkerList(),
+                            day_panel.house_panel[h + 1].getParentFrame(),
+                            tp
+                        ).actionPerformed(event);
                     }
                 }
 
@@ -251,8 +257,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
         BufferedWriter bw = null;
         try {
 
-            Scanner input = new Scanner( HouseNameDocListener.HOUSE_PAY_FILE );
-            Scanner input2 = new Scanner( HouseNameDocListener.HOUSE_PAY_FILE );
+            Scanner input = new Scanner( HouseNameDocumentListener.HOUSE_PAY_FILE );
+            Scanner input2 = new Scanner( HouseNameDocumentListener.HOUSE_PAY_FILE );
 
             int i=0;
             while (input2.hasNextLine()) {
@@ -282,7 +288,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                     // for length of array
                     for (int k=0; k<s.length; k++) {
 
-                        if (s[k].equalsIgnoreCase( dp.house_panel[h].house_name_txt.getText() )) {
+                        if (s[k].equalsIgnoreCase( dp.house_panel[h].getHouseNameText() )) {
 
                             s[k+1] = dp.house_panel[h].getAmountEarnedText();
                             match = true;
@@ -298,7 +304,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                             r[l] = s[l];
                         }
 
-                        r[r.length-2] = dp.house_panel[h].house_name_txt.getText();
+                        r[r.length-2] = dp.house_panel[h].getHouseNameText();
                         r[r.length-1] = dp.house_panel[h].getAmountEarnedText();
 
                         s = r;
@@ -306,7 +312,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 }
             }
 
-            FileWriter fw = new FileWriter( HouseNameDocListener.HOUSE_PAY_FILE );
+            FileWriter fw = new FileWriter( HouseNameDocumentListener.HOUSE_PAY_FILE );
             bw = new BufferedWriter( fw );
             for (int m=0; m<s.length; m++) {
                 bw.write(s[m]);

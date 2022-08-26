@@ -32,7 +32,7 @@ public class CopyWorkersListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         List<String> selected_names = day_panel.header_panel.dwp.getSelectedWorkerNames();
         for(int k = 0; k < day_panel.house_panel.length; k++) {
-            day_panel.house_panel[k].workerSelectPanel.setSelected(selected_names);
+            day_panel.house_panel[k].setSelectedWorkerNames(selected_names);
         }
     }
 
