@@ -1,6 +1,5 @@
 package com.github.scottswolfe.kathyscleaning.completed.controller;
 
-import java.awt.event.ActionEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -125,28 +124,14 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                 // if there are more houses to fill in
                 // but there are no more empty house panels
                 else if (h < num_house_datas - 1 && h >= num_house_panels - 1) {
-                    ActionEvent event = new ActionEvent(day_panel, 0, "test");
-
-                    // todo: refactor this
-                    new AddHouseListener(
-                        day_panel, house_panel, house_panel.getWorkerList(), house_panel.getParentFrame(), tp
-                    ).actionPerformed(event);
+                    day_panel.addNewHousePanel();
                 }
                 // if there are no more houses to fill in
                 // and there are more empty house panels
                 else if (h >= num_house_datas - 1 && h < num_house_panels - 1) {
                     int numrepeat = num_house_panels - h - 1;
                     for (int k = h; k < numrepeat + h; k++) {
-                        ActionEvent event = new ActionEvent(day_panel, 0, "test");
-
-                        // todo: refactor this
-                        new DeleteHouseListener(
-                            day_panel,
-                            day_panel.house_panel[h + 1],
-                            day_panel.house_panel[h + 1].getWorkerList(),
-                            day_panel.house_panel[h + 1].getParentFrame(),
-                            tp
-                        ).actionPerformed(event);
+                        day_panel.deleteHousePanel();
                     }
                 }
 

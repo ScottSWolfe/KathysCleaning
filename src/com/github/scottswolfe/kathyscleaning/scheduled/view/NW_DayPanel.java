@@ -79,7 +79,7 @@ public class NW_DayPanel extends JPanel{
         header_panel = new NW_HeaderPanel(controller, tp, workers, this, date, frame, mode, wk);
         begin_panel = createBeginPanel(workers);
         house_panels = new ArrayList<NW_HousePanel>();
-        for(int i = 0; i < DayPanel.NUM_HOUSE_PANELS; i++) {
+        for(int i = 0; i < DayPanel.DEFAULT_HOUSE_PANEL_COUNT; i++) {
             house_panels.add(new NW_HousePanel(workers, this, frame));
         }
         cov_panel = new NW_CovenantPanel(this, new WorkerList(), frame);

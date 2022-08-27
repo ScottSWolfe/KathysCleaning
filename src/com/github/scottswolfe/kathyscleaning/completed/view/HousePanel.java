@@ -1,8 +1,10 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -11,12 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.AddHouseListener;
-import com.github.scottswolfe.kathyscleaning.completed.controller.DeleteHouseListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.HouseNameDocumentListener;
-import com.github.scottswolfe.kathyscleaning.completed.controller.MoveDownListener;
-import com.github.scottswolfe.kathyscleaning.completed.controller.MoveUpListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.component.AmountEarnedPanel;
@@ -38,10 +36,6 @@ public class HousePanel extends JPanel implements FocusableCollection {
     public static final int WORKER_SELECTION_ROW_COUNT = 2;
     public static final int WORKER_SELECTION_COLUMN_COUNT = 5;
 
-    private final JFrame parentFrame;
-    private final TabbedPane parentTabbedPane;
-    private final DayPanel parentDayPanel;
-
     private final HouseNamePanel houseNamePanel;
     private final AmountEarnedPanel amountEarnedPanel;
     private final TimeRangePanel timePanel;
@@ -54,17 +48,32 @@ public class HousePanel extends JPanel implements FocusableCollection {
     public static HousePanel from(
         final JFrame parentFrame,
         final TabbedPane parentTabbedPane,
-        final DayPanel parentDayPanel
+        final DayPanel parentDayPanel,
+        final Function<HousePanel, ActionListener> buildMoveUpActionListener,
+        final Function<HousePanel, ActionListener> buildMoveDownActionListener,
+        final Function<HousePanel, ActionListener> buildAddHouseActionListener,
+        final Function<HousePanel, ActionListener> buildDeleteHouseActionListener
     ) {
-        return new HousePanel(parentDayPanel, parentFrame, parentTabbedPane);
+        return new HousePanel(
+            parentDayPanel,
+            parentFrame,
+            parentTabbedPane,
+            buildMoveUpActionListener,
+            buildMoveDownActionListener,
+            buildAddHouseActionListener,
+            buildDeleteHouseActionListener
+        );
     }
 
-    public HousePanel(DayPanel parentDayPanel, JFrame parentFrame, TabbedPane parentTabbedPane) {
-
-        this.parentDayPanel = parentDayPanel;
-        this.parentFrame = parentFrame;
-        this.parentTabbedPane = parentTabbedPane;
-
+    private HousePanel(
+        final DayPanel parentDayPanel,
+        final JFrame parentFrame,
+        final TabbedPane parentTabbedPane,
+        final Function<HousePanel, ActionListener> buildMoveUpActionListener,
+        final Function<HousePanel, ActionListener> buildMoveDownActionListener,
+        final Function<HousePanel, ActionListener> buildAddHouseActionListener,
+        final Function<HousePanel, ActionListener> buildDeleteHouseActionListener
+    ) {
         // TODO temporary hack
         final WorkerList workerList = new WorkerList(WorkerList.HOUSE_WORKERS);
 
@@ -93,10 +102,10 @@ public class HousePanel extends JPanel implements FocusableCollection {
             )
         );
         houseRowButtonPanel = HouseRowButtonPanel.from(
-            new MoveUpListener(parentDayPanel,this, workerList, parentFrame, parentTabbedPane),
-            new MoveDownListener(parentDayPanel,this, workerList, parentFrame, parentTabbedPane),
-            new AddHouseListener(parentDayPanel,this, workerList, parentFrame, parentTabbedPane),
-            new DeleteHouseListener(parentDayPanel,this, workerList, parentFrame, parentTabbedPane)
+            buildMoveUpActionListener.apply(this),
+            buildMoveDownActionListener.apply(this),
+            buildAddHouseActionListener.apply(this),
+            buildDeleteHouseActionListener.apply(this)
         );
 
         add(houseNamePanel, "growy");
@@ -109,33 +118,6 @@ public class HousePanel extends JPanel implements FocusableCollection {
         add(houseRowButtonPanel, "growy");
 
         connectFocusableComponents();
-    }
-
-    public HousePanel copyPanel( ) {
-
-        HousePanel new_panel = HousePanel.from(this.parentFrame, this.parentTabbedPane, this.parentDayPanel);
-
-        new_panel.setHouseNameText(this.getHouseNameText());
-        new_panel.amountEarnedPanel.setAmountEarnedText(this.amountEarnedPanel.getAmountEarnedText());
-        new_panel.setBeginTimeText(getBeginTimeText());
-        new_panel.setEndTimeText(getEndTimeText());
-        new_panel.exceptionData = this.exceptionData;
-
-        // temporary hack
-        WorkerList workers = this.parentDayPanel.header_panel.getWorkers();
-        new_panel.workerSelectPanel.setWorkers(workers);
-
-        return new_panel;
-    }
-
-    public HousePanel changeHouseWorkers(WorkerList dwd) {
-        HousePanel new_panel = HousePanel.from(this.parentFrame, this.parentTabbedPane, this.parentDayPanel);
-        new_panel.setHouseNameText(this.getHouseNameText());
-        new_panel.amountEarnedPanel.setAmountEarnedText(this.amountEarnedPanel.getAmountEarnedText());
-        new_panel.setBeginTimeText(this.getBeginTimeText());
-        new_panel.setEndTimeText(this.getEndTimeText());
-        new_panel.setWorkerList(dwd);
-        return new_panel;
     }
 
     public String getHouseNameText() {
@@ -223,10 +205,6 @@ public class HousePanel extends JPanel implements FocusableCollection {
         } else {
             exceptionsButton.setBackground(Settings.DEFAULT_BUTTON_COLOR);
         }
-    }
-
-    public JFrame getParentFrame() {
-        return this.parentFrame;
     }
 
     @Override
