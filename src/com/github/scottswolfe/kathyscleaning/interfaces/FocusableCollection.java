@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 public interface FocusableCollection {
 
+    JComponent GAP = new JComponent() {};
+
     List<List<? extends JComponent>> getComponentsAsGrid();
 
     default void connectFocusableComponents() {

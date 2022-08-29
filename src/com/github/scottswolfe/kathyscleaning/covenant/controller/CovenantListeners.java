@@ -49,7 +49,7 @@ public class CovenantListeners {
         public void actionPerformed ( ActionEvent e ) {
             covPanel.getCovFrame().setEnabled(false);
 
-            EditWorkersPanelLauncher.launchPanel(
+            EditWorkersPanelLauncher.from().launchPanel(
                 covPanel.getWorkerNames(),
                 covPanel.getController().getCovModel().getDwd().getWorkerNames(),
                 false,

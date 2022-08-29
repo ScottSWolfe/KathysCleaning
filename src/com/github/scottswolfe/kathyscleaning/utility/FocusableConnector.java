@@ -44,39 +44,174 @@ public class FocusableConnector {
         final int columnCount = components.get(0).size();
 
         final JComponent component = components.get(row).get(column);
-        if (component == null) {
+        if (component == null || component == FocusableCollection.GAP) {
             return;
         }
 
-        final List<? extends JComponent> componentsThatTransferFocus = getComponentsOnEdge(component, direction);
+        final List<? extends JComponent> componentsThatTransferFocus = getComponentsOnEdge(
+            components, row, column, direction
+        );
 
         List<? extends JComponent> componentsThatReceiveFocus = Collections.emptyList();
         switch (direction) {
             case LEFT:
                 if (column > 0) {
-                    componentsThatReceiveFocus = getComponentsOnEdge(components.get(row).get(column - 1), Direction.RIGHT);
+                    componentsThatReceiveFocus = getComponentsOnEdge(
+                        components, row, column - 1, Direction.RIGHT
+                    );
                 }
                 break;
             case RIGHT:
                 if (column < columnCount - 1) {
-                    componentsThatReceiveFocus = getComponentsOnEdge(components.get(row).get(column + 1), Direction.LEFT);
+                    componentsThatReceiveFocus = getComponentsOnEdge(
+                        components, row, column + 1, Direction.LEFT
+                    );
                 }
                 break;
             case ABOVE:
                 if (row > 0) {
-                    componentsThatReceiveFocus = getComponentsOnEdge(components.get(row - 1).get(column), Direction.BELOW);
+                    componentsThatReceiveFocus = getComponentsOnEdge(
+                        components, row - 1, column, Direction.BELOW
+                    );
                 }
                 break;
             case BELOW:
                 if (row < rowCount - 1) {
-                    componentsThatReceiveFocus = getComponentsOnEdge(components.get(row + 1).get(column), Direction.ABOVE);
+                    componentsThatReceiveFocus = getComponentsOnEdge(
+                        components, row + 1, column, Direction.ABOVE
+                    );
                 }
                 break;
             default:
-                throw new RuntimeException("Unexpected direction: " + direction);
+                throw createUnexpectedDirectionException(direction);
         }
 
         connectComponents(componentsThatTransferFocus, componentsThatReceiveFocus, direction);
+    }
+
+    private List<? extends JComponent> getComponentsOnEdge(
+        final List<List<? extends JComponent>> components,
+        final int row,
+        final int column,
+        final Direction direction
+    ) {
+        final JComponent component = findNonGapComponent(components, row, column, direction);
+
+        if (component == FocusableCollection.GAP) {
+            return Collections.emptyList();
+        }
+
+        if (!(component instanceof FocusableCollection)) {
+            return Collections.singletonList(component);
+        }
+
+        final FocusableCollection collection = (FocusableCollection) component;
+
+        switch (direction) {
+            case LEFT:
+                return collection.getComponentsOnLeft();
+            case RIGHT:
+                return collection.getComponentsOnRight();
+            case ABOVE:
+                return collection.getComponentsAbove();
+            case BELOW:
+                return collection.getComponentsBelow();
+            default:
+                throw createUnexpectedDirectionException(direction);
+        }
+    }
+
+    private JComponent findNonGapComponent(
+        final List<List<? extends JComponent>> components,
+        final int row,
+        final int column,
+        final Direction direction
+    ) {
+        JComponent currentComponent = components.get(row).get(column);
+        if (currentComponent != FocusableCollection.GAP) {
+            return currentComponent;
+        }
+
+        switch (direction) {
+            case LEFT:
+            case RIGHT:
+                currentComponent = lookInDirectionForNonGapComponent(components, row, column, Direction.ABOVE);
+                if (currentComponent != FocusableCollection.GAP) {
+                    return currentComponent;
+                }
+
+                currentComponent = lookInDirectionForNonGapComponent(components, row, column, Direction.BELOW);
+                if (currentComponent != FocusableCollection.GAP) {
+                    return currentComponent;
+                }
+
+                break;
+
+            case ABOVE:
+            case BELOW:
+                currentComponent = lookInDirectionForNonGapComponent(components, row, column, Direction.LEFT);
+                if (currentComponent != FocusableCollection.GAP) {
+                    return currentComponent;
+                }
+
+                currentComponent = lookInDirectionForNonGapComponent(components, row, column, Direction.RIGHT);
+                if (currentComponent != FocusableCollection.GAP) {
+                    return currentComponent;
+                }
+
+                break;
+
+            default:
+                throw createUnexpectedDirectionException(direction);
+        }
+
+        return currentComponent;
+    }
+
+    private JComponent lookInDirectionForNonGapComponent(
+        final List<List<? extends JComponent>> components,
+        int row,
+        int column,
+        final Direction direction
+    ) {
+        int currentRow = row;
+        int currentColumn = column;
+        JComponent currentComponent = components.get(currentRow).get(currentColumn);
+
+        while (currentComponent == FocusableCollection.GAP) {
+            switch (direction) {
+                case LEFT:
+                    currentColumn--;
+                    if (currentColumn < 0) {
+                        return currentComponent;
+                    }
+                    break;
+                case RIGHT:
+                    currentColumn++;
+                    if (currentColumn == components.get(currentRow).size()) {
+                        return currentComponent;
+                    }
+                    break;
+                case ABOVE:
+                    currentRow--;
+                    if (currentRow < 0) {
+                        return currentComponent;
+                    }
+                    break;
+                case BELOW:
+                    currentRow++;
+                    if (currentRow == components.size()) {
+                        return currentComponent;
+                    }
+                    break;
+                default:
+                    throw createUnexpectedDirectionException(direction);
+            }
+
+            currentComponent = components.get(currentRow).get(currentColumn);
+        }
+
+        return currentComponent;
     }
 
     private void connectComponents(
@@ -122,28 +257,20 @@ public class FocusableConnector {
                 throw new IllegalArgumentException("All rows must have the same number of columns.");
             }
         }
+
+        for (int row = 0; row < rowCount; row++) {
+            for (int column = 0; column < columnCount; column++) {
+                if (grid.get(row).get(column) == null) {
+                    throw new IllegalArgumentException(
+                        String.format("Component is null at row %s and column %s", row, column)
+                    );
+                }
+            }
+        }
     }
 
-    private List<? extends JComponent> getComponentsOnEdge(final JComponent component, final Direction direction) {
-
-        if (!(component instanceof FocusableCollection)) {
-            return Collections.singletonList(component);
-        }
-
-        final FocusableCollection collection = (FocusableCollection) component;
-
-        switch (direction) {
-            case LEFT:
-                return collection.getComponentsOnLeft();
-            case RIGHT:
-                return collection.getComponentsOnRight();
-            case ABOVE:
-                return collection.getComponentsAbove();
-            case BELOW:
-                return collection.getComponentsBelow();
-            default:
-                throw new RuntimeException("Unexpected direction: " + direction);
-        }
+    private RuntimeException createUnexpectedDirectionException(final Direction direction) {
+        return new RuntimeException("Unexpected direction: " + direction);
     }
 
     private enum Direction {

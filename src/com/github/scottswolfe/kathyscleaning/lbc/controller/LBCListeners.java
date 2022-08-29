@@ -46,7 +46,7 @@ public class LBCListeners {
         public void actionPerformed (ActionEvent e) {
             lbcPanel.getFrame().setEnabled(false);
 
-            EditWorkersPanelLauncher.launchPanel(
+            EditWorkersPanelLauncher.from().launchPanel(
                 lbcPanel.getWorkerNames(),
                 lbcPanel.getController().getLbcModel().getDwd().getWorkerNames(),
                 false,

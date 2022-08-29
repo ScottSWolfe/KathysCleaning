@@ -21,7 +21,7 @@ public class EditDefaultWorkersListener implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e){
-        EditWorkersPanelLauncher.launchPanel(
+        EditWorkersPanelLauncher.from().launchPanel(
             dayPanel.header_panel.getWorkers().getWorkerNames(),
             new WorkerList(WorkerList.HOUSE_WORKERS).getWorkerNames(),
             HousePanel.WORKER_SELECTION_ROW_COUNT,

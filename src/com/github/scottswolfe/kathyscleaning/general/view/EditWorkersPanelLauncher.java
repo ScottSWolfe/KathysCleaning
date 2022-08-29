@@ -15,7 +15,15 @@ import java.util.stream.Collectors;
  */
 public class EditWorkersPanelLauncher {
 
-    public static void launchPanel(
+    private JFrame createdFrame = null;
+
+    public static EditWorkersPanelLauncher from() {
+        return new EditWorkersPanelLauncher();
+    }
+
+    private EditWorkersPanelLauncher() {}
+
+    public void launchPanel(
         final List<String> currentWorkerNames,
         final List<String> availableWorkerNames,
         final boolean allowRepeatSelections,
@@ -35,7 +43,7 @@ public class EditWorkersPanelLauncher {
         );
     }
 
-    public static void launchPanel(
+    public void launchPanel(
         final List<String> currentWorkerNames,
         final List<String> availableWorkerNames,
         final int rowCount,
@@ -45,34 +53,29 @@ public class EditWorkersPanelLauncher {
         final Consumer<List<List<String>>> onSubmit,
         final FrameCloseListener frameCloseListener
     ) {
-        final JFrame editWorkerFrame = createFrame(frameCloseListener);
         final JPanel editWorkersPanel = EditWorkersPanel.from(
             currentWorkerNames,
             availableWorkerNames,
             rowCount,
             columnCount,
-            () -> onCancelInternal(editWorkerFrame, onCancel),
-            (updatedWorkerNames) -> onSubmitInternal(
-                editWorkerFrame, onSubmit, updatedWorkerNames, allowRepeatSelections
-            )
+            () -> onCancelInternal(onCancel),
+            (updatedWorkerNames) -> onSubmitInternal(onSubmit, updatedWorkerNames, allowRepeatSelections)
         );
 
-        editWorkerFrame.add(editWorkersPanel);
-        editWorkerFrame.pack();
-        StaticMethods.findSetLocation(editWorkerFrame);
-        editWorkerFrame.setVisible(true);
+        TemporaryPanelLauncher.launchPanel(
+            editWorkersPanel,
+            (createdFrame) -> this.createdFrame = createdFrame,
+            frameCloseListener
+        );
     }
 
-    private EditWorkersPanelLauncher() {}
-
-    private static void onCancelInternal(final JFrame frame, final Runnable onCancel) {
+    private void onCancelInternal(final Runnable onCancel) {
         onCancel.run();
-        frame.setVisible(false);
-        frame.dispose();
+        getCreatedFrame().setVisible(false);
+        getCreatedFrame().dispose();
     }
 
-    private static void onSubmitInternal(
-        final JFrame frame,
+    private void onSubmitInternal(
         final Consumer<List<List<String>>> onSubmit,
         final List<List<String>> updatedWorkerNames,
         final boolean allowRepeatSelections
@@ -90,15 +93,14 @@ public class EditWorkersPanelLauncher {
 
         onSubmit.accept(updatedWorkerNames);
 
-        frame.setVisible(false);
-        frame.dispose();
+        getCreatedFrame().setVisible(false);
+        getCreatedFrame().dispose();
     }
 
-    private static JFrame createFrame(final FrameCloseListener frameCloseListener) {
-        final JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setResizable(false);
-        frame.addWindowListener(frameCloseListener);
-        return frame;
+    private JFrame getCreatedFrame() {
+        if (createdFrame == null) {
+            throw new NullPointerException("createdFrame must be set before it is accessed.");
+        }
+        return createdFrame;
     }
 }
