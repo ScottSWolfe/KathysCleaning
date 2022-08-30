@@ -28,7 +28,6 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
     private final Consumer<HousePanel> addHousePanel;
     private final Consumer<HousePanel> deleteHousePanel;
 
-
     public static HousePanelsScrollPane from(
         final WindowListener popUpWindowListener,
         final Consumer<HousePanel> moveHousePanelUp,
