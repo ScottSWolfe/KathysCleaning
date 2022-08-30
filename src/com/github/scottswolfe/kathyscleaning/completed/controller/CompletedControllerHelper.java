@@ -3,9 +3,7 @@ package com.github.scottswolfe.kathyscleaning.completed.controller;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.Scanner;
 
 import javax.swing.SwingUtilities;
@@ -14,13 +12,13 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HeaderData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
+import com.github.scottswolfe.kathyscleaning.completed.view.CompletedTabbedPane;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
@@ -30,15 +28,17 @@ import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledContr
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
-
 public class CompletedControllerHelper implements ControllerHelper<TabbedPane, CompletedModel> {
 
-/* PUBLIC METHODS =========================================================== */
-
-    TabbedPane tp;
+    private TabbedPane tabbedPane;
 
     @Override
-    public CompletedModel readViewIntoModel(TabbedPane tp) {
+    public void readInputAndWriteToFileHook() {
+        saveHousePay();
+    }
+
+    @Override
+    public CompletedModel readViewIntoModel(final TabbedPane tp) {
         CompletedModel completedModel = new CompletedModel();
         DayData[] dayData = new DayData[5];
 
@@ -47,22 +47,22 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
 
             // Header for day
             HeaderData headerData = new HeaderData();
-            headerData.setDate(tp.day_panel[d].header_panel.getDate());
-            headerData.setWorkers(tp.day_panel[d].header_panel.getWorkers());
+            headerData.setDate(tp.day_panel[d].headerPanel.getDate());
+            headerData.setWorkers(tp.day_panel[d].headerPanel.getWorkers());
 
             // Houses in day
-            HouseData[] houseData = new HouseData[tp.day_panel[d].house_panel.length];
+            HouseData[] houseData = new HouseData[tp.day_panel[d].getHousePanelCount()];
 
             // for each house panel in the day
             for (int h = 0; h < houseData.length; h++) {
                 houseData[h] = new HouseData();
-                houseData[h].setHouseName(tp.day_panel[d].house_panel[h].getHouseNameText());
-                houseData[h].setHousePay(tp.day_panel[d].house_panel[h].getAmountEarnedText());
-                houseData[h].setTimeBegin(tp.day_panel[d].house_panel[h].getBeginTimeText());
-                houseData[h].setTimeEnd(tp.day_panel[d].house_panel[h].getEndTimeText());
-                houseData[h].setSelectedWorkers(tp.day_panel[d].house_panel[h].getSelectedWorkerNames());
-                houseData[h].setWorkerList(tp.day_panel[d].house_panel[h].getWorkerList());
-                houseData[h].setExceptionData(tp.day_panel[d].house_panel[h].getExceptionData());
+                houseData[h].setHouseName(tp.day_panel[d].getHousePanel(h).getHouseNameText());
+                houseData[h].setHousePay(tp.day_panel[d].getHousePanel(h).getAmountEarnedText());
+                houseData[h].setTimeBegin(tp.day_panel[d].getHousePanel(h).getBeginTimeText());
+                houseData[h].setTimeEnd(tp.day_panel[d].getHousePanel(h).getEndTimeText());
+                houseData[h].setSelectedWorkers(tp.day_panel[d].getHousePanel(h).getSelectedWorkerNames());
+                houseData[h].setWorkerList(tp.day_panel[d].getHousePanel(h).getWorkerList());
+                houseData[h].setExceptionData(tp.day_panel[d].getHousePanel(h).getExceptionData());
             }
 
             dayData[d] = new DayData();
@@ -92,18 +92,18 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             day_data = completedModel.dayData[d];
 
             // set header panel
-            HeaderPanel headerPanel = day_panel.header_panel;
+            HeaderPanel headerPanel = day_panel.headerPanel;
             HeaderData headerData = day_data.getHeaderData();
             headerPanel.setDate(headerData.getDate());
             headerPanel.setWorkers(headerData.getWorkers());
 
-            num_house_panels = day_panel.house_panel.length;
+            num_house_panels = day_panel.getHousePanelCount();
             num_house_datas = day_data.houseData.length;
 
             // iterate through each house
             for (int h = 0; h < num_house_datas; h++) {
 
-                house_panel = day_panel.house_panel[h];
+                house_panel = day_panel.getHousePanel(h);
                 house_data = day_data.houseData[h];
 
                 house_panel.setHouseNameText(house_data.getHouseName());
@@ -141,58 +141,30 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
 
     @Override
     public void saveToFile(CompletedModel model, File file) {
-        JsonMethods.saveToFileJSON(model, CompletedModel.class,
-                                   file, Form.COMPLETED.getNum());
+        JsonMethods.saveToFileJSON(model, CompletedModel.class, file, Form.COMPLETED.getNum());
     }
 
     @Override
     public CompletedModel loadFromFile(File file) {
-        return (CompletedModel) JsonMethods.loadFromFileJSON(CompletedModel.class, file,
-                                                   Form.COMPLETED.getNum());
+        return (CompletedModel) JsonMethods.loadFromFileJSON(CompletedModel.class, file, Form.COMPLETED.getNum());
     }
 
     @Override
     public void initializeForm(GeneralController<TabbedPane, CompletedModel> controller) {
 
-        WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+        final MainFrame<TabbedPane, CompletedModel> frame = new MainFrame<>(controller);
 
-        TabbedPane tp = new TabbedPane();
-        tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
+        tabbedPane = CompletedTabbedPane.from(
+            frame,
+            controller
+        );
 
-        // creating array of dates
-        Calendar[] day = new Calendar[5];
-        Calendar temp_date = SessionModel.getCompletedStartDay();
-        for(int i = 0; i < day.length; i++) {
-            day[i] = Calendar.getInstance();
-            day[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
-            temp_date.add(Calendar.DATE, 1);
-        }
-
-        controller.setView(tp);
-
-        MainFrame<TabbedPane, CompletedModel> frame = new MainFrame<>(controller);
-
-        DayPanel[] day_panel = new DayPanel[5];
-        for(int i = 0; i < 5; i++){
-            day_panel[i] = new DayPanel(controller,
-                    tp, workers, day[i],
-                    frame, Settings.TRUE_MODE, 2); // TODO remove wk = 2
-        }
-        tp.day_panel = day_panel;
-
-        tp.addTab("Monday", day_panel[0]);
-        tp.addTab("Tuesday", day_panel[1]);
-        tp.addTab("Wednesday", day_panel[2]);
-        tp.addTab("Thursday", day_panel[3]);
-        tp.addTab("Friday", day_panel[4]);
-
-        tp.changePreviousTab(0);
-        tp.addChangeListener(new TabChangeListener(tp, frame));
+        controller.setView(tabbedPane);
 
         controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
 
         frame.setBackground(Settings.BACKGROUND_COLOR);
-        frame.add(tp);
+        frame.add(tabbedPane);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -200,7 +172,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
 
     @Override
     public void updateDate(TabbedPane tp) {
-        this.tp = tp;
+        this.tabbedPane = tp;
         ChooseWeekPanel.initializePanel(this, false);
     }
 
@@ -214,15 +186,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             temp_date.add(Calendar.DATE, 1);
         }
 
-        for (int i = 0; i < tp.day_panel.length; i++) {
-            tp.day_panel[i].header_panel.date = days[i];
-
-            String weekDay;
-            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
-            weekDay = dayFormat.format(days[i].getTime());
-
-            tp.day_panel[i].header_panel.day_label.setText(weekDay);
-            tp.day_panel[i].header_panel.date_label.setText((Integer.parseInt(String.valueOf(days[i].get(Calendar.MONTH)))+1) + "/" + days[i].get(Calendar.DATE) + "/" + days[i].get(Calendar.YEAR));
+        for (int i = 0; i < tabbedPane.day_panel.length; i++) {
+            tabbedPane.day_panel[i].headerPanel.setDate(days[i]);
         }
     }
 
@@ -235,9 +200,11 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
 
     /**
      * Saves the amount of money earned at a house as the house's default
-     * amount earned. // TODO rewrite so can be saved as key-value pairs in json
+     * amount earned.
+     *
+     * todo: rewrite so can be saved as key-value pairs in json
      */
-    public static void saveHousePay(TabbedPane tp) {
+    public void saveHousePay() {
 
         BufferedWriter bw = null;
         try {
@@ -263,19 +230,19 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             // for each day
             for (int d=0; d<5; d++) {
 
-                DayPanel dp = tp.day_panel[d];
+                DayPanel dp = tabbedPane.day_panel[d];
 
                 // for each house
-                for (int h=0; h<dp.house_panel.length; h++) {
+                for (int h = 0; h<dp.getHousePanelCount(); h++) {
 
                     boolean match = false;
 
                     // for length of array
                     for (int k=0; k<s.length; k++) {
 
-                        if (s[k].equalsIgnoreCase( dp.house_panel[h].getHouseNameText() )) {
+                        if (s[k].equalsIgnoreCase( dp.getHousePanel(h).getHouseNameText() )) {
 
-                            s[k+1] = dp.house_panel[h].getAmountEarnedText();
+                            s[k+1] = dp.getHousePanel(h).getAmountEarnedText();
                             match = true;
                             break;
                         }
@@ -289,8 +256,8 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
                             r[l] = s[l];
                         }
 
-                        r[r.length-2] = dp.house_panel[h].getHouseNameText();
-                        r[r.length-1] = dp.house_panel[h].getAmountEarnedText();
+                        r[r.length-2] = dp.getHousePanel(h).getHouseNameText();
+                        r[r.length-1] = dp.getHousePanel(h).getAmountEarnedText();
 
                         s = r;
                     }

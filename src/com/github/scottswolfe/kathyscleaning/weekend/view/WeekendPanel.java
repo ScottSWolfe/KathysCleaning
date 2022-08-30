@@ -314,7 +314,7 @@ public class WeekendPanel extends JPanel {
 	        frame.dispose();
 
 	        GeneralController<TabbedPane, NW_Data> scheduledController = new GeneralController<>(Form.SCHEDULED);
-	        scheduledController.initializeForm(scheduledController);
+	        scheduledController.initializeForm();
 		}
 
 	}

@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener.Action;
@@ -69,8 +68,7 @@ public class ExcelMethods {
             System.exit(0);
         }
 
-        controller.initializeForm(
-                new GeneralController(controller.getFormType()));
+        controller.initializeForm();
     }
 
     private static String getDefaultSaveFileName() {

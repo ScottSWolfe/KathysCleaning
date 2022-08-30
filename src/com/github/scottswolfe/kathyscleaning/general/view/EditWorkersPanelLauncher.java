@@ -1,10 +1,10 @@
 package com.github.scottswolfe.kathyscleaning.general.view;
 
-import com.github.scottswolfe.kathyscleaning.component.EditWorkersPanel;
-import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
+import com.github.scottswolfe.kathyscleaning.component.WorkerComboBoxGridPanel;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
-import javax.swing.*;
+import java.awt.event.WindowListener;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
  */
 public class EditWorkersPanelLauncher {
 
-    private JFrame createdFrame = null;
+    private final PopUpFormLauncher popUpFormLauncher = PopUpFormLauncher.from();
+
+    private WorkerComboBoxGridPanel workerComboBoxesPanel;
 
     public static EditWorkersPanelLauncher from() {
         return new EditWorkersPanelLauncher();
@@ -29,7 +31,7 @@ public class EditWorkersPanelLauncher {
         final boolean allowRepeatSelections,
         final Runnable onCancel,
         final Consumer<List<List<String>>> onSubmit,
-        final FrameCloseListener frameCloseListener
+        final WindowListener popUpWindowListener
     ) {
         launchPanel(
             currentWorkerNames,
@@ -39,7 +41,7 @@ public class EditWorkersPanelLauncher {
             allowRepeatSelections,
             onCancel,
             onSubmit,
-            frameCloseListener
+            popUpWindowListener
         );
     }
 
@@ -51,28 +53,22 @@ public class EditWorkersPanelLauncher {
         final boolean allowRepeatSelections,
         final Runnable onCancel,
         final Consumer<List<List<String>>> onSubmit,
-        final FrameCloseListener frameCloseListener
+        final WindowListener popUpWindowListener
     ) {
-        final JPanel editWorkersPanel = EditWorkersPanel.from(
+        workerComboBoxesPanel = WorkerComboBoxGridPanel.from(
             currentWorkerNames,
             availableWorkerNames,
             rowCount,
             columnCount,
-            () -> onCancelInternal(onCancel),
-            (updatedWorkerNames) -> onSubmitInternal(onSubmit, updatedWorkerNames, allowRepeatSelections)
+            Settings.BACKGROUND_COLOR
         );
 
-        TemporaryPanelLauncher.launchPanel(
-            editWorkersPanel,
-            (createdFrame) -> this.createdFrame = createdFrame,
-            frameCloseListener
+        popUpFormLauncher.launchPanel(
+            workerComboBoxesPanel,
+            onCancel,
+            () -> onSubmitInternal(onSubmit, workerComboBoxesPanel.getSelectedWorkers(), allowRepeatSelections),
+            popUpWindowListener
         );
-    }
-
-    private void onCancelInternal(final Runnable onCancel) {
-        onCancel.run();
-        getCreatedFrame().setVisible(false);
-        getCreatedFrame().dispose();
     }
 
     private void onSubmitInternal(
@@ -87,20 +83,10 @@ public class EditWorkersPanelLauncher {
 
             if (StaticMethods.isRepeatWorker(flatListUpdatedWorkerNames)) {
                 StaticMethods.shareRepeatWorker();
-                return;
+                throw new PopUpFormLauncher.ButtonListenerException();
             }
         }
 
         onSubmit.accept(updatedWorkerNames);
-
-        getCreatedFrame().setVisible(false);
-        getCreatedFrame().dispose();
-    }
-
-    private JFrame getCreatedFrame() {
-        if (createdFrame == null) {
-            throw new NullPointerException("createdFrame must be set before it is accessed.");
-        }
-        return createdFrame;
     }
 }

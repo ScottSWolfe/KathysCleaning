@@ -110,7 +110,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         controller.eliminateWindow();
         GeneralController<TabbedPane, CompletedModel> newController =
                 new GeneralController<>(Form.COMPLETED);
-        newController.initializeForm(newController);
+        newController.initializeForm();
     }
 
     public void menuItemGoCovenant() {
@@ -118,14 +118,14 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         controller.eliminateWindow();
         GeneralController<CovenantPanel, CovenantModel> newController =
                 new GeneralController<>(Form.COVENANT);
-        newController.initializeForm(newController);
+        newController.initializeForm();
     }
 
     public void menuItemGoLBC() {
         controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
         controller.eliminateWindow();
         GeneralController<LBCPanel, LBCModel> newController = new GeneralController<>(Form.LBC);
-        newController.initializeForm(newController);
+        newController.initializeForm();
     }
 
     public void menuItemGoWeekend() {
@@ -133,7 +133,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         controller.eliminateWindow();
         GeneralController<WeekendPanel, WeekendModel> newController =
                 new GeneralController<>(Form.WEEKEND);
-        newController.initializeForm(newController);
+        newController.initializeForm();
     }
 
     public void menuItemGoNextWeek() {
@@ -141,7 +141,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         controller.eliminateWindow();
         GeneralController<TabbedPane, NW_Data> newController =
                 new GeneralController<>(Form.SCHEDULED);
-        newController.initializeForm(newController);
+        newController.initializeForm();
     }
 
     public void menuItemLoadSchedule() {

@@ -97,7 +97,7 @@ public class CovenantListeners {
 
             // todo: revert to LBC when LBC form is ready
             GeneralController<WeekendPanel, WeekendModel> weekendController = new GeneralController<>(Form.WEEKEND);
-            weekendController.initializeForm(weekendController);
+            weekendController.initializeForm();
         }
     }
 

@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,12 +9,10 @@ import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.completed.controller.HouseNameDocumentListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
@@ -24,7 +23,7 @@ import com.github.scottswolfe.kathyscleaning.component.KcButton;
 import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.general.view.ExceptionsPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -40,24 +39,20 @@ public class HousePanel extends JPanel implements FocusableCollection {
     private final AmountEarnedPanel amountEarnedPanel;
     private final TimeRangePanel timePanel;
     private final WorkerSelectPanel workerSelectPanel;
-    public final KcButton exceptionsButton;
+    private final KcButton exceptionsButton;
     private final HouseRowButtonPanel houseRowButtonPanel;
 
     private ExceptionData exceptionData;
 
     public static HousePanel from(
-        final JFrame parentFrame,
-        final TabbedPane parentTabbedPane,
-        final DayPanel parentDayPanel,
+        final WindowListener exceptionsPopUpWindowListener,
         final Function<HousePanel, ActionListener> buildMoveUpActionListener,
         final Function<HousePanel, ActionListener> buildMoveDownActionListener,
         final Function<HousePanel, ActionListener> buildAddHouseActionListener,
         final Function<HousePanel, ActionListener> buildDeleteHouseActionListener
     ) {
         return new HousePanel(
-            parentDayPanel,
-            parentFrame,
-            parentTabbedPane,
+            exceptionsPopUpWindowListener,
             buildMoveUpActionListener,
             buildMoveDownActionListener,
             buildAddHouseActionListener,
@@ -66,9 +61,7 @@ public class HousePanel extends JPanel implements FocusableCollection {
     }
 
     private HousePanel(
-        final DayPanel parentDayPanel,
-        final JFrame parentFrame,
-        final TabbedPane parentTabbedPane,
+        final WindowListener exceptionsPopUpWindowListener,
         final Function<HousePanel, ActionListener> buildMoveUpActionListener,
         final Function<HousePanel, ActionListener> buildMoveDownActionListener,
         final Function<HousePanel, ActionListener> buildAddHouseActionListener,
@@ -94,11 +87,12 @@ public class HousePanel extends JPanel implements FocusableCollection {
         );
         exceptionsButton = new KcButton(
             "Exceptions",
-            new ExceptionListener(
+            (event) -> ExceptionsPanelLauncher.from().launchPanel(
                 workerList,
-                parentFrame,
                 () -> this.exceptionData,
-                this::setExceptionData
+                () -> {},
+                this::setExceptionData,
+                exceptionsPopUpWindowListener
             )
         );
         houseRowButtonPanel = HouseRowButtonPanel.from(

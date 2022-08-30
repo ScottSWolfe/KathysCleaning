@@ -180,14 +180,14 @@ public class NW_HeaderPanel extends JPanel {
 
         previous_day = new JButton("Previous");
         previous_day.setFont( previous_day.getFont().deriveFont( Settings.FONT_SIZE ) );
-        previous_day.addActionListener( new PreviousDayListener(tp,frame) );
+        previous_day.addActionListener( new PreviousDayListener(tp) );
         previous_day.setPreferredSize(new Dimension(100,40));
         previous_day.setBackground(Settings.CHANGE_DAY_COLOR);
         previous_day.setForeground(Settings.FOREGROUND_COLOR);
 
         next_day = new JButton("  Next  ");
         next_day.setFont( next_day.getFont().deriveFont( Settings.FONT_SIZE ) );
-        next_day.addActionListener( new NextDayListener(tp,frame) );
+        next_day.addActionListener( new NextDayListener(tp) );
         next_day.setPreferredSize(new Dimension(100,40));
         next_day.setBackground(Settings.CHANGE_DAY_COLOR);
         next_day.setForeground(Settings.FOREGROUND_COLOR);

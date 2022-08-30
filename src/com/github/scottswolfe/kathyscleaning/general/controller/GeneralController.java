@@ -30,30 +30,27 @@ import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendExcelHelp
 /**
  * Controller for each form
  */
-public class GeneralController<ViewObject, ModelObject>
-             implements Controller<ViewObject, ModelObject> {
-
-/* INSTANCE VARIABLES ======================================================= */
+public class GeneralController<View, Model> implements Controller<View, Model> {
 
     /**
      * The view this controller controls
      */
-    private ViewObject view;
+    private View view;
 
     /**
      * The model this controller controls
      */
-    private ModelObject model;
+    private Model model;
 
     /**
      * The helper for this controller
      */
-    private ControllerHelper<ViewObject, ModelObject> helper;
+    private ControllerHelper<View, Model> helper;
 
     /**
      * The excel helper for this controller
      */
-    private ExcelHelper<ModelObject> excelHelper;
+    private ExcelHelper<Model> excelHelper;
 
     /**
      * True if currently loading file into view; false otherwise
@@ -84,20 +81,20 @@ public class GeneralController<ViewObject, ModelObject>
     public GeneralController(Form type) {
         form = type;
         if (type == Form.COMPLETED) {
-            helper = (ControllerHelper<ViewObject, ModelObject>) new CompletedControllerHelper();
-            excelHelper = (ExcelHelper<ModelObject>) new CompletedExcelHelper();
+            helper = (ControllerHelper<View, Model>) new CompletedControllerHelper();
+            excelHelper = (ExcelHelper<Model>) new CompletedExcelHelper();
         } else if (type == Form.COVENANT) {
-            helper = (ControllerHelper<ViewObject, ModelObject>) new CovenantControllerHelper();
-            excelHelper = (ExcelHelper<ModelObject>) new CovenantExcelHelper();
+            helper = (ControllerHelper<View, Model>) new CovenantControllerHelper();
+            excelHelper = (ExcelHelper<Model>) new CovenantExcelHelper();
         } else if (type == Form.LBC) {
-            helper = (ControllerHelper<ViewObject, ModelObject>) new LBCControllerHelper();
-            excelHelper = (ExcelHelper<ModelObject>) new LBCExcelHelper();
+            helper = (ControllerHelper<View, Model>) new LBCControllerHelper();
+            excelHelper = (ExcelHelper<Model>) new LBCExcelHelper();
         } else if (type == Form.WEEKEND) {
-            helper = (ControllerHelper<ViewObject, ModelObject>) new WeekendControllerHelper();
-            excelHelper = (ExcelHelper<ModelObject>) new WeekendExcelHelper();
+            helper = (ControllerHelper<View, Model>) new WeekendControllerHelper();
+            excelHelper = (ExcelHelper<Model>) new WeekendExcelHelper();
         } else if (type == Form.SCHEDULED) {
-            helper = (ControllerHelper<ViewObject, ModelObject>) new ScheduledControllerHelper();
-            excelHelper = (ExcelHelper<ModelObject>) new ScheduledExcelHelper();
+            helper = (ControllerHelper<View, Model>) new ScheduledControllerHelper();
+            excelHelper = (ExcelHelper<Model>) new ScheduledExcelHelper();
         } else {
             throw new RuntimeException("unexpected Form type");
         }
@@ -109,6 +106,7 @@ public class GeneralController<ViewObject, ModelObject>
 
     @Override
     public void readInputAndWriteToFile(File file) {
+        helper.readInputAndWriteToFileHook();
         model = helper.readViewIntoModel(view);
         helper.saveToFile(model, TEMP_SAVE_FILE);
         SessionModel.save(TEMP_SAVE_FILE);
@@ -136,7 +134,7 @@ public class GeneralController<ViewObject, ModelObject>
     }
 
     @Override
-    public void initializeForm(GeneralController<ViewObject, ModelObject> controller) {
+    public void initializeForm() {
         helper.initializeForm(this);
     }
 
@@ -181,22 +179,22 @@ public class GeneralController<ViewObject, ModelObject>
 // GETTERS/SETTERS ---------------------------------------------------------- */
 
     @Override
-    public void setView(ViewObject obj) {
-        this.view = (ViewObject) obj;
+    public void setView(View obj) {
+        this.view = (View) obj;
     }
 
     @Override
-    public ViewObject getView() {
+    public View getView() {
         return view;
     }
 
     @Override
-    public void setModel(ModelObject obj) {
-        this.model = (ModelObject) obj;
+    public void setModel(Model obj) {
+        this.model = (Model) obj;
     }
 
     @Override
-    public ModelObject getModel() {
+    public Model getModel() {
         return model;
     }
 
@@ -204,12 +202,12 @@ public class GeneralController<ViewObject, ModelObject>
         openingFile = opening;
     }
 
-    public void setControllerHelper(ControllerHelper<ViewObject, ModelObject>
+    public void setControllerHelper(ControllerHelper<View, Model>
                                                                  helper) {
         this.helper = helper;
     }
 
-    public void setExcelHelper(ExcelHelper<ModelObject> excelHelper) {
+    public void setExcelHelper(ExcelHelper<Model> excelHelper) {
         this.excelHelper = excelHelper;
     }
 

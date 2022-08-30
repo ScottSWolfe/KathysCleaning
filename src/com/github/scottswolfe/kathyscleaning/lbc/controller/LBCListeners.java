@@ -93,7 +93,7 @@ public class LBCListeners {
             lbcPanel.getFrame().dispose();
 
             GeneralController<WeekendPanel, WeekendModel> weekendController = new GeneralController<>(Form.WEEKEND);
-            weekendController.initializeForm(weekendController);
+            weekendController.initializeForm();
         }
     }
 
