@@ -1,7 +1,5 @@
 package com.github.scottswolfe.kathyscleaning.component;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
@@ -9,6 +7,7 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,14 +15,14 @@ public class SubmitFormPanel extends JPanel implements FocusableCollection {
 
     private final KcButton submitFormButton;
 
-    public static <View, Model> SubmitFormPanel from(final Controller<View, Model> controller) {
-        return new SubmitFormPanel(controller);
+    public static SubmitFormPanel from(final ActionListener submitFormListener) {
+        return new SubmitFormPanel(submitFormListener);
     }
 
-    private <View, Model> SubmitFormPanel(final Controller<View, Model> controller) {
+    private SubmitFormPanel(final ActionListener submitFormListener) {
         super();
 
-        submitFormButton = new KcButton("Next", SubmitFormListener.from(controller));
+        submitFormButton = new KcButton("Next", submitFormListener);
         submitFormButton.setPreferredSize(new Dimension(100,40));
         submitFormButton.setBackground(Settings.MAIN_COLOR);
         submitFormButton.setForeground(Settings.FOREGROUND_COLOR);

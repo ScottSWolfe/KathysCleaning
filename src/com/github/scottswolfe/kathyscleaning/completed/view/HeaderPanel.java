@@ -14,15 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.component.ChangeDayPanel;
 import com.github.scottswolfe.kathyscleaning.component.CopyWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.component.DatePanel;
 import com.github.scottswolfe.kathyscleaning.component.SubmitFormPanel;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -36,13 +33,31 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
     private final ChangeDayPanel changeDayPanel;
     private final SubmitFormPanel submitFormPanel;
 
-    public HeaderPanel(
-        final Controller<TabbedPane, CompletedModel> controller,
-        final WorkerList dwd,
+    public static HeaderPanel from(
+        final WorkerList workerList,
         final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
         final ActionListener previousDayButtonListener,
         final ActionListener nextDayButtonListener,
-        final WindowListener popUpWindowListener
+        final WindowListener popUpWindowListener,
+        final ActionListener submitFormListener
+    ) {
+        return new HeaderPanel(
+            workerList,
+            onCopyWorkersButtonPress,
+            previousDayButtonListener,
+            nextDayButtonListener,
+            popUpWindowListener,
+            submitFormListener
+        );
+    }
+
+    private HeaderPanel(
+        final WorkerList workerList,
+        final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
+        final ActionListener previousDayButtonListener,
+        final ActionListener nextDayButtonListener,
+        final WindowListener popUpWindowListener,
+        final ActionListener submitFormListener
     ) {
         setLayout(new MigLayout("gap 0 px, insets 1","[grow][grow][grow][grow][grow]","[grow]"));
         setBackground(Settings.HEADER_BACKGROUND);
@@ -50,14 +65,14 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
 
         datePanel = DatePanel.from(SessionModel.getCompletedStartDay());
         copyWorkersPanel = CopyWorkersPanel.from(
-            dwd,
+            workerList,
             HousePanel.WORKER_SELECTION_ROW_COUNT,
             HousePanel.WORKER_SELECTION_COLUMN_COUNT,
             onCopyWorkersButtonPress,
             popUpWindowListener
         );
         changeDayPanel = ChangeDayPanel.from(previousDayButtonListener, nextDayButtonListener);
-        submitFormPanel = SubmitFormPanel.from(controller);
+        submitFormPanel = SubmitFormPanel.from(submitFormListener);
 
         int day_panel_width_min = 133 + (int) Settings.FONT_SIZE; // temp fix
 

@@ -13,9 +13,8 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListen
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.EditWorkersPanelLauncher;
+import com.github.scottswolfe.kathyscleaning.utility.FormLauncher;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
-import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
-import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
 /**
  * Listeners of CovenantPanel
@@ -95,9 +94,7 @@ public class CovenantListeners {
             covPanel.getFrame().setVisible(false);
             covPanel.getFrame().dispose();
 
-            // todo: revert to LBC when LBC form is ready
-            GeneralController<WeekendPanel, WeekendModel> weekendController = new GeneralController<>(Form.WEEKEND);
-            weekendController.initializeForm();
+            FormLauncher.from().launchNextForm(Form.COVENANT);
         }
     }
 

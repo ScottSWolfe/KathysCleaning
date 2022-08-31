@@ -1,5 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
+import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,12 +9,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
-import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -29,19 +25,36 @@ public class DayPanel extends JPanel implements FocusableCollection {
     public final HeaderPanel headerPanel;
     public final HousePanelsScrollPane scrollPane;
 
-    public DayPanel(
-        final Controller<TabbedPane, CompletedModel> controller,
-        final TabbedPane tabbedPane,
-        final WorkerList dwd,
+    public static DayPanel from(
+        final WorkerList workerList,
+        final ActionListener previousDayButtonListener,
+        final ActionListener nextDayButtonListener,
+        final ActionListener submitFormListener,
         final WindowListener popUpWindowListener
     ) {
-        headerPanel = new HeaderPanel(
-            controller,
-            dwd,
+        return new DayPanel(
+             workerList,
+             previousDayButtonListener,
+             nextDayButtonListener,
+             submitFormListener,
+             popUpWindowListener
+        );
+    }
+
+    private DayPanel(
+        final WorkerList workerList,
+        final ActionListener previousDayButtonListener,
+        final ActionListener nextDayButtonListener,
+        final ActionListener submitFormListener,
+        final WindowListener popUpWindowListener
+    ) {
+        headerPanel = HeaderPanel.from(
+            workerList,
             this::setWorkerSelectionsForAllHouses,
-            new PreviousDayListener(tabbedPane),
-            new NextDayListener(tabbedPane),
-            popUpWindowListener
+            previousDayButtonListener,
+            nextDayButtonListener,
+            popUpWindowListener,
+            submitFormListener
         );
 
         scrollPane = HousePanelsScrollPane.from(
