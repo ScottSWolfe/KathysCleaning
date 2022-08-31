@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.lbc.view;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
+import com.github.scottswolfe.kathyscleaning.component.AmountEarnedPanel;
 import com.github.scottswolfe.kathyscleaning.component.KcButton;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
@@ -28,6 +29,7 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
     private final ExceptionData exceptionData;
 
     private final RowLabelPanel dayOfWeekLabelPanel;
+    private final AmountEarnedPanel amountEarnedPanel;
     private final TimeRangePanel timeRangePanel;
     private final WorkerSelectPanel workerSelectPanel;
     private final KcButton exceptionsButton;
@@ -50,6 +52,7 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
         exceptionData = new ExceptionData();
 
         dayOfWeekLabelPanel = RowLabelPanel.from(dayOfWeek.getName());
+        amountEarnedPanel = AmountEarnedPanel.from();
         timeRangePanel = TimeRangePanel.from();
         workerSelectPanel = WorkerSelectPanel.from(workerList, Settings.BACKGROUND_COLOR);
         exceptionsButton = new KcButton(
@@ -68,9 +71,10 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
         setBorder(BorderFactory.createTitledBorder(""));
 
         add(dayOfWeekLabelPanel, "grow, w 200!");
-        add(new JSeparator(SwingConstants.VERTICAL), "grow");
-        add(timeRangePanel, "grow");
-        add(new JSeparator(SwingConstants.VERTICAL), "grow");
+        add(new JSeparator(SwingConstants.VERTICAL), "grow, gapx 10 10");
+        add(amountEarnedPanel, "grow, gapright 5");
+        add(timeRangePanel, "grow, gapleft 5");
+        add(new JSeparator(SwingConstants.VERTICAL), "grow, gapx 10 10");
         add(workerSelectPanel, "grow");
         add(exceptionsButton, "center");
 

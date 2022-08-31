@@ -54,12 +54,12 @@ public class LBCHeaderPanel extends JPanel implements FocusableCollection {
 
         submitFormPanel = SubmitFormPanel.from(submitFormListener);
 
-        setLayout(new MigLayout("fill", "[grow][][grow]", "[grow]"));
+        setLayout(new MigLayout("fill, insets 0", "[grow][][grow]", "[grow]"));
         setBackground(Settings.BACKGROUND_COLOR);
-        setBorder(BorderFactory.createLineBorder(null, 2));
+        setBorder(BorderFactory.createLineBorder(null, 1));
 
         add(copyWorkersPanel, "center");
-        add(new JSeparator(SwingConstants.VERTICAL), "center");
+        add(new JSeparator(SwingConstants.VERTICAL), "grow, center, gapx 10 10");
         add(submitFormPanel, "center");
 
         connectFocusableComponents();
