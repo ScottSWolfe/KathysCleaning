@@ -2,6 +2,7 @@ package com.github.scottswolfe.kathyscleaning.lbc.view;
 
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.google.common.collect.ImmutableList;
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,6 +26,11 @@ public class LBCDaysPanel extends JPanel implements FocusableCollection {
         DayOfWeek.SATURDAY
     );
 
+    public final static int PANEL_PADDING = 4;
+    private static final String DAY_PANEL_CONSTRAINTS = "grow";
+    private static final String DAY_PANEL_CONSTRAINTS_WITH_BOTTOM_PADDING =
+        DAY_PANEL_CONSTRAINTS + ", wrap " + PANEL_PADDING;
+
     public static LBCDaysPanel from(final WindowListener popUpWindowListener) {
         return new LBCDaysPanel(popUpWindowListener);
     }
@@ -35,10 +41,13 @@ public class LBCDaysPanel extends JPanel implements FocusableCollection {
             .map(dayOfWeek -> LBCDayPanel.from(dayOfWeek, popUpWindowListener))
             .collect(Collectors.toList());
 
-        setLayout(new MigLayout());
-        for (LBCDayPanel dayCompleted : daysCompleted) {
-            add(dayCompleted, "wrap");
+        setLayout(new MigLayout("fill, insets 0"));
+        setBackground(Settings.BACKGROUND_COLOR);
+        for (int index = 0; index < daysCompleted.size() - 1; index++) {
+            final LBCDayPanel lbcDayPanel = daysCompleted.get(index);
+            add(lbcDayPanel, DAY_PANEL_CONSTRAINTS_WITH_BOTTOM_PADDING);
         }
+        add(daysCompleted.get(daysCompleted.size() - 1), DAY_PANEL_CONSTRAINTS);
 
         connectFocusableComponents();
     }

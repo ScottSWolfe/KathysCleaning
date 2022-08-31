@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.lbc.view;
 
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -43,9 +44,10 @@ public class LBCPanel extends JPanel implements FocusableCollection {
         );
         lbcDaysPanel = LBCDaysPanel.from(popUpWindowListener);
 
-        setLayout(new MigLayout());
-        add(lbcHeaderPanel, "wrap");
-        add(lbcDaysPanel);
+        setLayout(new MigLayout("fill, insets 0"));
+        setBackground(Settings.BACKGROUND_COLOR);
+        add(lbcHeaderPanel, "grow, wrap");
+        add(lbcDaysPanel, "grow");
 
         connectFocusableComponents();
     }

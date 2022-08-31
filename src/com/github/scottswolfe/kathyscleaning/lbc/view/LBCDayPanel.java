@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.lbc.view;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.component.KcButton;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
+import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -12,8 +13,11 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,6 +28,7 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
     private final ExceptionData exceptionData;
 
     private final RowLabelPanel dayOfWeekLabelPanel;
+    private final TimeRangePanel timeRangePanel;
     private final WorkerSelectPanel workerSelectPanel;
     private final KcButton exceptionsButton;
 
@@ -45,6 +50,7 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
         exceptionData = new ExceptionData();
 
         dayOfWeekLabelPanel = RowLabelPanel.from(dayOfWeek.getName());
+        timeRangePanel = TimeRangePanel.from();
         workerSelectPanel = WorkerSelectPanel.from(workerList, Settings.BACKGROUND_COLOR);
         exceptionsButton = new KcButton(
             "Exceptions",
@@ -57,10 +63,16 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
             )
         );
 
-        setLayout(new MigLayout());
-        add(dayOfWeekLabelPanel);
-        add(workerSelectPanel);
-        add(exceptionsButton);
+        setLayout(new MigLayout("fill, insets 0"));
+        setBackground(Settings.BACKGROUND_COLOR);
+        setBorder(BorderFactory.createTitledBorder(""));
+
+        add(dayOfWeekLabelPanel, "grow, w 200!");
+        add(new JSeparator(SwingConstants.VERTICAL), "grow");
+        add(timeRangePanel, "grow");
+        add(new JSeparator(SwingConstants.VERTICAL), "grow");
+        add(workerSelectPanel, "grow");
+        add(exceptionsButton, "center");
 
         connectFocusableComponents();
     }
@@ -81,7 +93,7 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
     @Override
     public List<List<? extends JComponent>> getComponentsAsGrid() {
         return Collections.singletonList(
-            Arrays.asList(dayOfWeekLabelPanel, workerSelectPanel, exceptionsButton)
+            Arrays.asList(timeRangePanel, dayOfWeekLabelPanel, workerSelectPanel, exceptionsButton)
         );
     }
 }
