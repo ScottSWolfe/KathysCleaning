@@ -22,11 +22,18 @@ public enum DayOfWeek {
         this.index = index;
     }
 
+    public static DayOfWeek fromName(final String name) {
+        return Arrays.stream(DayOfWeek.values())
+            .filter(dayOfWeek -> dayOfWeek.name.equals(name))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Unexpected DayOfWeek name: " + name));
+    }
+
     public static DayOfWeek fromIndex(final int index) {
         return Arrays.stream(DayOfWeek.values())
             .filter(dayOfWeek -> dayOfWeek.index == index)
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("Unexpected DayOfWeek index"));
+            .orElseThrow(() -> new RuntimeException("Unexpected DayOfWeek index: " + index));
     }
 
     public String getName() {

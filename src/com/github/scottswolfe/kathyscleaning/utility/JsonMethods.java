@@ -10,36 +10,46 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializer;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class JsonMethods {
-    
-/* CLASS VARIABLES ========================================================== */
-    
+
+    private static final JsonDeserializer<Pair<?, ?>> pairJsonDeserializer =
+        (jsonElement, type, jsonDeserializationContext) ->
+            jsonDeserializationContext.deserialize(jsonElement, ImmutablePair.class);
+
+    private static final JsonSerializer<Pair<?, ?>> pairJsonSerializer =
+        (jsonElement, type, jsonDeserializationContext) ->
+            jsonDeserializationContext.serialize(jsonElement, ImmutablePair.class);
+
     /**
      * The Gson object used in all of JsonMethods methods
      */
-    private static Gson gson = new Gson();
-    
+    private static final Gson gson = new GsonBuilder()
+        .registerTypeAdapter(Pair.class, pairJsonDeserializer)
+        .registerTypeAdapter(Pair.class, pairJsonSerializer)
+        .create();
 
-    
-/* PUBLIC METHODS =========================================================== */
-    
     /**
      * Saves the given object to the given file in JSON format
-     * 
+     *
      * @param data the object to be jsonified
      * @param type the class of the given object
      * @param file the file to which to save the object's data
      */
     public static void saveToFileJSON(
                         Object data, Class<?> type, File file) {
-        
+
         saveToFile(data, type, file, 0);
     }
-    
+
     /**
      * Saves the given object to the given line in the file in JSON format
-     * 
+     *
      * @param data the object to be jsonified
      * @param type the class of the given object
      * @param file the file to which to save the object's data
@@ -47,14 +57,14 @@ public class JsonMethods {
      */
     public static void saveToFileJSON(Object data, Class<?> type,
                                       File file, int lineNumber) {
-        
-        
+
+
         saveToFile(data, type, file, lineNumber);
     }
-    
+
     /**
      * Returns an object with data parsed from the given JSON file and
-     * 
+     *
      * @param type the class of object to return
      * @param file the file to parse
      * @return the new object
@@ -62,10 +72,10 @@ public class JsonMethods {
     public static Object loadFromFileJSON(Class<?> type, File file) {
         return loadFromFile(type, file, 0);
     }
-    
+
     /**
      * Returns an object with data parsed from the given line in the JSON file
-     * 
+     *
      * @param type the class of object to return
      * @param file the file to parse
      * @param lineNumber the line number of the JSON object to parse
@@ -75,19 +85,16 @@ public class JsonMethods {
                                           File file, int lineNumber) {
         return loadFromFile(type, file, lineNumber);
     }
-    
-    
-/* PRIVATE METHODS ========================================================== */
-    
+
     private static void saveToFile(Object data,
                             Class<?> type, File file, int lineNumber) {
-        
+
         String json = gson.toJson(data, type);
         List<String> lines = getFileLines(file);
-        writeLinesAndJson(json, lines, file, lineNumber); 
+        writeLinesAndJson(json, lines, file, lineNumber);
     }
-    
-    private static Object loadFromFile(Class<?> type, File file, int lineNumber) { 
+
+    private static Object loadFromFile(Class<?> type, File file, int lineNumber) {
         try {
             Scanner input = new Scanner(file);
             String json = getLine(input, lineNumber);
@@ -99,7 +106,7 @@ public class JsonMethods {
             return null;
         }
     }
-    
+
     private static List<String> getFileLines(File file) {
         List<String> lines = new ArrayList<>();
         try {
@@ -113,7 +120,7 @@ public class JsonMethods {
         }
         return lines;
     }
-    
+
     private static void writeLinesAndJson(String json, List<String> lines,
                                           File file, int lineNumber) {
         try {
@@ -131,7 +138,7 @@ public class JsonMethods {
                 }
                 bw.write('\n');
             }
-            bw.close(); 
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -142,10 +149,9 @@ public class JsonMethods {
             input.nextLine();
         }
         if (input.hasNext()) {
-            return input.nextLine();   
+            return input.nextLine();
         } else {
             return "{}";
         }
     }
-        
 }

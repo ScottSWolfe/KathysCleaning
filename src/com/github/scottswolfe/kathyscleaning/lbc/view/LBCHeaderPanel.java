@@ -65,6 +65,14 @@ public class LBCHeaderPanel extends JPanel implements FocusableCollection {
         connectFocusableComponents();
     }
 
+    public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
+        return copyWorkersPanel.getWorkerSelectionGrid();
+    }
+
+    public void setWorkerSelectionGrid(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
+        copyWorkersPanel.setWorkers(workerSelectionGrid);
+    }
+
     @Override
     public List<List<? extends JComponent>> getComponentsAsGrid() {
         return Collections.singletonList(

@@ -8,17 +8,23 @@ import javax.swing.JPanel;
 
 public class RowLabelPanel extends JPanel {
 
+    private final JLabel rowLabel;
+
     public static RowLabelPanel from(final String label) {
         return new RowLabelPanel(label);
     }
 
     private RowLabelPanel(final String label) {
-        final JLabel dayLabel = new JLabel();
-        dayLabel.setText(label);
-        dayLabel.setFont(dayLabel.getFont().deriveFont(Settings.HEADER_FONT_SIZE));
+        rowLabel = new JLabel();
+        rowLabel.setText(label);
+        rowLabel.setFont(rowLabel.getFont().deriveFont(Settings.HEADER_FONT_SIZE));
 
         setLayout(new MigLayout("fill"));
         setBackground(Settings.BACKGROUND_COLOR);
-        add(dayLabel, "center");
+        add(rowLabel, "center");
+    }
+
+    public String getLabelText() {
+        return rowLabel.getText();
     }
 }

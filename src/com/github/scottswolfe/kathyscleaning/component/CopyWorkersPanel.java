@@ -87,6 +87,10 @@ public class CopyWorkersPanel extends JPanel implements FocusableCollection {
         workerSelectPanel.setWorkers(workers);
     }
 
+    public void setWorkers(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
+        workerSelectPanel.setWorkers(workerSelectionGrid);
+    }
+
     @Override
     public List<List<? extends JComponent>> getComponentsAsGrid() {
         return Collections.singletonList(Arrays.asList(workerSelectPanel, copyWorkersButton, editWorkersButton));

@@ -73,7 +73,7 @@ public class TimeMethods {
             || (normalizedEndTime.split(":")[0].equals("12")
                 && normalizedBeginTime.split(":")[0].compareTo("12") < 0)
         ) {
-            return new ImmutablePair<>(normalizedBeginTime, to24HourPM(normalizedEndTime));
+            return Pair.of(normalizedBeginTime, to24HourPM(normalizedEndTime));
         }
 
         // The case where we don't wrap over noon or midnight
@@ -82,9 +82,9 @@ public class TimeMethods {
                 || normalizedBeginTime.startsWith("00:")
                 || normalizedBeginTime.compareTo("12:00") >= 0
             ) {
-                return new ImmutablePair<>(normalizedBeginTime, normalizedEndTime);
+                return Pair.of(normalizedBeginTime, normalizedEndTime);
             } else {
-                return new ImmutablePair<>(add12Hours(normalizedBeginTime), add12Hours(normalizedEndTime));
+                return Pair.of(add12Hours(normalizedBeginTime), add12Hours(normalizedEndTime));
             }
         }
     }

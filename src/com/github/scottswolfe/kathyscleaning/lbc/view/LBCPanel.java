@@ -52,6 +52,18 @@ public class LBCPanel extends JPanel implements FocusableCollection {
         connectFocusableComponents();
     }
 
+    public List<List<Pair<String, Boolean>>> getHeaderWorkerSelectionGrid() {
+        return lbcHeaderPanel.getWorkerSelectionGrid();
+    }
+
+    public void setHeaderWorkerSelectionGrid(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
+        lbcHeaderPanel.setWorkerSelectionGrid(workerSelectionGrid);
+    }
+
+    public List<LBCDayPanel> getLBCDayPanels() {
+        return lbcDaysPanel.getLBCDayPanels();
+    }
+
     private void setWorkerSelectionsForAllDays(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
         for (int index = 0; index < lbcDaysPanel.getLBCDayPanels().size(); index++) {
             lbcDaysPanel.getLBCDayPanels().get(index).setWorkers(workerSelectionGrid);

@@ -77,7 +77,7 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
                     isSelected = workers.get(workerAddedCount).isSelected();
                     workerAddedCount++;
                 }
-                checkBoxLabelsAndStatusesInRow.add(new ImmutablePair<>(label, isSelected));
+                checkBoxLabelsAndStatusesInRow.add(Pair.of(label, isSelected));
             }
         }
         return checkBoxLabelsAndStatuses;

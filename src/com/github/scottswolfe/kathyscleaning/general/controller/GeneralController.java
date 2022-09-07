@@ -122,15 +122,7 @@ public class GeneralController<View, Model> implements Controller<View, Model> {
     @Override
     public void readFileAndWriteToView(File file) {
         model = helper.loadFromFile(file);
-        try {
-            Files.copy(file.toPath(), TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         helper.writeModelToView(model, view);
-        if (!TEMP_SAVE_FILE.equals(file)) {
-            helper.saveToFile(model, TEMP_SAVE_FILE);
-        }
     }
 
     @Override

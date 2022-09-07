@@ -22,18 +22,18 @@ public class WeekendControllerHelper
         implements ControllerHelper<WeekendPanel, WeekendModel> {
 
     WeekendPanel panel;
-    
+
     @Override
     public WeekendModel readViewIntoModel(WeekendPanel view) {
 
         WeekendModel model = new WeekendModel();
         WeekendEntry entry;
         JobPanel jp;
-        
+
         for (int i = 0; i < WeekendPanel.NUM_JOB_PANELS; i++) {
             entry = new WeekendEntry();
             jp = view.jp[i];
-            
+
             entry.setWorkedIsChecked(jp.worked_checkbox.isSelected());
             entry.setCustomer(String.valueOf(jp.customer_combobox.getSelectedItem()));
             if (!jp.jobpaid_field.getText().isEmpty()) {
@@ -47,7 +47,7 @@ public class WeekendControllerHelper
             } else {
                 entry.setAmountPaid(0.0);
             }
-            
+
             model.addEntry(entry);
         }
         return model;
@@ -55,9 +55,9 @@ public class WeekendControllerHelper
 
     @Override
     public void writeModelToView(WeekendModel model, WeekendPanel view) {
-        
+
         view.date = model.getDate();
-        
+
         List<WeekendEntry> entries = model.getEntries();
         JobPanel jp;
         int i = 0;
@@ -88,13 +88,13 @@ public class WeekendControllerHelper
 
     @Override
     public void initializeForm(GeneralController<WeekendPanel, WeekendModel> controller) {
-        
+
         WeekendPanel wp = new WeekendPanel(controller, 0, 0); // TODO remove 0, 0
         MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
-        
+
         controller.setView(wp);
-        wp.setFrame(weekendFrame);          
-        
+        wp.setFrame(weekendFrame);
+
         controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
 
         weekendFrame.add(wp);
@@ -102,13 +102,13 @@ public class WeekendControllerHelper
         weekendFrame.setLocationRelativeTo(null);
         weekendFrame.setVisible(true);
     }
-    
+
     @Override
     public void updateDate(WeekendPanel wp) {
         this.panel = wp;
         ChooseWeekPanel.initializePanel(this, false);
     }
-    
+
     @Override
     public void updateDateHelper() {
         Calendar date = SessionModel.getCompletedStartDay();
@@ -117,12 +117,12 @@ public class WeekendControllerHelper
                 "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
         panel.date_label.setText(s);
     }
-    
+
     @Override
     public void eliminateWindow(WeekendPanel view) {
         @SuppressWarnings("rawtypes")
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
         frame.eliminate();
     }
-    
+
 }

@@ -75,7 +75,7 @@ public abstract class CheckBoxGridPanel extends ComponentGridPanel<JCheckBox> {
         for (int row = 0; row < rowCount(); row++) {
             final List<Pair<String, Boolean>> listOfColumns = new ArrayList<>(columnCount());
             for (int column = 0; column < columnCount(); column++) {
-                listOfColumns.add(new ImmutablePair<>(
+                listOfColumns.add(Pair.of(
                     getCheckBoxLabel(row, column),
                     getCheckBoxStatus(row, column)
                 ));

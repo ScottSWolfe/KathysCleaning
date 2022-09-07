@@ -12,7 +12,7 @@ public class FormLauncher {
 
     private static final Map<Form, Form> currentToNextForm = ImmutableMap.of(
         Form.COMPLETED, Form.COVENANT,
-        Form.COVENANT, Form.WEEKEND, // replace with "Form.COVENANT, Form.LBC" when LBC form is ready
+        Form.COVENANT, Form.LBC,
         Form.LBC, Form.WEEKEND,
         Form.WEEKEND, Form.SCHEDULED
     );
@@ -30,6 +30,6 @@ public class FormLauncher {
             throw new IllegalArgumentException("Unexpected form: " + currentForm);
         }
 
-        new GeneralController<>(currentToNextForm.get(nextForm)).initializeForm();
+        new GeneralController<>(nextForm).initializeForm();
     }
 }

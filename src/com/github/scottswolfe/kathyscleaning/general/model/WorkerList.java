@@ -1,5 +1,8 @@
 package com.github.scottswolfe.kathyscleaning.general.model;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,9 +84,6 @@ public class WorkerList implements Iterable<Worker> {
         }
     }
 
-
-/* PUBLIC METHODS =========================================================== */
-
     /**
      * Returns the number of workers in the list.
      */
@@ -157,6 +157,23 @@ public class WorkerList implements Iterable<Worker> {
         return workers.stream()
             .map(Worker::getName)
             .collect(Collectors.toList());
+    }
+
+    public List<List<Pair<String, Boolean>>> getAsWorkerSelectionGrid(final int rowCount, final int columnCount) {
+        int workerCount = 0;
+        final List<List<Pair<String, Boolean>>> listOfRows = new ArrayList<>();
+        for (int row = 0; row < rowCount; row++) {
+            final List<Pair<String, Boolean>> listOfColumns = new ArrayList<>();
+            for (int column = 0; column < columnCount; column++) {
+                listOfColumns.add(Pair.of(
+                    workers.get(workerCount).getName(),
+                    workers.get(workerCount).isSelected())
+                );
+                workerCount++;
+            }
+            listOfRows.add(listOfColumns);
+        }
+        return listOfRows;
     }
 
 

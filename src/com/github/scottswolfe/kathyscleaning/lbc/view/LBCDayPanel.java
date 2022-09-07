@@ -81,11 +81,47 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
         connectFocusableComponents();
     }
 
+    public DayOfWeek getDayOfWeek() {
+        return DayOfWeek.fromName(dayOfWeekLabelPanel.getLabelText());
+    }
+
+    public String getAmountEarned() {
+        return amountEarnedPanel.getAmountEarnedText();
+    }
+
+    public void setAmountEarned(final String amountEarned) {
+        amountEarnedPanel.setAmountEarnedText(amountEarned);
+    }
+
+    public String getBeginTime() {
+        return timeRangePanel.getBeginTimeText();
+    }
+
+    public void setBeginTime(final String beginTime) {
+        timeRangePanel.setBeginTimeText(beginTime);
+    }
+
+    public String getEndTime() {
+        return timeRangePanel.getEndTimeText();
+    }
+
+    public void setEndTime(final String endTime) {
+        timeRangePanel.setEndTimeText(endTime);
+    }
+
+    public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
+        return workerSelectPanel.getWorkerSelectionGrid();
+    }
+
     public void setWorkers(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
         workerSelectPanel.setWorkers(workerSelectionGrid);
     }
 
-    private void setExceptionData(final ExceptionData exceptionData) {
+    public ExceptionData getExceptionData() {
+        return exceptionData;
+    }
+
+    public void setExceptionData(final ExceptionData exceptionData) {
         this.exceptionData.setEntries(exceptionData.getEntries());
         if (exceptionData.isException()) {
             exceptionsButton.setBackground(Settings.EDITED_BUTTON_COLOR);

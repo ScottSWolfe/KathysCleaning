@@ -123,7 +123,7 @@ public class HouseData {
                     workerName = "";
                     isSelected = false;
                 }
-                listOfColumns.add(new ImmutablePair<>(workerName, isSelected));
+                listOfColumns.add(Pair.of(workerName, isSelected));
             }
             listOfRows.add(listOfColumns);
         }
