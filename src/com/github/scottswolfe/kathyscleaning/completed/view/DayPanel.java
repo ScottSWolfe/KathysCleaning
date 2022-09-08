@@ -18,7 +18,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class DayPanel extends JPanel implements FocusableCollection {
 
-    public final static int MAX_HOUSE_PANEL_COUNT = 6;
+    public final static int MAX_HOUSE_PANEL_COUNT = 5;
     public final static int DEFAULT_HOUSE_PANEL_COUNT = 3;
     public final static int PANEL_PADDING = 6;
 

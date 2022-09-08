@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
@@ -41,12 +42,11 @@ public class ExcelMethods {
         return numberFormat.format(d);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public static void chooseFileAndGenerateExcelDoc(Controller controller) {
+    public static <View, Model> void chooseFileAndGenerateExcelDoc(Controller<View, Model> controller) {
 
         controller.readInputAndWriteToFile(null);
         boolean response = MainWindowListener.askUserIfSaveBeforeAction(controller, Action.CLOSE, false);
-        if (response == false) {
+        if (!response) {
             return;
         }
 
@@ -58,13 +58,27 @@ public class ExcelMethods {
                     FileChooserHelper.XLSX);
 
         if (file != null) {
-            GeneralExcelHelper.generateExcelDocument(file);
+            try {
+                GeneralExcelHelper.generateExcelDocument(file);
+            } catch (Exception e) {
+                StaticMethods.shareErrorMessage(
+                    "Error when generating the Excel document:"
+                        + "\n"
+                        + e.getClass().getName()
+                        + "\n"
+                        + e.getMessage()
+                );
+                System.exit(1);
+            }
+
             try {
                 Desktop dt = Desktop.getDesktop();
                 dt.open(file);
             } catch (IOException e1) {
                 JOptionPane.showMessageDialog(new JFrame(), "The Excel document could not be opened automatically.");
+                System.exit(1);
             }
+
             System.exit(0);
         }
 

@@ -31,6 +31,8 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
 
     private static final String COMPLETED_SHEET_NAME = "PAYROLL";
 
+    private static final int HOUSE_ROW_OFFSET = 2;
+
     /* INSTANCE VARIABLES ======================================================= */
 
     /**
@@ -113,7 +115,7 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
         ) {
 
             // setting excel row number to write to
-            row_num = name_row_num + 1 + h;  // this formula gives the correct line in the excel sheet template
+            row_num = name_row_num + HOUSE_ROW_OFFSET + h;
             row = sheet.getRow( row_num );
 
             Pair<String, String> times = TimeMethods.convertTo24HourFormat(beginTime, endTime, TimeWindow.HOUSES);
@@ -217,7 +219,7 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                             );
 
                             // insert data into excel doc
-                            Row house_row = sheet.getRow( name_row_num + 1 + h );
+                            Row house_row = sheet.getRow( name_row_num + HOUSE_ROW_OFFSET + h );
 
                                 String s = house_row.getCell(cell_number).getCellFormula(); // issue with numeric cells??
                                 s = ExcelMethods.insertHoursWorkedInPlaceOfCellReference(s,hours);

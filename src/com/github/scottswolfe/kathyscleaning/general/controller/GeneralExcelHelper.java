@@ -70,12 +70,6 @@ public class GeneralExcelHelper {
             JOptionPane.showMessageDialog(new JFrame(),
                     "Error: Excel document was not created properly.");
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    new JFrame(),
-                "Unexpected Error: " + e.getClass().getName() + "\n" + e.getMessage()
-            );
-            throw e;
         }
     }
 

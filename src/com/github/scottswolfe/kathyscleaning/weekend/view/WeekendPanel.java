@@ -39,20 +39,19 @@ import net.miginfocom.swing.MigLayout;
  * Panel in which user can enter other cleaning jobs.
  *
  */
-@SuppressWarnings("serial")
 public class WeekendPanel extends JPanel {
 
 	// FIELDS
     GeneralController<WeekendPanel, WeekendModel> controller;
 	JFrame frame;
 
-	public static final int NUM_JOB_PANELS = 3;
+	public static final int NUM_JOB_PANELS = 2;
 	public JobPanel[] jp;
 
 	int mode;
 	int wk;
 
-	public static final int NUM_JOBS_CAP = 3;
+	public static final int NUM_JOBS_CAP = 2;
 
 
 	// COMPONENTS

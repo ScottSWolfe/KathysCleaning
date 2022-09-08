@@ -103,6 +103,11 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             // iterate through each house
             for (int h = 0; h < num_house_datas; h++) {
 
+                if (h == DayPanel.MAX_HOUSE_PANEL_COUNT) {
+                    // todo: log or notify user about this situation
+                    break;
+                }
+
                 house_panel = day_panel.getHousePanel(h);
                 house_data = day_data.houseData[h];
 

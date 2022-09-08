@@ -181,12 +181,13 @@ public class StaticMethods {
     }
 
     public static void shareRepeatWorker() {
-
-        String message = new String("<html>There is a repeat selection. Please choose a different\nworker in each box.");
-
-        JOptionPane.showMessageDialog(new JFrame(), message, null, JOptionPane.ERROR_MESSAGE);
+        final String message = "<html>There is a repeat selection. Please choose a different\nworker in each box.";
+        shareErrorMessage(message);
     }
 
+    public static void shareErrorMessage(final String message) {
+        JOptionPane.showMessageDialog(new JFrame(), message, null, JOptionPane.ERROR_MESSAGE);
+    }
 
     // this doesn't work for some reason...
     public static int areYouSure ( String message ) {

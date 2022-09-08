@@ -62,6 +62,12 @@ public class WeekendControllerHelper
         JobPanel jp;
         int i = 0;
         for (WeekendEntry entry : entries) {
+
+            if (i == WeekendPanel.NUM_JOB_PANELS) {
+                // todo: log or notify user about this situation
+                break;
+            }
+
             jp = view.jp[i];
             jp.worked_checkbox.setSelected(entry.isWorkedIsChecked());
             jp.customer_combobox.setSelectedItem(entry.getCustomer());
