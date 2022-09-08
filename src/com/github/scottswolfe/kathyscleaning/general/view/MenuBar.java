@@ -11,7 +11,6 @@ import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
-@SuppressWarnings("serial")
 public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
 
 /* INSTANCE VARIABLES ======================================================= */
@@ -126,7 +125,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         Menu navMenu = new Menu("Navigate");
         addHousesItem(navMenu);
         addCovenantItem(navMenu);
-        // addLBCItem(navMenu); todo: enable when lbc enabled
+        addLBCItem(navMenu);
         addWeekendItem(navMenu);
         addNextWeekItem(navMenu);
         return navMenu;
@@ -165,5 +164,4 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
                 menuController.new NextWeekMenuItemListener());
         navMenu.add(nextWeekMenuItem);
     }
-
 }
