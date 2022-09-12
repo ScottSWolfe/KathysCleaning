@@ -7,6 +7,7 @@ import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.utility.ExcelUtil;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
 import com.github.scottswolfe.kathyscleaning.utility.TimeWindow;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -120,6 +121,7 @@ public class LBCExcelHelper implements ExcelHelper<LBCModel> {
 
         final double totalEarned = lbcModel.getLbcDays().values().stream()
             .map(LBCDay::getAmountEarned)
+            .filter(StringUtils::isNumeric)
             .mapToDouble(Double::valueOf)
             .sum();
 

@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.scheduled.view;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,7 +33,10 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 
+import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCData;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCException;
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.lang3.tuple.Pair;
 
 
 @SuppressWarnings("serial")
@@ -210,6 +214,18 @@ public class NW_DayPanel extends JPanel{
         frame.repaint();
     }
 
+    public ScheduledLBCData getLBCData() {
+        return ScheduledLBCData.from(
+            scheduledLBCPanel.getMeetTime(),
+            scheduledLBCPanel.getWorkerSelectionGrid(),
+            scheduledLBCPanel.getScheduledLBCExceptions()
+        );
+    }
+
+    public void setLBCData(final ScheduledLBCData lbcData) {
+        scheduledLBCPanel.setLBCData(lbcData);
+    }
+
     public boolean isBeginException() {
         if (beginExceptionList == null) {
             return false;
@@ -273,6 +289,17 @@ public class NW_DayPanel extends JPanel{
     public List<String> getUniqueWorkersForDay() {
 
         List<String> workers = new ArrayList<>();
+
+        // add workers from LBC panel
+        scheduledLBCPanel.getWorkerSelectionGrid().stream()
+            .flatMap(Collection::stream)
+            .filter(Pair::getRight)
+            .map(Pair::getLeft)
+            .forEach(workers::add);
+        scheduledLBCPanel.getScheduledLBCExceptions().stream()
+            .map(ScheduledLBCException::getWorkerName)
+            .filter(workerName -> !workerName.isEmpty())
+            .forEach(workers::add);
 
         // add workers from houses
         for (NW_HousePanel house_panel : house_panels) {

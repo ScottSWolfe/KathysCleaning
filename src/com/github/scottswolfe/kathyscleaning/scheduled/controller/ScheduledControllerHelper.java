@@ -6,6 +6,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,6 +32,7 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.WorkerSchedule;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, NW_Data> {
 
@@ -56,6 +58,7 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
             header.setDWD(dp.header_panel.getWorkerList());
             dayData[d].setHeader(header);
 
+            dayData[d].setLbcData(dp.getLBCData());
             dayData[d].beginExceptionList = dp.getBeginExceptionList();
             dayData[d].cov_worker = dp.cov_panel.dwp.getWorkers();
             dayData[d].meet_location = dp.getMeetLocation();
@@ -98,6 +101,8 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
 
         // iterate through each day
         for (int d = 0; d < 5; d++) {
+
+            tp.nw_day_panel[d].setLBCData(model.dayData[d].getLbcData());
 
             dayData = model.dayData[d];
             NW_DayPanel dp = tp.nw_day_panel[d];
@@ -256,6 +261,27 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
             WorkerSchedule schedule = new WorkerSchedule();
             schedule.setName(worker);
 
+            // LBC
+            final boolean isLBCSelected = dp.getLBCData().getWorkerSelectionGrid().stream()
+                .flatMap(Collection::stream)
+                .filter(Pair::getRight)
+                .map(Pair::getLeft)
+                .anyMatch(worker::equals);
+
+            schedule.setLBCSelected(isLBCSelected);
+
+            if (isLBCSelected) {
+                schedule.setLbcTime(dp.getLBCData().getMeetTime());
+            }
+
+            dp.getLBCData().getScheduledLBCExceptions()
+                .getExceptionIfExists(worker)
+                .ifPresent(exception -> {
+                    schedule.setLBCSelected(true);
+                    schedule.setLbcTime(exception.getMeetTime());
+                    schedule.setLbcNote(exception.getNote());
+                });
+
             // for each house of the day
             for (int j = 0; j < dp.getNumHousePanels(); j++) {
 
@@ -324,13 +350,20 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
         String s = new String();
 
         // add the time
-        if( schedule.time != null && schedule.time.length() > 2 ) {
+        if (schedule.isLBCSelected()) {
+            s += schedule.getLbcTime();
+        } else if (schedule.time != null && schedule.time.length() > 2) {
             s += schedule.time;
         }
 
         // add the meeting location
-        // if has a meeting location
-        if( schedule.getMeetLocation() != null &&
+        if (schedule.isLBCSelected()) {
+            s += " LBC";
+            if (!schedule.getLbcNote().isEmpty()) {
+                s += " (" + schedule.getLbcNote() + ")";
+            }
+            s += "...";
+        } else if (schedule.getMeetLocation() != null &&
             schedule.getMeetLocation().length() > 0 &&
             schedule.getHouseList().size() > 0 &&
             !schedule.getMeetLocation().equals( schedule.getHouseList().get(0) )) {

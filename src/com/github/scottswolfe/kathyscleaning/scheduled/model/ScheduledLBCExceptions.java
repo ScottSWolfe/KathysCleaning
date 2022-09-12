@@ -2,6 +2,8 @@ package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class ScheduledLBCExceptions {
 
@@ -29,5 +31,15 @@ public class ScheduledLBCExceptions {
 
     public boolean isEmpty() {
         return scheduledLBCExceptions.stream().allMatch(ScheduledLBCException::isEmpty);
+    }
+
+    public Stream<ScheduledLBCException> stream() {
+        return scheduledLBCExceptions.stream();
+    }
+
+    public Optional<ScheduledLBCException> getExceptionIfExists(final String workerName) {
+        return scheduledLBCExceptions.stream()
+            .filter(exception -> exception.getWorkerName().equals(workerName))
+            .findFirst();
     }
 }

@@ -61,6 +61,7 @@ public class ExcelMethods {
             try {
                 GeneralExcelHelper.generateExcelDocument(file);
             } catch (Exception e) {
+                e.printStackTrace();
                 StaticMethods.shareErrorMessage(
                     "Error when generating the Excel document:"
                         + "\n"
@@ -74,7 +75,8 @@ public class ExcelMethods {
             try {
                 Desktop dt = Desktop.getDesktop();
                 dt.open(file);
-            } catch (IOException e1) {
+            } catch (IOException e) {
+                e.printStackTrace();
                 JOptionPane.showMessageDialog(new JFrame(), "The Excel document could not be opened automatically.");
                 System.exit(1);
             }

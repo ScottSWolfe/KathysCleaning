@@ -8,8 +8,10 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.GenericPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCExceptions;
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -67,6 +69,18 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
         connectFocusableComponents();
     }
 
+    public String getMeetTime() {
+        return meetTimePanel.getMeetTime();
+    }
+
+    public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
+        return editableWorkerSelectPanel.getWorkerSelectionGrid();
+    }
+
+    public ScheduledLBCExceptions getScheduledLBCExceptions() {
+        return scheduledLBCExceptions;
+    }
+
     public void setScheduledLBCExceptions(final ScheduledLBCExceptions scheduledLBCExceptions) {
         this.scheduledLBCExceptions = scheduledLBCExceptions;
         if (scheduledLBCExceptions.isEmpty()) {
@@ -74,6 +88,12 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
         } else {
             exceptionsButtonPanel.setButtonColors(Settings.LOUD_BUTTON_COLORS);
         }
+    }
+
+    public void setLBCData(final ScheduledLBCData lbcData) {
+        meetTimePanel.setMeetTime(lbcData.getMeetTime());
+        editableWorkerSelectPanel.setWorkerSelectionGrid(lbcData.getWorkerSelectionGrid());
+        setScheduledLBCExceptions(lbcData.getScheduledLBCExceptions());
     }
 
     @Override

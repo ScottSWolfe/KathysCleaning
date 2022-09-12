@@ -167,7 +167,7 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
         try {
             sheet.getRow(row).getCell(col).setCellValue("");
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            // do nothing
         }
     }
 

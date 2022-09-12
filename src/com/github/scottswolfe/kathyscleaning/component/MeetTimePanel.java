@@ -36,6 +36,14 @@ public class MeetTimePanel extends JPanel implements FocusableCollection {
         connectFocusableComponents();
     }
 
+    public String getMeetTime() {
+        return meetTimeTextField.getText();
+    }
+
+    public void setMeetTime(final String meetTime) {
+        meetTimeTextField.setText(meetTime);
+    }
+
     @Override
     public List<List<? extends JComponent>> getComponentsAsGrid() {
         return Collections.singletonList(Collections.singletonList(meetTimeTextField));

@@ -68,6 +68,10 @@ public class EditableWorkerSelectPanel extends JPanel implements FocusableCollec
         return workerSelectPanel.getWorkerSelectionGrid();
     }
 
+    public void setWorkerSelectionGrid(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
+        workerSelectPanel.setWorkers(workerSelectionGrid);
+    }
+
     public WorkerList getWorkers() {
         return workerSelectPanel.getWorkers();
     }
