@@ -17,9 +17,9 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.HouseNameDocum
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.component.AmountEarnedPanel;
+import com.github.scottswolfe.kathyscleaning.component.Button;
 import com.github.scottswolfe.kathyscleaning.component.HouseNamePanel;
 import com.github.scottswolfe.kathyscleaning.component.HouseRowButtonPanel;
-import com.github.scottswolfe.kathyscleaning.component.KcButton;
 import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
@@ -39,7 +39,7 @@ public class HousePanel extends JPanel implements FocusableCollection {
     private final AmountEarnedPanel amountEarnedPanel;
     private final TimeRangePanel timePanel;
     private final WorkerSelectPanel workerSelectPanel;
-    private final KcButton exceptionsButton;
+    private final Button exceptionsButton;
     private final HouseRowButtonPanel houseRowButtonPanel;
 
     private ExceptionData exceptionData;
@@ -85,9 +85,10 @@ public class HousePanel extends JPanel implements FocusableCollection {
             WORKER_SELECTION_COLUMN_COUNT,
             Settings.BACKGROUND_COLOR
         );
-        exceptionsButton = new KcButton(
+        exceptionsButton = Button.from(
             "Exceptions",
-            (event) -> ExceptionsPanelLauncher.from().launchPanel(
+            Settings.QUIET_BUTTON_COLORS,
+            () -> ExceptionsPanelLauncher.from().launchPanel(
                 workerList,
                 () -> this.exceptionData,
                 () -> {},
@@ -195,9 +196,9 @@ public class HousePanel extends JPanel implements FocusableCollection {
 
     private void setExceptionButtonColor() {
         if (exceptionData.isException()) {
-            exceptionsButton.setBackground(Settings.EDITED_BUTTON_COLOR);
+            exceptionsButton.setColors(Settings.LOUD_BUTTON_COLORS);
         } else {
-            exceptionsButton.setBackground(Settings.DEFAULT_BUTTON_COLOR);
+            exceptionsButton.setColors(Settings.QUIET_BUTTON_COLORS);
         }
     }
 

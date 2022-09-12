@@ -1,5 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.menu.model;
 
+import com.github.scottswolfe.kathyscleaning.general.model.ButtonColors;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
@@ -46,6 +48,8 @@ public class Settings {
     public static final Color DELETE_HOUSE_COLOR = new Color (240, 128, 128);
     public static final Color DEFAULT_BUTTON_COLOR = UIManager.getColor("Button.background");
     public static final Color EDITED_BUTTON_COLOR = MAIN_COLOR;
+    public static final ButtonColors QUIET_BUTTON_COLORS = ButtonColors.from(DEFAULT_BUTTON_COLOR, Color.BLACK);
+    public static final ButtonColors LOUD_BUTTON_COLORS = ButtonColors.from(EDITED_BUTTON_COLOR, FOREGROUND_COLOR);
 
     /**
      * Settings and Data Save Files

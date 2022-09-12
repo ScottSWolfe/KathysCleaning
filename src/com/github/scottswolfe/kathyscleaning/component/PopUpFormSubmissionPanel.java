@@ -30,8 +30,8 @@ public class PopUpFormSubmissionPanel extends JPanel implements FocusableCollect
         final Runnable onSubmit
     ) {
         this.formPanel = formPanel;
-        cancelButton = Button.from("Cancel", onCancel);
-        submitButton = Button.from("Submit", onSubmit);
+        cancelButton = Button.from("Cancel", Settings.QUIET_BUTTON_COLORS, onCancel);
+        submitButton = Button.from("Submit", Settings.LOUD_BUTTON_COLORS, onSubmit);
 
         setLayout(new MigLayout());
         setBackground(Settings.BACKGROUND_COLOR);

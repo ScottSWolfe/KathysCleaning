@@ -19,6 +19,7 @@ import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
@@ -50,6 +51,7 @@ public class NW_DayPanel extends JPanel{
 
 
     // COMPONENTS
+    private final ScheduledLBCPanel scheduledLBCPanel;
     public NW_HeaderPanel header_panel;
     public List<NW_HousePanel> house_panels;
     public NW_CovenantPanel cov_panel;
@@ -76,6 +78,7 @@ public class NW_DayPanel extends JPanel{
         setLayout(new MigLayout());
         setBackground(Settings.BACKGROUND_COLOR);
 
+        scheduledLBCPanel = ScheduledLBCPanel.from(new FrameCloseListener(frame));
         header_panel = new NW_HeaderPanel(controller, tp, workers, this, date, frame, mode, wk);
         begin_panel = createBeginPanel(workers);
         house_panels = new ArrayList<NW_HousePanel>();
@@ -105,17 +108,12 @@ public class NW_DayPanel extends JPanel{
         addFlexibleFocusListeners();
 
         // Adding Elements onto Panel
+        add(scheduledLBCPanel, "dock north, grow");
         add(header_panel, new String("dock north, grow") );
         add(begin_panel, new String("dock north, grow"));
         add(jsp, new String("grow") );
         add(cov_panel, "dock south, grow");
     }
-
-
-    public NW_DayPanel() {
-
-    }
-
 
 
     // PRIVATE CONSTRUCTION METHOD
