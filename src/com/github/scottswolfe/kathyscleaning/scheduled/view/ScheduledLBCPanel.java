@@ -15,6 +15,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,12 +34,17 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
 
     private ScheduledLBCExceptions scheduledLBCExceptions;
 
-    public static ScheduledLBCPanel from(final WindowListener popUpWindowListener) {
-        return new ScheduledLBCPanel(popUpWindowListener);
+    public static ScheduledLBCPanel from(
+        final Border border,
+        final WindowListener popUpWindowListener
+    ) {
+        return new ScheduledLBCPanel(border, popUpWindowListener);
     }
 
-    private ScheduledLBCPanel(final WindowListener popUpWindowListener) {
-
+    private ScheduledLBCPanel(
+        final Border border,
+        final WindowListener popUpWindowListener
+    ) {
         scheduledLBCExceptions = ScheduledLBCExceptions.from();
 
         final RowLabelPanel rowLabelPanel = RowLabelPanel.from("LBC");
@@ -61,6 +67,7 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
 
         setLayout(new MigLayout("fill, insets 0"));
         setBackground(Settings.BACKGROUND_COLOR);
+        setBorder(border);
         add(rowLabelPanel);
         add(meetTimePanel);
         add(editableWorkerSelectPanel);

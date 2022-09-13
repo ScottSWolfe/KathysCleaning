@@ -13,16 +13,25 @@ import java.util.List;
 
 public class SubmitFormPanel extends JPanel implements FocusableCollection {
 
+    private static final String DEFAULT_LABEL = "Next";
+
     private final KcButton submitFormButton;
 
     public static SubmitFormPanel from(final ActionListener submitFormListener) {
-        return new SubmitFormPanel(submitFormListener);
+        return new SubmitFormPanel(DEFAULT_LABEL, submitFormListener);
     }
 
-    private SubmitFormPanel(final ActionListener submitFormListener) {
+    public static SubmitFormPanel from(final String label, final ActionListener submitFormListener) {
+        return new SubmitFormPanel(label, submitFormListener);
+    }
+
+    private SubmitFormPanel(
+        final String label,
+        final ActionListener submitFormListener
+    ) {
         super();
 
-        submitFormButton = new KcButton("Next", submitFormListener);
+        submitFormButton = new KcButton(label, submitFormListener);
         submitFormButton.setPreferredSize(new Dimension(100,40));
         submitFormButton.setBackground(Settings.MAIN_COLOR);
         submitFormButton.setForeground(Settings.FOREGROUND_COLOR);

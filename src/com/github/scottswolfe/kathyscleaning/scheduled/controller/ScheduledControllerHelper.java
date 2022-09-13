@@ -60,7 +60,7 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
 
             dayData[d].setLbcData(dp.getLBCData());
             dayData[d].beginExceptionList = dp.getBeginExceptionList();
-            dayData[d].cov_worker = dp.cov_panel.dwp.getWorkers();
+            dayData[d].cov_worker = dp.cov_panel.getWorkers();
             dayData[d].meet_location = dp.getMeetLocation();
             dayData[d].meet_time = dp.getMeetTime();
             dayData[d].covNoteData = dp.getNoteData();
@@ -112,7 +112,7 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
             dp.meet_location_box.setSelectedItem(dayData.meet_location);
             dp.meet_time_field.setText(dayData.meet_time);
             dp.setBeginExceptionList(dayData.beginExceptionList);
-            tp.nw_day_panel[d].cov_panel.dwp.setWorkers(dayData.cov_worker);
+            tp.nw_day_panel[d].cov_panel.setWorkers(dayData.cov_worker);
             tp.nw_day_panel[d].setNoteData(dayData.covNoteData);
 
             // iterate through houses
@@ -231,14 +231,7 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
         for(int i = 0; i < days.length; i++) {
             days[i] = Calendar.getInstance();
             days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
-
-            tp.nw_day_panel[i].header_panel.date = days[i];
-            String weekDay;
-            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
-            weekDay = dayFormat.format(days[i].getTime());
-            tp.nw_day_panel[i].header_panel.day_label.setText(weekDay);
-            tp.nw_day_panel[i].header_panel.date_label.setText((Integer.parseInt(String.valueOf(days[i].get(Calendar.MONTH)))+1) + "/" + days[i].get(Calendar.DATE) + "/" + days[i].get(Calendar.YEAR));
-
+            tp.nw_day_panel[i].setDate(days[i]);
             temp_date.add(Calendar.DATE, 1);
         }
     }
@@ -310,7 +303,7 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
 
             // adding Covenant
             // if current worker is selected on Covenant panel
-            if (dp.cov_panel.dwp.isSelected(schedule.getName())) {
+            if (dp.cov_panel.isWorkerSelected(schedule.getName())) {
                 schedule.working_covenant = true;
             }
 

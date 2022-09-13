@@ -18,17 +18,20 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.text.AbstractDocument;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
+import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
@@ -38,25 +41,20 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCExcepti
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
+public class NW_DayPanel extends JPanel {
 
-@SuppressWarnings("serial")
-public class NW_DayPanel extends JPanel{
-
-    //  FIELDS
     GeneralController<TabbedPane, NW_Data> controller;
 
     NoteData noteData;
     List<BeginExceptionEntry> beginExceptionList;
 
     TabbedPane tp;
-    DayData day_data;
     Calendar date;
     JFrame frame;
 
-
-    // COMPONENTS
+    private final ScheduledHeaderPanel scheduledHeaderPanel;
     private final ScheduledLBCPanel scheduledLBCPanel;
-    public NW_HeaderPanel header_panel;
+    public ScheduledHousesCopyWorkersPanel header_panel;
     public List<NW_HousePanel> house_panels;
     public NW_CovenantPanel cov_panel;
     public JPanel jsp_panel;
@@ -69,8 +67,6 @@ public class NW_DayPanel extends JPanel{
     public JTextField meet_time_field;
     JButton exception_button;
 
-
-    // CONSTRUCTORS
     public NW_DayPanel(GeneralController<TabbedPane, NW_Data> controller, TabbedPane tp,
             WorkerList workers, Calendar date, JFrame frame, int mode, int wk ) {
 
@@ -79,23 +75,31 @@ public class NW_DayPanel extends JPanel{
         this.frame = frame;
         this.tp = tp;
 
-        setLayout(new MigLayout());
+        setLayout(new MigLayout("fill, insets 0"));
         setBackground(Settings.BACKGROUND_COLOR);
 
-        scheduledLBCPanel = ScheduledLBCPanel.from(new FrameCloseListener(frame));
-        header_panel = new NW_HeaderPanel(controller, tp, workers, this, date, frame, mode, wk);
+        scheduledHeaderPanel = ScheduledHeaderPanel.from(
+            date,
+            new PreviousDayListener(tp),
+            new NextDayListener(tp),
+            new NW_SubmitWeekListener(controller, tp, frame, mode, wk)
+        );
+        scheduledLBCPanel = ScheduledLBCPanel.from(
+            BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK),
+            new FrameCloseListener(frame)
+        );
+        header_panel = new ScheduledHousesCopyWorkersPanel(tp, workers, this, frame);
         begin_panel = createBeginPanel(workers);
         house_panels = new ArrayList<NW_HousePanel>();
         for(int i = 0; i < DayPanel.DEFAULT_HOUSE_PANEL_COUNT; i++) {
             house_panels.add(new NW_HousePanel(workers, this, frame));
         }
-        cov_panel = new NW_CovenantPanel(this, new WorkerList(), frame);
-
+        cov_panel = new NW_CovenantPanel(this, frame);
 
         // creating scroll pane and adding house panels
         jsp_panel = new JPanel();
-        jsp_panel.setLayout( new MigLayout("fillx") );
-        jsp_panel.setBackground( Settings.BACKGROUND_COLOR );
+        jsp_panel.setLayout(new MigLayout("fill"));
+        jsp_panel.setBackground(Settings.BACKGROUND_COLOR);
 
         for(NW_HousePanel house_panel : house_panels) {
             jsp_panel.add(house_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", grow") );
@@ -105,31 +109,33 @@ public class NW_DayPanel extends JPanel{
                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );
         jsp.setBackground( Settings.BACKGROUND_COLOR );
 
-        MatteBorder mborder2 = BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK);
-
-        jsp.setBorder( mborder2 );
-
         addFlexibleFocusListeners();
 
+        final JPanel housesPanel = new JPanel();
+        housesPanel.setLayout(new MigLayout("fill, insets 0"));
+        housesPanel.setBackground(Settings.BACKGROUND_COLOR);
+        housesPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK));
+        housesPanel.add(begin_panel, "grow, wrap 0");
+        housesPanel.add(header_panel, "grow, wrap 0");
+        housesPanel.add(jsp, "grow");
+
         // Adding Elements onto Panel
-        add(scheduledLBCPanel, "dock north, grow");
-        add(header_panel, new String("dock north, grow") );
-        add(begin_panel, new String("dock north, grow"));
-        add(jsp, new String("grow") );
-        add(cov_panel, "dock south, grow");
+        add(scheduledHeaderPanel, "grow, wrap 0");
+        add(scheduledLBCPanel, "grow, wrap 0 ");
+        add(housesPanel, "grow, wrap 0");
+        add(cov_panel, "grow");
     }
-
-
-    // PRIVATE CONSTRUCTION METHOD
 
     protected JPanel createBeginPanel(WorkerList workers) {
 
         JPanel panel = new JPanel();
-        panel.setLayout( new MigLayout( "insets 10, fill" ) );
+        panel.setLayout(new MigLayout("insets 0, fill"));
         panel.setBackground( Settings.BACKGROUND_COLOR );
 
-        MatteBorder mborder = BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK);
+        MatteBorder mborder = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY);
         panel.setBorder(mborder);
+
+        final RowLabelPanel housesBeginLabel = RowLabelPanel.from("Houses");
 
         meet_location_label = new JLabel("Meet Location:");
         meet_location_label.setFont( meet_location_label.getFont().deriveFont(Settings.FONT_SIZE));
@@ -156,6 +162,7 @@ public class NW_DayPanel extends JPanel{
         exception_button.setFont( exception_button.getFont().deriveFont(Settings.FONT_SIZE));
         exception_button.addActionListener( new NW_ExceptionListener( this, workers, frame ) );
 
+        panel.add(housesBeginLabel);
         panel.add(meet_location_label,"gapx 0, align right");
         panel.add(meet_location_box,"gapx 0, align left");
         panel.add(meet_time_label,"gapx 0, align right");
@@ -165,10 +172,9 @@ public class NW_DayPanel extends JPanel{
         return panel;
     }
 
-
-
-
-    //  PUBLIC METHODS
+    public void setDate(final Calendar calendar) {
+        scheduledHeaderPanel.setDate(calendar);
+    }
 
     public void changeWorkerPanels(WorkerList new_workers){
 
@@ -197,19 +203,6 @@ public class NW_DayPanel extends JPanel{
         }
 
         frame.setSize( frame.getWidth() + change , frame.getHeight() );
-        frame.revalidate();
-        frame.repaint();
-    }
-
-
-    public void changeCovenantWorkerPanel( WorkerList dwd ) {
-        remove(cov_panel);
-
-        NW_CovenantPanel new_panel = new NW_CovenantPanel( this, dwd, frame );
-
-        add( new_panel, "dock south, growx" );
-        cov_panel = new_panel;
-
         frame.revalidate();
         frame.repaint();
     }
