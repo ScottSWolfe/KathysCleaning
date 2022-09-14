@@ -70,10 +70,6 @@ public class NW_HousePanel extends JPanel {
         this("", workers, day_panel, frame);
     }
 
-    public NW_HousePanel(NW_DayPanel day_panel, JFrame frame) {
-        this("", new WorkerList(WorkerList.HOUSE_WORKERS), day_panel, frame);
-    }
-
     public NW_HousePanel() {
 
     }

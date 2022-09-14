@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -17,8 +18,6 @@ import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 import net.miginfocom.swing.MigLayout;
 
-
-@SuppressWarnings("serial")
 public class NW_EditDefaultWorkersPanel extends JPanel {
 
     WorkerSelectPanel worker_panel;
@@ -32,8 +31,6 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
     JButton cancel_button;
     JButton submit_button;
 
-
-    @SuppressWarnings("unchecked")
     public NW_EditDefaultWorkersPanel(WorkerSelectPanel worker_panel, JFrame frame, NW_DayPanel day_panel) {
 
         this.worker_panel = worker_panel;
@@ -41,14 +38,14 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
         this.day_panel = day_panel;
 
         worker_combo = new JComboBox[rows][columns];
-        WorkerList dwd = new WorkerList( WorkerList.HOUSE_WORKERS );
+        WorkerList dwd = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
 
         for (int i=0; i<rows; i++) {
 
             for(int j=0; j<columns; j++) {
 
                 worker_combo[i][j] = new JComboBox<String>();
-                worker_combo[i][j].setEditable(true);
+                worker_combo[i][j].setEditable(false);
                 worker_combo[i][j].setSize(10, UNDEFINED_CONDITION);
                 worker_combo[i][j].setFont( worker_combo[i][j].getFont().deriveFont( Settings.FONT_SIZE ) );
                 worker_combo[i][j].setBackground(Settings.HEADER_BACKGROUND);
@@ -107,10 +104,6 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 
     }
 
-
-
-    // PRIVATE METHODS
-
     private void addFlexibleFocusListeners() {
 
         for (int i=0; i<rows; i++) {
@@ -164,27 +157,15 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 
     }
 
-
-
-//  PRIVATE LISTENER
-
     private class CancelListener implements ActionListener {
-
-    //  FIELDS
 
         JFrame frame;
 
-
-
-    //  CONSTRUCTORS
         private CancelListener( JFrame frame ) {
 
             this.frame = frame;
 
         }
-
-
-    //  LISTENER
 
         public void actionPerformed(ActionEvent e){
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -196,14 +177,9 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 
     private class SubmitListener implements ActionListener {
 
-    //  FIELDS
-
         JFrame frame;
         NW_DayPanel day_panel;
         NW_EditDefaultWorkersPanel edwp;
-
-
-    //  CONSTRUCTOR
 
         private SubmitListener(JFrame frame, NW_DayPanel day_panel, NW_EditDefaultWorkersPanel edwp) {
 
@@ -212,9 +188,6 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
             this.edwp = edwp;
 
         }
-
-
-    //  LISTENER
 
         public void actionPerformed(ActionEvent e){
 
@@ -242,6 +215,4 @@ public class NW_EditDefaultWorkersPanel extends JPanel {
 
     }
 
-
 }
-

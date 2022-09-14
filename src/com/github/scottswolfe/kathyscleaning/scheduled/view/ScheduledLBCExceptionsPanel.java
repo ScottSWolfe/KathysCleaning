@@ -106,7 +106,7 @@ public class ScheduledLBCExceptionsPanel extends JPanel implements Supplier<Sche
             final String meetTime,
             final String note
         ) {
-            workerNameComboBox = KcComboBox.from(workerNames, selectedWorkerName);
+            workerNameComboBox = KcComboBox.from(workerNames, selectedWorkerName, false);
             meetTimeTextField = KcTextField.from(meetTime, (TimeKeyListener::new));
             noteTextField = KcTextField.from(note, 15);
         }

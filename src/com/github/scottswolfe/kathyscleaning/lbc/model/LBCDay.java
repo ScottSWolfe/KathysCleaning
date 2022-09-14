@@ -2,6 +2,7 @@ package com.github.scottswolfe.kathyscleaning.lbc.model;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import org.apache.commons.lang3.tuple.Pair;
@@ -41,9 +42,10 @@ public class LBCDay {
             "",
             "",
             "",
-            new WorkerList(WorkerList.LBC_WORKERS).getAsWorkerSelectionGrid(
-                LBCPanel.LBC_WORKER_ROW_COUNT, LBCPanel.LBC_WORKER_COLUMN_COUNT
-            ),
+            new WorkerList(GlobalData.getInstance().getDefaultWorkerNames())
+                .getAsWorkerSelectionGrid(
+                    LBCPanel.LBC_WORKER_ROW_COUNT, LBCPanel.LBC_WORKER_COLUMN_COUNT
+                ),
             new ExceptionData()
         );
     }

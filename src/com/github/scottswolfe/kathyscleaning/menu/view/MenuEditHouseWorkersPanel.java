@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
@@ -35,14 +36,14 @@ public class MenuEditHouseWorkersPanel extends JPanel {
         this.frame = frame;
 
         worker_combo = new JComboBox[rows][columns];
-        WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+        WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
 
         for (int i=0; i<rows; i++) {
 
             for(int j=0; j<columns; j++) {
 
                 worker_combo[i][j] = new JComboBox<String>();
-                worker_combo[i][j].setEditable(true);
+                worker_combo[i][j].setEditable(false);
                 worker_combo[i][j].setSize(10, UNDEFINED_CONDITION);
                 worker_combo[i][j].setFont(worker_combo[i][j].getFont().
                         deriveFont(Settings.FONT_SIZE));

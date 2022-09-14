@@ -21,7 +21,7 @@ public class MenuEditCovenantWorkersPanel extends JPanel {
 
     JFrame frame;
 
-    public final static int ROWS = 12;
+    public final static int ROWS = 14;
 
     JComboBox<String>[] worker_combo;
     JButton cancel_button;
@@ -38,7 +38,7 @@ public class MenuEditCovenantWorkersPanel extends JPanel {
         for (int i=0; i<rows; i++) {
 
                 worker_combo[i] = new JComboBox<String>();
-                worker_combo[i].setEditable(true);
+                worker_combo[i].setEditable(false);
                 worker_combo[i].setSize(10, UNDEFINED_CONDITION);
                 worker_combo[i].setFont( worker_combo[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 

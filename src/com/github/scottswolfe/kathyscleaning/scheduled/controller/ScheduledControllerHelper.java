@@ -3,12 +3,10 @@ package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 import javax.swing.SwingUtilities;
 
@@ -16,6 +14,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -167,7 +166,7 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
     @Override
     public void initializeForm(GeneralController<TabbedPane, NW_Data> controller) {
 
-        WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+        WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
 
         TabbedPane tp = new TabbedPane();
         tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));

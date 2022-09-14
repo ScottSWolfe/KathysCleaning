@@ -14,7 +14,7 @@ import javax.swing.border.MatteBorder;
 import com.github.scottswolfe.kathyscleaning.component.EditableWorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.model.Worker;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
@@ -25,7 +25,7 @@ import org.apache.commons.lang3.tuple.Pair;
 public class NW_CovenantPanel extends JPanel {
 
     public static final int WORKER_SELECT_ROW_COUNT = 2;
-    public static final int WORKER_SELECT_COLUMN_COUNT = 6;
+    public static final int WORKER_SELECT_COLUMN_COUNT = 7;
 
     JButton note_button;
 
@@ -36,20 +36,7 @@ public class NW_CovenantPanel extends JPanel {
 
     public NW_CovenantPanel(NW_DayPanel day_panel, JFrame container_frame ) {
 
-        // TODO temporary hack
-        WorkerList allWorkers = new WorkerList();
-        WorkerList covWorkers = new WorkerList(WorkerList.COVENANT_WORKERS);
-        WorkerList houseWorkers = new WorkerList(WorkerList.HOUSE_WORKERS);
-        for (Worker worker : covWorkers.getWorkers()) {
-            if (!allWorkers.containsName(worker)) {
-                allWorkers.add(worker);
-            }
-        }
-        for (Worker worker : houseWorkers.getWorkers()) {
-            if (!allWorkers.containsName(worker)) {
-                allWorkers.add(worker);
-            }
-        }
+        final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
 
         this.day_panel = day_panel;
         this.container_frame = container_frame;
@@ -62,7 +49,7 @@ public class NW_CovenantPanel extends JPanel {
         final RowLabelPanel covenantLabelPanel = RowLabelPanel.from("Covenant");
 
         editableWorkerSelectPanel = EditableWorkerSelectPanel.from(
-            covWorkers,
+            workers,
             WORKER_SELECT_ROW_COUNT,
             WORKER_SELECT_COLUMN_COUNT,
             new FrameCloseListener(container_frame)
@@ -71,7 +58,7 @@ public class NW_CovenantPanel extends JPanel {
         note_button = new JButton();
         note_button.setText("Note");
         note_button.setFont(note_button.getFont().deriveFont(Settings.FONT_SIZE));
-        note_button.addActionListener(new NW_NoteListener(day_panel, allWorkers, day_panel.getNoteData(), container_frame));
+        note_button.addActionListener(new NW_NoteListener(day_panel, workers, day_panel.getNoteData(), container_frame));
 
         final JPanel notePanel = new JPanel();
         notePanel.setLayout(new MigLayout("fill, insets 0"));

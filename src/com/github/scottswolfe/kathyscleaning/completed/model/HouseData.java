@@ -4,107 +4,107 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class HouseData {
 
-	private String house_name;
-	private double house_pay;
-	private String time_begin;
-	private String time_end;
-	private List<String> selected_workers;
-	private WorkerList workers;
-	private ExceptionData exception_data;
+    private String house_name;
+    private double house_pay;
+    private String time_begin;
+    private String time_end;
+    private List<String> selected_workers;
+    private WorkerList workers;
+    private ExceptionData exception_data;
 
-	public HouseData() {
-	    house_name = "";
-	    house_pay = 0.0;
-	    time_begin = "";
-	    time_end = "";
-	    selected_workers = new ArrayList<>();
-	    workers = new WorkerList(WorkerList.HOUSE_WORKERS);
-	    exception_data = new ExceptionData();
-	}
+    public HouseData() {
+        house_name = "";
+        house_pay = 0.0;
+        time_begin = "";
+        time_end = "";
+        selected_workers = new ArrayList<>();
+        workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        exception_data = new ExceptionData();
+    }
 
-	public boolean isException() {
-	    if (exception_data == null) {
-	        return false;
-	    }
-	    return exception_data.isException();
-	}
+    public boolean isException() {
+        if (exception_data == null) {
+            return false;
+        }
+        return exception_data.isException();
+    }
 
-	public void setHouseName(String house_name) {
-		this.house_name = house_name;
-	}
+    public void setHouseName(String house_name) {
+        this.house_name = house_name;
+    }
 
-	public void setHousePay(double money_earned) {
-		this.house_pay = money_earned;
-	}
+    public void setHousePay(double money_earned) {
+        this.house_pay = money_earned;
+    }
 
-	public void setHousePay(String money_earned) {
-		if(money_earned.isEmpty() || money_earned.equals("") ){
-			this.house_pay = 0;
-		}
-		else {
-			this.house_pay = Double.parseDouble(money_earned);
-		}
-	}
+    public void setHousePay(String money_earned) {
+        if(money_earned.isEmpty() || money_earned.equals("") ){
+            this.house_pay = 0;
+        }
+        else {
+            this.house_pay = Double.parseDouble(money_earned);
+        }
+    }
 
-	public void setTimeBegin(int time_begin) {
-		this.time_begin = String.valueOf(time_begin);
-	}
+    public void setTimeBegin(int time_begin) {
+        this.time_begin = String.valueOf(time_begin);
+    }
 
-	public void setTimeBegin(String time_begin){
-		this.time_begin = time_begin;
+    public void setTimeBegin(String time_begin){
+        this.time_begin = time_begin;
 
-	}
+    }
 
-	public void setTimeEnd(int time_begin) {
-		this.time_end = String.valueOf(time_end);
-	}
+    public void setTimeEnd(int time_begin) {
+        this.time_end = String.valueOf(time_end);
+    }
 
-	public void setTimeEnd(String time_begin){
-		this.time_end = time_begin;
-	}
+    public void setTimeEnd(String time_begin){
+        this.time_end = time_begin;
+    }
 
-	public void setSelectedWorkers(List<String> selected_workers) {
-		this.selected_workers = selected_workers;
-	}
+    public void setSelectedWorkers(List<String> selected_workers) {
+        this.selected_workers = selected_workers;
+    }
 
-	public void setWorkerList(WorkerList workers) {
-	    this.workers = workers;
-	}
+    public void setWorkerList(WorkerList workers) {
+        this.workers = workers;
+    }
 
-	public void setExceptionData(ExceptionData exception_data) {
-		this.exception_data = exception_data;
-	}
+    public void setExceptionData(ExceptionData exception_data) {
+        this.exception_data = exception_data;
+    }
 
-	public String getHouseName() {
-		return house_name;
-	}
+    public String getHouseName() {
+        return house_name;
+    }
 
-	public double getHousePay() {
-		return house_pay;
-	}
+    public double getHousePay() {
+        return house_pay;
+    }
 
-	public String getTimeBegin() {
-		return time_begin;
-	}
+    public String getTimeBegin() {
+        return time_begin;
+    }
 
-	public String getTimeEnd() {
-		return time_end;
-	}
+    public String getTimeEnd() {
+        return time_end;
+    }
 
-	public List<String> getSelectedWorkers() {
-		return selected_workers;
-	}
+    public List<String> getSelectedWorkers() {
+        return selected_workers;
+    }
 
-	public WorkerList getWorkerList() {
-	    return workers;
-	}
+    public WorkerList getWorkerList() {
+        return workers;
+    }
 
     public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
         int workersAddedCount = 0;
@@ -131,6 +131,6 @@ public class HouseData {
     }
 
     public ExceptionData getExceptionData() {
-		return exception_data;
-	}
+        return exception_data;
+    }
 }

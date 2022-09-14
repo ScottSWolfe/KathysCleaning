@@ -15,12 +15,12 @@ import javax.swing.SwingConstants;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.HouseNameDocumentListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
-import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.component.AmountEarnedPanel;
 import com.github.scottswolfe.kathyscleaning.component.Button;
 import com.github.scottswolfe.kathyscleaning.component.HouseNamePanel;
 import com.github.scottswolfe.kathyscleaning.component.HouseRowButtonPanel;
 import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.ExceptionsPanelLauncher;
@@ -33,7 +33,7 @@ import org.apache.commons.lang3.tuple.Pair;
 public class HousePanel extends JPanel implements FocusableCollection {
 
     public static final int WORKER_SELECTION_ROW_COUNT = 2;
-    public static final int WORKER_SELECTION_COLUMN_COUNT = 5;
+    public static final int WORKER_SELECTION_COLUMN_COUNT = 7;
 
     private final HouseNamePanel houseNamePanel;
     private final AmountEarnedPanel amountEarnedPanel;
@@ -67,20 +67,13 @@ public class HousePanel extends JPanel implements FocusableCollection {
         final Function<HousePanel, ActionListener> buildAddHouseActionListener,
         final Function<HousePanel, ActionListener> buildDeleteHouseActionListener
     ) {
-        // TODO temporary hack
-        final WorkerList workerList = new WorkerList(WorkerList.HOUSE_WORKERS);
-
         exceptionData = new ExceptionData();
-
-        setLayout(new MigLayout("insets 0","[grow][grow][grow][grow][grow][grow]","[]"));
-        setBackground(Settings.BACKGROUND_COLOR);
-        setBorder(BorderFactory.createTitledBorder(new String()));
 
         houseNamePanel = HouseNamePanel.from(new HouseNameDocumentListener(this));
         amountEarnedPanel = AmountEarnedPanel.from();
         timePanel = TimeRangePanel.from();
         workerSelectPanel = WorkerSelectPanel.from(
-            workerList,
+            GlobalData.getInstance().getDefaultWorkerNames(),
             WORKER_SELECTION_ROW_COUNT,
             WORKER_SELECTION_COLUMN_COUNT,
             Settings.BACKGROUND_COLOR
@@ -89,7 +82,7 @@ public class HousePanel extends JPanel implements FocusableCollection {
             "Exceptions",
             Settings.QUIET_BUTTON_COLORS,
             () -> ExceptionsPanelLauncher.from().launchPanel(
-                workerList,
+                GlobalData.getInstance().getDefaultWorkerNames(),
                 () -> this.exceptionData,
                 () -> {},
                 this::setExceptionData,
@@ -102,6 +95,10 @@ public class HousePanel extends JPanel implements FocusableCollection {
             buildAddHouseActionListener.apply(this),
             buildDeleteHouseActionListener.apply(this)
         );
+
+        setLayout(new MigLayout("insets 0","[grow][grow][grow][grow][grow][grow]","[]"));
+        setBackground(Settings.BACKGROUND_COLOR);
+        setBorder(BorderFactory.createTitledBorder(""));
 
         add(houseNamePanel, "growy");
         add(amountEarnedPanel, "growy");
@@ -155,25 +152,8 @@ public class HousePanel extends JPanel implements FocusableCollection {
         return workerSelectPanel.getWorkers();
     }
 
-    public void setWorkerList(final WorkerList workerList) {
-        workerSelectPanel.setWorkers(workerList);
-    }
-
     public List<String> getSelectedWorkerNames() {
         return workerSelectPanel.getSelectedWorkerNames();
-    }
-
-    public void setSelectedWorkerNames(final List<String> selectedWorkerNames) {
-        workerSelectPanel.setSelected(selectedWorkerNames);
-    }
-
-    /**
-     * Sets the exception button to a new color if an exception exists
-     *
-     * @param isException true if there is an exception, otherwise false
-     */
-    public void setExceptionButtonColor(boolean isException) {
-        exceptionsButton.setForeground(Settings.MAIN_COLOR);
     }
 
     public ExceptionData getExceptionData() {
@@ -183,15 +163,6 @@ public class HousePanel extends JPanel implements FocusableCollection {
     public void setExceptionData(ExceptionData exceptionData) {
         this.exceptionData = exceptionData;
         setExceptionButtonColor();
-    }
-
-    public void setExceptionDataEntries(List<ExceptionEntry> entries) {
-        exceptionData.setEntries(entries);
-        setExceptionButtonColor();
-    }
-
-    public boolean hasExceptionData() {
-        return exceptionData.isException();
     }
 
     private void setExceptionButtonColor() {

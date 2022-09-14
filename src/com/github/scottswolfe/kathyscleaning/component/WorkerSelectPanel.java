@@ -10,7 +10,6 @@ import javax.swing.JCheckBox;
 import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -19,7 +18,7 @@ import org.apache.commons.lang3.tuple.Pair;
 public class WorkerSelectPanel extends CheckBoxGridPanel {
 
     public static final int DEFAULT_ROW_COUNT = 2;
-    public static final int DEFAULT_COLUMN_COUNT = 5;
+    public static final int DEFAULT_COLUMN_COUNT = 7;
 
     public static WorkerSelectPanel from(
         final WorkerList workers,
@@ -47,6 +46,20 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
         );
     }
 
+    public static WorkerSelectPanel from(
+        final List<String> workerNames,
+        int rowCount,
+        int columnCount,
+        final Color backgroundColor
+    ) {
+        return new WorkerSelectPanel(
+            workerNames,
+            rowCount,
+            columnCount,
+            backgroundColor
+        );
+    }
+
     private WorkerSelectPanel(
         final WorkerList workers,
         int rowCount,
@@ -55,6 +68,18 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
     ) {
         super(
             createWorkerCheckBoxLabelsAndStatuses(workers.getWorkers(), rowCount, columnCount),
+            backgroundColor
+        );
+    }
+
+    private WorkerSelectPanel(
+        final List<String> workerNames,
+        int rowCount,
+        int columnCount,
+        final Color backgroundColor
+    ) {
+        super(
+            createWorkerCheckBoxLabelsAndStatuses(new WorkerList(workerNames).getWorkers(), rowCount, columnCount),
             backgroundColor
         );
     }
@@ -84,11 +109,19 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
     }
 
     public void setWorkers(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
-        validateGrid(workerSelectionGrid);
         for (int row = 0; row < rowCount(); row++) {
             for (int column = 0; column < columnCount(); column++) {
-                setCheckBoxLabel(row, column, workerSelectionGrid.get(row).get(column).getLeft());
-                setCheckBoxSelected(row, column, workerSelectionGrid.get(row).get(column).getRight());
+                final String checkBoxLabel;
+                final boolean isSelected;
+                if (!workerSelectionGrid.isEmpty() && row < workerSelectionGrid.size() && column < workerSelectionGrid.get(row).size()) {
+                    checkBoxLabel = workerSelectionGrid.get(row).get(column).getLeft();
+                    isSelected = workerSelectionGrid.get(row).get(column).getRight();
+                } else {
+                    checkBoxLabel = "";
+                    isSelected = false;
+                }
+                setCheckBoxLabel(row, column, checkBoxLabel);
+                setCheckBoxSelected(row, column, isSelected);
             }
         }
     }
@@ -157,13 +190,16 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
     }
 
     public void updateWorkerNames(final List<List<String>> workerNamesGrid) {
-        validateGrid(workerNamesGrid);
-
         uncheckAllBoxes();
-
         for (int row = 0; row < rowCount(); row++) {
             for (int column = 0; column < columnCount(); column++) {
-                setCheckBoxLabel(row, column, workerNamesGrid.get(row).get(column));
+                final String checkBoxLabel;
+                if (!workerNamesGrid.isEmpty() && row < workerNamesGrid.size() && column < workerNamesGrid.get(row).size()) {
+                    checkBoxLabel = workerNamesGrid.get(row).get(column);
+                } else {
+                    checkBoxLabel = "";
+                }
+                setCheckBoxLabel(row, column, checkBoxLabel);
             }
         }
     }
@@ -185,22 +221,5 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
 
     public String getNameAt(int row, int column) {
         return getCheckBoxLabel(row, column);
-    }
-
-    private <T> void validateGrid(final List<List<T>> grid) {
-        if (grid.size() != rowCount()) {
-            throw new IllegalArgumentException(String.format(
-                "Given worker selection grid has the wrong number of rows. Expected: %s; Given: %s.",
-                rowCount(),
-                grid.size()
-            ));
-        }
-        if (grid.get(0).size() != columnCount()) {
-            throw new IllegalArgumentException(String.format(
-                "Given worker selection grid has the wrong number of columns. Expected: %s; Given: %s.",
-                columnCount(),
-                grid.get(0).size()
-            ));
-        }
     }
 }

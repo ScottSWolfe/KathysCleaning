@@ -7,18 +7,15 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.github.scottswolfe.kathyscleaning.general.model.Worker;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.ConfirmFrame;
 
-
 public class StaticMethods {
-
 
     public static boolean confirmSubmitWeek() {
         String message = new String("<html>Are you sure you are ready<br>to submit the week?");
@@ -32,11 +29,9 @@ public class StaticMethods {
         return true;
     }
 
-
     // findSetLocation divides the screen into 9 rectangles and determines
     // where a new frame should be located based on the mouses' location
     // in each of these 9 rectangles
-
     public static void findSetLocation ( JFrame frame ) {
 
         Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
@@ -111,8 +106,6 @@ public class StaticMethods {
         }
 
         frame.setLocation( new_x, new_y );
-
-
     }
 
     private static boolean contains(Rectangle r, Point p) {
@@ -122,32 +115,12 @@ public class StaticMethods {
                 r.getLocation().getY() + r.getHeight() > p.getY());
     }
 
-
-    // isRepeatWorker takes in combobox[] and returns true
-    // if there is a repeat selected item and false otherwise
-
-    public static boolean isRepeatWorker(WorkerList workers) {
-
-        // for each combobox
-        for (Worker worker1 : workers) {
-
-            // compare it to each combobox except itself
-            for (Worker worker2 : workers) {
-
-                // if name matches return true
-                if (worker1 != worker2 && worker1.getName().equals(worker2.getName())) { // TODO implement .equals method for worker
-                    return true;
-                }
-
-            }
-
-        }
-
-        return false;
-    }
-
     public static boolean isRepeatWorker(List<String> workerNames) {
-        return workerNames.stream().distinct().count() != workerNames.size();
+        final List<String> nonEmptyWorkerNames = workerNames.stream()
+            .filter(workerName -> !workerName.isEmpty())
+            .collect(Collectors.toList());
+
+        return nonEmptyWorkerNames.stream().distinct().count() != nonEmptyWorkerNames.size();
     }
 
     public static boolean isRepeatWorker( JComboBox<String>[][] box ) {
@@ -188,23 +161,4 @@ public class StaticMethods {
     public static void shareErrorMessage(final String message) {
         JOptionPane.showMessageDialog(new JFrame(), message, null, JOptionPane.ERROR_MESSAGE);
     }
-
-    // this doesn't work for some reason...
-    public static int areYouSure ( String message ) {
-
-        CountDownLatch latch = new CountDownLatch( 1 );
-        ConfirmFrame cf = new ConfirmFrame( message, latch );
-        try {
-            latch.await();
-        }
-        catch(Exception e){
-            System.out.println("Error with CountDownLatch");
-        }
-
-
-        return cf.selection;
-
-    }
-
-
 }

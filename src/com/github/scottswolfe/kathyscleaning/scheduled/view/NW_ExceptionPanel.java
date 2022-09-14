@@ -83,7 +83,7 @@ public class NW_ExceptionPanel extends JPanel {
         for(int i=0; i<NUM_EXCEPTIONS; i++) {
             employee_combobox[i] = new JComboBox<String>();
             employee_combobox[i].setBackground( Settings.BACKGROUND_COLOR );
-            employee_combobox[i].setEditable(true);
+            employee_combobox[i].setEditable(false);
             employee_combobox[i].setSize(8, UNDEFINED_CONDITION);
             employee_combobox[i].setFont( employee_combobox[i].getFont().deriveFont( Settings.FONT_SIZE ) );
 

@@ -2,6 +2,7 @@ package com.github.scottswolfe.kathyscleaning.lbc.view;
 
 import com.github.scottswolfe.kathyscleaning.component.CopyWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.component.SubmitFormPanel;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -45,7 +46,7 @@ public class LBCHeaderPanel extends JPanel implements FocusableCollection {
         super();
 
         copyWorkersPanel = CopyWorkersPanel.from(
-            new WorkerList(WorkerList.LBC_WORKERS),
+            new WorkerList(GlobalData.getInstance().getDefaultWorkerNames()),
             LBCPanel.LBC_WORKER_ROW_COUNT,
             LBCPanel.LBC_WORKER_COLUMN_COUNT,
             onCopyWorkersButtonPress,

@@ -44,11 +44,13 @@ public abstract class ComboBoxGridPanel extends ComponentGridPanel<JComboBox<Str
             for (String comboBoxSelection : comboBoxSelectionsInRow) {
 
                 final JComboBox<String> comboBox = new JComboBox<>();
-                comboBox.setEditable(true);
+                comboBox.setEditable(false);
                 comboBox.setSize(10, UNDEFINED_CONDITION);
 
                 final String emptyChoice = "";
-                comboBox.addItem(emptyChoice);
+                if (!comboBoxOptions.contains(emptyChoice)) {
+                    comboBox.addItem(emptyChoice);
+                }
                 comboBoxOptions.forEach(comboBox::addItem);
                 comboBox.setSelectedItem(comboBoxSelection);
 

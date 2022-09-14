@@ -4,6 +4,7 @@ import com.github.scottswolfe.kathyscleaning.component.ButtonPanel;
 import com.github.scottswolfe.kathyscleaning.component.EditableWorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.component.MeetTimePanel;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.GenericPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
@@ -24,7 +25,7 @@ import java.util.List;
 public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
 
     public static final int LBC_SCHEDULED_WORKER_ROW_COUNT = 2;
-    public static final int LBC_SCHEDULED_WORKER_COLUMN_COUNT = 5;
+    public static final int LBC_SCHEDULED_WORKER_COLUMN_COUNT = 7;
 
     public static final int LBC_SCHEDULED_EXCEPTIONS_COUNT = 3;
 
@@ -50,7 +51,7 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
         final RowLabelPanel rowLabelPanel = RowLabelPanel.from("LBC");
         meetTimePanel = MeetTimePanel.from();
         editableWorkerSelectPanel = EditableWorkerSelectPanel.from(
-            new WorkerList(WorkerList.LBC_WORKERS),
+            new WorkerList(GlobalData.getInstance().getDefaultWorkerNames()),
             LBC_SCHEDULED_WORKER_ROW_COUNT,
             LBC_SCHEDULED_WORKER_COLUMN_COUNT,
             popUpWindowListener

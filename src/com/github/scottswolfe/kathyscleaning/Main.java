@@ -48,6 +48,14 @@ public class Main {
             SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
         }
 
+        try {
+            GlobalData.getInstance().initializeData();
+        } catch (IOException e) {
+            e.printStackTrace();
+            StaticMethods.shareErrorMessage(e.getMessage());
+            System.exit(1);
+        }
+
         SessionModel.initialize();
         CompletedModel completed = new CompletedModel();
         CovenantModel covenant = new CovenantModel();
@@ -61,13 +69,5 @@ public class Main {
         JsonMethods.saveToFileJSON(lbc, LBCModel.class, GeneralController.TEMP_SAVE_FILE, Form.LBC.getNum());
         JsonMethods.saveToFileJSON(weekend, WeekendModel.class, GeneralController.TEMP_SAVE_FILE, Form.WEEKEND.getNum());
         JsonMethods.saveToFileJSON(nw_data, NW_Data.class, GeneralController.TEMP_SAVE_FILE, Form.SCHEDULED.getNum());
-
-        try {
-            GlobalData.getInstance().getExcelWorkerNames();
-        } catch (IOException e) {
-            e.printStackTrace();
-            StaticMethods.shareErrorMessage(e.getMessage());
-            System.exit(1);
-        }
     }
 }

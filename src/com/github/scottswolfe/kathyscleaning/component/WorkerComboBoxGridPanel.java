@@ -7,24 +7,24 @@ import java.util.List;
 public class WorkerComboBoxGridPanel extends ComboBoxGridPanel {
 
     public static WorkerComboBoxGridPanel from(
-        final List<String> selectedWorkers,
+        final List<String> currentWorkers,
         final List<String> availableWorkers,
         int rowCount,
         int columnCount,
         final Color backgroundColor
     ) {
-        return new WorkerComboBoxGridPanel(selectedWorkers, availableWorkers, rowCount, columnCount, backgroundColor);
+        return new WorkerComboBoxGridPanel(currentWorkers, availableWorkers, rowCount, columnCount, backgroundColor);
     }
 
     private WorkerComboBoxGridPanel(
-        final List<String> selectedWorkers,
+        final List<String> currentWorkers,
         final List<String> availableWorkers,
         int rowCount,
         int columnCount,
         final Color backgroundColor
     ) {
         super(
-            createWorkerNamesInGrid(selectedWorkers, rowCount, columnCount),
+            createWorkerNamesInGrid(currentWorkers, rowCount, columnCount),
             availableWorkers,
             backgroundColor
         );

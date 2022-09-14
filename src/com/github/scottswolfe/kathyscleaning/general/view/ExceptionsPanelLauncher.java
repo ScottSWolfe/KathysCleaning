@@ -2,9 +2,9 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.view.CompletedExceptionsPanel;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
 import java.awt.event.WindowListener;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -22,14 +22,14 @@ public class ExceptionsPanelLauncher {
     private ExceptionsPanelLauncher() {}
 
     public void launchPanel(
-        final WorkerList dwd,
+        final List<String> workerNames,
         final Supplier<ExceptionData> exceptionDataSupplier,
         final Runnable onCancel,
         final Consumer<ExceptionData> onSubmit,
         final WindowListener popUpWindowListener
     ) {
-        final CompletedExceptionsPanel exceptionsPanel = new CompletedExceptionsPanel(
-            dwd, exceptionDataSupplier
+        final CompletedExceptionsPanel exceptionsPanel = CompletedExceptionsPanel.from(
+            workerNames, exceptionDataSupplier
         );
 
         popUpFormLauncher.launchPanel(

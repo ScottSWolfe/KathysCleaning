@@ -7,6 +7,7 @@ import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.ExceptionsPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
@@ -47,18 +48,19 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
     ) {
         super();
 
-        final WorkerList workerList = new WorkerList(WorkerList.LBC_WORKERS);
-
         exceptionData = new ExceptionData();
 
         dayOfWeekLabelPanel = RowLabelPanel.from(dayOfWeek.getName());
         amountEarnedPanel = AmountEarnedPanel.from();
         timeRangePanel = TimeRangePanel.from();
-        workerSelectPanel = WorkerSelectPanel.from(workerList, Settings.BACKGROUND_COLOR);
+        workerSelectPanel = WorkerSelectPanel.from(
+            new WorkerList(GlobalData.getInstance().getDefaultWorkerNames()),
+            Settings.BACKGROUND_COLOR
+        );
         exceptionsButton = new KcButton(
             "Exceptions",
             (event) -> ExceptionsPanelLauncher.from().launchPanel(
-                workerList,
+                GlobalData.getInstance().getDefaultWorkerNames(),
                 () -> this.exceptionData,
                 () -> {},
                 this::setExceptionData,

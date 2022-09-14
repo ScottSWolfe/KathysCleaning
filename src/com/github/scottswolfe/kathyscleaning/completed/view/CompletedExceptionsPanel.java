@@ -15,9 +15,9 @@ import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
+import com.github.scottswolfe.kathyscleaning.component.KcComboBox;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
@@ -30,17 +30,17 @@ public class CompletedExceptionsPanel extends JPanel implements FocusableCollect
     final List<ExceptionRow> exceptionRows;
 
     public static CompletedExceptionsPanel from(
-        final WorkerList dwd,
+        final List<String> workerNames,
         final Supplier<ExceptionData> exceptionDataSupplier
     ) {
         return new CompletedExceptionsPanel(
-            dwd,
+            workerNames,
             exceptionDataSupplier
         );
     }
 
-    public CompletedExceptionsPanel(
-        final WorkerList workerList,
+    private CompletedExceptionsPanel(
+        final List<String> workerNames,
         final Supplier<ExceptionData> exceptionDataSupplier
     ) {
         final JLabel nameLabel = new JLabel("Name");
@@ -49,7 +49,7 @@ public class CompletedExceptionsPanel extends JPanel implements FocusableCollect
         final JLabel timeLabel = new JLabel("Time");
         timeLabel.setFont(timeLabel.getFont().deriveFont(Settings.FONT_SIZE));
 
-        exceptionRows = createExceptionRows(workerList, exceptionDataSupplier);
+        exceptionRows = createExceptionRows(workerNames, exceptionDataSupplier);
 
         final StringBuilder migLayoutConstraintsBuilder = new StringBuilder();
         for (int row = 0; row < EXCEPTION_ROW_COUNT; row++) {
@@ -74,14 +74,14 @@ public class CompletedExceptionsPanel extends JPanel implements FocusableCollect
     }
 
     private List<ExceptionRow> createExceptionRows(
-        final WorkerList workerList,
+        final List<String> workerNames,
         final Supplier<ExceptionData> exceptionDataSupplier
     ) {
         final List<ExceptionRow> exceptionRows = new ArrayList<>(EXCEPTION_ROW_COUNT);
 
         for (int row = 0; row < EXCEPTION_ROW_COUNT; row++) {
             exceptionRows.add(ExceptionRow.from(
-                createComboBox(workerList),
+                KcComboBox.from(workerNames, "", false,10),
                 createTimeTextField(),
                 createTimeTextField()
             ));
@@ -98,21 +98,6 @@ public class CompletedExceptionsPanel extends JPanel implements FocusableCollect
         }
 
         return exceptionRows;
-    }
-
-    private JComboBox<String> createComboBox(final WorkerList workerList) {
-        final JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.setEditable(true);
-        comboBox.setSize(10, UNDEFINED_CONDITION);
-        comboBox.setFont(comboBox.getFont().deriveFont(Settings.FONT_SIZE));
-
-        comboBox.addItem("");
-        workerList.getWorkerNames().stream()
-            .distinct()
-            .sorted()
-            .forEach(comboBox::addItem);
-
-        return comboBox;
     }
 
     private JTextField createTimeTextField() {

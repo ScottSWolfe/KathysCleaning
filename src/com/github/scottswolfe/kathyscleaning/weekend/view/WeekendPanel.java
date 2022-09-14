@@ -10,14 +10,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -25,9 +23,8 @@ import javax.swing.border.LineBorder;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.general.model.Worker;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
@@ -59,11 +56,6 @@ public class WeekendPanel extends JPanel {
 
 	public JLabel date_label;
 	public Calendar date;
-
-	public JRadioButton weekA_button;
-	public JRadioButton weekB_button;
-	public JRadioButton neither_button;
-	ButtonGroup bg;
 
 	JButton submit_button;
 
@@ -200,26 +192,9 @@ public class WeekendPanel extends JPanel {
 
 			employee_combobox = new JComboBox<String>();
 			employee_combobox.setFont( employee_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
-			employee_combobox.setEditable(true);
+			employee_combobox.setEditable(false);
 			employee_combobox.addItem("");
-
-			// TODO move this code elsewhere; also duplicated elsewhere
-			WorkerList workers = new WorkerList();
-			WorkerList houseWorkers = new WorkerList(WorkerList.HOUSE_WORKERS);
-			WorkerList covWorkers = new WorkerList(WorkerList.COVENANT_WORKERS);
-			for (Worker worker : houseWorkers) {
-			    if (!workers.containsName(worker)) {
-			        workers.add(worker);
-			    }
-			}
-			for (Worker worker : covWorkers) {
-                if (!workers.containsName(worker)) {
-                    workers.add(worker);
-                }
-            }
-			for (Worker worker : workers) {
-                employee_combobox.addItem(worker.getName());
-            }
+            GlobalData.getInstance().getDefaultWorkerNames().forEach(employee_combobox::addItem);
 
 			workerpaid_field = new JTextField();
 			workerpaid_field.setColumns( 5 );

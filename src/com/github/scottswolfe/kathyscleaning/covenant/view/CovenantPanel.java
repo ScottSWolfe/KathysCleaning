@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -27,6 +26,7 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -51,11 +51,11 @@ public class CovenantPanel extends JPanel {
      */
     MainFrame<CovenantPanel, CovenantModel> covFrame;
 
-    public final static int ROWS = 12;
+    public final static int ROWS = 14;
     int rows = ROWS;
     public final static int COLS = 5;
 
-    String[] day = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
+    public static String[] day = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
 
 
 
@@ -121,8 +121,7 @@ public class CovenantPanel extends JPanel {
 
 /* CONSTRUCTOR ============================================================== */
 
-    public CovenantPanel(CovenantListeners listeners, WorkerList dwd2,
-            Calendar date, int mode, int wk) {
+    public CovenantPanel(CovenantListeners listeners) {
 
         controller = listeners;
 
@@ -142,7 +141,7 @@ public class CovenantPanel extends JPanel {
 
         String layout_format;
 
-        WorkerList workers = new WorkerList(WorkerList.COVENANT_WORKERS);
+        WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
         //worker labels
         for(int i=0; i<rows; i++){
 

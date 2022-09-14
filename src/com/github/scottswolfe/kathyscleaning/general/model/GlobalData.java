@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GlobalData {
 
@@ -21,10 +22,25 @@ public class GlobalData {
 
     private GlobalData() {}
 
-    public List<String> getExcelWorkerNames() throws IOException {
+    public void initializeData() throws IOException {
+        excelWorkerNames = ImmutableList.copyOf(ExcelPayTabHelper.from().getExcelWorkerNames());
+    }
+
+    public List<String> getDefaultWorkerNames() {
+        return getWorkerNamesFromExcelTemplate().stream()
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList());
+    }
+
+    public List<String> getWorkerNamesFromExcelTemplate() {
         if (excelWorkerNames == null) {
-            excelWorkerNames = ImmutableList.copyOf(ExcelPayTabHelper.from().getExcelWorkerNames());
+            throw createIllegalStateException();
         }
         return excelWorkerNames;
+    }
+
+    private IllegalStateException createIllegalStateException() {
+        return new IllegalStateException("GlobalData must be initialized before it can be used.");
     }
 }

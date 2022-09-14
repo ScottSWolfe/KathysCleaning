@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.component;
 
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.EditWorkersPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
@@ -56,7 +57,7 @@ public class CopyWorkersPanel extends JPanel implements FocusableCollection {
             "Edit",
             (event) -> EditWorkersPanelLauncher.from().launchPanel(
                 workerSelectPanel.getWorkers().getWorkerNames(),
-                new WorkerList(WorkerList.HOUSE_WORKERS).getWorkerNames(),
+                GlobalData.getInstance().getDefaultWorkerNames(),
                 HousePanel.WORKER_SELECTION_ROW_COUNT,
                 HousePanel.WORKER_SELECTION_COLUMN_COUNT,
                 false,

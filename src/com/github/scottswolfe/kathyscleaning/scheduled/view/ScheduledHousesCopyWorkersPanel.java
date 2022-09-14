@@ -46,7 +46,12 @@ public class ScheduledHousesCopyWorkersPanel extends JPanel {
         panel.setBackground(Settings.BACKGROUND_COLOR);
         panel.setBackground(Settings.HEADER_BACKGROUND);
 
-        worker_panel = WorkerSelectPanel.from(dwd, Settings.HEADER_BACKGROUND);
+        worker_panel = WorkerSelectPanel.from(
+            dwd,
+            ScheduledLBCPanel.LBC_SCHEDULED_WORKER_ROW_COUNT,
+            ScheduledLBCPanel.LBC_SCHEDULED_WORKER_COLUMN_COUNT,
+            Settings.HEADER_BACKGROUND
+        );
 
         edit_default_workers = new JButton("Edit");
         edit_default_workers.addActionListener( new NW_EditDefaultWorkersListener(dwd, day_panel, frame) );

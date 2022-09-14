@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.scheduled.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
 public class NW_DayData {
@@ -17,17 +18,9 @@ public class NW_DayData {
 
     public WorkerList cov_worker;
 
-    public NoteData dayNoteData;
     public NoteData covNoteData;
 
-
-    // OR
-
     List<WorkerSchedule> ws;
-
-
-
-//  CONSTRUCTOR
 
     public NW_DayData() {
         headerData = new NW_HeaderData();
@@ -39,21 +32,9 @@ public class NW_DayData {
         beginExceptionList = new ArrayList<>();
         meet_location = "";
         meet_time = "";
-        cov_worker = new WorkerList(WorkerList.COVENANT_WORKERS);
+        cov_worker = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
         covNoteData = new NoteData();
         ws = new ArrayList<>();
-    }
-
-
-//  METHODS
-
-    public int getNumWorkSchedules(){
-        if (ws != null) {
-            return ws.size();
-        }
-        else {
-            return 0;
-        }
     }
 
     public void setWorkerSchedule(List<WorkerSchedule> ws) {
@@ -80,7 +61,6 @@ public class NW_DayData {
         this.houseData = houseData;
     }
 
-
     public NW_HeaderData getHeaderData() {
         return headerData;
     }
@@ -88,21 +68,4 @@ public class NW_DayData {
     public NW_HouseData[] getHouseData() {
         return houseData;
     }
-
-    public List<BeginExceptionEntry> getBeginExceptionData() {
-        return beginExceptionList;
-    }
-
-    public void setBeginExceptionData(List<BeginExceptionEntry> bed) {
-        this.beginExceptionList = bed;
-    }
-
-    public void setMeetLocation(String location) {
-        if (location != null) {
-            meet_location = location;
-        } else {
-            meet_location = "";
-        }
-    }
-
 }

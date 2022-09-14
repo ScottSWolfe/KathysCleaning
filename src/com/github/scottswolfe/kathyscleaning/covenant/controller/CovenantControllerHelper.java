@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -17,35 +17,38 @@ import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
-public class CovenantControllerHelper
-                    implements ControllerHelper<CovenantPanel, CovenantModel> {
+public class CovenantControllerHelper implements ControllerHelper<CovenantPanel, CovenantModel> {
 
     @Override
     public CovenantModel readViewIntoModel(CovenantPanel view) {
         CovenantModel model = new CovenantModel();
-        CovenantEntry entry;
+
         for (int i = 0; i < CovenantPanel.ROWS; i++) {
-            entry = new CovenantEntry();
-            entry.setWorker(view.getNameLabels()[i].getText());
+
+            final List<WorkTime> workTimes = new ArrayList<>();
             for (int j = 0; j < 5; j++) {
-                WorkTime times = WorkTime.from(
-                    DayOfWeek.fromIndex(j),
-                    view.getBeginTimeTextfield()[i][j].getText(),
-                    view.getEndTimeTextfield()[i][j].getText()
+                workTimes.add(
+                    WorkTime.from(
+                        DayOfWeek.fromIndex(j),
+                        view.getBeginTimeTextfield()[i][j].getText(),
+                        view.getEndTimeTextfield()[i][j].getText()
+                    )
                 );
-                entry.addWorkTime(times);
             }
-            model.addEntry(entry);
+
+            model.addEntry(CovenantEntry.from(
+                view.getNameLabels()[i].getText(),
+                workTimes
+            ));
         }
+
         for (int i = 0; i < CovenantPanel.COLS; i++) {
             String amount = view.getEarnedTextfields()[i].getText();
             if (!amount.isEmpty()) {
@@ -54,56 +57,41 @@ public class CovenantControllerHelper
                 model.addAmountEarned(0.0);
             }
         }
+
         return model;
     }
 
     @Override
     public void writeModelToView(CovenantModel model, CovenantPanel view) {
-        Iterator<CovenantEntry> entries = model.entryIterator();
-        CovenantEntry entry;
-        int row = 0;
-        int col;
 
-        // TODO temporary hack for when model is empty
-        if (!entries.hasNext()) {
-            for (int i = 0; i < CovenantPanel.ROWS; i++) {
-                entry = new CovenantEntry();
-                entry.setWorker(view.getNameLabels()[i].getText());
-                for (int j = 0; j < CovenantPanel.COLS; j++) {
-                    final String beginTime = "";
-                    final String endTime = "";
-                    final WorkTime times = WorkTime.from(DayOfWeek.fromIndex(j), beginTime, endTime);
-                    entry.addWorkTime(times);
-                }
-                model.addEntry(entry);
-            }
-            for (int i = 0; i < CovenantPanel.COLS; i++) {
-                model.addAmountEarned(0.0);
-            }
-            entries = model.entryIterator();
-        }
-        // end temporary hack
+        final List<CovenantEntry> entries = model.getEntries();
 
-        while(entries.hasNext() && row < CovenantPanel.ROWS) {
-            entry = entries.next();
-            view.getNameLabels()[row].setText(entry.getWorker());
-            List<WorkTime> times = entry.getWorkTimes();
-            col = 0;
-            for (WorkTime workTime : times) {
-                view.getBeginTimeTextfield()[row][col].setText(workTime.getBeginTime());
-                view.getEndTimeTextfield()[row][col].setText(workTime.getEndTime());
-                col++;
-            }
-            row++;
-        }
-        int i = 0;
-        for (Double amount : model.getAmountsEarned()) {
-            if (amount != 0) {
-                view.getEarnedTextfields()[i].setText(String.valueOf(amount));
+        for (int row = 0; row < CovenantPanel.ROWS; row++) {
+
+            final String workerName;
+            final List<WorkTime> workTimes;
+            if (row < entries.size()) {
+                workerName = entries.get(row).getWorker();
+                workTimes = entries.get(row).getWorkTimes();
             } else {
-                view.getEarnedTextfields()[i].setText("");
+                workerName = "";
+                workTimes = new ArrayList<>();
             }
-            i++;
+
+            view.getNameLabels()[row].setText(workerName);
+            for (int count = 0; count < workTimes.size(); count++) {
+                view.getBeginTimeTextfield()[row][count].setText(workTimes.get(count).getBeginTime());
+                view.getEndTimeTextfield()[row][count].setText(workTimes.get(count).getEndTime());
+            }
+        }
+
+        for (int count = 0; count < model.getAmountsEarned().size(); count++) {
+            final double amount = model.getAmountsEarned().get(count);
+            if (amount != 0) {
+                view.getEarnedTextfields()[count].setText(String.valueOf(amount));
+            } else {
+                view.getEarnedTextfields()[count].setText("");
+            }
         }
     }
 
@@ -121,10 +109,8 @@ public class CovenantControllerHelper
     public void initializeForm(GeneralController<CovenantPanel, CovenantModel> controller) {
 
         CovenantListeners covListeners = new CovenantListeners();
-        CovenantModel covModel = new CovenantModel(
-                new WorkerList(WorkerList.COVENANT_WORKERS), SessionModel.getCompletedStartDay(), 0, 0); // TODO remove 0, 0...
-        CovenantPanel covPanel = new CovenantPanel(covListeners,
-                new WorkerList(WorkerList.COVENANT_WORKERS), SessionModel.getCompletedStartDay(), 0, 0);
+        CovenantModel covModel = new CovenantModel();
+        CovenantPanel covPanel = new CovenantPanel(covListeners);
 
         MainFrame<CovenantPanel, CovenantModel> mainFrame =
                 new MainFrame<CovenantPanel, CovenantModel>(controller);

@@ -7,6 +7,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListen
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
@@ -58,7 +59,7 @@ public class CompletedTabbedPane extends TabbedPane {
         final MainFrame<TabbedPane, CompletedModel> parentFrame,
         final Controller<TabbedPane, CompletedModel> controller
     ) {
-        final WorkerList workers = new WorkerList(WorkerList.HOUSE_WORKERS);
+        final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
         return COMPLETED_FORM_DAYS.stream()
             .map(dayOfWeek -> DayPanel.from(
                 workers,

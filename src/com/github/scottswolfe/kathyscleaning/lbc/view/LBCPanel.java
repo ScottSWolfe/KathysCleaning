@@ -19,7 +19,7 @@ import java.util.List;
 public class LBCPanel extends JPanel implements FocusableCollection {
 
     public static final int LBC_WORKER_ROW_COUNT = 2;
-    public static final int LBC_WORKER_COLUMN_COUNT = 5;
+    public static final int LBC_WORKER_COLUMN_COUNT = 7;
 
     private final LBCHeaderPanel lbcHeaderPanel;
     private final LBCDaysPanel lbcDaysPanel;

@@ -84,7 +84,7 @@ public class NW_NotePanel extends JPanel {
         for(int i=0; i<ROWS; i++){
 
             name_box[i] = new JComboBox<String>();
-            name_box[i].setEditable(true);
+            name_box[i].setEditable(false);
             name_box[i].setSize(7, UNDEFINED_CONDITION);
             name_box[i].setFont( name_box[i].getFont().deriveFont( Settings.FONT_SIZE ) );
             name_box[i].setBackground( Settings.BACKGROUND_COLOR );
