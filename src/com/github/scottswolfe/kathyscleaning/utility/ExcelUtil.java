@@ -9,6 +9,46 @@ import java.util.Collections;
 
 public class ExcelUtil {
 
+    public static int findRow(
+        final Sheet sheet,
+        final String expectedCellValue,
+        final int column
+    ) {
+        return findRow(sheet, expectedCellValue, Collections.emptySet(), 0, column, 1, 0, 1000);
+    }
+
+    public static int findRow(
+        final Sheet sheet,
+        final String expectedCellValue,
+        final Collection<String> unexpectedCellValues,
+        final int row,
+        final int column,
+        final int rowDelta,
+        final int columnDelta,
+        final int maxIterations
+    ) {
+        int iterationCount = 0;
+        int currentRow = row;
+        int currentColumn = column;
+
+        while (iterationCount < maxIterations) {
+
+            if (isCellValueInCollection(sheet, currentRow, currentColumn, unexpectedCellValues)) {
+                break;
+            }
+
+            if (doesCellValueEqualString(sheet, currentRow, currentColumn, expectedCellValue)) {
+                return currentRow;
+            }
+
+            currentRow += rowDelta;
+            currentColumn += columnDelta;
+            iterationCount++;
+        }
+
+        throw new IllegalArgumentException("Expected cell value not found.");
+    }
+
     public static boolean doesCellValueEqualString(
         final Sheet sheet,
         int rowNumber,

@@ -6,6 +6,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
@@ -13,7 +14,10 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
+
+import java.io.IOException;
 
 /**
  * This class contains the main method and launches the application.
@@ -57,5 +61,13 @@ public class Main {
         JsonMethods.saveToFileJSON(lbc, LBCModel.class, GeneralController.TEMP_SAVE_FILE, Form.LBC.getNum());
         JsonMethods.saveToFileJSON(weekend, WeekendModel.class, GeneralController.TEMP_SAVE_FILE, Form.WEEKEND.getNum());
         JsonMethods.saveToFileJSON(nw_data, NW_Data.class, GeneralController.TEMP_SAVE_FILE, Form.SCHEDULED.getNum());
+
+        try {
+            GlobalData.getInstance().getExcelWorkerNames();
+        } catch (IOException e) {
+            e.printStackTrace();
+            StaticMethods.shareErrorMessage(e.getMessage());
+            System.exit(1);
+        }
     }
 }
