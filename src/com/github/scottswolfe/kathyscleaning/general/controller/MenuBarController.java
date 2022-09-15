@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
+import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
@@ -32,12 +33,12 @@ import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
 public class MenuBarController <ViewObject, ModelObject> implements FileMenuListener {
 
-/* INSTANCE VARIABLES ======================================================= */
-
     /**
      * The controller that this class calls on to do the reading and writing
      */
     Controller<ViewObject, ModelObject> controller;
+
+    private final SaveFileManager saveFileManager = SaveFileManager.from();
 
     private static final List<String> TEMPLATE_LIST = new ArrayList<>();
     {
@@ -251,7 +252,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
     }
 
     private void loadFile(File file) {
-        SessionModel.load(file);
+        saveFileManager.loadFile(file);
         controller.readFileAndWriteToView(file);
         controller.setTitleText();
     }

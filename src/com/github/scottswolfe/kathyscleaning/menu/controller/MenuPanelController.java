@@ -3,9 +3,6 @@ package com.github.scottswolfe.kathyscleaning.menu.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 import javax.swing.JFrame;
 
@@ -14,14 +11,16 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
+import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 
 /**
  * Controller that controls the MenuPanel.
  */
 public class MenuPanelController {
+
+    private final SaveFileManager saveFileManager = SaveFileManager.from();
 
 /* FIELDS =================================================================== */
 
@@ -77,12 +76,8 @@ public class MenuPanelController {
             if (file == null) {
                 return;
             }
-            SessionModel.load(file);
-            try {
-                Files.copy(file.toPath(), GeneralController.TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+
+            saveFileManager.loadFile(file);
 
             GeneralController<TabbedPane, CompletedModel> newController = new GeneralController<>(Form.COMPLETED);
 
