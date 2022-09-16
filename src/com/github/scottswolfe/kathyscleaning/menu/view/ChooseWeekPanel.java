@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
@@ -21,7 +21,7 @@ public class ChooseWeekPanel extends JPanel {
     // TODO remove these
     JFrame frame;
     Calendar date;
-    Controller<?, ?> controller;
+    FormController<?, ?> controller;
 
     boolean isScheduledForm = false;
 
@@ -36,7 +36,7 @@ public class ChooseWeekPanel extends JPanel {
     JButton cancel_button;
     JButton submit_button;
 
-    public ChooseWeekPanel(JFrame frame, Controller<?, ?> controller, boolean isScheduledForm) {
+    public ChooseWeekPanel(JFrame frame, FormController<?, ?> controller, boolean isScheduledForm) {
         this.frame = frame;
         this.controller = controller;
         this.isScheduledForm = isScheduledForm;
@@ -46,7 +46,7 @@ public class ChooseWeekPanel extends JPanel {
         add(ContinuePanel(), "grow");
     }
 
-    public static void initializePanel(Controller<?, ?> controller, boolean isScheduledForm) {
+    public static void initializePanel(FormController<?, ?> controller, boolean isScheduledForm) {
         JFrame frame = new JFrame();
         ChooseWeekPanel panel = new ChooseWeekPanel(frame, controller, isScheduledForm);
         frame.add(panel);

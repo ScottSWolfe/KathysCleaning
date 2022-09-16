@@ -1,8 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.covenant.controller;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,12 +11,10 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
@@ -31,7 +27,7 @@ public class CovenantControllerHelper implements ControllerHelper<CovenantPanel,
 
     @Override
     public CovenantPanel initializeView(
-        GeneralController<CovenantPanel, CovenantModel> controller,
+        FormController<CovenantPanel, CovenantModel> controller,
         MainFrame<CovenantPanel, CovenantModel> parentFrame
     ) {
         final CovenantListeners covenantListeners = new CovenantListeners();
@@ -121,7 +117,7 @@ public class CovenantControllerHelper implements ControllerHelper<CovenantPanel,
 
     @Override
     public void updateDate(
-        final Controller<CovenantPanel, CovenantModel> controller,
+        final FormController<CovenantPanel, CovenantModel> controller,
         final CovenantPanel view
     ) {
         ChooseWeekPanel.initializePanel(controller, false);

@@ -10,9 +10,8 @@ import java.util.List;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
@@ -36,7 +35,7 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
 
     @Override
     public ScheduledTabbedPane initializeView(
-        final GeneralController<ScheduledTabbedPane, NW_Data> controller,
+        final FormController<ScheduledTabbedPane, NW_Data> controller,
         final MainFrame<ScheduledTabbedPane, NW_Data> parentFrame
     ) {
         return ScheduledTabbedPane.from(parentFrame, controller);
@@ -166,7 +165,7 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
 
     @Override
     public void updateDate(
-        final Controller<ScheduledTabbedPane, NW_Data> controller,
+        final FormController<ScheduledTabbedPane, NW_Data> controller,
         final ScheduledTabbedPane scheduledTabbedPane
     ) {
         ChooseWeekPanel.initializePanel(controller, true);

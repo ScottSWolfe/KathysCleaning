@@ -3,7 +3,7 @@ package com.github.scottswolfe.kathyscleaning.interfaces;
 import java.io.File;
 import java.util.List;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 
 import javax.swing.JComponent;
@@ -19,7 +19,7 @@ public interface ControllerHelper<View extends JComponent, Model> {
      * Creates a view from the given model.
      */
     View initializeView(
-        final GeneralController<View, Model> controller,
+        final FormController<View, Model> controller,
         final MainFrame<View, Model> parentFrame
     );
 
@@ -48,7 +48,7 @@ public interface ControllerHelper<View extends JComponent, Model> {
     /**
      * Saves the given model to the given file
      *
-     * @param data the data to be saved
+     * @param model the data to be saved
      */
     public void saveModelToFile(Model model, File file);
 
@@ -62,7 +62,7 @@ public interface ControllerHelper<View extends JComponent, Model> {
     /**
      * Updates the date shown
      */
-    public void updateDate(Controller<View, Model> controller, View view);
+    public void updateDate(FormController<View, Model> controller, View view);
 
     /**
      * Updates the worker names on the model

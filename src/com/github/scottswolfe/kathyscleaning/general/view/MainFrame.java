@@ -2,16 +2,17 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 
 import java.awt.event.WindowListener;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 @SuppressWarnings("serial")
-public class MainFrame<ViewObject, ModelObject> extends JFrame {
+public class MainFrame<ViewObject extends JComponent, ModelObject> extends JFrame {
 
 /* COMPONENTS =============================================================== */
 
@@ -21,7 +22,7 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
 
 /* CONSTRUCTORS ============================================================= */
 
-    public MainFrame(Controller<ViewObject, ModelObject> controller) {
+    public MainFrame(FormController<ViewObject, ModelObject> controller) {
         super();
         setTitleText(controller);
         addMenuBar(controller);
@@ -40,7 +41,7 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
         this.dispose();
     }
 
-    public void setTitleText(Controller<ViewObject, ModelObject> controller) {
+    public void setTitleText(FormController<ViewObject, ModelObject> controller) {
         String text = "";
 
         if (controller.getFormType() == Form.COMPLETED) {
@@ -66,12 +67,12 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
 
 /* PRIVATE METHODS ========================================================== */
 
-    private void addMenuBar(Controller<ViewObject, ModelObject> controller) {
+    private void addMenuBar(FormController<ViewObject, ModelObject> controller) {
         menuBar = new MenuBar<>(controller);
         this.setJMenuBar(menuBar);
     }
 
-    private void addWindowListener(Controller<ViewObject, ModelObject> controller) {
+    private void addWindowListener(FormController<ViewObject, ModelObject> controller) {
         WindowListener listener = new MainWindowListener(controller);
         this.addWindowListener(listener);
     }

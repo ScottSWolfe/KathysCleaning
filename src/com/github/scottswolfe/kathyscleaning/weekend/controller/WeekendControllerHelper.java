@@ -4,9 +4,8 @@ import java.io.File;
 import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
@@ -23,7 +22,7 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
     }
 
     @Override
-    public WeekendPanel initializeView(GeneralController<WeekendPanel, WeekendModel> controller, MainFrame<WeekendPanel, WeekendModel> parentFrame) {
+    public WeekendPanel initializeView(FormController<WeekendPanel, WeekendModel> controller, MainFrame<WeekendPanel, WeekendModel> parentFrame) {
         final WeekendPanel wp = new WeekendPanel(controller, 0, 0);
         final MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
         wp.setFrame(weekendFrame);
@@ -101,7 +100,7 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
 
     @Override
     public void updateDate(
-        final Controller<WeekendPanel, WeekendModel> controller,
+        final FormController<WeekendPanel, WeekendModel> controller,
         final WeekendPanel wp
     ) {
         ChooseWeekPanel.initializePanel(controller, false);

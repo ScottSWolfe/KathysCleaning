@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -22,15 +23,14 @@ import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
 
-public class MenuBarController <ViewObject, ModelObject> implements FileMenuListener {
+public class MenuBarController <ViewObject extends JComponent, ModelObject> implements FileMenuListener {
 
     /**
      * The controller that this class calls on to do the reading and writing
      */
-    Controller<ViewObject, ModelObject> controller;
+    FormController<ViewObject, ModelObject> controller;
 
     private final SaveFileManager saveFileManager = SaveFileManager.from();
 
@@ -44,7 +44,7 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
 
 /* CONSTRUCTORS ============================================================= */
 
-    public  MenuBarController(Controller<ViewObject, ModelObject> controller) {
+    public  MenuBarController(FormController<ViewObject, ModelObject> controller) {
         this.controller = controller;
     }
 

@@ -3,7 +3,7 @@ package com.github.scottswolfe.kathyscleaning.utility;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
@@ -29,7 +29,7 @@ public class SaveFileManager {
     public void loadFile(@Nonnull final File file) {
         SessionModel.load(file);
         try {
-            Files.copy(file.toPath(), GeneralController.TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.toPath(), FormController.TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             ex.printStackTrace();
             StaticMethods.shareErrorMessage("Failed to load file: " + file.getName(), ex);
@@ -57,10 +57,10 @@ public class SaveFileManager {
         NW_Data nw_data = new NW_Data();
 
         SessionModel.save();
-        JsonMethods.saveToFileJSON(completed, CompletedModel.class, GeneralController.TEMP_SAVE_FILE, Form.COMPLETED.getNum());
-        JsonMethods.saveToFileJSON(covenant, CovenantModel.class, GeneralController.TEMP_SAVE_FILE, Form.COVENANT.getNum());
-        JsonMethods.saveToFileJSON(lbc, LBCModel.class, GeneralController.TEMP_SAVE_FILE, Form.LBC.getNum());
-        JsonMethods.saveToFileJSON(weekend, WeekendModel.class, GeneralController.TEMP_SAVE_FILE, Form.WEEKEND.getNum());
-        JsonMethods.saveToFileJSON(nw_data, NW_Data.class, GeneralController.TEMP_SAVE_FILE, Form.SCHEDULED.getNum());
+        JsonMethods.saveToFileJSON(completed, CompletedModel.class, FormController.TEMP_SAVE_FILE, Form.COMPLETED.getNum());
+        JsonMethods.saveToFileJSON(covenant, CovenantModel.class, FormController.TEMP_SAVE_FILE, Form.COVENANT.getNum());
+        JsonMethods.saveToFileJSON(lbc, LBCModel.class, FormController.TEMP_SAVE_FILE, Form.LBC.getNum());
+        JsonMethods.saveToFileJSON(weekend, WeekendModel.class, FormController.TEMP_SAVE_FILE, Form.WEEKEND.getNum());
+        JsonMethods.saveToFileJSON(nw_data, NW_Data.class, FormController.TEMP_SAVE_FILE, Form.SCHEDULED.getNum());
     }
 }

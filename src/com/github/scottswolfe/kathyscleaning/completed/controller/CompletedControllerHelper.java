@@ -15,13 +15,10 @@ import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledControllerHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import org.apache.commons.lang3.NotImplementedException;
@@ -35,7 +32,7 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
 
     @Override
     public CompletedTabbedPane initializeView(
-        final GeneralController<CompletedTabbedPane, CompletedModel> controller,
+        final FormController<CompletedTabbedPane, CompletedModel> controller,
         final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame
     ) {
         return CompletedTabbedPane.from(
@@ -168,7 +165,7 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
 
     @Override
     public void updateDate(
-        final Controller<CompletedTabbedPane, CompletedModel> controller,
+        final FormController<CompletedTabbedPane, CompletedModel> controller,
         final CompletedTabbedPane tp
     ) {
         ChooseWeekPanel.initializePanel(controller, false);

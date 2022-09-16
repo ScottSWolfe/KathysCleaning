@@ -3,22 +3,23 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
-public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
+public class MenuBar<View extends JComponent, Model> extends JMenuBar {
 
 /* INSTANCE VARIABLES ======================================================= */
 
     /**
      * The controller for this menu bar
      */
-    MenuBarController<ViewObject, ModelObject> menuController;
+    MenuBarController<View, Model> menuController;
 
     /**
      * The type of form, this menu bar is for
@@ -29,7 +30,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
 
 /* CONSTRUCTORS ============================================================= */
 
-    public MenuBar(Controller<ViewObject, ModelObject> controller) {
+    public MenuBar(FormController<View, Model> controller) {
         menuController = new MenuBarController<>(controller);
         form = controller.getFormType();
         addFileMenu();

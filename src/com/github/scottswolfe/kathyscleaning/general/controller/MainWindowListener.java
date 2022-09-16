@@ -10,42 +10,33 @@ import javax.swing.JOptionPane;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 
 public class MainWindowListener implements WindowListener {
 
     public enum Action {
-        CLOSE, OPEN, OVERWRITE;
+        CLOSE, OPEN
     }
 
-    @SuppressWarnings("rawtypes")
-    Controller controller;
+    FormController<?, ?> controller;
 
-    @SuppressWarnings("rawtypes")
-    public MainWindowListener(Controller controller) {
+    public MainWindowListener(FormController<?, ?> controller) {
         this.controller = controller;
     }
 
-	@Override
-	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void windowActivated(WindowEvent e) {}
 
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void windowClosed(WindowEvent e) {}
 
-	@Override
-	public void windowClosing(WindowEvent e) {
-	    askUserIfSaveBeforeAction(controller, Action.CLOSE, true);
-	}
+    @Override
+    public void windowClosing(WindowEvent e) {
+        askUserIfSaveBeforeAction(controller, Action.CLOSE, true);
+    }
 
-	// TODO refactor this method...
-	@SuppressWarnings("rawtypes")
-	public static boolean askUserIfSaveBeforeAction(Controller controller, Action action, boolean shouldInitializeMenu) {
-	    String[] options = {"Save",  "Don't Save", "Cancel"};
+    public static boolean askUserIfSaveBeforeAction(FormController<?, ?> controller, Action action, boolean shouldInitializeMenu) {
+        String[] options = {"Save",  "Don't Save", "Cancel"};
         int SAVE = 0; int NOT_SAVE = 1; int CANCEL = 2;
         String message;
         if (action == Action.OPEN) {
@@ -86,33 +77,24 @@ public class MainWindowListener implements WindowListener {
         } else {
             return false;
         }
-	}
+    }
 
-    @SuppressWarnings("rawtypes")
-    private static void closeProgram(Controller controller, boolean initializeMenu) {
+    private static void closeProgram(FormController<?, ?> controller, boolean initializeMenu) {
         controller.hideWindow();
         if (initializeMenu) {
             MenuPanelController.initializeMenuPanelFrame();
         }
     }
 
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void windowDeactivated(WindowEvent e) {}
 
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void windowDeiconified(WindowEvent e) {}
 
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void windowIconified(WindowEvent e) {}
 
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void windowOpened(WindowEvent e) {}
 }

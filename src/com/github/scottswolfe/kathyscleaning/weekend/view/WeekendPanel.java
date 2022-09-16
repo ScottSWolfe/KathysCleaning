@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -37,7 +37,7 @@ import net.miginfocom.swing.MigLayout;
 public class WeekendPanel extends JPanel {
 
 	// FIELDS
-    GeneralController<WeekendPanel, WeekendModel> controller;
+    FormController<WeekendPanel, WeekendModel> controller;
 	public JFrame frame; // todo: temporarily public
 
 	public static final int NUM_JOB_PANELS = 2;
@@ -60,7 +60,7 @@ public class WeekendPanel extends JPanel {
 
 
 	// CONSTRUCTORS
-	public WeekendPanel (GeneralController<WeekendPanel, WeekendModel> controller, int mode, int wk) {
+	public WeekendPanel (FormController<WeekendPanel, WeekendModel> controller, int mode, int wk) {
 		this.controller = controller;
 		this.mode = mode;
 		this.wk = wk;

@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.view;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -18,14 +18,14 @@ public class ScheduledTabbedPane extends TabbedPane {
 
     public static ScheduledTabbedPane from(
         final MainFrame<ScheduledTabbedPane, NW_Data> parentFrame,
-        final GeneralController<ScheduledTabbedPane, NW_Data> controller
+        final FormController<ScheduledTabbedPane, NW_Data> controller
     ) {
         return new ScheduledTabbedPane(parentFrame, controller);
     }
 
     private ScheduledTabbedPane(
         final MainFrame<ScheduledTabbedPane, NW_Data> parentFrame,
-        final GeneralController<ScheduledTabbedPane, NW_Data> controller
+        final FormController<ScheduledTabbedPane, NW_Data> controller
     ) {
         super();
 

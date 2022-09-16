@@ -1,7 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.general.controller;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
@@ -27,7 +26,7 @@ public class ApplicationCoordinator {
     private static final ApplicationCoordinator applicationCoordinatorInstance = new ApplicationCoordinator();
 
     private final SaveFileManager saveFileManager;
-    private Map<Form, GeneralController<?, ?>> formControllers;
+    private Map<Form, FormController<?, ?>> formControllers;
 
     public static ApplicationCoordinator getInstance() {
         return applicationCoordinatorInstance;
@@ -49,7 +48,7 @@ public class ApplicationCoordinator {
         }
 
         try {
-            formControllers = FORMS.stream().collect(Collectors.toMap(form -> form, GeneralController::from));
+            formControllers = FORMS.stream().collect(Collectors.toMap(form -> form, FormController::from));
         } catch (Exception e) {
             StaticMethods.shareErrorMessage("Error while initializing form controllers:", e);
             System.exit(1);
@@ -59,7 +58,7 @@ public class ApplicationCoordinator {
     }
 
     public void navigateToForm(final Form sourceForm, final Form targetForm) {
-        final Controller<?, ?> sourceController = formControllers.get(sourceForm);
+        final FormController<?, ?> sourceController = formControllers.get(sourceForm);
         formControllers.values().forEach(
             controller -> controller.readInputAndWriteToFile()
         );
@@ -69,7 +68,7 @@ public class ApplicationCoordinator {
     }
 
     public void navigateToForm(final Form targetForm) {
-        final Controller<?, ?> targetController = formControllers.get(targetForm);
+        final FormController<?, ?> targetController = formControllers.get(targetForm);
         SwingUtilities.invokeLater(targetController::launchForm);
     }
 

@@ -4,7 +4,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListe
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
@@ -32,14 +32,14 @@ public class CompletedTabbedPane extends TabbedPane {
 
     public static CompletedTabbedPane from(
         final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
-        final GeneralController<CompletedTabbedPane, CompletedModel> controller
+        final FormController<CompletedTabbedPane, CompletedModel> controller
     ) {
         return new CompletedTabbedPane(parentFrame, controller);
     }
 
     private CompletedTabbedPane(
         final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
-        final GeneralController<CompletedTabbedPane, CompletedModel> controller
+        final FormController<CompletedTabbedPane, CompletedModel> controller
     ) {
         final List<DayPanel> dayPanels = createDayPanels(parentFrame, controller);
 
@@ -59,7 +59,7 @@ public class CompletedTabbedPane extends TabbedPane {
 
     private List<DayPanel> createDayPanels(
         final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
-        final GeneralController<CompletedTabbedPane, CompletedModel> controller
+        final FormController<CompletedTabbedPane, CompletedModel> controller
     ) {
         final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
         return COMPLETED_FORM_DAYS.stream()

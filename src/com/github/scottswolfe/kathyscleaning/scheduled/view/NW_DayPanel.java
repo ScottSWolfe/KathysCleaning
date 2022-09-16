@@ -22,7 +22,7 @@ import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
@@ -43,7 +43,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class NW_DayPanel extends JPanel {
 
-    GeneralController<ScheduledTabbedPane, NW_Data> controller;
+    FormController<ScheduledTabbedPane, NW_Data> controller;
 
     NoteData noteData;
     List<BeginExceptionEntry> beginExceptionList;
@@ -67,8 +67,8 @@ public class NW_DayPanel extends JPanel {
     public JTextField meet_time_field;
     JButton exception_button;
 
-    public NW_DayPanel(GeneralController<ScheduledTabbedPane, NW_Data> controller, ScheduledTabbedPane tp,
-            WorkerList workers, Calendar date, JFrame frame) {
+    public NW_DayPanel(FormController<ScheduledTabbedPane, NW_Data> controller, ScheduledTabbedPane tp,
+                       WorkerList workers, Calendar date, JFrame frame) {
 
         this.controller = controller;
         this.date = date;

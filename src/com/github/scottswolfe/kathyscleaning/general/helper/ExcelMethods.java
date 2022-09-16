@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import org.apache.commons.io.FilenameUtils;
 
@@ -15,7 +17,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelp
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener.Action;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 
 public class ExcelMethods {
@@ -42,7 +43,7 @@ public class ExcelMethods {
         return numberFormat.format(d);
     }
 
-    public static <View, Model> void chooseFileAndGenerateExcelDoc(Controller<View, Model> controller) {
+    public static <View extends JComponent, Model> void chooseFileAndGenerateExcelDoc(FormController<View, Model> controller) {
 
         controller.readInputAndWriteToFile();
         boolean response = MainWindowListener.askUserIfSaveBeforeAction(controller, Action.CLOSE, false);
