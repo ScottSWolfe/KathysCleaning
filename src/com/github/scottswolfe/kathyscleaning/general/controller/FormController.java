@@ -52,11 +52,6 @@ public class FormController<View extends JComponent, Model> {
     private final ControllerHelper<View, Model> controllerHelper;
 
     /**
-     * The Excel helper for this controller
-     */
-    private final ExcelHelper<Model> excelHelper;
-
-    /**
      * The type of form this controller controls
      */
     private final Form form;
@@ -75,19 +70,14 @@ public class FormController<View extends JComponent, Model> {
 
         if (type == Form.COMPLETED) {
             controllerHelper = (ControllerHelper<View, Model>) new CompletedControllerHelper();
-            excelHelper = (ExcelHelper<Model>) new CompletedExcelHelper();
         } else if (type == Form.COVENANT) {
             controllerHelper = (ControllerHelper<View, Model>) new CovenantControllerHelper();
-            excelHelper = (ExcelHelper<Model>) new CovenantExcelHelper();
         } else if (type == Form.LBC) {
             controllerHelper = (ControllerHelper<View, Model>) new LBCControllerHelper();
-            excelHelper = (ExcelHelper<Model>) new LBCExcelHelper();
         } else if (type == Form.WEEKEND) {
             controllerHelper = (ControllerHelper<View, Model>) new WeekendControllerHelper();
-            excelHelper = (ExcelHelper<Model>) new WeekendExcelHelper();
         } else if (type == Form.SCHEDULED) {
             controllerHelper = (ControllerHelper<View, Model>) new ScheduledControllerHelper();
-            excelHelper = (ExcelHelper<Model>) new ScheduledExcelHelper();
         } else {
             throw new RuntimeException("Unexpected Form type: " + type);
         }
