@@ -1,7 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.utility;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
@@ -30,6 +30,6 @@ public class FormLauncher {
             throw new IllegalArgumentException("Unexpected form: " + currentForm);
         }
 
-        new GeneralController<>(nextForm).initializeForm();
+        ApplicationCoordinator.getInstance().navigateToForm(currentForm, nextForm);
     }
 }

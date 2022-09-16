@@ -1,10 +1,13 @@
 package com.github.scottswolfe.kathyscleaning.interfaces;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+
+import javax.swing.JFrame;
 
 /**
  * A general controller interface for all controllers in this project.
@@ -15,10 +18,8 @@ public interface Controller<ViewObject, ModelObject> {
 
     /**
      * Reads the user's input from the view and writes it to a save file
-     *
-     * @param file the file to write to
      */
-    public void readInputAndWriteToFile(File file);
+    public void readInputAndWriteToFile();
 
     /**
      * Reads a save file and writes the data into the current view
@@ -36,10 +37,8 @@ public interface Controller<ViewObject, ModelObject> {
 
     /**
      * Creates the window that this controller controls
-     *
-     * TODO temporary parameters
      */
-    public void initializeForm();
+    public void launchForm();
 
     /**
      * Updates the date shown
@@ -47,9 +46,14 @@ public interface Controller<ViewObject, ModelObject> {
     public void updateDate();
 
     /**
+     * Updates the worker names on the form
+     */
+    void updateWorkers(final List<List<String>> workerNames);
+
+    /**
      * Disposes of the frame for the form that the controller controls
      */
-    public void eliminateWindow();
+    public void hideWindow();
 
     /**
      * Returns the form type that the controller controls
@@ -66,27 +70,9 @@ public interface Controller<ViewObject, ModelObject> {
 /* GETTERS/SETTERS ========================================================== */
 
     /**
-     * Sets the view object for the controller
-     *
-     * @param obj the view
-     */
-    public void setView(ViewObject view);
-
-    /**
      * Returns the view object for the controller
      */
     public ViewObject getView();
 
-    /**
-     * Sets the model object for the controller
-     *
-     * @param obj the model
-     */
-    public void setModel(ModelObject model);
-
-    /**
-     * Returns the model object for the controller
-     */
-    public ModelObject getModel();
-
+    public JFrame getParentFrame();
 }

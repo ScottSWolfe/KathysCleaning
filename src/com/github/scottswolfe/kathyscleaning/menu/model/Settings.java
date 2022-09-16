@@ -50,6 +50,7 @@ public class Settings {
     public static final Color EDITED_BUTTON_COLOR = MAIN_COLOR;
     public static final ButtonColors QUIET_BUTTON_COLORS = ButtonColors.from(DEFAULT_BUTTON_COLOR, Color.BLACK);
     public static final ButtonColors LOUD_BUTTON_COLORS = ButtonColors.from(EDITED_BUTTON_COLOR, FOREGROUND_COLOR);
+    public static final ButtonColors ALTERNATE_BUTTON_COLORS = ButtonColors.from(CHANGE_DAY_COLOR, FOREGROUND_COLOR);
 
     /**
      * Settings and Data Save Files

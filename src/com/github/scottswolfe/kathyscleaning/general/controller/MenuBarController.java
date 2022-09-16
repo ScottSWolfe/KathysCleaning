@@ -9,27 +9,21 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
-import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
+import com.github.scottswolfe.kathyscleaning.completed.view.CompletedTabbedPane;
+import com.github.scottswolfe.kathyscleaning.component.MenuEditWorkersPanel;
+import com.github.scottswolfe.kathyscleaning.general.view.GenericPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
-import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
-import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
-import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener.Action;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
-import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
-import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 
 public class MenuBarController <ViewObject, ModelObject> implements FileMenuListener {
 
@@ -106,49 +100,39 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         controller.updateDate();
     }
 
+    private void menuItemEditWorkers() {
+        GenericPanelLauncher.from().launchPanel(
+            MenuEditWorkersPanel::from,
+            () -> {},
+            (workerNames) -> ApplicationCoordinator.getInstance().updateWorkers(workerNames),
+            new FrameCloseListener(controller.getParentFrame())
+        );
+    }
+
     public void menuItemGoHouses() {
-        controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
-        controller.eliminateWindow();
-        GeneralController<TabbedPane, CompletedModel> newController =
-                new GeneralController<>(Form.COMPLETED);
-        newController.initializeForm();
+        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.COMPLETED);
     }
 
     public void menuItemGoCovenant() {
-        controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
-        controller.eliminateWindow();
-        GeneralController<CovenantPanel, CovenantModel> newController =
-                new GeneralController<>(Form.COVENANT);
-        newController.initializeForm();
+        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.COVENANT);
     }
 
     public void menuItemGoLBC() {
-        controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
-        controller.eliminateWindow();
-        GeneralController<LBCPanel, LBCModel> newController = new GeneralController<>(Form.LBC);
-        newController.initializeForm();
+        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.LBC);
     }
 
     public void menuItemGoWeekend() {
-        controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
-        controller.eliminateWindow();
-        GeneralController<WeekendPanel, WeekendModel> newController =
-                new GeneralController<>(Form.WEEKEND);
-        newController.initializeForm();
+        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.WEEKEND);
     }
 
     public void menuItemGoNextWeek() {
-        controller.readInputAndWriteToFile(GeneralController.TEMP_SAVE_FILE);
-        controller.eliminateWindow();
-        GeneralController<TabbedPane, NW_Data> newController =
-                new GeneralController<>(Form.SCHEDULED);
-        newController.initializeForm();
+        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.SCHEDULED);
     }
 
     public void menuItemLoadSchedule() {
         File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, null);
         if (file != null) {
-            CompletedControllerHelper.importSchedule(file, (TabbedPane) controller.getView());
+            CompletedControllerHelper.importSchedule(file, (CompletedTabbedPane) controller.getView());
         }
     }
 
@@ -189,6 +173,13 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemChangeDate();
+        }
+    }
+
+    public class EditWorkersItemListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            menuItemEditWorkers();
         }
     }
 
@@ -247,13 +238,12 @@ public class MenuBarController <ViewObject, ModelObject> implements FileMenuList
             return;
         }
         SessionModel.setSaveFile(file);
-        controller.readInputAndWriteToFile(file);
+        controller.readInputAndWriteToFile();
         controller.setTitleText();
     }
 
     private void loadFile(File file) {
-        saveFileManager.loadFile(file);
-        controller.readFileAndWriteToView(file);
+        ApplicationCoordinator.getInstance().loadFile(file);
         controller.setTitleText();
     }
 

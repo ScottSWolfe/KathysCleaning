@@ -1,20 +1,15 @@
 package com.github.scottswolfe.kathyscleaning.general.model;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-
-import javax.swing.JOptionPane;
-
-
-
 
 public class WorkerList implements Iterable<Worker> {
 
@@ -52,6 +47,13 @@ public class WorkerList implements Iterable<Worker> {
 
 /* CONSTRUCTOR ============================================================== */
 
+    public static WorkerList from(final List<List<String>> workerNames) {
+        return new WorkerList(
+            workerNames.stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList())
+        );
+    }
 
     public WorkerList() {
         workers = new ArrayList<>();

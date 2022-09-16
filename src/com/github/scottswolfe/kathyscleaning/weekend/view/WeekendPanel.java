@@ -21,13 +21,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
+import com.github.scottswolfe.kathyscleaning.utility.FormLauncher;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -40,7 +38,7 @@ public class WeekendPanel extends JPanel {
 
 	// FIELDS
     GeneralController<WeekendPanel, WeekendModel> controller;
-	JFrame frame;
+	public JFrame frame; // todo: temporarily public
 
 	public static final int NUM_JOB_PANELS = 2;
 	public JobPanel[] jp;
@@ -282,15 +280,8 @@ public class WeekendPanel extends JPanel {
 	private class SubmitListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-		    controller.readInputAndWriteToFile(null);
-
-		    frame.setVisible(false);
-	        frame.dispose();
-
-	        GeneralController<TabbedPane, NW_Data> scheduledController = new GeneralController<>(Form.SCHEDULED);
-	        scheduledController.initializeForm();
+            FormLauncher.from().launchNextForm(controller.getFormType());
 		}
-
 	}
 
     // GETTERS/SETTERS

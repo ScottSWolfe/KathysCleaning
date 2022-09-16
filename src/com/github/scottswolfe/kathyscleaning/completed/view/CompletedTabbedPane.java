@@ -4,6 +4,7 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListe
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
@@ -11,7 +12,6 @@ import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
-import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.google.common.collect.ImmutableList;
 
@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CompletedTabbedPane extends TabbedPane {
+
+    public DayPanel[] day_panel;
 
     public static List<DayOfWeek> COMPLETED_FORM_DAYS = ImmutableList.of(
         DayOfWeek.MONDAY,
@@ -29,15 +31,15 @@ public class CompletedTabbedPane extends TabbedPane {
     );
 
     public static CompletedTabbedPane from(
-        final MainFrame<TabbedPane, CompletedModel> parentFrame,
-        final Controller<TabbedPane, CompletedModel> controller
+        final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
+        final GeneralController<CompletedTabbedPane, CompletedModel> controller
     ) {
         return new CompletedTabbedPane(parentFrame, controller);
     }
 
     private CompletedTabbedPane(
-        final MainFrame<TabbedPane, CompletedModel> parentFrame,
-        final Controller<TabbedPane, CompletedModel> controller
+        final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
+        final GeneralController<CompletedTabbedPane, CompletedModel> controller
     ) {
         final List<DayPanel> dayPanels = createDayPanels(parentFrame, controller);
 
@@ -56,8 +58,8 @@ public class CompletedTabbedPane extends TabbedPane {
     }
 
     private List<DayPanel> createDayPanels(
-        final MainFrame<TabbedPane, CompletedModel> parentFrame,
-        final Controller<TabbedPane, CompletedModel> controller
+        final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
+        final GeneralController<CompletedTabbedPane, CompletedModel> controller
     ) {
         final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
         return COMPLETED_FORM_DAYS.stream()

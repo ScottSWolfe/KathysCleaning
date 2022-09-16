@@ -89,4 +89,18 @@ public class LBCDay {
     public ExceptionData getExceptionData() {
         return exceptionData;
     }
+
+    public void setWorkers(final List<List<String>> workerNames) {
+        for (int row = 0; row < workerSelectionGrid.size(); row++) {
+            for (int column = 0; column < workerSelectionGrid.get(row).size(); column++) {
+                final String workerName;
+                if (!workerNames.isEmpty() && row < workerNames.size() && column < workerNames.get(row).size()) {
+                    workerName = workerNames.get(row).get(column);
+                } else {
+                    workerName = "";
+                }
+                workerSelectionGrid.get(row).set(column, Pair.of(workerName, false));
+            }
+        }
+    }
 }

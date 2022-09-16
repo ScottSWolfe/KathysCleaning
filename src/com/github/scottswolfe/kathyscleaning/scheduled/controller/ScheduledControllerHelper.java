@@ -4,23 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
-
-import javax.swing.SwingUtilities;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
@@ -30,18 +23,30 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_HouseData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.WorkerSchedule;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.ScheduledTabbedPane;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, NW_Data> {
-
-    TabbedPane tp;
+public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabbedPane, NW_Data> {
 
     @Override
-    public NW_Data readViewIntoModel(TabbedPane view) {
+    public NW_Data initializeModel() {
+        return new NW_Data();
+    }
+
+    @Override
+    public ScheduledTabbedPane initializeView(
+        final GeneralController<ScheduledTabbedPane, NW_Data> controller,
+        final MainFrame<ScheduledTabbedPane, NW_Data> parentFrame
+    ) {
+        return ScheduledTabbedPane.from(parentFrame, controller);
+    }
+
+    @Override
+    public NW_Data readViewIntoModel(ScheduledTabbedPane view) {
 
         NW_Data data = new NW_Data();
-        TabbedPane tp = view;
+        ScheduledTabbedPane tp = view;
 
         NW_DayData[] dayData = new NW_DayData[5];
         DayData[] completedDayData = new DayData[5];
@@ -71,7 +76,6 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
             for (int h = 0; h < completedHouseData.length; h++) {
                 houseData[h] = new NW_HouseData();
                 houseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName());
-                houseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panels.get(h).getSelectedWorkers());
                 houseData[h].setWorkerList(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getWorkers());
 
                 completedHouseData[h] = new HouseData();
@@ -87,15 +91,14 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
         }
 
         data.setDayData(dayData);
-        data.completedDayData = completedDayData;
 
         return data;
     }
 
     @Override
-    public void writeModelToView(NW_Data model, TabbedPane view) {
+    public void writeModelToView(NW_Data model, ScheduledTabbedPane view) {
 
-        TabbedPane tp = view;
+        ScheduledTabbedPane tp = view;
         NW_DayData dayData;
 
         // iterate through each day
@@ -105,7 +108,6 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
 
             dayData = model.dayData[d];
             NW_DayPanel dp = tp.nw_day_panel[d];
-            DayData completedDayData = model.completedDayData[d];
 
             dp.header_panel.setWorkers(dayData.getHeaderData().getDWD());
             dp.meet_location_box.setSelectedItem(dayData.meet_location);
@@ -116,10 +118,9 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
 
             // iterate through houses
             NW_HouseData[] houses = dayData.houseData;
-            HouseData[] completedHouses = completedDayData.houseData;
             for (int h = 0; h < houses.length; h++) {
 
-                HouseData houseData = completedHouses[h];
+                NW_HouseData houseData = houses[h];
 
                 tp.nw_day_panel[d].house_panels.get(h).setHouseName(houseData.getHouseName());
                 tp.nw_day_panel[d].house_panels.get(h).worker_panel.setWorkers(houseData.getWorkerList());
@@ -154,7 +155,7 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
     }
 
     @Override
-    public void saveToFile(NW_Data model, File file) {
+    public void saveModelToFile(NW_Data model, File file) {
         JsonMethods.saveToFileJSON(model, NW_Data.class, file, Form.SCHEDULED.getNum());
     }
 
@@ -164,82 +165,16 @@ public class ScheduledControllerHelper implements ControllerHelper<TabbedPane, N
     }
 
     @Override
-    public void initializeForm(GeneralController<TabbedPane, NW_Data> controller) {
-
-        WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
-
-        TabbedPane tp = new TabbedPane();
-        tp.setFont(tp.getFont().deriveFont(Settings.TAB_FONT_SIZE));
-
-        // creating array of dates
-        Calendar[] day = new Calendar[5];
-        Calendar date;
-        if (SessionModel.getScheduledStartDay() == null) {
-            date = SessionModel.getCompletedStartDay();
-            date.add(Calendar.DATE, 7);
-            SessionModel.setScheduledStartDay(date);
-        } else {
-            date = SessionModel.getScheduledStartDay();
-        }
-        for(int i = 0; i < day.length; i++) {
-            day[i] = Calendar.getInstance();
-            day[i].set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
-            date.add(Calendar.DATE, 1);
-        }
-
-        controller.setView(tp);
-
-        MainFrame<TabbedPane, NW_Data> frame = new MainFrame<>(controller);
-
-        NW_DayPanel[] day_panel = new NW_DayPanel[5];
-        for(int i = 0; i < 5; i++){
-            day_panel[i] = new NW_DayPanel(
-                    controller, tp, workers,
-                    day[i], frame, 0, 0); // TODO remove 0, 0
-        }
-        tp.nw_day_panel = day_panel;
-
-        tp.addTab("Monday", day_panel[0]);
-        tp.addTab("Tuesday", day_panel[1]);
-        tp.addTab("Wednesday", day_panel[2]);
-        tp.addTab("Thursday", day_panel[3]);
-        tp.addTab("Friday", day_panel[4]);
-
-        tp.changePreviousTab(0);
-        tp.addChangeListener(new NW_TabChangeListener(tp, frame));
-
-        controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
-
-        frame.setBackground(Settings.BACKGROUND_COLOR);
-        frame.add(tp);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    public void updateDate(
+        final Controller<ScheduledTabbedPane, NW_Data> controller,
+        final ScheduledTabbedPane scheduledTabbedPane
+    ) {
+        ChooseWeekPanel.initializePanel(controller, true);
     }
 
     @Override
-    public void updateDate(TabbedPane tp) {
-        this.tp = tp;
-        ChooseWeekPanel.initializePanel(this, true);
-    }
-
-    @Override
-    public void updateDateHelper() {
-        Calendar[] days = new Calendar[5];
-        Calendar temp_date = (Calendar) SessionModel.getScheduledStartDay();
-        for(int i = 0; i < days.length; i++) {
-            days[i] = Calendar.getInstance();
-            days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
-            tp.nw_day_panel[i].setDate(days[i]);
-            temp_date.add(Calendar.DATE, 1);
-        }
-    }
-
-    @Override
-    public void eliminateWindow(TabbedPane view) {
-        @SuppressWarnings("rawtypes")
-        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
-        frame.eliminate();
+    public void updateWorkersOnModel(final NW_Data nwData, final List<List<String>> workerNames) {
+        nwData.setWorkers(workerNames);
     }
 
     private List<WorkerSchedule> getWorkerSchedules(NW_DayPanel dp) {

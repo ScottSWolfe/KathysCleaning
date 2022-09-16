@@ -44,7 +44,7 @@ public class ExcelMethods {
 
     public static <View, Model> void chooseFileAndGenerateExcelDoc(Controller<View, Model> controller) {
 
-        controller.readInputAndWriteToFile(null);
+        controller.readInputAndWriteToFile();
         boolean response = MainWindowListener.askUserIfSaveBeforeAction(controller, Action.CLOSE, false);
         if (!response) {
             return;
@@ -84,7 +84,7 @@ public class ExcelMethods {
             System.exit(0);
         }
 
-        controller.initializeForm();
+        controller.launchForm();
     }
 
     private static String getDefaultSaveFileName() {

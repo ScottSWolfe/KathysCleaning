@@ -6,21 +6,15 @@ import java.io.File;
 
 import javax.swing.JFrame;
 
-import com.github.scottswolfe.kathyscleaning.Main;
-import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
-import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 
 /**
  * Controller that controls the MenuPanel.
  */
 public class MenuPanelController {
-
-    private final SaveFileManager saveFileManager = SaveFileManager.from();
 
 /* FIELDS =================================================================== */
 
@@ -61,8 +55,7 @@ public class MenuPanelController {
             menuFrame.setVisible(false);
             menuFrame.dispose();
 
-            GeneralController<TabbedPane, CompletedModel> newController = new GeneralController<>(Form.COMPLETED);
-            newController.initializeForm();
+            ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
         }
     }
 
@@ -77,12 +70,8 @@ public class MenuPanelController {
                 return;
             }
 
-            saveFileManager.loadFile(file);
-
-            GeneralController<TabbedPane, CompletedModel> newController = new GeneralController<>(Form.COMPLETED);
-
-            newController.initializeForm();
-            newController.readFileAndWriteToView(file);
+            ApplicationCoordinator.getInstance().loadFile(file);
+            ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
 
             menuFrame.setVisible(false);
             menuFrame.dispose();
@@ -120,9 +109,6 @@ public class MenuPanelController {
      * Initializes and launches a frame with a menu panel.
      */
     public static void initializeMenuPanelFrame() {
-
-        Main.setupSaveFileStuff();
-
         JFrame frame = new JFrame();
         MenuPanel menuPanel = new MenuPanel(frame);
 

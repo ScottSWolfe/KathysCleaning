@@ -80,8 +80,12 @@ public class EditableWorkerSelectPanel extends JPanel implements FocusableCollec
         workerSelectPanel.setWorkers(workers);
     }
 
-    public void setWorkers(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
+    public void setWorkerSelections(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
         workerSelectPanel.setWorkers(workerSelectionGrid);
+    }
+
+    public void setWorkers(final List<List<String>> workerNames) {
+        workerSelectPanel.updateWorkerNames(workerNames);
     }
 
     @Override

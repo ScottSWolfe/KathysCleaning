@@ -149,7 +149,7 @@ public class WorkerSelectPanel extends CheckBoxGridPanel {
         while (iterator.hasNext()) {
             final JCheckBox checkBox = iterator.next();
             final String name = checkBox.getText();
-            if (name != null && !name.isEmpty()) {
+            if (name != null) {
                 workers.add(new Worker(name, checkBox.isSelected()));
             }
         }

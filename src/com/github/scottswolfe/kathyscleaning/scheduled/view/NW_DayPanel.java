@@ -43,7 +43,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class NW_DayPanel extends JPanel {
 
-    GeneralController<TabbedPane, NW_Data> controller;
+    GeneralController<ScheduledTabbedPane, NW_Data> controller;
 
     NoteData noteData;
     List<BeginExceptionEntry> beginExceptionList;
@@ -67,13 +67,15 @@ public class NW_DayPanel extends JPanel {
     public JTextField meet_time_field;
     JButton exception_button;
 
-    public NW_DayPanel(GeneralController<TabbedPane, NW_Data> controller, TabbedPane tp,
-            WorkerList workers, Calendar date, JFrame frame, int mode, int wk ) {
+    public NW_DayPanel(GeneralController<ScheduledTabbedPane, NW_Data> controller, ScheduledTabbedPane tp,
+            WorkerList workers, Calendar date, JFrame frame) {
 
         this.controller = controller;
         this.date = date;
         this.frame = frame;
         this.tp = tp;
+
+        noteData = new NoteData();
 
         setLayout(new MigLayout("fill, insets 0"));
         setBackground(Settings.BACKGROUND_COLOR);
@@ -82,7 +84,7 @@ public class NW_DayPanel extends JPanel {
             date,
             new PreviousDayListener(tp),
             new NextDayListener(tp),
-            new NW_SubmitWeekListener(controller, tp, frame, mode, wk)
+            new NW_SubmitWeekListener(controller)
         );
         scheduledLBCPanel = ScheduledLBCPanel.from(
             BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK),
@@ -174,6 +176,13 @@ public class NW_DayPanel extends JPanel {
 
     public void setDate(final Calendar calendar) {
         scheduledHeaderPanel.setDate(calendar);
+    }
+
+    public void setWorkers(final List<List<String>> workerNames) {
+        scheduledLBCPanel.setWorkers(workerNames);
+        header_panel.setWorkers(WorkerList.from(workerNames));
+        house_panels.forEach(house_panel -> house_panel.setWorkers(workerNames));
+        cov_panel.setWorkers(WorkerList.from(workerNames));
     }
 
     public void changeWorkerPanels(WorkerList new_workers){

@@ -44,4 +44,9 @@ public class LBCModel {
     public Map<DayOfWeek, LBCDay> getLbcDays() {
         return lbcDays;
     }
+
+    public void setWorkers(final List<List<String>> workerNames) {
+        lbcHeader.setWorkers(workerNames);
+        lbcDays.values().forEach(lbcDay -> lbcDay.setWorkers(workerNames));
+    }
 }

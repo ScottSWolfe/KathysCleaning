@@ -68,4 +68,13 @@ public class NW_DayData {
     public NW_HouseData[] getHouseData() {
         return houseData;
     }
+
+    public void setWorkers(List<List<String>> workerNames) {
+        headerData.setDWD(WorkerList.from(workerNames));
+        lbcData = ScheduledLBCData.copyOf(lbcData, workerNames);
+        for (NW_HouseData house : houseData) {
+            house.setWorkerList(WorkerList.from(workerNames));
+        }
+        cov_worker = WorkerList.from(workerNames);
+    }
 }

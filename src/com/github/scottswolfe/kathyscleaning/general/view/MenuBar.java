@@ -97,6 +97,7 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
     private Menu createEditMenu() {
         Menu fileMenu = new Menu("Edit");
         addChangeDateMenuItem(fileMenu);
+        addEditWorkersEverywhereMenuItem(fileMenu);
         if (form == Form.COMPLETED) {
             addLoadScheduleMenuItem(fileMenu);
         }
@@ -108,6 +109,12 @@ public class  MenuBar<ViewObject, ModelObject> extends JMenuBar {
         changeDateMenuItem.addActionListener(
                 menuController.new ChangeDateMenuItemListener());
         fileMenu.add(changeDateMenuItem);
+    }
+
+    private void addEditWorkersEverywhereMenuItem(Menu fileMenu) {
+        MenuItem editWorkersMenuItem = new MenuItem("Edit Workers Everywhere");
+        editWorkersMenuItem.addActionListener(menuController.new EditWorkersItemListener());
+        fileMenu.add(editWorkersMenuItem);
     }
 
     private void addLoadScheduleMenuItem(Menu fileMenu) {

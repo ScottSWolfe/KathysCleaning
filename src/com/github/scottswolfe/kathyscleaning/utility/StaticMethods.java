@@ -6,14 +6,11 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import com.github.scottswolfe.kathyscleaning.general.view.ConfirmFrame;
 
 public class StaticMethods {
 
@@ -156,6 +153,11 @@ public class StaticMethods {
     public static void shareRepeatWorker() {
         final String message = "<html>There is a repeat selection. Please choose a different\nworker in each box.";
         shareErrorMessage(message);
+    }
+
+    public static void shareErrorMessage(final String message, final Exception e) {
+        final String errorMessage = message + "\n" + e.getClass() + "\n" + e.getMessage();
+        shareErrorMessage(errorMessage);
     }
 
     public static void shareErrorMessage(final String message) {

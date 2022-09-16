@@ -143,6 +143,10 @@ public class NW_HousePanel extends JPanel {
         return worker_panel.getSelectedWorkerNames();
     }
 
+    public void setWorkers(final List<List<String>> workerNames) {
+        worker_panel.updateWorkerNames(workerNames);
+    }
+
     public void changeHouseWorkers(WorkerList workers) {
         worker_panel.setWorkers(workers);
     }

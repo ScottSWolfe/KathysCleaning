@@ -3,10 +3,8 @@ package com.github.scottswolfe.kathyscleaning.completed.controller;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Calendar;
+import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.SwingUtilities;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
@@ -20,25 +18,39 @@ import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledControllerHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
+import org.apache.commons.lang3.NotImplementedException;
 
-public class CompletedControllerHelper implements ControllerHelper<TabbedPane, CompletedModel> {
-
-    private TabbedPane tabbedPane;
+public class CompletedControllerHelper implements ControllerHelper<CompletedTabbedPane, CompletedModel> {
 
     @Override
-    public void readInputAndWriteToFileHook() {
-        saveHousePay();
+    public CompletedModel initializeModel() {
+        return new CompletedModel();
     }
 
     @Override
-    public CompletedModel readViewIntoModel(final TabbedPane tp) {
+    public CompletedTabbedPane initializeView(
+        final GeneralController<CompletedTabbedPane, CompletedModel> controller,
+        final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame
+    ) {
+        return CompletedTabbedPane.from(
+            parentFrame,
+            controller
+        );
+    }
+
+    @Override
+    public void readViewAndWriteToFileHook(final CompletedTabbedPane view) {
+        saveHousePay(view);
+    }
+
+    @Override
+    public CompletedModel readViewIntoModel(final CompletedTabbedPane tp) {
         CompletedModel completedModel = new CompletedModel();
         DayData[] dayData = new DayData[5];
 
@@ -76,7 +88,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
     }
 
     @Override
-    public void writeModelToView(CompletedModel completedModel, TabbedPane tp) {
+    public void writeModelToView(final CompletedModel completedModel, final CompletedTabbedPane tp) {
 
         DayPanel day_panel;
         DayData day_data;
@@ -145,7 +157,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
     }
 
     @Override
-    public void saveToFile(CompletedModel model, File file) {
+    public void saveModelToFile(final CompletedModel model, final File file) {
         JsonMethods.saveToFileJSON(model, CompletedModel.class, file, Form.COMPLETED.getNum());
     }
 
@@ -155,52 +167,16 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
     }
 
     @Override
-    public void initializeForm(GeneralController<TabbedPane, CompletedModel> controller) {
-
-        final MainFrame<TabbedPane, CompletedModel> frame = new MainFrame<>(controller);
-
-        tabbedPane = CompletedTabbedPane.from(
-            frame,
-            controller
-        );
-
-        controller.setView(tabbedPane);
-
-        controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
-
-        frame.setBackground(Settings.BACKGROUND_COLOR);
-        frame.add(tabbedPane);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    public void updateDate(
+        final Controller<CompletedTabbedPane, CompletedModel> controller,
+        final CompletedTabbedPane tp
+    ) {
+        ChooseWeekPanel.initializePanel(controller, false);
     }
 
     @Override
-    public void updateDate(TabbedPane tp) {
-        this.tabbedPane = tp;
-        ChooseWeekPanel.initializePanel(this, false);
-    }
-
-    @Override
-    public void updateDateHelper() {
-        Calendar[] days = new Calendar[5];
-        Calendar temp_date = SessionModel.getCompletedStartDay();
-        for(int i = 0; i < days.length; i++) {
-            days[i] = Calendar.getInstance();
-            days[i].set(temp_date.get(Calendar.YEAR), temp_date.get(Calendar.MONTH), temp_date.get(Calendar.DATE));
-            temp_date.add(Calendar.DATE, 1);
-        }
-
-        for (int i = 0; i < tabbedPane.day_panel.length; i++) {
-            tabbedPane.day_panel[i].headerPanel.setDate(days[i]);
-        }
-    }
-
-    @Override
-    public void eliminateWindow(TabbedPane tp) {
-        @SuppressWarnings("rawtypes")
-        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(tp);
-        frame.eliminate();
+    public void updateWorkersOnModel(final CompletedModel completedModel, final List<List<String>> workerNames) {
+        completedModel.setWorkers(workerNames);
     }
 
     /**
@@ -209,7 +185,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
      *
      * todo: rewrite so can be saved as key-value pairs in json
      */
-    public void saveHousePay() {
+    public void saveHousePay(final CompletedTabbedPane view) {
 
         BufferedWriter bw = null;
         try {
@@ -235,7 +211,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
             // for each day
             for (int d=0; d<5; d++) {
 
-                DayPanel dp = tabbedPane.day_panel[d];
+                DayPanel dp = view.day_panel[d];
 
                 // for each house
                 for (int h = 0; h<dp.getHousePanelCount(); h++) {
@@ -288,13 +264,9 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
      * @param file the file that has previously been completed
      * @param tp the view into which to import the schedule
      */
-    public static void importSchedule(File file, TabbedPane tp) {
-        ScheduledControllerHelper helper = new ScheduledControllerHelper();
-        NW_Data scheduledModel = helper.loadFromFile(file);
-        CompletedModel completedModel = scheduledToCompletedModel(scheduledModel);
-        completedModel.setDates(SessionModel.getCompletedStartDay());
-        CompletedControllerHelper completedHelper = new CompletedControllerHelper();
-        completedHelper.writeModelToView(completedModel, tp);
+    public static void importSchedule(File file, CompletedTabbedPane tp) {
+        // todo: rewrite this logic
+        throw new NotImplementedException("Behavior not implemented.");
     }
 
 
@@ -302,8 +274,7 @@ public class CompletedControllerHelper implements ControllerHelper<TabbedPane, C
 /* PRIVATE METHODS ========================================================== */
 
     private static CompletedModel scheduledToCompletedModel(NW_Data scheduledModel) {
-        CompletedModel completedModel = new CompletedModel();
-        completedModel.setDayData(scheduledModel.completedDayData);
-        return completedModel;
+        // todo: rewrite this logic
+        throw new NotImplementedException("Behavior not implemented.");
     }
 }

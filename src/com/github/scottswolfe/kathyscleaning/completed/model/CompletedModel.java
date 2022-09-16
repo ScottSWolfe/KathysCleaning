@@ -1,13 +1,14 @@
 package com.github.scottswolfe.kathyscleaning.completed.model;
 
 import java.util.Calendar;
+import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 public class CompletedModel {
 
 	public DayData[] dayData;
-	
+
 	public CompletedModel() {
 	    dayData = new DayData[5];
 	    for (int i = 0; i < 5; i++) {
@@ -15,15 +16,21 @@ public class CompletedModel {
 	    }
 	    setDates(CalendarMethods.getFirstDayOfWeek());
 	}
-	
+
 	public DayData[] getDay() {
 		return dayData;
-	}	
-	
+	}
+
 	public void setDayData(DayData[] dayData) {
 	    this.dayData = dayData;
 	}
-	
+
+    public void setWorkers(List<List<String>> workerNames) {
+        for (DayData day : dayData) {
+            day.setWorkers(workerNames);
+        }
+    }
+
 	public void setDates(Calendar firstDayOfWeek) {
 	    Calendar date = (Calendar) firstDayOfWeek.clone();
         for (int i = 0; i < dayData.length; i++) {
@@ -31,5 +38,4 @@ public class CompletedModel {
             date.add(Calendar.DATE, 1);
         }
 	}
-	
 }

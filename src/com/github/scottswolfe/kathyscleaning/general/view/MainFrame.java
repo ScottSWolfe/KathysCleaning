@@ -8,6 +8,7 @@ import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
+import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 @SuppressWarnings("serial")
 public class MainFrame<ViewObject, ModelObject> extends JFrame {
@@ -25,8 +26,9 @@ public class MainFrame<ViewObject, ModelObject> extends JFrame {
         setTitleText(controller);
         addMenuBar(controller);
         addWindowListener(controller);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setResizable(false);
+        setBackground(Settings.BACKGROUND_COLOR);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
     }
 
 

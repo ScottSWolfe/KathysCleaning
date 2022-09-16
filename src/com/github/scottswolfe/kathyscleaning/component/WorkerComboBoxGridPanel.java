@@ -63,4 +63,20 @@ public class WorkerComboBoxGridPanel extends ComboBoxGridPanel {
         }
         return comboBoxSelections;
     }
+
+    public void setSelectedWorkers(List<String> selectedWorkers) {
+        int count = 0;
+        for (int row = 0; row < rowCount(); row++) {
+            for (int column = 0; column < columnCount(); column++) {
+                final String selection;
+                if (count < selectedWorkers.size()) {
+                    selection = selectedWorkers.get(count);
+                } else {
+                    selection = "";
+                }
+                getComponent(row, column).setSelectedItem(selection);
+                count++;
+            }
+        }
+    }
 }

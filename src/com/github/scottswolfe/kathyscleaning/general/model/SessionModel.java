@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Calendar;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
@@ -41,10 +42,10 @@ public class SessionModel {
         SessionModel.scheduledStartDay = null;
     }
 
-    public static void save(File file) {
+    public static void save() {
         SessionSaveObject object =
                 new SessionModel().new SessionSaveObject(saveFile, saveFileChosen, completedStartDay, scheduledStartDay);
-        object.save(file);
+        object.save(GeneralController.TEMP_SAVE_FILE);
     }
 
     public static void load(File file) {

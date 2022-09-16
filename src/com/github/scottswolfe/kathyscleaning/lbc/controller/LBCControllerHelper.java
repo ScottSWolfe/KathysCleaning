@@ -6,23 +6,37 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListen
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCDay;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCHeader;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
+import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel> {
+
+    @Override
+    public LBCModel initializeModel() {
+        return LBCModel.from();
+    }
+
+    @Override
+    public LBCPanel initializeView(
+        GeneralController<LBCPanel, LBCModel> controller,
+        MainFrame<LBCPanel, LBCModel> parentFrame
+    ) {
+        return LBCPanel.from(
+            SubmitFormListener.from(controller),
+            new FrameCloseListener(parentFrame)
+        );
+    }
 
     @Override
     public LBCModel readViewIntoModel(final LBCPanel view) {
@@ -64,7 +78,7 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
     }
 
     @Override
-    public void saveToFile(LBCModel model, File file) {
+    public void saveModelToFile(LBCModel model, File file) {
         JsonMethods.saveToFileJSON(model, LBCModel.class, file, Form.LBC.getNum());
     }
 
@@ -80,58 +94,15 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
     }
 
     @Override
-    public void initializeForm(GeneralController<LBCPanel, LBCModel> controller) {
-
-        final MainFrame<LBCPanel, LBCModel> mainFrame = new MainFrame<LBCPanel, LBCModel>(controller);
-
-        final LBCPanel lbcPanel = LBCPanel.from(
-            SubmitFormListener.from(controller),
-            new FrameCloseListener(mainFrame)
-        );
-
-        controller.setView(lbcPanel);
-
-        controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
-
-        JScrollPane scrollPane = new JScrollPane(lbcPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        mainFrame.add(scrollPane);
-        Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-        mainFrame.setMaximizedBounds(effectiveScreenSize);
-
-        mainFrame.pack();
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
+    public void updateDate(
+        final Controller<LBCPanel, LBCModel> controller,
+        final LBCPanel view
+    ) {
+        ChooseWeekPanel.initializePanel(controller, false);
     }
 
     @Override
-    public void updateDate(LBCPanel view) {
-    }
-
-    @Override
-    public void updateDateHelper() {
-    }
-
-    @Override
-    public void eliminateWindow(LBCPanel view) {
-        final JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(view);
-        frame.setVisible(false);
-        frame.dispose();
-    }
-
-    /**
-     * Saves the current LBC workers into a save file
-     *
-     * @param panel
-     * @param model
-     */
-    public static void saveChosenWorkers(LBCPanel panel, LBCModel model) {
-    }
-
-    /**
-     * Saves the amounts earned into a save file
-     *
-     * @param panel
-     */
-    public static void saveAmountsEarned(LBCPanel panel) {
+    public void updateWorkersOnModel(final LBCModel lbcModel, final List<List<String>> workerNames) {
+        lbcModel.setWorkers(workerNames);
     }
 }

@@ -1,15 +1,12 @@
 package com.github.scottswolfe.kathyscleaning.weekend.controller;
 
 import java.io.File;
-import java.util.Calendar;
 import java.util.List;
-
-import javax.swing.SwingUtilities;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralController;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
+import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
@@ -18,10 +15,20 @@ import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel.JobPanel;
 
-public class WeekendControllerHelper
-        implements ControllerHelper<WeekendPanel, WeekendModel> {
+public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, WeekendModel> {
 
-    WeekendPanel panel;
+    @Override
+    public WeekendModel initializeModel() {
+        return new WeekendModel();
+    }
+
+    @Override
+    public WeekendPanel initializeView(GeneralController<WeekendPanel, WeekendModel> controller, MainFrame<WeekendPanel, WeekendModel> parentFrame) {
+        final WeekendPanel wp = new WeekendPanel(controller, 0, 0);
+        final MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
+        wp.setFrame(weekendFrame);
+        return wp;
+    }
 
     @Override
     public WeekendModel readViewIntoModel(WeekendPanel view) {
@@ -83,7 +90,7 @@ public class WeekendControllerHelper
     }
 
     @Override
-    public void saveToFile(WeekendModel model, File file) {
+    public void saveModelToFile(WeekendModel model, File file) {
         JsonMethods.saveToFileJSON(model, WeekendModel.class, file, Form.WEEKEND.getNum());
     }
 
@@ -93,42 +100,15 @@ public class WeekendControllerHelper
     }
 
     @Override
-    public void initializeForm(GeneralController<WeekendPanel, WeekendModel> controller) {
-
-        WeekendPanel wp = new WeekendPanel(controller, 0, 0); // TODO remove 0, 0
-        MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
-
-        controller.setView(wp);
-        wp.setFrame(weekendFrame);
-
-        controller.readFileAndWriteToView(GeneralController.TEMP_SAVE_FILE);
-
-        weekendFrame.add(wp);
-        weekendFrame.pack();
-        weekendFrame.setLocationRelativeTo(null);
-        weekendFrame.setVisible(true);
+    public void updateDate(
+        final Controller<WeekendPanel, WeekendModel> controller,
+        final WeekendPanel wp
+    ) {
+        ChooseWeekPanel.initializePanel(controller, false);
     }
 
     @Override
-    public void updateDate(WeekendPanel wp) {
-        this.panel = wp;
-        ChooseWeekPanel.initializePanel(this, false);
+    public void updateWorkersOnModel(final WeekendModel weekendModel, final List<List<String>> workerNames) {
+        // do nothing
     }
-
-    @Override
-    public void updateDateHelper() {
-        Calendar date = SessionModel.getCompletedStartDay();
-        String s = new String( "Week of " +
-                ( Integer.parseInt(String.valueOf(date.get(Calendar.MONTH)))+1 ) +
-                "/" + date.get(Calendar.DATE) + "/" + date.get(Calendar.YEAR) );
-        panel.date_label.setText(s);
-    }
-
-    @Override
-    public void eliminateWindow(WeekendPanel view) {
-        @SuppressWarnings("rawtypes")
-        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
-        frame.eliminate();
-    }
-
 }

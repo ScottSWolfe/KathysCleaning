@@ -104,6 +104,10 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
         setScheduledLBCExceptions(lbcData.getScheduledLBCExceptions());
     }
 
+    public void setWorkers(final List<List<String>> workerNames) {
+        editableWorkerSelectPanel.setWorkers(workerNames);
+    }
+
     @Override
     public List<List<? extends JComponent>> getComponentsAsGrid() {
         return Collections.singletonList(

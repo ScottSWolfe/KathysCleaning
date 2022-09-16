@@ -6,6 +6,7 @@ import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ScheduledLBCData {
 
@@ -32,6 +33,17 @@ public class ScheduledLBCData {
         return new ScheduledLBCData(meetTime, workerSelectionGrid, scheduledLBCExceptions);
     }
 
+    public static ScheduledLBCData copyOf(
+        final ScheduledLBCData scheduledLBCData,
+        final List<List<String>> workerNames
+    ) {
+        return new ScheduledLBCData(
+            scheduledLBCData.meetTime,
+            getWorkerSelectionGridFromNames(workerNames),
+            scheduledLBCData.getScheduledLBCExceptions()
+        );
+    }
+
     private ScheduledLBCData(
         final String meetTime,
         final List<List<Pair<String, Boolean>>> workerSelectionGrid,
@@ -52,5 +64,14 @@ public class ScheduledLBCData {
 
     public ScheduledLBCExceptions getScheduledLBCExceptions() {
         return scheduledLBCExceptions;
+    }
+
+    private static List<List<Pair<String, Boolean>>> getWorkerSelectionGridFromNames(final List<List<String>> workerNames) {
+        return workerNames.stream()
+            .map(workerNamesInRow -> workerNamesInRow.stream()
+                .map(workerName -> Pair.of(workerName, false))
+                .collect(Collectors.toList())
+            )
+            .collect(Collectors.toList());
     }
 }

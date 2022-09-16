@@ -14,36 +14,34 @@ import com.github.scottswolfe.kathyscleaning.interfaces.Controller;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 
 public class MainWindowListener implements WindowListener {
-	
+
     public enum Action {
         CLOSE, OPEN, OVERWRITE;
     }
-    
+
     @SuppressWarnings("rawtypes")
     Controller controller;
-    
+
     @SuppressWarnings("rawtypes")
     public MainWindowListener(Controller controller) {
         this.controller = controller;
     }
-    
+
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
 	    askUserIfSaveBeforeAction(controller, Action.CLOSE, true);
 	}
-	
+
 	// TODO refactor this method...
 	@SuppressWarnings("rawtypes")
 	public static boolean askUserIfSaveBeforeAction(Controller controller, Action action, boolean shouldInitializeMenu) {
@@ -70,7 +68,7 @@ public class MainWindowListener implements WindowListener {
             if (file != null) {
                 MenuBarController.prepareFileName(file);
                 SessionModel.setSaveFile(file);
-                controller.readInputAndWriteToFile(file);
+                controller.readInputAndWriteToFile();
                 if (action == Action.CLOSE) {
                     closeProgram(controller, shouldInitializeMenu);
                 }
@@ -89,10 +87,10 @@ public class MainWindowListener implements WindowListener {
             return false;
         }
 	}
-		
+
     @SuppressWarnings("rawtypes")
     private static void closeProgram(Controller controller, boolean initializeMenu) {
-        controller.eliminateWindow();
+        controller.hideWindow();
         if (initializeMenu) {
             MenuPanelController.initializeMenuPanelFrame();
         }
@@ -101,25 +99,20 @@ public class MainWindowListener implements WindowListener {
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 }
-    
