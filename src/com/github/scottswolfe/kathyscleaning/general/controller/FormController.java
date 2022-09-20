@@ -1,30 +1,28 @@
 package com.github.scottswolfe.kathyscleaning.general.controller;
 
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.Window;
 import java.io.File;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCControllerHelper;
-import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCExcelHelper;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
-import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
-import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantExcelHelper;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledControllerHelper;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledExcelHelper;
 import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControllerHelper;
-import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendExcelHelper;
 
 /**
  * Controller for each form
@@ -86,7 +84,9 @@ public class FormController<View extends JComponent, Model> {
         model = controllerHelper.initializeModel();
         view = controllerHelper.initializeView(this, parentFrame);
 
-        parentFrame.add(view);
+        final JScrollPane jScrollPane = new JScrollPane();
+        jScrollPane.setViewportView(view);
+        parentFrame.add(jScrollPane);
     }
 
     public void readInputAndWriteToFile() {
@@ -104,8 +104,15 @@ public class FormController<View extends JComponent, Model> {
     public void launchForm() {
         parentFrame.revalidate();
         parentFrame.pack();
+
+        final Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        final int newWidth = parentFrame.getWidth() > effectiveScreenSize.getWidth() ?
+            (int) effectiveScreenSize.getWidth() : parentFrame.getWidth();
+        final int newHeight = parentFrame.getHeight() > effectiveScreenSize.getHeight() ?
+            (int) effectiveScreenSize.getHeight() : parentFrame.getHeight();
+        parentFrame.setSize(new Dimension(newWidth, newHeight));
+
         parentFrame.repaint();
-        parentFrame.setLocationRelativeTo(null);
         parentFrame.setVisible(true);
     }
 
