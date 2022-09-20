@@ -96,7 +96,7 @@ public class HousePanel extends JPanel implements FocusableCollection {
             buildDeleteHouseActionListener.apply(this)
         );
 
-        setLayout(new MigLayout("insets 0","[grow][grow][grow][grow][grow][grow]","[]"));
+        setLayout(new MigLayout("fill, insets 0"));
         setBackground(Settings.BACKGROUND_COLOR);
         setBorder(BorderFactory.createTitledBorder(""));
 

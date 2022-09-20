@@ -1,11 +1,13 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -65,7 +67,8 @@ public class DayPanel extends JPanel implements FocusableCollection {
             this::deleteHousePanel
         );
 
-        setLayout(new MigLayout());
+        setLayout(new MigLayout("fill, insets 0"));
+        setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         setBackground(Settings.BACKGROUND_COLOR);
         add(headerPanel, "dock north");
         add(scrollPane, "grow");

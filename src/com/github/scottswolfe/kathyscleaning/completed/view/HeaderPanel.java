@@ -61,7 +61,6 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
     ) {
         setLayout(new MigLayout("gap 0 px, insets 1","[grow][grow][grow][grow][grow]","[grow]"));
         setBackground(Settings.HEADER_BACKGROUND);
-        setBorder(BorderFactory.createLineBorder(null, 2));
 
         datePanel = DatePanel.from(SessionModel.getCompletedStartDay());
         copyWorkersPanel = CopyWorkersPanel.from(

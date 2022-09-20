@@ -4,9 +4,11 @@ import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import java.awt.Color;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +20,6 @@ import java.util.stream.Collectors;
 public class HousePanelsScrollPane extends JScrollPane implements FocusableCollection {
 
     public final static int PANEL_PADDING = 6;
-    private static final String HOUSE_PANEL_CONSTRAINTS = "wrap " + PANEL_PADDING + ", grow";
 
     private final JPanel scrollPanePanel;
 
@@ -69,6 +70,7 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
 
         setViewportView(scrollPanePanel);
         setBackground(Settings.BACKGROUND_COLOR);
+        setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK));
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -83,7 +85,7 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
         final Consumer<HousePanel> deleteHousePanel
     ) {
         final JPanel scrollPanePanel = new JPanel();
-        scrollPanePanel.setLayout(new MigLayout());
+        scrollPanePanel.setLayout(new MigLayout("fill, insets 4 0 0 0"));
         scrollPanePanel.setBackground(Settings.BACKGROUND_COLOR);
 
         final List<HousePanel> housePanels = new ArrayList<>(DayPanel.DEFAULT_HOUSE_PANEL_COUNT);
@@ -97,8 +99,9 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
             ));
         }
 
-        for (HousePanel housePanel : housePanels) {
-            scrollPanePanel.add(housePanel, HOUSE_PANEL_CONSTRAINTS);
+        for (int index = 0; index < housePanels.size(); index++) {
+            final HousePanel housePanel = housePanels.get(index);
+            scrollPanePanel.add(housePanel, createHousePanelConstraints(index, housePanels.size()));
         }
 
         return scrollPanePanel;
@@ -119,7 +122,11 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
 
     public void addHousePanel(final int newHouseIndex) {
         final HousePanel newHousePanel = buildNewHousePanel();
-        scrollPanePanel.add(newHousePanel, HOUSE_PANEL_CONSTRAINTS, newHouseIndex);
+        scrollPanePanel.add(
+            newHousePanel,
+            createHousePanelConstraints(newHouseIndex, getHousePanels().size()),
+            newHouseIndex
+        );
         scrollPanePanel.revalidate();
         scrollPanePanel.repaint();
     }
@@ -131,6 +138,7 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
     }
 
     public void swapHousePanels(final int index1, final int index2) {
+        final int housePanelCount = getHousePanels().size();
         final int lowerIndex = Math.min(index1, index2);
         final int higherIndex = Math.max(index1, index2);
 
@@ -140,8 +148,16 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
         scrollPanePanel.remove(higherIndex);
         scrollPanePanel.remove(lowerIndex);
 
-        scrollPanePanel.add(housePanel2, HOUSE_PANEL_CONSTRAINTS, lowerIndex);
-        scrollPanePanel.add(housePanel1, HOUSE_PANEL_CONSTRAINTS, higherIndex);
+        scrollPanePanel.add(
+            housePanel2,
+            createHousePanelConstraints(lowerIndex, housePanelCount),
+            lowerIndex
+        );
+        scrollPanePanel.add(
+            housePanel1,
+            createHousePanelConstraints(higherIndex, housePanelCount),
+            higherIndex
+        );
 
         scrollPanePanel.revalidate();
         scrollPanePanel.repaint();
@@ -171,6 +187,11 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
             (housePanel) -> ((event) -> addHousePanel.accept(housePanel)),
             (housePanel) -> ((event) -> deleteHousePanel.accept(housePanel))
         );
+    }
+
+    private static String createHousePanelConstraints(final int index, final int numberOfHousePanels) {
+        final String wrapConstraints = index < numberOfHousePanels - 1 ? ", wrap " + PANEL_PADDING : "";
+        return "grow" + wrapConstraints;
     }
 
     @Override
