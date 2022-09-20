@@ -190,8 +190,8 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
     }
 
     private static String createHousePanelConstraints(final int index, final int numberOfHousePanels) {
-        final String wrapConstraints = index < numberOfHousePanels - 1 ? ", wrap " + PANEL_PADDING : "";
-        return "grow" + wrapConstraints;
+        final int wrapPadding = index < numberOfHousePanels - 1 ? PANEL_PADDING : 0;
+        return "grow, wrap " + wrapPadding;
     }
 
     @Override
