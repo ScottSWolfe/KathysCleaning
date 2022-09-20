@@ -85,7 +85,7 @@ public class ExcelMethods {
             System.exit(0);
         }
 
-        controller.launchForm(controller.getView());
+        controller.launchForm();
     }
 
     private static String getDefaultSaveFileName() {
