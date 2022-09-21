@@ -4,16 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 
+import javax.swing.JTabbedPane;
+
 public class NW_CopyWorkersListener implements ActionListener {
 
-    TabbedPane tabbed_pane;
+    JTabbedPane tabbed_pane;
     NW_DayPanel day_panel;
 
-    public NW_CopyWorkersListener(TabbedPane tabbed_pane, NW_DayPanel day_panel) {
+    public NW_CopyWorkersListener(JTabbedPane tabbed_pane, NW_DayPanel day_panel) {
         this.tabbed_pane = tabbed_pane;
         this.day_panel = day_panel;
     }

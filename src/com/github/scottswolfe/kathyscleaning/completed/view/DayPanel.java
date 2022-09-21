@@ -67,11 +67,11 @@ public class DayPanel extends JPanel implements FocusableCollection {
             this::deleteHousePanel
         );
 
-        setLayout(new MigLayout("fill, insets 0"));
-        setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        setLayout(new MigLayout("fillx, insets 0"));
+        setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
         setBackground(Settings.BACKGROUND_COLOR);
-        add(headerPanel, "dock north");
-        add(scrollPane, "grow");
+        add(headerPanel, "growx, wrap 0");
+        add(scrollPane, "growx");
 
         connectFocusableComponents();
     }

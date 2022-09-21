@@ -59,7 +59,7 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
         final WindowListener popUpWindowListener,
         final ActionListener submitFormListener
     ) {
-        setLayout(new MigLayout("gap 0 px, insets 1","[grow][grow][grow][grow][grow]","[grow]"));
+        setLayout(new MigLayout("fillx, gap 0 px, insets 1"));
         setBackground(Settings.HEADER_BACKGROUND);
 
         datePanel = DatePanel.from(SessionModel.getCompletedStartDay());

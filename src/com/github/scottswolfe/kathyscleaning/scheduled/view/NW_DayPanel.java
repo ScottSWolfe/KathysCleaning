@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.MatteBorder;
@@ -48,7 +49,7 @@ public class NW_DayPanel extends JPanel {
     NoteData noteData;
     List<BeginExceptionEntry> beginExceptionList;
 
-    TabbedPane tp;
+    JTabbedPane tp;
     Calendar date;
     JFrame frame;
 
@@ -100,11 +101,11 @@ public class NW_DayPanel extends JPanel {
 
         // creating scroll pane and adding house panels
         jsp_panel = new JPanel();
-        jsp_panel.setLayout(new MigLayout("fill"));
+        jsp_panel.setLayout(new MigLayout("fillx"));
         jsp_panel.setBackground(Settings.BACKGROUND_COLOR);
 
         for(NW_HousePanel house_panel : house_panels) {
-            jsp_panel.add(house_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", grow") );
+            jsp_panel.add(house_panel, "wrap " + DayPanel.PANEL_PADDING + ", growx");
         }
 
         jsp = new JScrollPane(jsp_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -117,15 +118,15 @@ public class NW_DayPanel extends JPanel {
         housesPanel.setLayout(new MigLayout("fill, insets 0"));
         housesPanel.setBackground(Settings.BACKGROUND_COLOR);
         housesPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK));
-        housesPanel.add(begin_panel, "grow, wrap 0");
-        housesPanel.add(header_panel, "grow, wrap 0");
-        housesPanel.add(jsp, "grow");
+        housesPanel.add(begin_panel, "growx, wrap 0");
+        housesPanel.add(header_panel, "growx, wrap 0");
+        housesPanel.add(jsp, "grow, pushy");
 
         // Adding Elements onto Panel
-        add(scheduledHeaderPanel, "grow, wrap 0");
-        add(scheduledLBCPanel, "grow, wrap 0 ");
-        add(housesPanel, "grow, wrap 0");
-        add(cov_panel, "grow");
+        add(scheduledHeaderPanel, "growx, wrap 0");
+        add(scheduledLBCPanel, "growx, wrap 0 ");
+        add(housesPanel, "grow, pushy, wrap 0");
+        add(cov_panel, "growx");
     }
 
     protected JPanel createBeginPanel(WorkerList workers) {

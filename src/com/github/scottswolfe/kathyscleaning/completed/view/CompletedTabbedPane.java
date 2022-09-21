@@ -1,6 +1,5 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
-import com.github.scottswolfe.kathyscleaning.completed.controller.TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
@@ -11,14 +10,14 @@ import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListen
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.google.common.collect.ImmutableList;
 
+import javax.swing.JTabbedPane;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CompletedTabbedPane extends TabbedPane {
+public class CompletedTabbedPane extends JTabbedPane {
 
     public DayPanel[] day_panel;
 
@@ -52,9 +51,6 @@ public class CompletedTabbedPane extends TabbedPane {
         addTab("Wednesday", dayPanels.get(2));
         addTab("Thursday", dayPanels.get(3));
         addTab("Friday", dayPanels.get(4));
-
-        changePreviousTab(0);
-        addChangeListener(new TabChangeListener(this, parentFrame));
     }
 
     private List<DayPanel> createDayPanels(

@@ -7,10 +7,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_CopyWorkersListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_EditDefaultWorkersListener;
@@ -23,7 +23,7 @@ public class ScheduledHousesCopyWorkersPanel extends JPanel {
     JButton copy_workers;
     JButton edit_default_workers;
 
-    public ScheduledHousesCopyWorkersPanel(TabbedPane tp, WorkerList dwd, NW_DayPanel day_panel, JFrame frame) {
+    public ScheduledHousesCopyWorkersPanel(JTabbedPane tp, WorkerList dwd, NW_DayPanel day_panel, JFrame frame) {
 
         setLayout(new MigLayout("fill, insets 0"));
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
@@ -37,7 +37,7 @@ public class ScheduledHousesCopyWorkersPanel extends JPanel {
 
     protected JPanel workerPanel(
         final WorkerList dwd,
-        final TabbedPane tp,
+        final JTabbedPane tp,
         final NW_DayPanel day_panel,
         final JFrame frame
     ) {

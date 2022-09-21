@@ -5,14 +5,13 @@ import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_TabChangeListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 
+import javax.swing.JTabbedPane;
 import java.util.Calendar;
 
-public class ScheduledTabbedPane extends TabbedPane {
+public class ScheduledTabbedPane extends JTabbedPane {
 
     public NW_DayPanel[] nw_day_panel;
 
@@ -60,8 +59,5 @@ public class ScheduledTabbedPane extends TabbedPane {
         addTab("Wednesday", day_panel[2]);
         addTab("Thursday", day_panel[3]);
         addTab("Friday", day_panel[4]);
-
-        changePreviousTab(0);
-        addChangeListener(new NW_TabChangeListener(this, parentFrame));
     }
 }

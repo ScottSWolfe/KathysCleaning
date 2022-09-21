@@ -30,6 +30,6 @@ public class FormLauncher {
             throw new IllegalArgumentException("Unexpected form: " + currentForm);
         }
 
-        ApplicationCoordinator.getInstance().navigateToForm(currentForm, nextForm);
+        ApplicationCoordinator.getInstance().navigateToForm(nextForm);
     }
 }

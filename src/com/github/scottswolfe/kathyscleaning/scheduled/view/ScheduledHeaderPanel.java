@@ -53,7 +53,7 @@ public class ScheduledHeaderPanel extends JPanel implements FocusableCollection 
         changeDayPanel = ChangeDayPanel.from(onPreviousButtonPress, onNextButtonPress);
         submitFormPanel = SubmitFormPanel.from("Create Excel Doc", onSubmitFormButtonPress);
 
-        setLayout(new MigLayout("fill, insets 0"));
+        setLayout(new MigLayout("fillx, insets 0"));
         setBackground(Settings.HEADER_BACKGROUND);
         setBorder(BorderFactory.createMatteBorder(1, 1, 2, 1, Color.BLACK));
         add(nextWeekLabelPanel);

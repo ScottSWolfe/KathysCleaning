@@ -1,5 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class HousePanelsScrollPane extends JScrollPane implements FocusableCollection {
 
-    public final static int PANEL_PADDING = 6;
+    public final static int PANEL_PADDING = 2;
 
     private final JPanel scrollPanePanel;
 
@@ -85,7 +86,7 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
         final Consumer<HousePanel> deleteHousePanel
     ) {
         final JPanel scrollPanePanel = new JPanel();
-        scrollPanePanel.setLayout(new MigLayout("fill, insets 4 0 0 0"));
+        scrollPanePanel.setLayout(new MigLayout("insets 4 0 0 0"));
         scrollPanePanel.setBackground(Settings.BACKGROUND_COLOR);
 
         final List<HousePanel> housePanels = new ArrayList<>(DayPanel.DEFAULT_HOUSE_PANEL_COUNT);
@@ -122,23 +123,20 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
 
     public void addHousePanel(final int newHouseIndex) {
         final HousePanel newHousePanel = buildNewHousePanel();
-        scrollPanePanel.add(
-            newHousePanel,
-            createHousePanelConstraints(newHouseIndex, getHousePanels().size()),
-            newHouseIndex
-        );
-        scrollPanePanel.revalidate();
-        scrollPanePanel.repaint();
+        scrollPanePanel.add(newHousePanel, newHouseIndex);
+        updateHousePanelConstraints();
+        scrollPanePanel.invalidate();
+        ApplicationCoordinator.getInstance().refreshWindow();
     }
 
     public void deleteHousePanel(final int houseIndex) {
         scrollPanePanel.remove(houseIndex);
-        scrollPanePanel.revalidate();
-        scrollPanePanel.repaint();
+        updateHousePanelConstraints();
+        scrollPanePanel.invalidate();
+        ApplicationCoordinator.getInstance().refreshWindow();
     }
 
     public void swapHousePanels(final int index1, final int index2) {
-        final int housePanelCount = getHousePanels().size();
         final int lowerIndex = Math.min(index1, index2);
         final int higherIndex = Math.max(index1, index2);
 
@@ -148,19 +146,20 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
         scrollPanePanel.remove(higherIndex);
         scrollPanePanel.remove(lowerIndex);
 
-        scrollPanePanel.add(
-            housePanel2,
-            createHousePanelConstraints(lowerIndex, housePanelCount),
-            lowerIndex
-        );
-        scrollPanePanel.add(
-            housePanel1,
-            createHousePanelConstraints(higherIndex, housePanelCount),
-            higherIndex
-        );
+        scrollPanePanel.add(housePanel2, lowerIndex);
+        scrollPanePanel.add(housePanel1, higherIndex);
 
-        scrollPanePanel.revalidate();
-        scrollPanePanel.repaint();
+        updateHousePanelConstraints();
+        scrollPanePanel.invalidate();
+        ApplicationCoordinator.getInstance().refreshWindow();
+    }
+
+    private void updateHousePanelConstraints() {
+        final List<HousePanel> housePanels = getHousePanels();
+        housePanels.forEach(scrollPanePanel::remove);
+        for (int index = 0; index < housePanels.size(); index++) {
+            scrollPanePanel.add(housePanels.get(index), createHousePanelConstraints(index, housePanels.size()), index);
+        }
     }
 
     private HousePanel buildNewHousePanel() {
@@ -191,7 +190,7 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
 
     private static String createHousePanelConstraints(final int index, final int numberOfHousePanels) {
         final int wrapPadding = index < numberOfHousePanels - 1 ? PANEL_PADDING : 0;
-        return "grow, wrap " + wrapPadding;
+        return "growx, wrap " + wrapPadding;
     }
 
     @Override

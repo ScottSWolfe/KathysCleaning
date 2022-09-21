@@ -27,6 +27,7 @@ public class ApplicationCoordinator {
 
     private final SaveFileManager saveFileManager;
     private Map<Form, FormController<?, ?>> formControllers;
+    private Form currentForm;
 
     public static ApplicationCoordinator getInstance() {
         return applicationCoordinatorInstance;
@@ -57,19 +58,25 @@ public class ApplicationCoordinator {
         SwingUtilities.invokeLater(MenuPanelController::initializeMenuPanelFrame);
     }
 
-    public void navigateToForm(final Form sourceForm, final Form targetForm) {
-        final FormController<?, ?> sourceController = formControllers.get(sourceForm);
-        formControllers.values().forEach(
-            controller -> controller.readInputAndWriteToFile()
-        );
-        sourceController.hideWindow();
-
-        navigateToForm(targetForm);
-    }
-
     public void navigateToForm(final Form targetForm) {
+        formControllers.values().forEach(
+            FormController::readInputAndWriteToFile
+        );
+
+        if (currentForm != null) {
+            final FormController<?, ?> sourceController = formControllers.get(currentForm);
+            sourceController.hideWindow();
+        }
+
+        currentForm = targetForm;
         final FormController<?, ?> targetController = formControllers.get(targetForm);
         SwingUtilities.invokeLater(targetController::launchForm);
+    }
+
+    public void refreshWindow() {
+        if (currentForm != null) {
+            formControllers.get(currentForm).refreshWindow();
+        }
     }
 
     public void loadFile(final File file) {

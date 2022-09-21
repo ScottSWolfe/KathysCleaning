@@ -53,7 +53,7 @@ public class NW_HousePanel extends JPanel {
 
         setBorder(BorderFactory.createTitledBorder( new String() ));
         setBackground(Settings.BACKGROUND_COLOR);
-        setLayout(new MigLayout("insets 0","[grow][grow][grow]","[]"));
+        setLayout(new MigLayout("fillx, insets 0"));
 
         JPanel house_name_panel = houseNamePanel(house_name);
         worker_panel = WorkerSelectPanel.from(workers, Settings.BACKGROUND_COLOR);
@@ -109,11 +109,9 @@ public class NW_HousePanel extends JPanel {
 
         add_house = new JButton("Add");
         add_house.setFont( add_house.getFont().deriveFont( Settings.FONT_SIZE ) );
-        //add_house.setBackground( DayPanel.ADD_HOUSE_COLOR );
 
         delete_house = new JButton("Delete");
         delete_house.setFont( delete_house.getFont().deriveFont( Settings.FONT_SIZE ) );
-        //delete_house.setBackground( DayPanel.DELETE_HOUSE_COLOR );
 
         panel.setLayout( new MigLayout("insets 0") );
         panel.setBackground(Settings.BACKGROUND_COLOR);

@@ -3,13 +3,13 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
+import javax.swing.JTabbedPane;
 
 public class NextDayListener implements ActionListener {
 
-    private final TabbedPane tp;
+    private final JTabbedPane tp;
 
-    public NextDayListener(TabbedPane tp) {
+    public NextDayListener(JTabbedPane tp) {
         this.tp = tp;
     }
 

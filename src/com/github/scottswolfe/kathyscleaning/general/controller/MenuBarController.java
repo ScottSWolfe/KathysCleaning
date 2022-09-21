@@ -110,23 +110,23 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
     }
 
     public void menuItemGoHouses() {
-        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.COMPLETED);
+        ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
     }
 
     public void menuItemGoCovenant() {
-        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.COVENANT);
+        ApplicationCoordinator.getInstance().navigateToForm(Form.COVENANT);
     }
 
     public void menuItemGoLBC() {
-        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.LBC);
+        ApplicationCoordinator.getInstance().navigateToForm(Form.LBC);
     }
 
     public void menuItemGoWeekend() {
-        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.WEEKEND);
+        ApplicationCoordinator.getInstance().navigateToForm(Form.WEEKEND);
     }
 
     public void menuItemGoNextWeek() {
-        ApplicationCoordinator.getInstance().navigateToForm(controller.getFormType(), Form.SCHEDULED);
+        ApplicationCoordinator.getInstance().navigateToForm(Form.SCHEDULED);
     }
 
     public void menuItemLoadSchedule() {
