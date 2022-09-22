@@ -221,8 +221,11 @@ public class SaveFileManager {
     }
 
     private boolean areEqual(@Nonnull final File file1, @Nonnull final File file2) {
-        // todo: implement
-        return false;
+        try {
+            return FileUtils.contentEquals(file1, file2);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
