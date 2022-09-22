@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
@@ -23,7 +24,7 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
 
     @Override
     public WeekendPanel initializeView(FormController<WeekendPanel, WeekendModel> controller, MainFrame<WeekendPanel, WeekendModel> parentFrame) {
-        final WeekendPanel wp = new WeekendPanel(controller, 0, 0);
+        final WeekendPanel wp = new WeekendPanel(controller);
         final MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
         wp.setFrame(weekendFrame);
         return wp;
@@ -36,7 +37,7 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
         WeekendEntry entry;
         JobPanel jp;
 
-        for (int i = 0; i < WeekendPanel.NUM_JOB_PANELS; i++) {
+        for (int i = 0; i < WeekendPanel.MAX_JOB_COUNT; i++) {
             entry = new WeekendEntry();
             jp = view.jp[i];
 
@@ -62,14 +63,14 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
     @Override
     public void writeModelToView(WeekendModel model, WeekendPanel view) {
 
-        view.date = model.getDate();
+        view.setDate(SessionModel.getWeekendStartDay());
 
         List<WeekendEntry> entries = model.getEntries();
         JobPanel jp;
         int i = 0;
         for (WeekendEntry entry : entries) {
 
-            if (i == WeekendPanel.NUM_JOB_PANELS) {
+            if (i == WeekendPanel.MAX_JOB_COUNT) {
                 // todo: log or notify user about this situation
                 break;
             }

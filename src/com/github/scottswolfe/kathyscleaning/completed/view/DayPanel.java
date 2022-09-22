@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class DayPanel extends JPanel implements FocusableCollection {
     public final HousePanelsScrollPane scrollPane;
 
     public static DayPanel from(
+        final Calendar date,
         final WorkerList workerList,
         final ActionListener previousDayButtonListener,
         final ActionListener nextDayButtonListener,
@@ -35,15 +37,17 @@ public class DayPanel extends JPanel implements FocusableCollection {
         final WindowListener popUpWindowListener
     ) {
         return new DayPanel(
-             workerList,
-             previousDayButtonListener,
-             nextDayButtonListener,
-             submitFormListener,
-             popUpWindowListener
+            date,
+            workerList,
+            previousDayButtonListener,
+            nextDayButtonListener,
+            submitFormListener,
+            popUpWindowListener
         );
     }
 
     private DayPanel(
+        final Calendar date,
         final WorkerList workerList,
         final ActionListener previousDayButtonListener,
         final ActionListener nextDayButtonListener,
@@ -51,6 +55,7 @@ public class DayPanel extends JPanel implements FocusableCollection {
         final WindowListener popUpWindowListener
     ) {
         headerPanel = HeaderPanel.from(
+            date,
             workerList,
             this::setWorkerSelectionsForAllHouses,
             previousDayButtonListener,

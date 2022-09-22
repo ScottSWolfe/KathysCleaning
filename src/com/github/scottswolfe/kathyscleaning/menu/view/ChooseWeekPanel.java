@@ -172,10 +172,11 @@ public class ChooseWeekPanel extends JPanel {
             Integer day = Integer.parseInt((String) day_box.getSelectedItem());
             Integer month = Integer.parseInt((String) month_box.getSelectedItem()) - 1;
             c.set(year, month, day);
-            if (isScheduledForm == false) {
+            if (isScheduledForm) {
+                c.add(Calendar.DATE, -7);
                 SessionModel.setCompletedStartDay(c);
             } else {
-                SessionModel.setScheduledStartDay(c);
+                SessionModel.setCompletedStartDay(c);
             }
             controller.updateDate();
             frame.setVisible(false);

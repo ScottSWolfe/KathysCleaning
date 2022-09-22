@@ -1,7 +1,5 @@
 package com.github.scottswolfe.kathyscleaning.weekend.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.annotation.Nonnull;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,261 +31,191 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * Panel in which user can enter other cleaning jobs.
- *
  */
 public class WeekendPanel extends JPanel {
 
-	// FIELDS
+    public static final int MAX_JOB_COUNT = 2;
+
+    public JFrame frame; // todo: temporarily public
+    JLabel heading_label;
+    public JLabel dateLabel;
+    JButton submit_button;
+    public JobPanel[] jp;
+
     FormController<WeekendPanel, WeekendModel> controller;
-	public JFrame frame; // todo: temporarily public
 
-	public static final int NUM_JOB_PANELS = 2;
-	public JobPanel[] jp;
+    public WeekendPanel(FormController<WeekendPanel, WeekendModel> controller) {
+        this.controller = controller;
 
-	int mode;
-	int wk;
+        setLayout(new MigLayout());
+        setBackground(Settings.BACKGROUND_COLOR);
 
-	public static final int NUM_JOBS_CAP = 2;
+        add(createHeaderPanel(), "grow, wrap 0");
+        add(createJobsWorkedPanel(), "grow");
+    }
 
+    private JPanel createHeaderPanel() {
 
-	// COMPONENTS
-	JLabel heading_label;
+        JPanel panel = new JPanel();
+        panel.setLayout(new MigLayout("fill"));
+        panel.setBackground(Settings.BACKGROUND_COLOR);
 
-	public JLabel date_label;
-	public Calendar date;
+        heading_label = new JLabel();
+        heading_label.setText("Weekend Work");
+        heading_label.setFont(heading_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE));
+        heading_label.setBackground(Settings.BACKGROUND_COLOR);
 
-	JButton submit_button;
+        dateLabel = new JLabel();
+        dateLabel.setText(createDateLabelString(SessionModel.getWeekendStartDay()));
+        dateLabel.setFont(dateLabel.getFont().deriveFont(Settings.FONT_SIZE));
+        dateLabel.setBackground(Settings.BACKGROUND_COLOR);
 
+        submit_button = new JButton();
+        submit_button.setText("Next");
+        submit_button.setFont(submit_button.getFont().deriveFont(Settings.FONT_SIZE));
+        submit_button.setBackground(Settings.MAIN_COLOR);
+        submit_button.setForeground(Settings.FOREGROUND_COLOR);
+        submit_button.addActionListener((event) -> FormLauncher.from().launchNextForm(controller.getFormType()));
 
+        panel.add(heading_label, "span, center, wrap");
 
-	// CONSTRUCTORS
-	public WeekendPanel (FormController<WeekendPanel, WeekendModel> controller, int mode, int wk) {
-		this.controller = controller;
-		this.mode = mode;
-		this.wk = wk;
+        JPanel p = new JPanel();
+        p.setLayout(new MigLayout("fill"));
+        p.setBackground(Settings.HEADER_BACKGROUND);
+        p.setBorder(new LineBorder(null,1));
 
-		setLayout( new MigLayout() );
-		setBackground(Settings.BACKGROUND_COLOR);
+        p.add(dateLabel, "center");
+        p.add(new JSeparator(SwingConstants.VERTICAL), "growy");
 
-		add( createHeaderPanel(), "grow, wrap 0" );
-		add( createJobsWorkedPanel(), "grow" );
-	}
+        p.add(submit_button, "");
 
+        panel.add(p, "grow");
+        return panel;
+    }
 
+    private JPanel createJobsWorkedPanel() {
 
-	// CONSTRUCTION METHODS
+        JPanel panel = new JPanel();
+        panel.setLayout(new MigLayout());
+        panel.setBackground(Settings.BACKGROUND_COLOR);
 
-	private JPanel createHeaderPanel() {
+        jp = new JobPanel[MAX_JOB_COUNT];
+        for (int i = 0; i < MAX_JOB_COUNT; i++) {
+            jp[i] = new JobPanel();
+            panel.add(jp[i], "grow, wrap");
+        }
 
-		JPanel panel = new JPanel();
-		panel.setLayout(new MigLayout("fill"));
-		panel.setBackground(Settings.BACKGROUND_COLOR);
+        return panel;
+    }
 
-		heading_label = new JLabel();
-		heading_label.setText( "Weekend Work" );
-		heading_label.setFont( heading_label.getFont().deriveFont(Settings.HEADER_FONT_SIZE) );
-		heading_label.setBackground( Settings.BACKGROUND_COLOR );
+    public static class JobPanel extends JPanel {
 
-		Calendar date = SessionModel.getCompletedStartDay();
-		date_label = new JLabel();
-		String s = new String( "Week of " +
-				(Integer.parseInt(String.valueOf(date.get(Calendar.MONTH))) + 1) +
-				"/" + (date.get(Calendar.DATE)-1) + "/" + date.get(Calendar.YEAR) );
-		date_label.setText(s);
-		date_label.setFont(date_label.getFont().deriveFont( Settings.FONT_SIZE ));
-		date_label.setBackground(Settings.BACKGROUND_COLOR);
+        public JCheckBox worked_checkbox;
+        public JComboBox<String> customer_combobox;
+        public JTextField jobpaid_field;
+        public JComboBox<String> employee_combobox;
+        public JTextField workerpaid_field;
 
-		submit_button = new JButton();
-		submit_button.setText( "Next" );
-		submit_button.setFont( submit_button.getFont().deriveFont( Settings.FONT_SIZE ) );
-		submit_button.setBackground(Settings.MAIN_COLOR);
-		submit_button.setForeground( Settings.FOREGROUND_COLOR );
-		submit_button.addActionListener( new SubmitListener() );
+        private JobPanel() {
 
+            setLayout( new MigLayout("fill", "[]20[]20[]20[]20[]") );
+            setBackground( Settings.BACKGROUND_COLOR );
+            setBorder(BorderFactory.createTitledBorder(""));
 
-		panel.add(heading_label, "span, center, wrap");
+            worked_checkbox = new JCheckBox();
+            worked_checkbox.setBackground(Settings.BACKGROUND_COLOR);
+            worked_checkbox.setText("");
 
-		JPanel p = new JPanel();
-		p.setLayout(new MigLayout("fill"));
-		p.setBackground(Settings.HEADER_BACKGROUND);
-		p.setBorder(new LineBorder(null,1));
+            customer_combobox = new JComboBox<>();
+            customer_combobox.setFont(customer_combobox.getFont().deriveFont(Settings.FONT_SIZE));
+            customer_combobox.setEditable(true);
+            customer_combobox.addItem("");
 
+            // TODO temporary, move this elsewhere
+            List<String> weekendCustomers = new ArrayList<>();
 
-		p.add(date_label, "center");
-		p.add(new JSeparator(SwingConstants.VERTICAL), "growy" );
+            try {
+                File file = new File((System.getProperty("user.dir") + "\\save\\WeekendWorkSaveFile"));
+                Scanner input = new Scanner(file);
+                while(input.hasNext()) {
+                    weekendCustomers.add(input.nextLine());
+                }
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-		p.add(submit_button, "");
+            for (String customer : weekendCustomers) {
+                customer_combobox.addItem(customer);
+            }
 
-		panel.add(p, "grow");
-		return panel;
-	}
+            jobpaid_field = new JTextField();
+            jobpaid_field.setColumns(5);
+            jobpaid_field.setFont(jobpaid_field.getFont().deriveFont(Settings.FONT_SIZE));
 
-	private JPanel createJobsWorkedPanel() {
-
-		JPanel panel = new JPanel();
-		panel.setLayout( new MigLayout() );
-		panel.setBackground( Settings.BACKGROUND_COLOR );
-
-		jp = new JobPanel[NUM_JOB_PANELS];
-		for (int i=0; i<NUM_JOB_PANELS; i++) {
-			jp[i] = new JobPanel();
-			panel.add(jp[i], "grow, wrap");
-		}
-
-		addFlexibleFocusListeners(jp);
-		return panel;
-	}
-
-	public class JobPanel extends JPanel {
-
-		// FIELDS
-		public JCheckBox worked_checkbox;
-		public JComboBox<String> customer_combobox;
-		public JTextField jobpaid_field;
-		public JComboBox<String> employee_combobox;
-		public JTextField workerpaid_field;
-
-
-		// CONSTRUCTOR
-		private JobPanel() {
-
-			setLayout( new MigLayout("fill", "[]20[]20[]20[]20[]") );
-			setBackground( Settings.BACKGROUND_COLOR );
-			//setBorder( new LineBorder(null,1));
-			setBorder(BorderFactory.createTitledBorder( new String() ));
-
-
-			worked_checkbox = new JCheckBox();
-			worked_checkbox.setBackground( Settings.BACKGROUND_COLOR );
-			worked_checkbox.setText("");
-
-			customer_combobox = new JComboBox<String>();
-			customer_combobox.setFont( customer_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
-			customer_combobox.setEditable(true);
-			customer_combobox.addItem("");
-
-			// TODO temporary, move this elsewhere
-			List<String> weekendCustomers = new ArrayList<>();
-
-		    try {
-		        File file = new File((System.getProperty("user.dir") +
-		                        "\\save\\WeekendWorkSaveFile"));
-		        Scanner input = new Scanner(file);
-		        while(input.hasNext()) {
-		            weekendCustomers.add(input.nextLine());
-		        }
-		        input.close();
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
-
-			for (String customer : weekendCustomers) {
-				customer_combobox.addItem(customer);
-			}
-
-			jobpaid_field = new JTextField();
-			jobpaid_field.setColumns( 5 );
-			jobpaid_field.setFont( jobpaid_field.getFont().deriveFont(Settings.FONT_SIZE) );
-
-			employee_combobox = new JComboBox<String>();
-			employee_combobox.setFont( employee_combobox.getFont().deriveFont(Settings.FONT_SIZE) );
-			employee_combobox.setEditable(false);
-			employee_combobox.addItem("");
+            employee_combobox = new JComboBox<>();
+            employee_combobox.setFont(employee_combobox.getFont().deriveFont(Settings.FONT_SIZE));
+            employee_combobox.setEditable(false);
+            employee_combobox.addItem("");
             GlobalData.getInstance().getDefaultWorkerNames().forEach(employee_combobox::addItem);
 
-			workerpaid_field = new JTextField();
-			workerpaid_field.setColumns( 5 );
-			workerpaid_field.setFont( workerpaid_field.getFont().deriveFont(Settings.FONT_SIZE) );
+            workerpaid_field = new JTextField();
+            workerpaid_field.setColumns(5);
+            workerpaid_field.setFont(workerpaid_field.getFont().deriveFont(Settings.FONT_SIZE));
 
-			JLabel worked_label = new JLabel();
-			worked_label.setText("Worked?");
-			worked_label.setFont(worked_label.getFont().deriveFont(Settings.FONT_SIZE));
-			worked_label.setBackground(Settings.BACKGROUND_COLOR);
+            JLabel worked_label = new JLabel();
+            worked_label.setText("Worked?");
+            worked_label.setFont(worked_label.getFont().deriveFont(Settings.FONT_SIZE));
+            worked_label.setBackground(Settings.BACKGROUND_COLOR);
 
-			JLabel customer_label = new JLabel();
-			customer_label.setText("Customer");
-			customer_label.setFont(customer_label.getFont().deriveFont(Settings.FONT_SIZE));
-			customer_label.setBackground(Settings.BACKGROUND_COLOR);
+            JLabel customer_label = new JLabel();
+            customer_label.setText("Customer");
+            customer_label.setFont(customer_label.getFont().deriveFont(Settings.FONT_SIZE));
+            customer_label.setBackground(Settings.BACKGROUND_COLOR);
 
-			JLabel job_paid_label = new JLabel();
-			job_paid_label.setText("$ Job");
-			job_paid_label.setFont(job_paid_label.getFont().deriveFont(Settings.FONT_SIZE));
-			job_paid_label.setBackground(Settings.BACKGROUND_COLOR);
+            JLabel job_paid_label = new JLabel();
+            job_paid_label.setText("$ Job");
+            job_paid_label.setFont(job_paid_label.getFont().deriveFont(Settings.FONT_SIZE));
+            job_paid_label.setBackground(Settings.BACKGROUND_COLOR);
 
-			JLabel worker_label = new JLabel();
-			worker_label.setText("Employee");
-			worker_label.setFont(worker_label.getFont().deriveFont(Settings.FONT_SIZE));
-			worker_label.setBackground(Settings.BACKGROUND_COLOR);
+            JLabel worker_label = new JLabel();
+            worker_label.setText("Employee");
+            worker_label.setFont(worker_label.getFont().deriveFont(Settings.FONT_SIZE));
+            worker_label.setBackground(Settings.BACKGROUND_COLOR);
 
-			JLabel worker_paid_label = new JLabel();
-			worker_paid_label.setText("$ Paid");
-			worker_paid_label.setFont(worker_paid_label.getFont().deriveFont(Settings.FONT_SIZE));
-			worker_paid_label.setBackground(Settings.BACKGROUND_COLOR);
+            JLabel worker_paid_label = new JLabel();
+            worker_paid_label.setText("$ Paid");
+            worker_paid_label.setFont(worker_paid_label.getFont().deriveFont(Settings.FONT_SIZE));
+            worker_paid_label.setBackground(Settings.BACKGROUND_COLOR);
 
-			add(worked_label, "");
-			add(customer_label, "");
-			add(job_paid_label, "");
-			add(worker_label, "");
-			add(worker_paid_label, "wrap");
+            add(worked_label, "");
+            add(customer_label, "");
+            add(job_paid_label, "");
+            add(worker_label, "");
+            add(worker_paid_label, "wrap");
 
+            add(worked_checkbox, "center");
+            add(customer_combobox, "");
+            add(jobpaid_field, "");
+            add(employee_combobox, "");
+            add(workerpaid_field, "");
+        }
+    }
 
-			add(worked_checkbox, "center");
-			add(customer_combobox, "");
-			add(jobpaid_field, "");
-			add(employee_combobox, "");
-			add(workerpaid_field, "");
+    public void setDate(@Nonnull final Calendar date) {
+        dateLabel.setText(createDateLabelString(date));
+    }
 
-		}
+    private String createDateLabelString(@Nonnull final Calendar date) {
+        return "Week of "
+            + (Integer.parseInt(String.valueOf(date.get(Calendar.MONTH))) + 1)
+            + "/"
+            + (date.get(Calendar.DATE))
+            + "/"
+            + date.get(Calendar.YEAR);
+    }
 
-	}
-
-
-	// PRIVATE METHODS
-
-	private void addFlexibleFocusListeners ( JobPanel[] jp ) {
-		/*
-		for ( int i=0; i<jp.length; i++ ) {
-
-			Component worked_checkbox_up;
-			Component worked_checkbox_down;
-
-			Component customer_combobox_up;
-			Component customer_combobox_down;
-
-			Component jobpaid_field_up;
-			Component jobpaid_field_down;
-
-			Component employee_combobox_up;
-			Component employee_combobox_down;
-
-			Component workerpaid_field_up;
-			Component workerpaid_field_down;
-
-			if ( i>0 ) {
-				worked_checkbox_up = jp[i-1].worked_checkbox;
-				customer_combobox_up = jp[i-1].customer_combobox;
-			}
-
-			jp[i].worked_checkbox.addFocusListener( new FocusListener(jp[i].worked_checkbox,
-					FlexibleFocusListener.CHECKBOX,
-					null, jp[i].customer_combobox,
-					up, down,
-					enter) );
-
-		}
-		*/
-	}
-
-	private class SubmitListener implements ActionListener {
-
-		public void actionPerformed(ActionEvent e) {
-            FormLauncher.from().launchNextForm(controller.getFormType());
-		}
-	}
-
-    // GETTERS/SETTERS
     public void setFrame(JFrame frame) {
         this.frame = frame;
     }
-
 }

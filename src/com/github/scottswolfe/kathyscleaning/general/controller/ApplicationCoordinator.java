@@ -134,6 +134,7 @@ public class ApplicationCoordinator {
     }
 
     public boolean open() {
+        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
         final boolean shouldCompleteAction = saveFileManager.open();
         if (shouldCompleteAction) {
             formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
@@ -145,6 +146,7 @@ public class ApplicationCoordinator {
     }
 
     public void saveAndOpen() {
+        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
         final boolean shouldCompleteAction = saveFileManager.saveAndOpen();
         if (shouldCompleteAction) {
             formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);

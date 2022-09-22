@@ -34,6 +34,7 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
     private final SubmitFormPanel submitFormPanel;
 
     public static HeaderPanel from(
+        final Calendar date,
         final WorkerList workerList,
         final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
         final ActionListener previousDayButtonListener,
@@ -42,6 +43,7 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
         final ActionListener submitFormListener
     ) {
         return new HeaderPanel(
+            date,
             workerList,
             onCopyWorkersButtonPress,
             previousDayButtonListener,
@@ -52,6 +54,7 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
     }
 
     private HeaderPanel(
+        final Calendar date,
         final WorkerList workerList,
         final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
         final ActionListener previousDayButtonListener,
@@ -62,7 +65,7 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
         setLayout(new MigLayout("fillx, gap 0 px, insets 1"));
         setBackground(Settings.HEADER_BACKGROUND);
 
-        datePanel = DatePanel.from(SessionModel.getCompletedStartDay());
+        datePanel = DatePanel.from(date);
         copyWorkersPanel = CopyWorkersPanel.from(
             workerList,
             HousePanel.WORKER_SELECTION_ROW_COUNT,

@@ -32,18 +32,9 @@ public class ScheduledTabbedPane extends JTabbedPane {
 
         // creating array of dates
         Calendar[] day = new Calendar[5];
-        Calendar date;
-        if (SessionModel.getScheduledStartDay() == null) {
-            date = SessionModel.getCompletedStartDay();
-            date.add(Calendar.DATE, 7);
-            SessionModel.setScheduledStartDay(date);
-        } else {
-            date = SessionModel.getScheduledStartDay();
-        }
-        for(int i = 0; i < day.length; i++) {
-            day[i] = Calendar.getInstance();
-            day[i].set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
-            date.add(Calendar.DATE, 1);
+        for (int i = 0; i < day.length; i++) {
+            day[i] = SessionModel.getScheduledStartDay();
+            day[i].add(Calendar.DATE, i);
         }
 
         final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());

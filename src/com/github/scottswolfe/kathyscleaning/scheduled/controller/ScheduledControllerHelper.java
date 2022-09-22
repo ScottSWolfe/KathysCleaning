@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
@@ -106,6 +108,10 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
 
             dayData = model.dayData[d];
             NW_DayPanel dp = tp.nw_day_panel[d];
+
+            final Calendar date = SessionModel.getScheduledStartDay();
+            date.add(Calendar.DATE, d);
+            dp.setDate(date);
 
             dp.header_panel.setWorkers(dayData.getHeaderData().getDWD());
             dp.meet_location_box.setSelectedItem(dayData.meet_location);

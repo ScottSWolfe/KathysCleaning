@@ -35,7 +35,7 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
         Row row;
         boolean found_row;
         boolean found_worker;
-        int num_jobs_cap = WeekendPanel.NUM_JOBS_CAP;
+        int num_jobs_cap = WeekendPanel.MAX_JOB_COUNT;
         int job_num = 0;
 
         List<WeekendEntry> entries = model.getEntries();

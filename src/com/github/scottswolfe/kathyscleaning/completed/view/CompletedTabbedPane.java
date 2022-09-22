@@ -8,25 +8,37 @@ import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 import javax.swing.JTabbedPane;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CompletedTabbedPane extends JTabbedPane {
 
     public DayPanel[] day_panel;
 
-    public static List<DayOfWeek> COMPLETED_FORM_DAYS = ImmutableList.of(
+    public static final List<DayOfWeek> COMPLETED_FORM_DAYS = ImmutableList.of(
         DayOfWeek.MONDAY,
         DayOfWeek.TUESDAY,
         DayOfWeek.WEDNESDAY,
         DayOfWeek.THURSDAY,
         DayOfWeek.FRIDAY
+    );
+
+    private static final Map<DayOfWeek, Integer> DAY_TO_CALENDAR_OFFSET = ImmutableMap.of(
+        DayOfWeek.MONDAY, 0,
+        DayOfWeek.TUESDAY, 1,
+        DayOfWeek.WEDNESDAY, 2,
+        DayOfWeek.THURSDAY, 3,
+        DayOfWeek.FRIDAY, 4
     );
 
     public static CompletedTabbedPane from(
@@ -59,13 +71,18 @@ public class CompletedTabbedPane extends JTabbedPane {
     ) {
         final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
         return COMPLETED_FORM_DAYS.stream()
-            .map(dayOfWeek -> DayPanel.from(
-                workers,
-                new PreviousDayListener(this),
-                new NextDayListener(this),
-                SubmitFormListener.from(controller),
-                new FrameCloseListener(parentFrame)
-            ))
+            .map(dayOfWeek -> {
+                final Calendar date = SessionModel.getCompletedStartDay();
+                date.add(Calendar.DATE, DAY_TO_CALENDAR_OFFSET.get(dayOfWeek));
+                return DayPanel.from(
+                    date,
+                    workers,
+                    new PreviousDayListener(this),
+                    new NextDayListener(this),
+                    SubmitFormListener.from(controller),
+                    new FrameCloseListener(parentFrame)
+                );
+            })
             .collect(Collectors.toList());
     }
 }

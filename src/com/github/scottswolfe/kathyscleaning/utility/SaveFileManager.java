@@ -13,6 +13,7 @@ import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.google.common.collect.ImmutableList;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.annotation.Nonnull;
@@ -129,7 +130,7 @@ public class SaveFileManager {
         }
     }
 
-    public void initializeSaveFiles() throws IOException {
+    public void initializeSaveFiles() {
 
         try {
             SettingsModel.load(Settings.SETTINGS_SAVE_FILE);
@@ -139,7 +140,18 @@ public class SaveFileManager {
             SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
         }
 
-        GlobalData.getInstance().initializeData();
+        try {
+            GlobalData.getInstance().initializeData();
+        } catch (Exception e) {
+            StaticMethods.shareErrorMessage(
+                "Could not get worker names from the Excel sheet. Make sure the Excel"
+                    + "\n"
+                    + "template is selected in the Settings menu and that the Excel sheet is"
+                    + "\n"
+                    + "correctly formatted."
+            );
+            e.printStackTrace();
+        }
 
         SessionModel.initialize();
         CompletedModel completed = new CompletedModel();
