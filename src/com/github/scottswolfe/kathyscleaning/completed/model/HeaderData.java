@@ -5,6 +5,7 @@ import java.util.Calendar;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 public class HeaderData {
 
@@ -25,10 +26,10 @@ public class HeaderData {
     }
 
     public void setDate(Calendar date) {
-        this.date = (Calendar) date.clone();
+        this.date = CalendarMethods.trim(date);
     }
 
     public Calendar getDate() {
-        return (Calendar) date.clone();
+        return CalendarMethods.copy(date);
     }
 }
