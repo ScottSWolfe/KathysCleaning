@@ -1,12 +1,19 @@
 package com.github.scottswolfe.kathyscleaning.general.controller;
 
+import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
+import com.github.scottswolfe.kathyscleaning.completed.view.CompletedTabbedPane;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
+import com.github.scottswolfe.kathyscleaning.scheduled.view.ScheduledTabbedPane;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
+import com.github.scottswolfe.kathyscleaning.utility.ScheduledToCompletedModelConverter;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.google.common.collect.ImmutableList;
 
+import javax.annotation.Nonnull;
 import javax.swing.SwingUtilities;
 import java.io.File;
 import java.util.List;
@@ -26,6 +33,8 @@ public class ApplicationCoordinator {
     private static final ApplicationCoordinator applicationCoordinatorInstance = new ApplicationCoordinator();
 
     private final SaveFileManager saveFileManager;
+    private final ScheduledToCompletedModelConverter modelConverter;
+
     private Map<Form, FormController<?, ?>> formControllers;
     private Form currentForm;
 
@@ -35,6 +44,7 @@ public class ApplicationCoordinator {
 
     private ApplicationCoordinator() {
         saveFileManager = SaveFileManager.from();
+        modelConverter = ScheduledToCompletedModelConverter.from();
     }
 
     public void startApplication() {
@@ -58,9 +68,19 @@ public class ApplicationCoordinator {
         SwingUtilities.invokeLater(MenuPanelController::initializeMenuPanelFrame);
     }
 
+    public void endApplication() {
+        System.exit(0);
+    }
+
+    public void endApplicationDueToException(@Nonnull final String message, @Nonnull final Exception e) {
+        e.printStackTrace();
+        StaticMethods.shareErrorMessage(message, e);
+        System.exit(1);
+    }
+
     public void navigateToForm(final Form targetForm) {
         formControllers.values().forEach(
-            FormController::readInputAndWriteToFile
+            FormController::readViewAndWriteToTemporaryFile
         );
 
         if (currentForm != null) {
@@ -79,12 +99,73 @@ public class ApplicationCoordinator {
         }
     }
 
-    public void loadFile(final File file) {
-        saveFileManager.loadFile(file);
-        formControllers.values().forEach(controller -> controller.readFileAndWriteToView(file));
-    }
-
     public void updateWorkers(final List<List<String>> workerNames) {
         formControllers.values().forEach(controller -> controller.updateWorkers(workerNames));
+    }
+
+    public void save() {
+        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+
+        final boolean shouldCompleteAction = saveFileManager.save();
+        if (shouldCompleteAction) {
+            formControllers.get(currentForm).setTitleText();
+        }
+    }
+
+    public void saveAs() {
+        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+
+        final boolean shouldCompleteAction = saveFileManager.saveAs();
+        if (shouldCompleteAction) {
+            formControllers.get(currentForm).setTitleText();
+        }
+    }
+
+    public boolean askIfSaveBeforeClose() {
+        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+
+        final boolean shouldCompleteAction =
+            saveFileManager.askUserIfSaveBeforeAction(SaveFileManager.Action.CLOSE_PROGRAM);
+
+        // Set the window title since there are some cases where the program does not close
+        formControllers.get(currentForm).setTitleText();
+
+        return shouldCompleteAction;
+    }
+
+    public boolean open() {
+        final boolean shouldCompleteAction = saveFileManager.open();
+        if (shouldCompleteAction) {
+            formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
+            if (currentForm != null) {
+                formControllers.get(currentForm).setTitleText();
+            }
+        }
+        return shouldCompleteAction;
+    }
+
+    public void saveAndOpen() {
+        final boolean shouldCompleteAction = saveFileManager.saveAndOpen();
+        if (shouldCompleteAction) {
+            formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
+            formControllers.get(currentForm).setTitleText();
+        }
+    }
+
+    public void loadSchedule() {
+        final File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
+        if (file == null) {
+            return;
+        }
+
+        final FormController<ScheduledTabbedPane, NW_Data> scheduledFormController =
+            (FormController<ScheduledTabbedPane, NW_Data>) formControllers.get(Form.SCHEDULED);
+
+        final FormController<CompletedTabbedPane, CompletedModel> completedFormController =
+            (FormController<CompletedTabbedPane, CompletedModel>) formControllers.get(Form.COMPLETED);
+
+        final NW_Data scheduledData = scheduledFormController.readFile(file);
+        final CompletedModel completedModel = modelConverter.convert(scheduledData);
+        completedFormController.writeModelToView(completedModel);
     }
 }

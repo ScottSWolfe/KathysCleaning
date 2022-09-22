@@ -79,7 +79,6 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
 
                 completedHouseData[h] = new HouseData();
                 completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName());
-                completedHouseData[h].setSelectedWorkers(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getSelectedWorkerNames());
                 completedHouseData[h].setWorkerList(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getWorkers());
             }
             dayData[d].setHouseData(houseData);

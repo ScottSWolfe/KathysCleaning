@@ -140,7 +140,7 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
             boolean names_remaining = true;
             boolean name_match;
             int index = 5;
-            List<String> worker = completedModel.dayData[d].getHouseData()[h].getSelectedWorkers();
+            List<String> worker = completedModel.dayData[d].getHouseData()[h].getWorkerList().getSelectedWorkerNames();
 
             // while there are still names remaining in the excel sheet
             while ( names_remaining == true && index < 25 ) {

@@ -84,16 +84,12 @@ public class DayPanel extends JPanel implements FocusableCollection {
         return scrollPane.getHousePanels().get(index);
     }
 
-    public int getScrollPanePanelHeight() {
-        return scrollPane.getScrollPanePanelHeight();
-    }
-
     public void addNewHousePanel() {
         addHousePanel(getHousePanelCount());
     }
 
     public void deleteHousePanel() {
-        deleteHousePanel(getHousePanelCount());
+        deleteHousePanel(getHousePanelCount() - 1);
     }
 
     private void setWorkerSelectionsForAllHouses(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {

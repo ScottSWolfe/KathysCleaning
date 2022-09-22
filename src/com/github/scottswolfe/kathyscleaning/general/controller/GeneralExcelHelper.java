@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCExcelHelper;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
+import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcelHelper;
@@ -34,27 +35,37 @@ public class GeneralExcelHelper {
             XSSFWorkbook wb = new XSSFWorkbook(input);
 
             // Completed Form
-            CompletedModel completedModel = (CompletedModel) JsonMethods.loadFromFileJSON(CompletedModel.class, FormController.TEMP_SAVE_FILE, Form.COMPLETED.getNum());
+            CompletedModel completedModel = (CompletedModel) JsonMethods.loadFromFileJSON(
+                CompletedModel.class, SaveFileManager.TEMP_SAVE_FILE, Form.COMPLETED.getNum()
+            );
             CompletedExcelHelper comHelper = new CompletedExcelHelper();
             comHelper.writeModelToExcel(completedModel, wb);
 
             // Covenant Form
-            CovenantModel covModel = (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, FormController.TEMP_SAVE_FILE, Form.COVENANT.getNum());
+            CovenantModel covModel = (CovenantModel) JsonMethods.loadFromFileJSON(
+                CovenantModel.class, SaveFileManager.TEMP_SAVE_FILE, Form.COVENANT.getNum()
+            );
             CovenantExcelHelper covHelper = new CovenantExcelHelper();
             covHelper.writeModelToExcel(covModel, wb);
 
             // LBC Form
-            LBCModel lbcModel = (LBCModel) JsonMethods.loadFromFileJSON(LBCModel.class, FormController.TEMP_SAVE_FILE, Form.LBC.getNum());
+            LBCModel lbcModel = (LBCModel) JsonMethods.loadFromFileJSON(
+                LBCModel.class, SaveFileManager.TEMP_SAVE_FILE, Form.LBC.getNum()
+            );
             LBCExcelHelper lbcHelper = new LBCExcelHelper();
             lbcHelper.writeModelToExcel(lbcModel, wb);
 
             // Weekend Form
-            WeekendModel weekendModel = (WeekendModel) JsonMethods.loadFromFileJSON(WeekendModel.class, FormController.TEMP_SAVE_FILE, Form.WEEKEND.getNum());
+            WeekendModel weekendModel = (WeekendModel) JsonMethods.loadFromFileJSON(
+                WeekendModel.class, SaveFileManager.TEMP_SAVE_FILE, Form.WEEKEND.getNum()
+            );
             WeekendExcelHelper weekendHelper = new WeekendExcelHelper();
             weekendHelper.writeModelToExcel(weekendModel, wb);
 
             // Scheduled Form
-            NW_Data nwData = (NW_Data) JsonMethods.loadFromFileJSON(NW_Data.class, FormController.TEMP_SAVE_FILE, Form.SCHEDULED.getNum());
+            NW_Data nwData = (NW_Data) JsonMethods.loadFromFileJSON(
+                NW_Data.class, SaveFileManager.TEMP_SAVE_FILE, Form.SCHEDULED.getNum()
+            );
             ScheduledExcelHelper scheduledHelper = new ScheduledExcelHelper();
             scheduledHelper.writeModelToExcel(nwData, wb);
 

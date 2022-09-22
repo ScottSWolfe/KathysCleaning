@@ -8,6 +8,7 @@ import java.awt.Window;
 import java.io.File;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -21,6 +22,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCControllerHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledControllerHelper;
+import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControllerHelper;
 
 /**
@@ -58,11 +60,6 @@ public class FormController<View extends JComponent, Model> {
      */
     private final Form form;
 
-    /**
-     * Current Save File
-     */
-    public static final File TEMP_SAVE_FILE = new File(System.getProperty("user.dir") + "\\save\\temp\\currentSave");
-
     public static FormController<?, ?> from(final Form type) {
         return new FormController<>(type);
     }
@@ -94,20 +91,34 @@ public class FormController<View extends JComponent, Model> {
         parentFrame.add(scrollPane);
     }
 
-    public void readInputAndWriteToFile() {
+    public void readViewAndWriteToTemporaryFile() {
         controllerHelper.readViewAndWriteToFileHook(view);
         model = controllerHelper.readViewIntoModel(view);
-        controllerHelper.saveModelToFile(model, TEMP_SAVE_FILE);
+        controllerHelper.saveModelToFile(model, SaveFileManager.TEMP_SAVE_FILE);
         SessionModel.save();
     }
 
+    public void readTemporaryFileAndWriteToView() {
+        readFileAndWriteToView(SaveFileManager.TEMP_SAVE_FILE);
+    }
+
     public void readFileAndWriteToView(File file) {
-        model = controllerHelper.loadFromFile(file);
+        model = readFile(file);
+        writeModelToView(model);
+    }
+
+    public Model readFile(@Nonnull final File file) {
+        return controllerHelper.loadFromFile(file);
+    }
+
+    public void writeModelToView(@Nonnull final Model model) {
+        this.model = model;
         controllerHelper.writeModelToView(model, view);
     }
 
     public void launchForm() {
         refreshWindow();
+        setTitleText();
         parentFrame.setLocationRelativeTo(null);
         parentFrame.setVisible(true);
     }

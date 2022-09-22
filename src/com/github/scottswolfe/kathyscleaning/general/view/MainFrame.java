@@ -73,7 +73,7 @@ public class MainFrame<ViewObject extends JComponent, ModelObject> extends JFram
     }
 
     private void addWindowListener(FormController<ViewObject, ModelObject> controller) {
-        WindowListener listener = new MainWindowListener(controller);
+        WindowListener listener = new MainWindowListener();
         this.addWindowListener(listener);
     }
 

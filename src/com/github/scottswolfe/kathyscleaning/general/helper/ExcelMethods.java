@@ -6,16 +6,13 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
-import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener.Action;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 
@@ -45,47 +42,39 @@ public class ExcelMethods {
 
     public static <View extends JComponent, Model> void chooseFileAndGenerateExcelDoc(FormController<View, Model> controller) {
 
-        controller.readInputAndWriteToFile();
-        boolean response = MainWindowListener.askUserIfSaveBeforeAction(controller, Action.CLOSE, false);
-        if (!response) {
+        final boolean shouldCompleteAction = ApplicationCoordinator.getInstance().askIfSaveBeforeClose();
+        if (!shouldCompleteAction) {
             return;
         }
 
         JOptionPane.showMessageDialog(null, "Now save the new Excel document.");
 
         File file = FileChooserHelper.saveAs(
-                    SettingsModel.getExcelSaveLocation(),
-                    getDefaultSaveFileName(),
-                    FileChooserHelper.XLSX);
+            SettingsModel.getExcelSaveLocation(),
+            getDefaultSaveFileName(),
+            FileChooserHelper.XLSX
+        );
 
         if (file != null) {
             try {
                 GeneralExcelHelper.generateExcelDocument(file);
             } catch (Exception e) {
-                e.printStackTrace();
-                StaticMethods.shareErrorMessage(
-                    "Error when generating the Excel document:"
-                        + "\n"
-                        + e.getClass().getName()
-                        + "\n"
-                        + e.getMessage()
+                ApplicationCoordinator.getInstance().endApplicationDueToException(
+                    "Error when generating the Excel document:", e
                 );
-                System.exit(1);
             }
 
             try {
                 Desktop dt = Desktop.getDesktop();
                 dt.open(file);
             } catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(new JFrame(), "The Excel document could not be opened automatically.");
-                System.exit(1);
+                ApplicationCoordinator.getInstance().endApplicationDueToException(
+                    "The Excel document could not be opened automatically.", e
+                );
             }
 
-            System.exit(0);
+            ApplicationCoordinator.getInstance().endApplication();
         }
-
-        controller.launchForm();
     }
 
     private static String getDefaultSaveFileName() {
@@ -98,5 +87,4 @@ public class ExcelMethods {
                     FileChooserHelper.XLSX);
         }
     }
-
 }

@@ -59,7 +59,10 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
         exceptionsButtonPanel = ButtonPanel.from(
             "Exceptions",
             () -> GenericPanelLauncher.from().launchPanel(
-                () -> ScheduledLBCExceptionsPanel.from(scheduledLBCExceptions, new WorkerList(WorkerList.LBC_WORKERS)),
+                () -> ScheduledLBCExceptionsPanel.from(
+                    scheduledLBCExceptions,
+                    new WorkerList(GlobalData.getInstance().getDefaultWorkerNames())
+                ),
                 () -> {},
                 this::setScheduledLBCExceptions,
                 popUpWindowListener

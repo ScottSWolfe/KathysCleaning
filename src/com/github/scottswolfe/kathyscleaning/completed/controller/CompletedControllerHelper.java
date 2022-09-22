@@ -19,9 +19,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
-import org.apache.commons.lang3.NotImplementedException;
 
 public class CompletedControllerHelper implements ControllerHelper<CompletedTabbedPane, CompletedModel> {
 
@@ -69,7 +67,6 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
                 houseData[h].setHousePay(tp.day_panel[d].getHousePanel(h).getAmountEarnedText());
                 houseData[h].setTimeBegin(tp.day_panel[d].getHousePanel(h).getBeginTimeText());
                 houseData[h].setTimeEnd(tp.day_panel[d].getHousePanel(h).getEndTimeText());
-                houseData[h].setSelectedWorkers(tp.day_panel[d].getHousePanel(h).getSelectedWorkerNames());
                 houseData[h].setWorkerList(tp.day_panel[d].getHousePanel(h).getWorkerList());
                 houseData[h].setExceptionData(tp.day_panel[d].getHousePanel(h).getExceptionData());
             }
@@ -253,25 +250,5 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
         catch(Exception e1){
             e1.printStackTrace();
         }
-    }
-
-    /**
-     * Imports a scheduled form into completed form
-     *
-     * @param file the file that has previously been completed
-     * @param tp the view into which to import the schedule
-     */
-    public static void importSchedule(File file, CompletedTabbedPane tp) {
-        // todo: rewrite this logic
-        throw new NotImplementedException("Behavior not implemented.");
-    }
-
-
-
-/* PRIVATE METHODS ========================================================== */
-
-    private static CompletedModel scheduledToCompletedModel(NW_Data scheduledModel) {
-        // todo: rewrite this logic
-        throw new NotImplementedException("Behavior not implemented.");
     }
 }

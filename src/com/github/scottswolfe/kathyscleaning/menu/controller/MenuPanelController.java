@@ -2,13 +2,11 @@ package com.github.scottswolfe.kathyscleaning.menu.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JFrame;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
-import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
 
 /**
@@ -64,17 +62,12 @@ public class MenuPanelController {
      */
     public class OpenListener implements ActionListener {
         public void actionPerformed(ActionEvent e)  {
-            File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR,
-                                               FileChooserHelper.KC);
-            if (file == null) {
-                return;
+            final boolean shouldCompleteAction = ApplicationCoordinator.getInstance().open();
+            if (shouldCompleteAction) {
+                menuFrame.setVisible(false);
+                menuFrame.dispose();
+                ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
             }
-
-            ApplicationCoordinator.getInstance().loadFile(file);
-            ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
-
-            menuFrame.setVisible(false);
-            menuFrame.dispose();
         }
     }
 

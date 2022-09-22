@@ -15,7 +15,6 @@ public class HouseData {
     private double house_pay;
     private String time_begin;
     private String time_end;
-    private List<String> selected_workers;
     private WorkerList workers;
     private ExceptionData exception_data;
 
@@ -24,7 +23,6 @@ public class HouseData {
         house_pay = 0.0;
         time_begin = "";
         time_end = "";
-        selected_workers = new ArrayList<>();
         workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
         exception_data = new ExceptionData();
     }
@@ -70,8 +68,12 @@ public class HouseData {
         this.time_end = time_begin;
     }
 
-    public void setSelectedWorkers(List<String> selected_workers) {
-        this.selected_workers = selected_workers;
+    public void setSelectedWorkers(final List<String> selectedWorkers) {
+        workers.getWorkers().forEach(worker -> worker.setSelected(selectedWorkers.contains(worker.getName())));
+    }
+
+    public WorkerList getWorkerList() {
+        return workers;
     }
 
     public void setWorkerList(WorkerList workers) {
@@ -96,14 +98,6 @@ public class HouseData {
 
     public String getTimeEnd() {
         return time_end;
-    }
-
-    public List<String> getSelectedWorkers() {
-        return selected_workers;
-    }
-
-    public WorkerList getWorkerList() {
-        return workers;
     }
 
     public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
