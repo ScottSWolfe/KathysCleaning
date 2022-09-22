@@ -11,7 +11,6 @@ import com.github.scottswolfe.kathyscleaning.lbc.model.LBCDay;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCHeader;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 import java.io.File;
@@ -90,14 +89,6 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
         }
 
         return model;
-    }
-
-    @Override
-    public void updateDate(
-        final FormController<LBCPanel, LBCModel> controller,
-        final LBCPanel view
-    ) {
-        ChooseWeekPanel.initializePanel(controller, false);
     }
 
     @Override

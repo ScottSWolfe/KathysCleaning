@@ -60,11 +60,6 @@ public interface ControllerHelper<View extends JComponent, Model> {
     public Model loadFromFile(File file);
 
     /**
-     * Updates the date shown
-     */
-    public void updateDate(FormController<View, Model> controller, View view);
-
-    /**
      * Updates the worker names on the model
      */
     void updateWorkersOnModel(final Model model, final List<List<String>> workerNames);

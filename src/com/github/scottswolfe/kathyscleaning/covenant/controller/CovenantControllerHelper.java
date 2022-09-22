@@ -15,7 +15,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CovenantControllerHelper implements ControllerHelper<CovenantPanel, CovenantModel> {
@@ -113,14 +112,6 @@ public class CovenantControllerHelper implements ControllerHelper<CovenantPanel,
     @Override
     public CovenantModel loadFromFile(File file) {
         return (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, file, Form.COVENANT.getNum());
-    }
-
-    @Override
-    public void updateDate(
-        final FormController<CovenantPanel, CovenantModel> controller,
-        final CovenantPanel view
-    ) {
-        ChooseWeekPanel.initializePanel(controller, false);
     }
 
     @Override

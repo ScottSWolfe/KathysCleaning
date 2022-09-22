@@ -124,7 +124,9 @@ public class FormController<View extends JComponent, Model> {
     }
 
     public void updateDate() {
-        controllerHelper.updateDate(this, view);
+        // Writing the model to view is sufficient to update the date because the date data is now
+        // only stored in the SessionModel which should be updated before calling this method.
+        controllerHelper.writeModelToView(model, view);
     }
 
     public void updateWorkers(final List<List<String>> workerNames) {

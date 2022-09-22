@@ -11,6 +11,7 @@ import com.github.scottswolfe.kathyscleaning.general.view.GenericPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.interfaces.FileMenuListener;
+import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 
 public class MenuBarController <ViewObject extends JComponent, ModelObject> implements FileMenuListener {
 
@@ -44,7 +45,7 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
     }
 
     public void menuItemChangeDate() {
-        controller.updateDate();
+        ChooseWeekPanel.initializePanel(controller);
     }
 
     private void menuItemEditWorkers() {

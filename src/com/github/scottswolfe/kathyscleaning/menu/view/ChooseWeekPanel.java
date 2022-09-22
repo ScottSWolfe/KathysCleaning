@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -36,19 +38,19 @@ public class ChooseWeekPanel extends JPanel {
     JButton cancel_button;
     JButton submit_button;
 
-    public ChooseWeekPanel(JFrame frame, FormController<?, ?> controller, boolean isScheduledForm) {
+    public ChooseWeekPanel(JFrame frame, FormController<?, ?> controller) {
         this.frame = frame;
         this.controller = controller;
-        this.isScheduledForm = isScheduledForm;
+        this.isScheduledForm = controller.getFormType() == Form.SCHEDULED;
         setLayout(new MigLayout("insets 0"));
         setBackground(Settings.BACKGROUND_COLOR);
         add(ChooseDatePanel(), "wrap 20, grow");
         add(ContinuePanel(), "grow");
     }
 
-    public static void initializePanel(FormController<?, ?> controller, boolean isScheduledForm) {
+    public static void initializePanel(FormController<?, ?> controller) {
         JFrame frame = new JFrame();
-        ChooseWeekPanel panel = new ChooseWeekPanel(frame, controller, isScheduledForm);
+        ChooseWeekPanel panel = new ChooseWeekPanel(frame, controller);
         frame.add(panel);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -178,7 +180,7 @@ public class ChooseWeekPanel extends JPanel {
             } else {
                 SessionModel.setCompletedStartDay(c);
             }
-            controller.updateDate();
+            ApplicationCoordinator.getInstance().setStartDate(c);
             frame.setVisible(false);
             frame.dispose();
         }

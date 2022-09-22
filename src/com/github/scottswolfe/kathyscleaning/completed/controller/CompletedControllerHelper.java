@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.completed.controller;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,9 +17,9 @@ import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
+import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CompletedControllerHelper implements ControllerHelper<CompletedTabbedPane, CompletedModel> {
@@ -54,7 +55,6 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
 
             // Header for day
             HeaderData headerData = new HeaderData();
-            headerData.setDate(tp.day_panel[d].headerPanel.getDate());
             headerData.setWorkers(tp.day_panel[d].headerPanel.getWorkers());
 
             // Houses in day
@@ -100,8 +100,11 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
             // set header panel
             HeaderPanel headerPanel = day_panel.headerPanel;
             HeaderData headerData = day_data.getHeaderData();
-            headerPanel.setDate(headerData.getDate());
             headerPanel.setWorkers(headerData.getWorkers());
+
+            final Calendar date = SessionModel.getCompletedStartDay();
+            date.add(Calendar.DATE, d);
+            headerPanel.setDate(date);
 
             num_house_panels = day_panel.getHousePanelCount();
             num_house_datas = day_data.houseData.length;
@@ -158,14 +161,6 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
     @Override
     public CompletedModel loadFromFile(File file) {
         return (CompletedModel) JsonMethods.loadFromFileJSON(CompletedModel.class, file, Form.COMPLETED.getNum());
-    }
-
-    @Override
-    public void updateDate(
-        final FormController<CompletedTabbedPane, CompletedModel> controller,
-        final CompletedTabbedPane tp
-    ) {
-        ChooseWeekPanel.initializePanel(controller, false);
     }
 
     @Override

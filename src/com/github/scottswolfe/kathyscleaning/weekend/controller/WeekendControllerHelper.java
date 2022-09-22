@@ -8,7 +8,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendEntry;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
@@ -97,14 +96,6 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
     @Override
     public WeekendModel loadFromFile(File file) {
         return (WeekendModel) JsonMethods.loadFromFileJSON(WeekendModel.class, file, Form.WEEKEND.getNum());
-    }
-
-    @Override
-    public void updateDate(
-        final FormController<WeekendPanel, WeekendModel> controller,
-        final WeekendPanel wp
-    ) {
-        ChooseWeekPanel.initializePanel(controller, false);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.github.scottswolfe.kathyscleaning.completed.model;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class DayData {
@@ -38,10 +37,6 @@ public class DayData {
     public void addHouseData(final HouseData newHouseData) {
         houseData = ArrayUtils.add(houseData, newHouseData);
     }
-
-	public void setDate(Calendar date) {
-	    headerData.setDate(date);
-	}
 
     public void setWorkers(List<List<String>> workerNames) {
         headerData.setWorkers(WorkerList.from(workerNames));

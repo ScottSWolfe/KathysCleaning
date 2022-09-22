@@ -15,7 +15,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
-import com.github.scottswolfe.kathyscleaning.menu.view.ChooseWeekPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_DayData;
@@ -166,14 +165,6 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
     @Override
     public NW_Data loadFromFile(File file) {
         return (NW_Data) JsonMethods.loadFromFileJSON(NW_Data.class, file, Form.SCHEDULED.getNum());
-    }
-
-    @Override
-    public void updateDate(
-        final FormController<ScheduledTabbedPane, NW_Data> controller,
-        final ScheduledTabbedPane scheduledTabbedPane
-    ) {
-        ChooseWeekPanel.initializePanel(controller, true);
     }
 
     @Override

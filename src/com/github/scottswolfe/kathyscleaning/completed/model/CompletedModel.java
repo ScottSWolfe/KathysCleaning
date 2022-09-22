@@ -1,9 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.model;
 
-import java.util.Calendar;
 import java.util.List;
-
-import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 public class CompletedModel {
 
@@ -14,7 +11,6 @@ public class CompletedModel {
 	    for (int i = 0; i < 5; i++) {
 	        dayData[i] = new DayData();
 	    }
-	    setDates(CalendarMethods.getFirstDayOfWeek());
 	}
 
 	public DayData[] getDay() {
@@ -30,12 +26,4 @@ public class CompletedModel {
             day.setWorkers(workerNames);
         }
     }
-
-	public void setDates(Calendar firstDayOfWeek) {
-	    Calendar date = (Calendar) firstDayOfWeek.clone();
-        for (int i = 0; i < dayData.length; i++) {
-            dayData[i].setDate(date);
-            date.add(Calendar.DATE, 1);
-        }
-	}
 }
