@@ -66,6 +66,7 @@ public class SaveFileManager {
         }
 
         SessionModel.setSaveFile(newFile);
+        SessionModel.writeToTemporarySaveFile();
 
         try {
             Files.copy(TEMP_SAVE_FILE.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
