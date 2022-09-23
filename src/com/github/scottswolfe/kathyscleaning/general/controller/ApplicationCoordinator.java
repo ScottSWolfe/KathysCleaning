@@ -81,9 +81,7 @@ public class ApplicationCoordinator {
     }
 
     public void navigateToForm(final Form targetForm) {
-        formControllers.values().forEach(
-            FormController::readViewAndWriteToTemporaryFile
-        );
+        saveCurrentState();
 
         if (currentForm != null) {
             final FormController<?, ?> sourceController = formControllers.get(currentForm);
@@ -102,17 +100,20 @@ public class ApplicationCoordinator {
     }
 
     public void updateWorkers(final List<List<String>> workerNames) {
+        saveCurrentState();
+
         formControllers.values().forEach(controller -> controller.updateWorkers(workerNames));
     }
 
     public void setStartDate(@Nonnull final Calendar date) {
-        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+        saveCurrentState();
+
         SessionModel.setCompletedStartDay(date);
         formControllers.values().forEach(FormController::updateDate);
     }
 
     public void save() {
-        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+        saveCurrentState();
 
         final boolean shouldCompleteAction = saveFileManager.save();
         if (shouldCompleteAction) {
@@ -121,7 +122,7 @@ public class ApplicationCoordinator {
     }
 
     public void saveAs() {
-        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+        saveCurrentState();
 
         final boolean shouldCompleteAction = saveFileManager.saveAs();
         if (shouldCompleteAction) {
@@ -130,7 +131,7 @@ public class ApplicationCoordinator {
     }
 
     public boolean askIfSaveBeforeClose() {
-        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+        saveCurrentState();
 
         final boolean shouldCompleteAction =
             saveFileManager.askUserIfSaveBeforeAction(SaveFileManager.Action.CLOSE_PROGRAM);
@@ -142,7 +143,8 @@ public class ApplicationCoordinator {
     }
 
     public boolean open() {
-        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+        saveCurrentState();
+
         final boolean shouldCompleteAction = saveFileManager.open();
         if (shouldCompleteAction) {
             formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
@@ -154,7 +156,8 @@ public class ApplicationCoordinator {
     }
 
     public void saveAndOpen() {
-        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+        saveCurrentState();
+
         final boolean shouldCompleteAction = saveFileManager.saveAndOpen();
         if (shouldCompleteAction) {
             formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
@@ -163,6 +166,8 @@ public class ApplicationCoordinator {
     }
 
     public void loadSchedule() {
+        saveCurrentState();
+
         final File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
         if (file == null) {
             return;
@@ -177,5 +182,10 @@ public class ApplicationCoordinator {
         final NW_Data scheduledData = scheduledFormController.readFile(file);
         final CompletedModel completedModel = modelConverter.convert(scheduledData);
         completedFormController.writeModelToView(completedModel);
+    }
+
+    private void saveCurrentState() {
+        SessionModel.save();
+        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
     }
 }
