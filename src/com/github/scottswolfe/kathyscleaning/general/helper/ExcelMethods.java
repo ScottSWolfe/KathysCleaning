@@ -5,11 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
-import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
+import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.GeneralExcelHelper;
@@ -18,6 +17,8 @@ import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 
 public class ExcelMethods {
 
+    private static final SaveFileManager saveFileManager = SaveFileManager.from();
+
     /**
      * Changes the given excel String to explicitly contain the worked hours
      * instead of having a reference to the hours worked cell
@@ -25,7 +26,7 @@ public class ExcelMethods {
      * Formula input format:  =+VLOOKUP(O$2,PAY!$B$3:$C$16,2,FALSE)*$C12
      * Formula return format: =+VLOOKUP(O$2,PAY!$B$3:$C$16,2,FALSE)*1.362
      *
-     * @param s the formula
+     * @param formula the formula
      * @param hours the number of hours worked
      * @return the adjusted formula as a String
      */
@@ -40,14 +41,20 @@ public class ExcelMethods {
         return numberFormat.format(d);
     }
 
-    public static <View extends JComponent, Model> void chooseFileAndGenerateExcelDoc(FormController<View, Model> controller) {
+    public static void chooseFileAndGenerateExcelDoc() {
 
-        final boolean shouldCompleteAction = ApplicationCoordinator.getInstance().askIfSaveBeforeClose();
+        final boolean shouldCompleteAction;
+        if (saveFileManager.isCurrentFileDefaultTemplate()) {
+            JOptionPane.showMessageDialog(null, "First, save as a new file.");
+            shouldCompleteAction = ApplicationCoordinator.getInstance().saveAsNew();
+        } else {
+            shouldCompleteAction = ApplicationCoordinator.getInstance().askIfSaveBeforeClose();
+        }
         if (!shouldCompleteAction) {
             return;
         }
 
-        JOptionPane.showMessageDialog(null, "Now save the new Excel document.");
+        JOptionPane.showMessageDialog(null, "Choose the Excel document to create.");
 
         File file = FileChooserHelper.saveAs(
             SettingsModel.getExcelSaveLocation(),
@@ -56,6 +63,10 @@ public class ExcelMethods {
         );
 
         if (file != null) {
+
+            JOptionPane.showMessageDialog(null, "Now generating the Excel document...");
+            ApplicationCoordinator.getInstance().hideCurrentWindow();
+
             try {
                 GeneralExcelHelper.generateExcelDocument(file);
             } catch (Exception e) {
@@ -79,12 +90,17 @@ public class ExcelMethods {
 
     private static String getDefaultSaveFileName() {
         if (SessionModel.isSaveFileChosen()) {
-            String fileName = SessionModel.getSaveFile().getName();
-            return FilenameUtils.removeExtension(fileName);
+            final String fileName = SessionModel.getSaveFile().getName();
+            return FileNameHelper.addCopyNumberIfNeeded(
+                SettingsModel.getExcelSaveLocation().getPath(),
+                FilenameUtils.removeExtension(fileName),
+                FileChooserHelper.XLSX
+            );
         } else {
             return FileNameHelper.createDatedFileName(
-                    SettingsModel.getExcelSaveLocation().getPath(),
-                    FileChooserHelper.XLSX);
+                SettingsModel.getExcelSaveLocation().getPath(),
+                FileChooserHelper.XLSX
+            );
         }
     }
 }

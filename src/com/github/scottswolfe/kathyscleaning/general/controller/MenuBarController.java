@@ -41,7 +41,7 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
 
     @Override
     public void menuItemGenExcel() {
-        ExcelMethods.chooseFileAndGenerateExcelDoc(controller);
+        ExcelMethods.chooseFileAndGenerateExcelDoc();
     }
 
     public void menuItemChangeDate() {

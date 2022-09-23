@@ -17,6 +17,6 @@ public class NW_SubmitWeekListener implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e){
-        ExcelMethods.chooseFileAndGenerateExcelDoc(controller);
+        ExcelMethods.chooseFileAndGenerateExcelDoc();
     }
 }

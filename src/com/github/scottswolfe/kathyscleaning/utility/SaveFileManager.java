@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.utility;
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
@@ -48,6 +49,10 @@ public class SaveFileManager {
     }
 
     private SaveFileManager() {}
+
+    public boolean isCurrentFileDefaultTemplate() {
+        return SessionModel.isSaveFileChosen() && TEMPLATE_LIST.contains(SessionModel.getSaveFile().getName());
+    }
 
     public boolean save() {
         if (SessionModel.isSaveFileChosen()) {
@@ -102,6 +107,20 @@ public class SaveFileManager {
         }
     }
 
+    public boolean saveAsNew() {
+        final File file = FileChooserHelper.saveAs(
+            FileChooserHelper.SAVE_FILE_DIR,
+            createSuggestedName(FileChooserHelper.SAVE_FILE_DIR.getAbsolutePath(), FileChooserHelper.KC),
+            FileChooserHelper.KC
+        );
+
+        if (file != null) {
+            return save(file);
+        } else {
+            return false;
+        }
+    }
+
     public boolean open() {
         final File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
         if (file != null) {
@@ -121,13 +140,13 @@ public class SaveFileManager {
     }
 
     private void load(@Nonnull final File file) {
-        SessionModel.load(file);
         try {
             Files.copy(file.toPath(), TEMP_SAVE_FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            StaticMethods.shareErrorMessage("Failed to load file: " + file.getName(), ex);
-            System.exit(1);
+            SessionModel.setSaveFile(file);
+        } catch (IOException e) {
+            ApplicationCoordinator.getInstance().endApplicationDueToException(
+                "Failed to load file: " + file.getName(), e
+            );
         }
     }
 
@@ -179,7 +198,7 @@ public class SaveFileManager {
 
         final String[] options = {"Overwrite",  "Don't Overwrite"};
         final int OVERWRITE = 0;
-        final String message  = "<html>Are you sure you want overwrite " + file.getName() + "?";
+        final String message  = "<html>Are you sure you want to overwrite " + file.getName() + "?";
 
         final int response = JOptionPane.showOptionDialog(
             new JFrame(),

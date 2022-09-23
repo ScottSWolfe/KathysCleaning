@@ -80,14 +80,16 @@ public class ApplicationCoordinator {
         System.exit(1);
     }
 
+    public void hideCurrentWindow() {
+        if (currentForm != null) {
+            final FormController<?, ?> controller = formControllers.get(currentForm);
+            controller.hideWindow();
+        }
+    }
+
     public void navigateToForm(final Form targetForm) {
         writeCurrentStateToTemporarySaveFile();
-
-        if (currentForm != null) {
-            final FormController<?, ?> sourceController = formControllers.get(currentForm);
-            sourceController.hideWindow();
-        }
-
+        hideCurrentWindow();
         currentForm = targetForm;
         final FormController<?, ?> targetController = formControllers.get(targetForm);
         SwingUtilities.invokeLater(targetController::launchForm);
@@ -101,33 +103,32 @@ public class ApplicationCoordinator {
 
     public void updateWorkers(final List<List<String>> workerNames) {
         writeCurrentStateToTemporarySaveFile();
-
         formControllers.values().forEach(controller -> controller.updateWorkers(workerNames));
     }
 
     public void setStartDate(@Nonnull final Calendar date) {
         writeCurrentStateToTemporarySaveFile();
-
         SessionModel.setCompletedStartDay(date);
         formControllers.values().forEach(FormController::updateDate);
     }
 
     public void save() {
         writeCurrentStateToTemporarySaveFile();
-
-        final boolean shouldCompleteAction = saveFileManager.save();
-        if (shouldCompleteAction) {
-            formControllers.get(currentForm).setTitleText();
-        }
+        saveFileManager.save();
+        updateWindowTitle();
     }
 
     public void saveAs() {
         writeCurrentStateToTemporarySaveFile();
+        saveFileManager.saveAs();
+        updateWindowTitle();
+    }
 
-        final boolean shouldCompleteAction = saveFileManager.saveAs();
-        if (shouldCompleteAction) {
-            formControllers.get(currentForm).setTitleText();
-        }
+    public boolean saveAsNew() {
+        writeCurrentStateToTemporarySaveFile();
+        final boolean shouldCompleteAction = saveFileManager.saveAsNew();
+        updateWindowTitle();
+        return shouldCompleteAction;
     }
 
     public boolean askIfSaveBeforeClose() {
@@ -137,32 +138,28 @@ public class ApplicationCoordinator {
             saveFileManager.askUserIfSaveBeforeAction(SaveFileManager.Action.CLOSE_PROGRAM);
 
         // Set the window title since there are some cases where the program does not close
-        formControllers.get(currentForm).setTitleText();
+        updateWindowTitle();
 
         return shouldCompleteAction;
     }
 
     public boolean open() {
         writeCurrentStateToTemporarySaveFile();
-
         final boolean shouldCompleteAction = saveFileManager.open();
         if (shouldCompleteAction) {
-            formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
-            if (currentForm != null) {
-                formControllers.get(currentForm).setTitleText();
-            }
+            loadCurrentStateFromTemporarySaveFile();
         }
+        updateWindowTitle();
         return shouldCompleteAction;
     }
 
     public void saveAndOpen() {
         writeCurrentStateToTemporarySaveFile();
-
         final boolean shouldCompleteAction = saveFileManager.saveAndOpen();
         if (shouldCompleteAction) {
-            formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
-            formControllers.get(currentForm).setTitleText();
+            loadCurrentStateFromTemporarySaveFile();
         }
+        updateWindowTitle();
     }
 
     public void loadSchedule() {
@@ -182,10 +179,23 @@ public class ApplicationCoordinator {
         final NW_Data scheduledData = scheduledFormController.readFile(file);
         final CompletedModel completedModel = modelConverter.convert(scheduledData);
         completedFormController.writeModelToView(completedModel);
+
+        writeCurrentStateToTemporarySaveFile();
     }
 
     private void writeCurrentStateToTemporarySaveFile() {
         SessionModel.writeToTemporarySaveFile();
         formControllers.values().forEach(FormController::writeViewToTemporarySaveFile);
+    }
+
+    private void loadCurrentStateFromTemporarySaveFile() {
+        SessionModel.load();
+        formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
+    }
+
+    private void updateWindowTitle() {
+        if (currentForm != null) {
+            formControllers.get(currentForm).setTitleText();
+        }
     }
 }
