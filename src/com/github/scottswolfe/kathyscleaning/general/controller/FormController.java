@@ -91,11 +91,11 @@ public class FormController<View extends JComponent, Model> {
         parentFrame.add(scrollPane);
     }
 
-    public void readViewAndWriteToTemporaryFile() {
+    public void writeViewToTemporarySaveFile() {
         controllerHelper.readViewAndWriteToFileHook(view);
         model = controllerHelper.readViewIntoModel(view);
         controllerHelper.saveModelToFile(model, SaveFileManager.TEMP_SAVE_FILE);
-        SessionModel.save();
+        SessionModel.writeToTemporarySaveFile();
     }
 
     public void readTemporaryFileAndWriteToView() {

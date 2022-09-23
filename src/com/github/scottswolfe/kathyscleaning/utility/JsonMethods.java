@@ -81,8 +81,7 @@ public class JsonMethods {
      * @param lineNumber the line number of the JSON object to parse
      * @return the new object
      */
-    public static Object loadFromFileJSON(Class<?> type,
-                                          File file, int lineNumber) {
+    public static <T> T loadFromFileJSON(Class<T> type, File file, int lineNumber) {
         return loadFromFile(type, file, lineNumber);
     }
 
@@ -94,11 +93,11 @@ public class JsonMethods {
         writeLinesAndJson(json, lines, file, lineNumber);
     }
 
-    private static Object loadFromFile(Class<?> type, File file, int lineNumber) {
+    private static <T> T loadFromFile(Class<T> type, File file, int lineNumber) {
         try {
             Scanner input = new Scanner(file);
             String json = getLine(input, lineNumber);
-            Object data = gson.fromJson(json, type);
+            T data = gson.fromJson(json, type);
             input.close();
             return data;
         } catch (FileNotFoundException e) {

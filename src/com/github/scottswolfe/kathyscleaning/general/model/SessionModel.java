@@ -15,34 +15,22 @@ public class SessionModel {
     /**
      * The current save file for the week
      */
-    private static File saveFile;
-
-    /**
-     *  Tracks whether a save file been chosen in the current session
-     */
-    private static boolean saveFileChosen;
+    private static File saveFile = null;
 
     /**
      * The first day of the finished week
      */
-    private static Calendar completedStartDay;
+    private static Calendar completedStartDay = CalendarMethods.getFirstDayOfWeek();
 
-    public static void initialize() {
-        SessionModel.saveFile = null;
-        SessionModel.saveFileChosen = false;
-        SessionModel.completedStartDay = CalendarMethods.getFirstDayOfWeek();
+    public static void writeToTemporarySaveFile() {
+        final SessionData sessionData = new SessionData(completedStartDay);
+        JsonMethods.saveToFileJSON(sessionData, SessionData.class, SaveFileManager.TEMP_SAVE_FILE, Form.SESSION.getNum());
     }
 
-    public static void save() {
-        SessionSaveObject object = new SessionSaveObject(saveFile, saveFileChosen, completedStartDay);
-        object.save(SaveFileManager.TEMP_SAVE_FILE);
-    }
-
-    public static void load(File file) {
-        SessionSaveObject object = (SessionSaveObject)
-                JsonMethods.loadFromFileJSON(SessionSaveObject.class, file, Form.SESSION.getNum());
-        updateCurrentFileIfChanged(object, file);
-        object.load();
+    public static void load(@Nonnull final File file) {
+        SessionData sessionData = JsonMethods.loadFromFileJSON(SessionData.class, file, Form.SESSION.getNum());
+        SessionModel.setSaveFile(file);
+        SessionModel.setCompletedStartDay(sessionData.completedStartDay);
     }
 
     /**
@@ -56,7 +44,6 @@ public class SessionModel {
      * @param saveFile the saveFile to set
      */
     public static void setSaveFile(File saveFile) {
-        SessionModel.saveFileChosen = true;
         SessionModel.saveFile = saveFile;
     }
 
@@ -64,14 +51,7 @@ public class SessionModel {
      * @return the saveFileChosen
      */
     public static boolean isSaveFileChosen() {
-        return SessionModel.saveFileChosen;
-    }
-
-    /**
-     * @param saveFileChosen the saveFileChosen to set
-     */
-    public static void setSaveFileChosen(boolean saveFileChosen) {
-        SessionModel.saveFileChosen = saveFileChosen;
+        return SessionModel.saveFile != null;
     }
 
     /**
@@ -100,32 +80,12 @@ public class SessionModel {
         return date;
     }
 
-    private static void updateCurrentFileIfChanged(SessionSaveObject object, File file) {
-        if (object.saveFile == null || !object.saveFile.getAbsolutePath().equals(file.getAbsolutePath())) {
-            object.saveFile = file;
-        }
-    }
+    private static class SessionData {
 
-    private static class SessionSaveObject {
-
-        private File saveFile;
-        private final boolean saveFileChosen;
         private final Calendar completedStartDay;
 
-        SessionSaveObject(final File saveFile, final boolean saveFileChosen, final Calendar completedStartDay) {
-            this.saveFile = saveFile;
-            this.saveFileChosen = saveFileChosen;
+        SessionData(final Calendar completedStartDay) {
             this.completedStartDay = completedStartDay;
-        }
-
-        void save(@Nonnull final File file) {
-            JsonMethods.saveToFileJSON(this, SessionSaveObject.class, file, Form.SESSION.getNum());
-        }
-
-        void load() {
-            SessionModel.setSaveFile(saveFile);
-            SessionModel.setSaveFileChosen(saveFileChosen);
-            SessionModel.setCompletedStartDay(completedStartDay);
         }
     }
 }

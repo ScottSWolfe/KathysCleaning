@@ -81,7 +81,7 @@ public class ApplicationCoordinator {
     }
 
     public void navigateToForm(final Form targetForm) {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         if (currentForm != null) {
             final FormController<?, ?> sourceController = formControllers.get(currentForm);
@@ -100,20 +100,20 @@ public class ApplicationCoordinator {
     }
 
     public void updateWorkers(final List<List<String>> workerNames) {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         formControllers.values().forEach(controller -> controller.updateWorkers(workerNames));
     }
 
     public void setStartDate(@Nonnull final Calendar date) {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         SessionModel.setCompletedStartDay(date);
         formControllers.values().forEach(FormController::updateDate);
     }
 
     public void save() {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         final boolean shouldCompleteAction = saveFileManager.save();
         if (shouldCompleteAction) {
@@ -122,7 +122,7 @@ public class ApplicationCoordinator {
     }
 
     public void saveAs() {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         final boolean shouldCompleteAction = saveFileManager.saveAs();
         if (shouldCompleteAction) {
@@ -131,7 +131,7 @@ public class ApplicationCoordinator {
     }
 
     public boolean askIfSaveBeforeClose() {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         final boolean shouldCompleteAction =
             saveFileManager.askUserIfSaveBeforeAction(SaveFileManager.Action.CLOSE_PROGRAM);
@@ -143,7 +143,7 @@ public class ApplicationCoordinator {
     }
 
     public boolean open() {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         final boolean shouldCompleteAction = saveFileManager.open();
         if (shouldCompleteAction) {
@@ -156,7 +156,7 @@ public class ApplicationCoordinator {
     }
 
     public void saveAndOpen() {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         final boolean shouldCompleteAction = saveFileManager.saveAndOpen();
         if (shouldCompleteAction) {
@@ -166,7 +166,7 @@ public class ApplicationCoordinator {
     }
 
     public void loadSchedule() {
-        saveCurrentState();
+        writeCurrentStateToTemporarySaveFile();
 
         final File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
         if (file == null) {
@@ -184,8 +184,8 @@ public class ApplicationCoordinator {
         completedFormController.writeModelToView(completedModel);
     }
 
-    private void saveCurrentState() {
-        SessionModel.save();
-        formControllers.values().forEach(FormController::readViewAndWriteToTemporaryFile);
+    private void writeCurrentStateToTemporarySaveFile() {
+        SessionModel.writeToTemporarySaveFile();
+        formControllers.values().forEach(FormController::writeViewToTemporarySaveFile);
     }
 }

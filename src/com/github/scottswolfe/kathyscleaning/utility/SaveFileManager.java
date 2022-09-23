@@ -153,14 +153,13 @@ public class SaveFileManager {
             e.printStackTrace();
         }
 
-        SessionModel.initialize();
         CompletedModel completed = new CompletedModel();
         CovenantModel covenant = CovenantModel.from();
         LBCModel lbc = LBCModel.from();
         WeekendModel weekend = new WeekendModel();
         NW_Data nw_data = new NW_Data();
 
-        SessionModel.save();
+        SessionModel.writeToTemporarySaveFile();
         JsonMethods.saveToFileJSON(completed, CompletedModel.class, TEMP_SAVE_FILE, Form.COMPLETED.getNum());
         JsonMethods.saveToFileJSON(covenant, CovenantModel.class, TEMP_SAVE_FILE, Form.COVENANT.getNum());
         JsonMethods.saveToFileJSON(lbc, LBCModel.class, TEMP_SAVE_FILE, Form.LBC.getNum());
@@ -242,6 +241,7 @@ public class SaveFileManager {
         final int SAVE = 0;
         final int NOT_SAVE = 1;
         final int CANCEL = 2;
+        final int EXIT = -1;
 
         final String message;
         if (action == Action.OPEN_FILE) {
@@ -266,7 +266,7 @@ public class SaveFileManager {
         final boolean shouldClientCompleteAction;
         if (response == SAVE) {
             shouldClientCompleteAction = save();
-        } else if (response == CANCEL) {
+        } else if (response == CANCEL || response == EXIT) {
             shouldClientCompleteAction = false;
         } else if (response == NOT_SAVE) {
             shouldClientCompleteAction = true;
