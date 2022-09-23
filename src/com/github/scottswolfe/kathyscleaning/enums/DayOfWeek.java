@@ -40,6 +40,10 @@ public enum DayOfWeek {
         return name;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
     public static Set<String> getSetOfNames() {
         return Arrays.stream(DayOfWeek.values())
             .map(DayOfWeek::getName)

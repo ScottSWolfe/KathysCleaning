@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.lbc.model;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,9 @@ public class LBCModel {
 
     private LBCModel(final LBCHeader lbcHeader, final Map<DayOfWeek, LBCDay> lbcDays) {
         this.lbcHeader = lbcHeader;
-        this.lbcDays = lbcDays;
+        this.lbcDays = lbcDays.values().stream()
+            .sorted(Comparator.comparingInt(day -> day.getDayOfWeek().getIndex()))
+            .collect(Collectors.toMap(LBCDay::getDayOfWeek, day -> day, (day1, day2) -> day1, LinkedHashMap::new));
     }
 
     public LBCHeader getLbcHeader() {
