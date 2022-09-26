@@ -12,13 +12,15 @@ import javax.swing.JPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 
 import net.miginfocom.swing.MigLayout;
 
 public class ChooseWeekPanel extends JPanel {
+
+    private final SharedDataManager sharedDataManager;
 
     // TODO remove these
     JFrame frame;
@@ -39,6 +41,7 @@ public class ChooseWeekPanel extends JPanel {
     JButton submit_button;
 
     public ChooseWeekPanel(JFrame frame, FormController<?, ?> controller) {
+        sharedDataManager = SharedDataManager.getInstance();
         this.frame = frame;
         this.controller = controller;
         this.isScheduledForm = controller.getFormType() == Form.SCHEDULED;
@@ -176,9 +179,9 @@ public class ChooseWeekPanel extends JPanel {
             c.set(year, month, day);
             if (isScheduledForm) {
                 c.add(Calendar.DATE, -7);
-                SessionModel.setCompletedStartDay(c);
+                sharedDataManager.setCompletedStartDay(c);
             } else {
-                SessionModel.setCompletedStartDay(c);
+                sharedDataManager.setCompletedStartDay(c);
             }
             ApplicationCoordinator.getInstance().setStartDate(c);
             frame.setVisible(false);

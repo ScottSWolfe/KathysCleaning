@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.utility.TimeWindow;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Cell;
@@ -19,7 +20,6 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.interfaces.ExcelHelper;
 import com.github.scottswolfe.kathyscleaning.utility.TimeMethods;
@@ -33,28 +33,16 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
 
     private static final int HOUSE_ROW_OFFSET = 2;
 
-    /* INSTANCE VARIABLES ======================================================= */
+    private final SharedDataManager sharedDataManager;
 
     /**
      * The data to write to the excel file
      */
     CompletedModel completedModel;
 
-
-
-/* CONSTRUCTOR ============================================================== */
-
-    public CompletedExcelHelper(CompletedModel completedModel) {
-        this.completedModel = completedModel;
-    }
-
     public CompletedExcelHelper() {
-
+        sharedDataManager = SharedDataManager.getInstance();
     }
-
-
-
-/* PUBLIC METHODS =+========================================================= */
 
     @Override
     public void writeModelToExcel(CompletedModel model, XSSFWorkbook wb) {
@@ -65,12 +53,8 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
         XSSFFormulaEvaluator.evaluateAllFormulaCells(wb);
     }
 
-
-
-/* PRIVATE METHODS ========================================================== */
-
     private void writeDate(Sheet sheet) {
-        Calendar c = SessionModel.getCompletedStartDay();
+        Calendar c = sharedDataManager.getCompletedStartDay();
         String day = FileNameHelper.getDayString(c);
         String month = FileNameHelper.getMonthString(c);
         String year = FileNameHelper.getYearString(c);
@@ -81,20 +65,17 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
         row.getCell(8).setCellValue(year);
     }
 
-
     private void writeDataForEachDay(Sheet sheet) {
         for(int d = 0;  d < 5; d++){
             writeDataForDay(d, sheet);
         }
     }
 
-
     private void writeDataForDay(int d, Sheet sheet) {
         for (int h = 0; h < completedModel.dayData[d].houseData.length; h++){
             writeDataForHouse(d, h, sheet);
         }
     }
-
 
     private void writeDataForHouse(int d, int h, Sheet sheet) {
 

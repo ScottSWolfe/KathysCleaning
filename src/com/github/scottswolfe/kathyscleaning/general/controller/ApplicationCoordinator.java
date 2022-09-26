@@ -4,7 +4,7 @@ import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.view.CompletedTabbedPane;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableList;
 import javax.annotation.Nonnull;
 import javax.swing.SwingUtilities;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -26,18 +27,11 @@ import java.util.stream.Collectors;
 
 public class ApplicationCoordinator {
 
-    private static final List<Form> FORMS = ImmutableList.of(
-        Form.COMPLETED,
-        Form.COVENANT,
-        Form.LBC,
-        Form.WEEKEND,
-        Form.SCHEDULED
-    );
-
     private static final ApplicationCoordinator applicationCoordinatorInstance = new ApplicationCoordinator();
 
-    private final SaveFileManager saveFileManager;
     private final ModelConverter modelConverter;
+    private final SaveFileManager saveFileManager;
+    private final SharedDataManager sharedDataManager;
 
     private Map<Form, FormController<?, ?>> formControllers;
     private Form currentForm;
@@ -47,8 +41,9 @@ public class ApplicationCoordinator {
     }
 
     private ApplicationCoordinator() {
-        saveFileManager = SaveFileManager.from();
         modelConverter = ModelConverter.from();
+        saveFileManager = SaveFileManager.from();
+        sharedDataManager = SharedDataManager.getInstance();
     }
 
     public void startApplication() {
@@ -62,7 +57,7 @@ public class ApplicationCoordinator {
         }
 
         try {
-            formControllers = FORMS.stream().collect(Collectors.toMap(form -> form, FormController::from));
+            formControllers = Arrays.stream(Form.values()).collect(Collectors.toMap(form -> form, FormController::from));
         } catch (Exception e) {
             endApplicationDueToException("Error while initializing form controllers:", e);
         }
@@ -108,7 +103,7 @@ public class ApplicationCoordinator {
 
     public void setStartDate(@Nonnull final Calendar date) {
         writeCurrentStateToTemporarySaveFile();
-        SessionModel.setCompletedStartDay(date);
+        sharedDataManager.setCompletedStartDay(date);
         formControllers.values().forEach(FormController::updateDate);
     }
 
@@ -170,7 +165,7 @@ public class ApplicationCoordinator {
             return;
         }
 
-        final Calendar ScheduledStartDay = SessionModel.readScheduledStartDayFromFile(file);
+        final Calendar ScheduledStartDay = sharedDataManager.readScheduledStartDayFromFile(file);
         setStartDate(ScheduledStartDay);
 
         final FormController<ScheduledTabbedPane, NW_Data> scheduledFormController =
@@ -199,12 +194,12 @@ public class ApplicationCoordinator {
     }
 
     private void writeCurrentStateToTemporarySaveFile() {
-        SessionModel.writeToTemporarySaveFile();
+        sharedDataManager.writeToTemporarySaveFile();
         formControllers.values().forEach(FormController::writeViewToTemporarySaveFile);
     }
 
     private void loadCurrentStateFromTemporarySaveFile() {
-        SessionModel.load();
+        sharedDataManager.loadFromTemporarySaveFile();
         formControllers.values().forEach(FormController::readTemporaryFileAndWriteToView);
     }
 

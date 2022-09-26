@@ -8,11 +8,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ServiceLoader;
 
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
+import com.google.gson.TypeAdapterFactory;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -26,13 +29,20 @@ public class JsonMethods {
         (jsonElement, type, jsonDeserializationContext) ->
             jsonDeserializationContext.serialize(jsonElement, ImmutablePair.class);
 
-    /**
-     * The Gson object used in all of JsonMethods methods
-     */
-    private static final Gson gson = new GsonBuilder()
-        .registerTypeAdapter(Pair.class, pairJsonDeserializer)
-        .registerTypeAdapter(Pair.class, pairJsonSerializer)
-        .create();
+    private static final Gson gson;
+
+    static {
+        final GsonBuilder gsonBuilder = new GsonBuilder();
+
+        gsonBuilder.registerTypeAdapter(Pair.class, pairJsonDeserializer);
+        gsonBuilder.registerTypeAdapter(Pair.class, pairJsonSerializer);
+
+        for (TypeAdapterFactory factory : ServiceLoader.load(TypeAdapterFactory.class)) {
+            gsonBuilder.registerTypeAdapterFactory(factory);
+        }
+
+        gson = gsonBuilder.create();
+    }
 
     /**
      * Saves the given object to the given file in JSON format
@@ -50,16 +60,13 @@ public class JsonMethods {
     /**
      * Saves the given object to the given line in the file in JSON format
      *
-     * @param data the object to be jsonified
-     * @param type the class of the given object
-     * @param file the file to which to save the object's data
-     * @param lineNumber the line number on which to write the data
+     * @param data     the object to be jsonified
+     * @param type     the class of the given object
+     * @param file     the file to which to save the object's data
+     * @param saveType the type of data being saved
      */
-    public static void saveToFileJSON(Object data, Class<?> type,
-                                      File file, int lineNumber) {
-
-
-        saveToFile(data, type, file, lineNumber);
+    public static void saveToFileJSON(Object data, Class<?> type, File file, SaveType saveType) {
+        saveToFile(data, type, file, saveType.getLineNumber());
     }
 
     /**
@@ -76,13 +83,13 @@ public class JsonMethods {
     /**
      * Returns an object with data parsed from the given line in the JSON file
      *
-     * @param type the class of object to return
-     * @param file the file to parse
-     * @param lineNumber the line number of the JSON object to parse
+     * @param type     the class of object to return
+     * @param file     the file to parse
+     * @param saveType the type of data being read
      * @return the new object
      */
-    public static <T> T loadFromFileJSON(Class<T> type, File file, int lineNumber) {
-        return loadFromFile(type, file, lineNumber);
+    public static <T> T loadFromFileJSON(Class<T> type, File file, SaveType saveType) {
+        return loadFromFile(type, file, saveType.getLineNumber());
     }
 
     private static void saveToFile(Object data,

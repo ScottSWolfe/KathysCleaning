@@ -10,7 +10,7 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantEntry;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
-import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
@@ -106,12 +106,12 @@ public class CovenantControllerHelper implements ControllerHelper<CovenantPanel,
 
     @Override
     public void saveModelToFile(CovenantModel model, File file) {
-        JsonMethods.saveToFileJSON(model, CovenantModel.class, file, Form.COVENANT.getNum());
+        JsonMethods.saveToFileJSON(model, CovenantModel.class, file, SaveType.COVENANT);
     }
 
     @Override
     public CovenantModel loadFromFile(File file) {
-        return (CovenantModel) JsonMethods.loadFromFileJSON(CovenantModel.class, file, Form.COVENANT.getNum());
+        return JsonMethods.loadFromFileJSON(CovenantModel.class, file, SaveType.COVENANT);
     }
 
     @Override

@@ -15,14 +15,24 @@ import com.github.scottswolfe.kathyscleaning.completed.view.CompletedTabbedPane;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
-import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
 public class CompletedControllerHelper implements ControllerHelper<CompletedTabbedPane, CompletedModel> {
+
+    private final SharedDataManager sharedDataManager;
+
+    public static CompletedControllerHelper from() {
+        return new CompletedControllerHelper();
+    }
+
+    private CompletedControllerHelper() {
+        sharedDataManager = SharedDataManager.getInstance();
+    }
 
     @Override
     public CompletedModel initializeModel() {
@@ -36,7 +46,8 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
     ) {
         return CompletedTabbedPane.from(
             parentFrame,
-            controller
+            controller,
+            sharedDataManager.getCompletedStartDay()
         );
     }
 
@@ -102,7 +113,7 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
             HeaderData headerData = day_data.getHeaderData();
             headerPanel.setWorkers(headerData.getWorkers());
 
-            final Calendar date = SessionModel.getCompletedStartDay();
+            final Calendar date = sharedDataManager.getCompletedStartDay();
             date.add(Calendar.DATE, d);
             headerPanel.setDate(date);
 
@@ -155,12 +166,12 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
 
     @Override
     public void saveModelToFile(final CompletedModel model, final File file) {
-        JsonMethods.saveToFileJSON(model, CompletedModel.class, file, Form.COMPLETED.getNum());
+        JsonMethods.saveToFileJSON(model, CompletedModel.class, file, SaveType.COMPLETED);
     }
 
     @Override
     public CompletedModel loadFromFile(File file) {
-        return (CompletedModel) JsonMethods.loadFromFileJSON(CompletedModel.class, file, Form.COMPLETED.getNum());
+        return JsonMethods.loadFromFileJSON(CompletedModel.class, file, SaveType.COMPLETED);
     }
 
     @Override

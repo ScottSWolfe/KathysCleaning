@@ -3,6 +3,8 @@
 .idea/
 bin/
 classes/
+generated/
+generated_tests/
 lib/
 save/
 todo

@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCControllerHelper;
@@ -29,6 +29,11 @@ import com.github.scottswolfe.kathyscleaning.weekend.controller.WeekendControlle
  * Controller for each form
  */
 public class FormController<View extends JComponent, Model> {
+
+    /**
+     * The type of form this controller controls
+     */
+    private final Form form;
 
     /**
      * The view this controller controls
@@ -55,28 +60,27 @@ public class FormController<View extends JComponent, Model> {
      */
     private final ControllerHelper<View, Model> controllerHelper;
 
-    /**
-     * The type of form this controller controls
-     */
-    private final Form form;
+    private final SharedDataManager sharedDataManager;
 
     public static FormController<?, ?> from(final Form type) {
         return new FormController<>(type);
     }
 
     private FormController(final Form type) {
+        sharedDataManager = SharedDataManager.getInstance();
+
         form = type;
 
         if (type == Form.COMPLETED) {
-            controllerHelper = (ControllerHelper<View, Model>) new CompletedControllerHelper();
+            controllerHelper = (ControllerHelper<View, Model>) CompletedControllerHelper.from();
         } else if (type == Form.COVENANT) {
             controllerHelper = (ControllerHelper<View, Model>) new CovenantControllerHelper();
         } else if (type == Form.LBC) {
             controllerHelper = (ControllerHelper<View, Model>) new LBCControllerHelper();
         } else if (type == Form.WEEKEND) {
-            controllerHelper = (ControllerHelper<View, Model>) new WeekendControllerHelper();
+            controllerHelper = (ControllerHelper<View, Model>) WeekendControllerHelper.from();
         } else if (type == Form.SCHEDULED) {
-            controllerHelper = (ControllerHelper<View, Model>) new ScheduledControllerHelper();
+            controllerHelper = (ControllerHelper<View, Model>) ScheduledControllerHelper.from();
         } else {
             throw new RuntimeException("Unexpected Form type: " + type);
         }
@@ -95,7 +99,6 @@ public class FormController<View extends JComponent, Model> {
         controllerHelper.readViewAndWriteToFileHook(view);
         model = controllerHelper.readViewIntoModel(view);
         controllerHelper.saveModelToFile(model, SaveFileManager.TEMP_SAVE_FILE);
-        SessionModel.writeToTemporarySaveFile();
     }
 
     public void readTemporaryFileAndWriteToView() {
@@ -125,7 +128,7 @@ public class FormController<View extends JComponent, Model> {
 
     public void updateDate() {
         // Writing the model to view is sufficient to update the date because the date data is now
-        // only stored in the SessionModel which should be updated before calling this method.
+        // only stored in the SharedDataModel which should be updated before calling this method.
         controllerHelper.writeModelToView(model, view);
     }
 
@@ -191,7 +194,7 @@ public class FormController<View extends JComponent, Model> {
     }
 
     public void setTitleText() {
-        final MainFrame<View, Model> frame = (MainFrame<View, Model>) SwingUtilities.getWindowAncestor((Component) view);
+        final MainFrame<View, Model> frame = (MainFrame<View, Model>) SwingUtilities.getWindowAncestor(view);
         frame.setTitleText(this);
     }
 

@@ -11,8 +11,9 @@ import java.util.List;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
@@ -29,6 +30,16 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabbedPane, NW_Data> {
 
+    private final SharedDataManager sharedDataManager;
+
+    public static ScheduledControllerHelper from() {
+        return new ScheduledControllerHelper();
+    }
+
+    private ScheduledControllerHelper() {
+        sharedDataManager = SharedDataManager.getInstance();
+    }
+
     @Override
     public NW_Data initializeModel() {
         return new NW_Data();
@@ -39,7 +50,7 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
         final FormController<ScheduledTabbedPane, NW_Data> controller,
         final MainFrame<ScheduledTabbedPane, NW_Data> parentFrame
     ) {
-        return ScheduledTabbedPane.from(parentFrame, controller);
+        return ScheduledTabbedPane.from(parentFrame, controller, sharedDataManager.getScheduledStartDay());
     }
 
     @Override
@@ -108,7 +119,7 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
             dayData = model.dayData[d];
             NW_DayPanel dp = tp.nw_day_panel[d];
 
-            final Calendar date = SessionModel.getScheduledStartDay();
+            final Calendar date = sharedDataManager.getScheduledStartDay();
             date.add(Calendar.DATE, d);
             dp.setDate(date);
 
@@ -159,12 +170,12 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
 
     @Override
     public void saveModelToFile(NW_Data model, File file) {
-        JsonMethods.saveToFileJSON(model, NW_Data.class, file, Form.SCHEDULED.getNum());
+        JsonMethods.saveToFileJSON(model, NW_Data.class, file, SaveType.SCHEDULED);
     }
 
     @Override
     public NW_Data loadFromFile(File file) {
-        return (NW_Data) JsonMethods.loadFromFileJSON(NW_Data.class, file, Form.SCHEDULED.getNum());
+        return JsonMethods.loadFromFileJSON(NW_Data.class, file, SaveType.SCHEDULED);
     }
 
     @Override

@@ -3,9 +3,9 @@ package com.github.scottswolfe.kathyscleaning.weekend.controller;
 import java.io.File;
 import java.util.List;
 
-import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
@@ -16,6 +16,16 @@ import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel.JobPanel;
 
 public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, WeekendModel> {
 
+    private final SharedDataManager sharedDataManager;
+
+    public static WeekendControllerHelper from() {
+        return new WeekendControllerHelper();
+    }
+
+    private WeekendControllerHelper() {
+        sharedDataManager = SharedDataManager.getInstance();
+    }
+
     @Override
     public WeekendModel initializeModel() {
         return new WeekendModel();
@@ -23,7 +33,7 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
 
     @Override
     public WeekendPanel initializeView(FormController<WeekendPanel, WeekendModel> controller, MainFrame<WeekendPanel, WeekendModel> parentFrame) {
-        final WeekendPanel wp = new WeekendPanel(controller);
+        final WeekendPanel wp = new WeekendPanel(controller, sharedDataManager.getWeekendStartDay());
         final MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
         wp.setFrame(weekendFrame);
         return wp;
@@ -62,7 +72,7 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
     @Override
     public void writeModelToView(WeekendModel model, WeekendPanel view) {
 
-        view.setDate(SessionModel.getWeekendStartDay());
+        view.setDate(sharedDataManager.getWeekendStartDay());
 
         List<WeekendEntry> entries = model.getEntries();
         JobPanel jp;
@@ -90,12 +100,12 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
 
     @Override
     public void saveModelToFile(WeekendModel model, File file) {
-        JsonMethods.saveToFileJSON(model, WeekendModel.class, file, Form.WEEKEND.getNum());
+        JsonMethods.saveToFileJSON(model, WeekendModel.class, file, SaveType.WEEKEND);
     }
 
     @Override
     public WeekendModel loadFromFile(File file) {
-        return (WeekendModel) JsonMethods.loadFromFileJSON(WeekendModel.class, file, Form.WEEKEND.getNum());
+        return JsonMethods.loadFromFileJSON(WeekendModel.class, file, SaveType.WEEKEND);
     }
 
     @Override

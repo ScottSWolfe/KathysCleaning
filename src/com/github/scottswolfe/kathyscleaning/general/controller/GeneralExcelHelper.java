@@ -10,6 +10,7 @@ import java.io.InputStream;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCExcelHelper;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
@@ -19,7 +20,6 @@ import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedExcel
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantExcelHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
-import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.ScheduledExcelHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
@@ -35,36 +35,36 @@ public class GeneralExcelHelper {
             XSSFWorkbook wb = new XSSFWorkbook(input);
 
             // Completed Form
-            CompletedModel completedModel = (CompletedModel) JsonMethods.loadFromFileJSON(
-                CompletedModel.class, SaveFileManager.TEMP_SAVE_FILE, Form.COMPLETED.getNum()
+            CompletedModel completedModel = JsonMethods.loadFromFileJSON(
+                CompletedModel.class, SaveFileManager.TEMP_SAVE_FILE, SaveType.COMPLETED
             );
             CompletedExcelHelper comHelper = new CompletedExcelHelper();
             comHelper.writeModelToExcel(completedModel, wb);
 
             // Covenant Form
-            CovenantModel covModel = (CovenantModel) JsonMethods.loadFromFileJSON(
-                CovenantModel.class, SaveFileManager.TEMP_SAVE_FILE, Form.COVENANT.getNum()
+            CovenantModel covModel = JsonMethods.loadFromFileJSON(
+                CovenantModel.class, SaveFileManager.TEMP_SAVE_FILE, SaveType.COVENANT
             );
             CovenantExcelHelper covHelper = new CovenantExcelHelper();
             covHelper.writeModelToExcel(covModel, wb);
 
             // LBC Form
-            LBCModel lbcModel = (LBCModel) JsonMethods.loadFromFileJSON(
-                LBCModel.class, SaveFileManager.TEMP_SAVE_FILE, Form.LBC.getNum()
+            LBCModel lbcModel = JsonMethods.loadFromFileJSON(
+                LBCModel.class, SaveFileManager.TEMP_SAVE_FILE, SaveType.LBC
             );
             LBCExcelHelper lbcHelper = new LBCExcelHelper();
             lbcHelper.writeModelToExcel(lbcModel, wb);
 
             // Weekend Form
-            WeekendModel weekendModel = (WeekendModel) JsonMethods.loadFromFileJSON(
-                WeekendModel.class, SaveFileManager.TEMP_SAVE_FILE, Form.WEEKEND.getNum()
+            WeekendModel weekendModel = JsonMethods.loadFromFileJSON(
+                WeekendModel.class, SaveFileManager.TEMP_SAVE_FILE, SaveType.WEEKEND
             );
             WeekendExcelHelper weekendHelper = new WeekendExcelHelper();
             weekendHelper.writeModelToExcel(weekendModel, wb);
 
             // Scheduled Form
-            NW_Data nwData = (NW_Data) JsonMethods.loadFromFileJSON(
-                NW_Data.class, SaveFileManager.TEMP_SAVE_FILE, Form.SCHEDULED.getNum()
+            NW_Data nwData = JsonMethods.loadFromFileJSON(
+                NW_Data.class, SaveFileManager.TEMP_SAVE_FILE, SaveType.SCHEDULED
             );
             ScheduledExcelHelper scheduledHelper = new ScheduledExcelHelper();
             scheduledHelper.writeModelToExcel(nwData, wb);

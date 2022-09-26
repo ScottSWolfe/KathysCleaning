@@ -2,10 +2,11 @@ package com.github.scottswolfe.kathyscleaning.utility;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
-import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileNameHelper;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
@@ -44,11 +45,15 @@ public class SaveFileManager {
         "Week B Template" + "." + FileChooserHelper.KC
     );
 
+    private final SharedDataManager sharedDataManager;
+
     public static SaveFileManager from() {
         return new SaveFileManager();
     }
 
-    private SaveFileManager() {}
+    private SaveFileManager() {
+        sharedDataManager = SharedDataManager.getInstance();
+    }
 
     public boolean isCurrentFileDefaultTemplate() {
         return SessionModel.isSaveFileChosen() && TEMPLATE_LIST.contains(SessionModel.getSaveFile().getName());
@@ -71,7 +76,6 @@ public class SaveFileManager {
         }
 
         SessionModel.setSaveFile(newFile);
-        SessionModel.writeToTemporarySaveFile();
 
         try {
             Files.copy(TEMP_SAVE_FILE.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -179,12 +183,12 @@ public class SaveFileManager {
         WeekendModel weekend = new WeekendModel();
         NW_Data nw_data = new NW_Data();
 
-        SessionModel.writeToTemporarySaveFile();
-        JsonMethods.saveToFileJSON(completed, CompletedModel.class, TEMP_SAVE_FILE, Form.COMPLETED.getNum());
-        JsonMethods.saveToFileJSON(covenant, CovenantModel.class, TEMP_SAVE_FILE, Form.COVENANT.getNum());
-        JsonMethods.saveToFileJSON(lbc, LBCModel.class, TEMP_SAVE_FILE, Form.LBC.getNum());
-        JsonMethods.saveToFileJSON(weekend, WeekendModel.class, TEMP_SAVE_FILE, Form.WEEKEND.getNum());
-        JsonMethods.saveToFileJSON(nw_data, NW_Data.class, TEMP_SAVE_FILE, Form.SCHEDULED.getNum());
+        sharedDataManager.writeToTemporarySaveFile();
+        JsonMethods.saveToFileJSON(completed, CompletedModel.class, TEMP_SAVE_FILE, SaveType.COMPLETED);
+        JsonMethods.saveToFileJSON(covenant, CovenantModel.class, TEMP_SAVE_FILE, SaveType.COVENANT);
+        JsonMethods.saveToFileJSON(lbc, LBCModel.class, TEMP_SAVE_FILE, SaveType.LBC);
+        JsonMethods.saveToFileJSON(weekend, WeekendModel.class, TEMP_SAVE_FILE, SaveType.WEEKEND);
+        JsonMethods.saveToFileJSON(nw_data, NW_Data.class, TEMP_SAVE_FILE, SaveType.SCHEDULED);
     }
 
     private static boolean askIfOverwriteTemplate(@Nonnull final File file) {

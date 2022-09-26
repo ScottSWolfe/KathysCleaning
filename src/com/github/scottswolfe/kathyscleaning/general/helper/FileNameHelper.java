@@ -3,8 +3,6 @@ package com.github.scottswolfe.kathyscleaning.general.helper;
 import java.io.File;
 import java.util.Calendar;
 
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
-
 import javax.annotation.Nonnull;
 
 public class FileNameHelper {
@@ -23,6 +21,8 @@ public class FileNameHelper {
         "November",
         "December"
     };
+
+    private static final SharedDataManager sharedDataManager = SharedDataManager.getInstance();
 
     public static String createDatedFileName(
         @Nonnull final String directory,
@@ -83,7 +83,7 @@ public class FileNameHelper {
     }
 
     private static String fullDate() {
-        Calendar calendar = SessionModel.getCompletedStartDay();
+        Calendar calendar = sharedDataManager.getCompletedStartDay();
         return calendar.get(Calendar.YEAR)
             + "_"
             + toTwoDigits(String.valueOf(calendar.get(Calendar.MONTH) + 1))

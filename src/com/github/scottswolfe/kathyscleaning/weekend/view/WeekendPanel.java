@@ -22,7 +22,6 @@ import javax.swing.border.LineBorder;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.FormLauncher;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
@@ -44,17 +43,20 @@ public class WeekendPanel extends JPanel {
 
     FormController<WeekendPanel, WeekendModel> controller;
 
-    public WeekendPanel(FormController<WeekendPanel, WeekendModel> controller) {
+    public WeekendPanel(
+        FormController<WeekendPanel, WeekendModel> controller,
+        @Nonnull final Calendar weekendStartDay
+    ) {
         this.controller = controller;
 
         setLayout(new MigLayout());
         setBackground(Settings.BACKGROUND_COLOR);
 
-        add(createHeaderPanel(), "grow, wrap 0");
+        add(createHeaderPanel(weekendStartDay), "grow, wrap 0");
         add(createJobsWorkedPanel(), "grow");
     }
 
-    private JPanel createHeaderPanel() {
+    private JPanel createHeaderPanel(@Nonnull final Calendar weekendStartDay) {
 
         JPanel panel = new JPanel();
         panel.setLayout(new MigLayout("fill"));
@@ -66,7 +68,7 @@ public class WeekendPanel extends JPanel {
         heading_label.setBackground(Settings.BACKGROUND_COLOR);
 
         dateLabel = new JLabel();
-        dateLabel.setText(createDateLabelString(SessionModel.getWeekendStartDay()));
+        dateLabel.setText(createDateLabelString(weekendStartDay));
         dateLabel.setFont(dateLabel.getFont().deriveFont(Settings.FONT_SIZE));
         dateLabel.setBackground(Settings.BACKGROUND_COLOR);
 

@@ -1,7 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.lbc.controller;
 
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
-import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
@@ -77,12 +77,12 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
 
     @Override
     public void saveModelToFile(LBCModel model, File file) {
-        JsonMethods.saveToFileJSON(model, LBCModel.class, file, Form.LBC.getNum());
+        JsonMethods.saveToFileJSON(model, LBCModel.class, file, SaveType.LBC);
     }
 
     @Override
     public LBCModel loadFromFile(File file) {
-        final LBCModel model = (LBCModel) JsonMethods.loadFromFileJSON(LBCModel.class, file, Form.LBC.getNum());
+        final LBCModel model = JsonMethods.loadFromFileJSON(LBCModel.class, file, SaveType.LBC);
 
         if (model.getLbcHeader() == null && model.getLbcDays() == null) {
             return LBCModel.from();
