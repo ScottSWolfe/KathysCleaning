@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MenuBarController;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
@@ -99,7 +100,7 @@ public class MenuBar<View extends JComponent, Model> extends JMenuBar {
         Menu fileMenu = new Menu("Edit");
         addChangeDateMenuItem(fileMenu);
         addEditWorkersEverywhereMenuItem(fileMenu);
-        if (form == Form.COMPLETED) {
+        if (ApplicationCoordinator.getInstance().shouldDisplayLoadScheduleMenuItem(form)) {
             addLoadScheduleMenuItem(fileMenu);
         }
         return fileMenu;

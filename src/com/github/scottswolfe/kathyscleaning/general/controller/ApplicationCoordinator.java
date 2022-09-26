@@ -5,12 +5,14 @@ import com.github.scottswolfe.kathyscleaning.completed.view.CompletedTabbedPane;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
+import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.ScheduledTabbedPane;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
-import com.github.scottswolfe.kathyscleaning.utility.ScheduledToCompletedModelConverter;
+import com.github.scottswolfe.kathyscleaning.utility.ModelConverter;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.google.common.collect.ImmutableList;
 
@@ -35,7 +37,7 @@ public class ApplicationCoordinator {
     private static final ApplicationCoordinator applicationCoordinatorInstance = new ApplicationCoordinator();
 
     private final SaveFileManager saveFileManager;
-    private final ScheduledToCompletedModelConverter modelConverter;
+    private final ModelConverter modelConverter;
 
     private Map<Form, FormController<?, ?>> formControllers;
     private Form currentForm;
@@ -46,7 +48,7 @@ public class ApplicationCoordinator {
 
     private ApplicationCoordinator() {
         saveFileManager = SaveFileManager.from();
-        modelConverter = ScheduledToCompletedModelConverter.from();
+        modelConverter = ModelConverter.from();
     }
 
     public void startApplication() {
@@ -56,15 +58,13 @@ public class ApplicationCoordinator {
         try {
             saveFileManager.initializeSaveFiles();
         } catch (Exception e) {
-            StaticMethods.shareErrorMessage("Error while initializing save files:", e);
-            System.exit(1);
+            endApplicationDueToException("Error while initializing save files:", e);
         }
 
         try {
             formControllers = FORMS.stream().collect(Collectors.toMap(form -> form, FormController::from));
         } catch (Exception e) {
-            StaticMethods.shareErrorMessage("Error while initializing form controllers:", e);
-            System.exit(1);
+            endApplicationDueToException("Error while initializing form controllers:", e);
         }
 
         SwingUtilities.invokeLater(MenuPanelController::initializeMenuPanelFrame);
@@ -179,11 +179,23 @@ public class ApplicationCoordinator {
         final FormController<CompletedTabbedPane, CompletedModel> completedFormController =
             (FormController<CompletedTabbedPane, CompletedModel>) formControllers.get(Form.COMPLETED);
 
+        final FormController<LBCPanel, LBCModel> lbcFormController =
+            (FormController<LBCPanel, LBCModel>) formControllers.get(Form.LBC);
+
         final NW_Data scheduledData = scheduledFormController.readFile(file);
-        final CompletedModel completedModel = modelConverter.convert(scheduledData);
+
+        final CompletedModel completedModel = modelConverter.toCompleted(scheduledData);
         completedFormController.writeModelToView(completedModel);
 
+        final LBCModel lbcModel = modelConverter.toLBC(scheduledData, lbcFormController.getModel());
+        lbcFormController.writeModelToView(lbcModel);
+
         writeCurrentStateToTemporarySaveFile();
+        refreshWindow();
+    }
+
+    public boolean shouldDisplayLoadScheduleMenuItem(@Nonnull final Form form) {
+        return form == Form.COMPLETED || form == Form.LBC;
     }
 
     private void writeCurrentStateToTemporarySaveFile() {

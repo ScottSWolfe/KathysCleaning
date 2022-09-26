@@ -199,6 +199,10 @@ public class FormController<View extends JComponent, Model> {
         return view;
     }
 
+    public Model getModel() {
+        return model;
+    }
+
     public JFrame getParentFrame() {
         return parentFrame;
     }

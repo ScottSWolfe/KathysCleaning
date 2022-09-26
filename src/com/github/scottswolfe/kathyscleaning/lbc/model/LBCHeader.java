@@ -3,8 +3,10 @@ package com.github.scottswolfe.kathyscleaning.lbc.model;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class LBCHeader {
@@ -23,8 +25,12 @@ public class LBCHeader {
         );
     }
 
+    public static LBCHeader copyOf(@Nonnull final LBCHeader lbcHeader) {
+        return new LBCHeader(lbcHeader.workerSelectionGrid);
+    }
+
     private LBCHeader(final List<List<Pair<String, Boolean>>> workerSelectionGrid) {
-        this.workerSelectionGrid = workerSelectionGrid;
+        this.workerSelectionGrid = ImmutableList.copyOf(workerSelectionGrid);
     }
 
     public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {

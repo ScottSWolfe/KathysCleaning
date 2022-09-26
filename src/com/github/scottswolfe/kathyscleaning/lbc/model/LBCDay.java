@@ -7,6 +7,7 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class LBCDay {
@@ -100,6 +101,19 @@ public class LBCDay {
                     workerName = "";
                 }
                 workerSelectionGrid.get(row).set(column, Pair.of(workerName, false));
+            }
+        }
+    }
+
+    public void setSelectedWorkers(@Nonnull final List<String> selectedWorkerNames) {
+        for (int row = 0; row < workerSelectionGrid.size(); row++) {
+            for (int column = 0; column < workerSelectionGrid.get(row).size(); column++) {
+                final Pair<String, Boolean> workerSelection = workerSelectionGrid.get(row).get(column);
+                if (selectedWorkerNames.contains(workerSelection.getLeft())) {
+                    workerSelectionGrid.get(row).set(column, Pair.of(workerSelection.getLeft(), true));
+                } else {
+                    workerSelectionGrid.get(row).set(column, Pair.of(workerSelection.getLeft(), false));
+                }
             }
         }
     }

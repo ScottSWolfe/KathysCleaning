@@ -1,7 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.lbc.model;
 
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
+import com.google.common.collect.ImmutableMap;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -31,6 +33,13 @@ public class LBCModel {
         return new LBCModel(
             LBCHeader.from(),
             DAYS.stream().collect(Collectors.toMap(day -> day, LBCDay::from, (day1, day2) -> day1, LinkedHashMap::new))
+        );
+    }
+
+    public static LBCModel copyOf(@Nonnull final LBCModel lbcModel) {
+        return new LBCModel(
+            LBCHeader.copyOf(lbcModel.lbcHeader),
+            ImmutableMap.copyOf(lbcModel.lbcDays)
         );
     }
 
