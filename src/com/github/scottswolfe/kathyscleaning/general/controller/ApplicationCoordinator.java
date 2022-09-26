@@ -170,6 +170,9 @@ public class ApplicationCoordinator {
             return;
         }
 
+        final Calendar ScheduledStartDay = SessionModel.readScheduledStartDayFromFile(file);
+        setStartDate(ScheduledStartDay);
+
         final FormController<ScheduledTabbedPane, NW_Data> scheduledFormController =
             (FormController<ScheduledTabbedPane, NW_Data>) formControllers.get(Form.SCHEDULED);
 

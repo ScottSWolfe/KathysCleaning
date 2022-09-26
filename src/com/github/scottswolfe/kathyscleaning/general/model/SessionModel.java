@@ -8,6 +8,8 @@ import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 
+import javax.annotation.Nonnull;
+
 public class SessionModel {
 
     /**
@@ -32,6 +34,11 @@ public class SessionModel {
             Form.SESSION.getNum()
         );
         SessionModel.setCompletedStartDay(sessionData.completedStartDay);
+    }
+
+    public static Calendar readScheduledStartDayFromFile(@Nonnull final File file) {
+        final SessionData sessionData = JsonMethods.loadFromFileJSON(SessionData.class, file, Form.SESSION.getNum());
+        return toScheduledStartDay(sessionData.completedStartDay);
     }
 
     /**
@@ -77,8 +84,13 @@ public class SessionModel {
 
     public static Calendar getScheduledStartDay() {
         final Calendar date = getCompletedStartDay();
-        date.add(Calendar.DATE, 7);
-        return date;
+        return toScheduledStartDay(date);
+    }
+
+    private static Calendar toScheduledStartDay(@Nonnull final Calendar completedStartDay) {
+        final Calendar scheduledStartDay = CalendarMethods.copy(completedStartDay);
+        scheduledStartDay.add(Calendar.DATE, 7);
+        return scheduledStartDay;
     }
 
     private static class SessionData {
