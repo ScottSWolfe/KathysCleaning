@@ -2,10 +2,14 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.function.Consumer;
 
 import javax.swing.JComponent;
 
 import com.github.scottswolfe.kathyscleaning.component.MenuEditWorkersPanel;
+import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
+import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.view.GenericPanelLauncher;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
@@ -20,23 +24,26 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
      */
     FormController<ViewObject, ModelObject> controller;
 
+    private final ApplicationCoordinator applicationCoordinator;
+
     public MenuBarController(FormController<ViewObject, ModelObject> controller) {
         this.controller = controller;
+        applicationCoordinator = ApplicationCoordinator.getInstance();
     }
 
     @Override
     public void menuItemSave() {
-        ApplicationCoordinator.getInstance().save();
+        applicationCoordinator.save();
     }
 
     @Override
     public void menuItemSaveAs() {
-        ApplicationCoordinator.getInstance().saveAs();
+        applicationCoordinator.saveAs();
     }
 
     @Override
     public void menuItemOpen() {
-        ApplicationCoordinator.getInstance().saveAndOpen();
+        applicationCoordinator.saveAndOpen();
     }
 
     @Override
@@ -49,36 +56,51 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
     }
 
     private void menuItemEditWorkers() {
+
+        final Consumer<List<List<String>>> dataConsumer;
+        final int rowCount;
+        final int columnCount;
+
+        if (controller.getFormType() == Form.COVENANT) {
+            dataConsumer = applicationCoordinator::updateCovenantWorkers;
+            rowCount = CovenantPanel.ROWS;
+            columnCount = 1;
+        } else {
+            dataConsumer = applicationCoordinator::updateWorkers;
+            rowCount = WorkerSelectPanel.DEFAULT_ROW_COUNT;
+            columnCount = WorkerSelectPanel.DEFAULT_COLUMN_COUNT;
+        }
+
         GenericPanelLauncher.from().launchPanel(
-            MenuEditWorkersPanel::from,
+            () -> MenuEditWorkersPanel.from(rowCount, columnCount),
             () -> {},
-            (workerNames) -> ApplicationCoordinator.getInstance().updateWorkers(workerNames),
+            dataConsumer,
             new FrameCloseListener(controller.getParentFrame())
         );
     }
 
     public void menuItemGoHouses() {
-        ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
+        applicationCoordinator.navigateToForm(Form.COMPLETED);
     }
 
     public void menuItemGoCovenant() {
-        ApplicationCoordinator.getInstance().navigateToForm(Form.COVENANT);
+        applicationCoordinator.navigateToForm(Form.COVENANT);
     }
 
     public void menuItemGoLBC() {
-        ApplicationCoordinator.getInstance().navigateToForm(Form.LBC);
+        applicationCoordinator.navigateToForm(Form.LBC);
     }
 
     public void menuItemGoWeekend() {
-        ApplicationCoordinator.getInstance().navigateToForm(Form.WEEKEND);
+        applicationCoordinator.navigateToForm(Form.WEEKEND);
     }
 
     public void menuItemGoNextWeek() {
-        ApplicationCoordinator.getInstance().navigateToForm(Form.SCHEDULED);
+        applicationCoordinator.navigateToForm(Form.SCHEDULED);
     }
 
     public void menuItemLoadSchedule() {
-        ApplicationCoordinator.getInstance().loadSchedule();
+        applicationCoordinator.loadSchedule();
     }
 
     public class SaveMenuItemListener implements ActionListener {

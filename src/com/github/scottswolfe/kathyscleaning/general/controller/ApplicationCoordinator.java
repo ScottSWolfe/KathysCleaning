@@ -110,6 +110,18 @@ public class ApplicationCoordinator {
         refreshWindow();
     }
 
+    public void updateCovenantWorkers(final List<List<String>> covenantWorkerNames) {
+        writeCurrentStateToTemporarySaveFile();
+        sharedDataManager.setCovenantWorkerNames(
+            covenantWorkerNames.stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList())
+        );
+        formControllers.get(Form.COVENANT).updateWorkers(covenantWorkerNames);
+        writeCurrentStateToTemporarySaveFile();
+        refreshWindow();
+    }
+
     public void setStartDate(@Nonnull final Calendar date) {
         writeCurrentStateToTemporarySaveFile();
         sharedDataManager.setCompletedStartDay(date);

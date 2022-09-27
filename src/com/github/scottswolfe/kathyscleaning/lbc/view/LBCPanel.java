@@ -39,8 +39,7 @@ public class LBCPanel extends JPanel implements FocusableCollection {
 
         lbcHeaderPanel = LBCHeaderPanel.from(
             this::setWorkerSelectionsForAllDays,
-            submitFormListener,
-            popUpWindowListener
+            submitFormListener
         );
         lbcDaysPanel = LBCDaysPanel.from(popUpWindowListener);
 

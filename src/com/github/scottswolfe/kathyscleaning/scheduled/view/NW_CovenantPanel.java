@@ -11,9 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
-import com.github.scottswolfe.kathyscleaning.component.EditableWorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
-import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
+import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -32,7 +31,7 @@ public class NW_CovenantPanel extends JPanel {
     NW_DayPanel day_panel;
     JFrame container_frame;
 
-    private final EditableWorkerSelectPanel editableWorkerSelectPanel;
+    private final WorkerSelectPanel workerSelectPanel;
 
     public NW_CovenantPanel(NW_DayPanel day_panel, JFrame container_frame ) {
 
@@ -48,11 +47,11 @@ public class NW_CovenantPanel extends JPanel {
 
         final RowLabelPanel covenantLabelPanel = RowLabelPanel.from("Covenant");
 
-        editableWorkerSelectPanel = EditableWorkerSelectPanel.from(
+        workerSelectPanel = WorkerSelectPanel.from(
             workers,
             WORKER_SELECT_ROW_COUNT,
             WORKER_SELECT_COLUMN_COUNT,
-            new FrameCloseListener(container_frame)
+            Settings.BACKGROUND_COLOR
         );
 
         note_button = new JButton();
@@ -66,30 +65,26 @@ public class NW_CovenantPanel extends JPanel {
         notePanel.add(note_button, "center");
 
         add(covenantLabelPanel, "grow");
-        add(editableWorkerSelectPanel, "grow");
+        add(workerSelectPanel, "grow");
         add(notePanel, "grow");
     }
 
-    public void changeWorkerPanel( WorkerList new_dwd ) {
-        editableWorkerSelectPanel.setWorkers(new_dwd);
-    }
-
     public WorkerList getWorkers() {
-        return editableWorkerSelectPanel.getWorkers();
+        return workerSelectPanel.getWorkers();
     }
 
     public void setWorkers(final WorkerList workers) {
-        editableWorkerSelectPanel.setWorkers(workers);
+        workerSelectPanel.setWorkers(workers);
     }
 
     public boolean isWorkerSelected(final String workerName) {
-        return editableWorkerSelectPanel.getWorkerSelectionGrid().stream()
+        return workerSelectPanel.getWorkerSelectionGrid().stream()
             .flatMap(Collection::stream)
             .anyMatch(workerSelection -> workerName.equals(workerSelection.getLeft()) && workerSelection.getRight());
     }
 
     public List<String> getSelectedWorkers() {
-        return editableWorkerSelectPanel.getWorkerSelectionGrid().stream()
+        return workerSelectPanel.getWorkerSelectionGrid().stream()
             .flatMap(Collection::stream)
             .filter(Pair::getRight)
             .map(Pair::getLeft)

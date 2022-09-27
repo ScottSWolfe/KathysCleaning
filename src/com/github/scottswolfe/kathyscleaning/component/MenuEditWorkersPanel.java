@@ -17,16 +17,16 @@ public class MenuEditWorkersPanel extends JPanel implements Supplier<List<List<S
     private final WorkerComboBoxGridPanel workerComboBoxGridPanel;
     private final Button loadFromExcelButton;
 
-    public static MenuEditWorkersPanel from() {
-        return new MenuEditWorkersPanel();
+    public static MenuEditWorkersPanel from(final int rowCount, final int columnCount) {
+        return new MenuEditWorkersPanel(rowCount, columnCount);
     }
 
-    private MenuEditWorkersPanel() {
+    private MenuEditWorkersPanel(final int rowCount, final int columnCount) {
         workerComboBoxGridPanel = WorkerComboBoxGridPanel.from(
             Collections.emptyList(),
             GlobalData.getInstance().getDefaultWorkerNames(),
-            2,
-            7,
+            rowCount,
+            columnCount,
             Settings.BACKGROUND_COLOR
         );
 

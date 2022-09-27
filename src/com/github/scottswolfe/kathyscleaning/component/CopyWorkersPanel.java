@@ -1,9 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.component;
 
-import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.EditWorkersPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
@@ -11,7 +8,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -21,21 +17,18 @@ public class CopyWorkersPanel extends JPanel implements FocusableCollection {
 
     private final WorkerSelectPanel workerSelectPanel;
     private final KcButton copyWorkersButton;
-    private final KcButton editWorkersButton;
 
     public static CopyWorkersPanel from(
         final WorkerList workerList,
         int rowCount,
         int columnCount,
-        final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
-        final WindowListener popUpWindowListener
+        final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress
     ) {
         return new CopyWorkersPanel(
             workerList,
             rowCount,
             columnCount,
-            onCopyWorkersButtonPress,
-            popUpWindowListener
+            onCopyWorkersButtonPress
         );
     }
 
@@ -43,8 +36,7 @@ public class CopyWorkersPanel extends JPanel implements FocusableCollection {
         final WorkerList workerList,
         int rowCount,
         int columnCount,
-        final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
-        final WindowListener popUpWindowListener
+        final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress
     ) {
         workerSelectPanel = WorkerSelectPanel.from(
             workerList, rowCount, columnCount, Settings.HEADER_BACKGROUND
@@ -53,25 +45,11 @@ public class CopyWorkersPanel extends JPanel implements FocusableCollection {
             "Copy",
             (event) -> onCopyWorkersButtonPress.accept(workerSelectPanel.getWorkerSelectionGrid())
         );
-        editWorkersButton = new KcButton(
-            "Edit",
-            (event) -> EditWorkersPanelLauncher.from().launchPanel(
-                workerSelectPanel.getWorkers().getWorkerNames(),
-                GlobalData.getInstance().getDefaultWorkerNames(),
-                HousePanel.WORKER_SELECTION_ROW_COUNT,
-                HousePanel.WORKER_SELECTION_COLUMN_COUNT,
-                false,
-                () -> {},
-                workerSelectPanel::updateWorkerNames,
-                popUpWindowListener
-            )
-        );
 
         setLayout(new MigLayout());
         setBackground(Settings.HEADER_BACKGROUND);
-        add(workerSelectPanel, "span 1 2, pushy");
+        add(workerSelectPanel, "pushy");
         add(copyWorkersButton, "growx, pushy");
-        add(editWorkersButton, "growx, pushy");
 
         connectFocusableComponents();
     }
@@ -94,6 +72,6 @@ public class CopyWorkersPanel extends JPanel implements FocusableCollection {
 
     @Override
     public List<List<? extends JComponent>> getComponentsAsGrid() {
-        return Collections.singletonList(Arrays.asList(workerSelectPanel, copyWorkersButton, editWorkersButton));
+        return Collections.singletonList(Arrays.asList(workerSelectPanel, copyWorkersButton));
     }
 }

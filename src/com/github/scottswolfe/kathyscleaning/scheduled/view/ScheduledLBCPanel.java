@@ -1,9 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.view;
 
 import com.github.scottswolfe.kathyscleaning.component.ButtonPanel;
-import com.github.scottswolfe.kathyscleaning.component.EditableWorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.component.MeetTimePanel;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
+import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.GenericPanelLauncher;
@@ -30,7 +30,7 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
     public static final int LBC_SCHEDULED_EXCEPTIONS_COUNT = 3;
 
     private final MeetTimePanel meetTimePanel;
-    private final EditableWorkerSelectPanel editableWorkerSelectPanel;
+    private final WorkerSelectPanel workerSelectPanel;
     private final ButtonPanel exceptionsButtonPanel;
 
     private ScheduledLBCExceptions scheduledLBCExceptions;
@@ -50,11 +50,11 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
 
         final RowLabelPanel rowLabelPanel = RowLabelPanel.from("LBC");
         meetTimePanel = MeetTimePanel.from();
-        editableWorkerSelectPanel = EditableWorkerSelectPanel.from(
+        workerSelectPanel = WorkerSelectPanel.from(
             new WorkerList(GlobalData.getInstance().getDefaultWorkerNames()),
             LBC_SCHEDULED_WORKER_ROW_COUNT,
             LBC_SCHEDULED_WORKER_COLUMN_COUNT,
-            popUpWindowListener
+            Settings.BACKGROUND_COLOR
         );
         exceptionsButtonPanel = ButtonPanel.from(
             "Exceptions",
@@ -74,7 +74,7 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
         setBorder(border);
         add(rowLabelPanel);
         add(meetTimePanel);
-        add(editableWorkerSelectPanel);
+        add(workerSelectPanel);
         add(exceptionsButtonPanel);
 
         connectFocusableComponents();
@@ -85,7 +85,7 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
     }
 
     public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
-        return editableWorkerSelectPanel.getWorkerSelectionGrid();
+        return workerSelectPanel.getWorkerSelectionGrid();
     }
 
     public ScheduledLBCExceptions getScheduledLBCExceptions() {
@@ -103,18 +103,18 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
 
     public void setLBCData(final ScheduledLBCData lbcData) {
         meetTimePanel.setMeetTime(lbcData.getMeetTime());
-        editableWorkerSelectPanel.setWorkerSelectionGrid(lbcData.getWorkerSelectionGrid());
+        workerSelectPanel.setWorkers(lbcData.getWorkerSelectionGrid());
         setScheduledLBCExceptions(lbcData.getScheduledLBCExceptions());
     }
 
-    public void setWorkers(final List<List<String>> workerNames) {
-        editableWorkerSelectPanel.setWorkers(workerNames);
+    public void updateWorkerNames(final List<List<String>> workerNames) {
+        workerSelectPanel.updateWorkerNames(workerNames);
     }
 
     @Override
     public List<List<? extends JComponent>> getComponentsAsGrid() {
         return Collections.singletonList(
-            Arrays.asList(meetTimePanel, editableWorkerSelectPanel, exceptionsButtonPanel)
+            Arrays.asList(meetTimePanel, workerSelectPanel, exceptionsButtonPanel)
         );
     }
 }

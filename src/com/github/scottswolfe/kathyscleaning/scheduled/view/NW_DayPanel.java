@@ -29,7 +29,6 @@ import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListe
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.TabbedPane;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_SubmitWeekListener;
@@ -76,6 +75,7 @@ public class NW_DayPanel extends JPanel {
         this.frame = frame;
         this.tp = tp;
 
+        beginExceptionList = new ArrayList<>();
         noteData = new NoteData();
 
         setLayout(new MigLayout("fill, insets 0"));
@@ -91,7 +91,7 @@ public class NW_DayPanel extends JPanel {
             BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK),
             new FrameCloseListener(frame)
         );
-        header_panel = new ScheduledHousesCopyWorkersPanel(tp, workers, this, frame);
+        header_panel = new ScheduledHousesCopyWorkersPanel(tp, workers, this);
         begin_panel = createBeginPanel(workers);
         house_panels = new ArrayList<NW_HousePanel>();
         for(int i = 0; i < DayPanel.DEFAULT_HOUSE_PANEL_COUNT; i++) {
@@ -180,7 +180,7 @@ public class NW_DayPanel extends JPanel {
     }
 
     public void setWorkers(final List<List<String>> workerNames) {
-        scheduledLBCPanel.setWorkers(workerNames);
+        scheduledLBCPanel.updateWorkerNames(workerNames);
         header_panel.setWorkers(WorkerList.from(workerNames));
         house_panels.forEach(house_panel -> house_panel.setWorkers(workerNames));
         cov_panel.setWorkers(WorkerList.from(workerNames));

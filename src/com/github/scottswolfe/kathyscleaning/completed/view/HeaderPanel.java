@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -18,7 +17,6 @@ import com.github.scottswolfe.kathyscleaning.component.ChangeDayPanel;
 import com.github.scottswolfe.kathyscleaning.component.CopyWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.component.DatePanel;
 import com.github.scottswolfe.kathyscleaning.component.SubmitFormPanel;
-import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -70,8 +68,7 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
             workerList,
             HousePanel.WORKER_SELECTION_ROW_COUNT,
             HousePanel.WORKER_SELECTION_COLUMN_COUNT,
-            onCopyWorkersButtonPress,
-            popUpWindowListener
+            onCopyWorkersButtonPress
         );
         changeDayPanel = ChangeDayPanel.from(previousDayButtonListener, nextDayButtonListener);
         submitFormPanel = SubmitFormPanel.from(submitFormListener);

@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,20 +27,17 @@ public class LBCHeaderPanel extends JPanel implements FocusableCollection {
 
     public static LBCHeaderPanel from(
         final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
-        final ActionListener submitFormListener,
-        final WindowListener popUpWindowListener
+        final ActionListener submitFormListener
     ) {
         return new LBCHeaderPanel(
             onCopyWorkersButtonPress,
-            submitFormListener,
-            popUpWindowListener
+            submitFormListener
         );
     }
 
     private LBCHeaderPanel(
         final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
-        final ActionListener submitFormListener,
-        final WindowListener popUpWindowListener
+        final ActionListener submitFormListener
     ) {
         super();
 
@@ -49,8 +45,7 @@ public class LBCHeaderPanel extends JPanel implements FocusableCollection {
             new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames()),
             LBCPanel.LBC_WORKER_ROW_COUNT,
             LBCPanel.LBC_WORKER_COLUMN_COUNT,
-            onCopyWorkersButtonPress,
-            popUpWindowListener
+            onCopyWorkersButtonPress
         );
 
         submitFormPanel = SubmitFormPanel.from(submitFormListener);
