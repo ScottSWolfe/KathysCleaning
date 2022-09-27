@@ -1,9 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.general.view;
 
-import com.github.scottswolfe.kathyscleaning.component.WorkerComboBoxGridPanel;
-import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
+import com.github.scottswolfe.kathyscleaning.component.MenuEditWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
+import javax.annotation.Nonnull;
 import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.function.Consumer;
@@ -13,35 +13,11 @@ import java.util.function.Consumer;
  */
 public class EditWorkersPanelLauncher {
 
-    private final PopUpFormLauncher popUpFormLauncher = PopUpFormLauncher.from();
-
-    private WorkerComboBoxGridPanel workerComboBoxesPanel;
-
     public static EditWorkersPanelLauncher from() {
         return new EditWorkersPanelLauncher();
     }
 
     private EditWorkersPanelLauncher() {}
-
-    public void launchPanel(
-        final List<String> currentWorkerNames,
-        final List<String> availableWorkerNames,
-        final boolean allowRepeatSelections,
-        final Runnable onCancel,
-        final Consumer<List<String>> onSubmit,
-        final WindowListener popUpWindowListener
-    ) {
-        launchPanel(
-            currentWorkerNames,
-            availableWorkerNames,
-            currentWorkerNames.size(),
-            1,
-            allowRepeatSelections,
-            onCancel,
-            onSubmit,
-            popUpWindowListener
-        );
-    }
 
     public void launchPanel(
         final List<String> currentWorkerNames,
@@ -53,25 +29,17 @@ public class EditWorkersPanelLauncher {
         final Consumer<List<String>> onSubmit,
         final WindowListener popUpWindowListener
     ) {
-        workerComboBoxesPanel = WorkerComboBoxGridPanel.from(
-            currentWorkerNames,
-            availableWorkerNames,
-            rowCount,
-            columnCount,
-            Settings.BACKGROUND_COLOR
-        );
-
-        popUpFormLauncher.launchPanel(
-            workerComboBoxesPanel,
+        GenericPanelLauncher.from().launchPanel(
+            () -> MenuEditWorkersPanel.from(currentWorkerNames, availableWorkerNames, rowCount, columnCount),
             onCancel,
-            () -> onSubmitInternal(onSubmit, workerComboBoxesPanel.getSelectedWorkers(), allowRepeatSelections),
+            (updatedWorkerNames) -> onSubmitInternal(onSubmit, updatedWorkerNames, allowRepeatSelections),
             popUpWindowListener
         );
     }
 
     private void onSubmitInternal(
-        final Consumer<List<String>> onSubmit,
-        final List<String> updatedWorkerNames,
+        @Nonnull final Consumer<List<String>> onSubmit,
+        @Nonnull final List<String> updatedWorkerNames,
         final boolean allowRepeatSelections
     ) {
         if (!allowRepeatSelections) {
@@ -80,7 +48,6 @@ public class EditWorkersPanelLauncher {
                 throw new PopUpFormLauncher.ButtonListenerException();
             }
         }
-
         onSubmit.accept(updatedWorkerNames);
     }
 }

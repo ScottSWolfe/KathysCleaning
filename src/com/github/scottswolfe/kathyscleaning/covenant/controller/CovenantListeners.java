@@ -8,12 +8,11 @@ import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.EditWorkersPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.utility.FormLauncher;
-import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
+
+import javax.annotation.Nonnull;
 
 /**
  * Listeners of CovenantPanel
@@ -35,27 +34,18 @@ public class CovenantListeners {
             EditWorkersPanelLauncher.from().launchPanel(
                 covPanel.getWorkerNames(),
                 GlobalData.getInstance().getDefaultWorkerNames(),
+                CovenantPanel.ROWS,
+                1,
                 false,
-                () -> {}, (updateWorkerNames) -> onEditWorkersSubmit(covPanel, updateWorkerNames),
+                () -> {},
+                CovenantListeners::onEditWorkersSubmit,
                 new FrameCloseListener(covPanel.getCovFrame())
             );
         }
     }
 
-    private static void onEditWorkersSubmit(CovenantPanel covPanel, List<String> updatedWorkerNames) {
-
-        if (StaticMethods.isRepeatWorker(updatedWorkerNames)) {
-            StaticMethods.shareRepeatWorker();
-            throw new IllegalArgumentException("Cannot submit the same worker name more than once");
-        }
-
-        WorkerList workers = new WorkerList(updatedWorkerNames);
-        for (int i = 0; i < workers.size(); i++) {
-            covPanel.getNameLabels()[i].setText(workers.getName(i));
-        }
-
-        SharedDataManager.getInstance().setCovenantWorkerNames(updatedWorkerNames);
-
+    private static void onEditWorkersSubmit(@Nonnull final List<String> updatedWorkerNames) {
+        ApplicationCoordinator.getInstance().updateCovenantWorkers(updatedWorkerNames);
         ApplicationCoordinator.getInstance().refreshWindow();
     }
 

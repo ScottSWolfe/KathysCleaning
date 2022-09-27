@@ -7,10 +7,11 @@ import java.util.function.Consumer;
 
 import javax.swing.JComponent;
 
-import com.github.scottswolfe.kathyscleaning.component.MenuEditWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
-import com.github.scottswolfe.kathyscleaning.general.view.GenericPanelLauncher;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.view.EditWorkersPanelLauncher;
 
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
@@ -58,21 +59,30 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
     private void menuItemEditWorkers() {
 
         final Consumer<List<String>> dataConsumer;
+        final List<String> currentWorkerNames;
+        final List<String> availableWorkerNames = GlobalData.getInstance().getDefaultWorkerNames();
         final int rowCount;
         final int columnCount;
+        final boolean allowRepeatSelections = false;
 
         if (controller.getFormType() == Form.COVENANT) {
             dataConsumer = applicationCoordinator::updateCovenantWorkers;
+            currentWorkerNames = SharedDataManager.getInstance().getCovenantWorkerNames();
             rowCount = CovenantPanel.ROWS;
             columnCount = 1;
         } else {
             dataConsumer = applicationCoordinator::updateWorkers;
+            currentWorkerNames = SharedDataManager.getInstance().getAvailableWorkerNames();
             rowCount = WorkerSelectPanel.DEFAULT_ROW_COUNT;
             columnCount = WorkerSelectPanel.DEFAULT_COLUMN_COUNT;
         }
 
-        GenericPanelLauncher.from().launchPanel(
-            () -> MenuEditWorkersPanel.from(rowCount, columnCount),
+        EditWorkersPanelLauncher.from().launchPanel(
+            currentWorkerNames,
+            availableWorkerNames,
+            rowCount,
+            columnCount,
+            allowRepeatSelections,
             () -> {},
             dataConsumer,
             new FrameCloseListener(controller.getParentFrame())

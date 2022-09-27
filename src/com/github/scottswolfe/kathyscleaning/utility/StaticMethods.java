@@ -151,7 +151,7 @@ public class StaticMethods {
     }
 
     public static void shareRepeatWorker() {
-        final String message = "<html>There is a repeat selection. Please choose a different\nworker in each box.";
+        final String message = "The same name is selected more than once. Please choose a different name in each box.";
         shareErrorMessage(message);
     }
 

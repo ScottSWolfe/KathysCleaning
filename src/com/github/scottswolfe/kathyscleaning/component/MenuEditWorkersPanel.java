@@ -5,6 +5,7 @@ import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.util.Arrays;
@@ -17,14 +18,24 @@ public class MenuEditWorkersPanel extends JPanel implements Supplier<List<String
     private final WorkerComboBoxGridPanel workerComboBoxGridPanel;
     private final Button loadFromExcelButton;
 
-    public static MenuEditWorkersPanel from(final int rowCount, final int columnCount) {
-        return new MenuEditWorkersPanel(rowCount, columnCount);
+    public static MenuEditWorkersPanel from(
+        @Nonnull final List<String> currentWorkerNames,
+        @Nonnull final List<String> availableWorkerNames,
+        final int rowCount,
+        final int columnCount
+    ) {
+        return new MenuEditWorkersPanel(currentWorkerNames, availableWorkerNames, rowCount, columnCount);
     }
 
-    private MenuEditWorkersPanel(final int rowCount, final int columnCount) {
+    private MenuEditWorkersPanel(
+        @Nonnull final List<String> currentWorkerNames,
+        @Nonnull final List<String> availableWorkerNames,
+        final int rowCount,
+        final int columnCount
+    ) {
         workerComboBoxGridPanel = WorkerComboBoxGridPanel.from(
-            Collections.emptyList(),
-            GlobalData.getInstance().getDefaultWorkerNames(),
+            currentWorkerNames,
+            availableWorkerNames,
             rowCount,
             columnCount,
             Settings.BACKGROUND_COLOR
