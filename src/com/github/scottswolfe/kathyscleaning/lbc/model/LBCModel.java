@@ -58,8 +58,8 @@ public class LBCModel {
         return lbcDays;
     }
 
-    public void setWorkers(final List<List<String>> workerNames) {
-        lbcHeader.setWorkers(workerNames);
-        lbcDays.values().forEach(lbcDay -> lbcDay.setWorkers(workerNames));
+    public void updateWorkersAndKeepSelections(@Nonnull final List<String> workerNames) {
+        lbcHeader.updateWorkersAndKeepSelections(workerNames);
+        lbcDays.values().forEach(lbcDay -> lbcDay.updateWorkersAndKeepSelections(workerNames));
     }
 }

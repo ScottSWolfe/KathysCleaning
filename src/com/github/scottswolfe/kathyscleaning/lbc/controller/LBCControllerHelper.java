@@ -13,7 +13,9 @@ import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 
+import javax.annotation.Nonnull;
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -92,7 +94,14 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
     }
 
     @Override
-    public void updateWorkersOnModel(final LBCModel lbcModel, final List<List<String>> workerNames) {
-        lbcModel.setWorkers(workerNames);
+    public void updateWorkersOnModel(
+        @Nonnull final LBCModel lbcModel,
+        @Nonnull final List<List<String>> workerNames
+    ) {
+        lbcModel.updateWorkersAndKeepSelections(
+            workerNames.stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList())
+        );
     }
 }

@@ -3,6 +3,7 @@ package com.github.scottswolfe.kathyscleaning.lbc.model;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
+import com.github.scottswolfe.kathyscleaning.utility.WorkerSelectionGridHelper;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -49,5 +50,9 @@ public class LBCHeader {
                 workerSelectionGrid.get(row).set(column, Pair.of(workerName, false));
             }
         }
+    }
+
+    public void updateWorkersAndKeepSelections(@Nonnull final List<String> workerNames) {
+        WorkerSelectionGridHelper.getInstance().updateWorkersAndKeepSelections(workerSelectionGrid, workerNames);
     }
 }

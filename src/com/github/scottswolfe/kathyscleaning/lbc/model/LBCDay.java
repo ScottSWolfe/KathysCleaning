@@ -5,6 +5,7 @@ import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
+import com.github.scottswolfe.kathyscleaning.utility.WorkerSelectionGridHelper;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
@@ -116,5 +117,9 @@ public class LBCDay {
                 }
             }
         }
+    }
+
+    public void updateWorkersAndKeepSelections(@Nonnull final List<String> workerNames) {
+        WorkerSelectionGridHelper.getInstance().updateWorkersAndKeepSelections(workerSelectionGrid, workerNames);
     }
 }
