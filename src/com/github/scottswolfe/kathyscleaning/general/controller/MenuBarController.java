@@ -57,7 +57,7 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
 
     private void menuItemEditWorkers() {
 
-        final Consumer<List<List<String>>> dataConsumer;
+        final Consumer<List<String>> dataConsumer;
         final int rowCount;
         final int columnCount;
 

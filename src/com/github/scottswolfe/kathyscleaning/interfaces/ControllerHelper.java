@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 
 public interface ControllerHelper<View extends JComponent, Model> {
@@ -62,5 +63,5 @@ public interface ControllerHelper<View extends JComponent, Model> {
     /**
      * Updates the worker names on the model
      */
-    void updateWorkersOnModel(final Model model, final List<List<String>> workerNames);
+    void updateWorkersOnModel(@Nonnull final Model model, @Nonnull final List<String> workerNames);
 }

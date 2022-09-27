@@ -20,7 +20,6 @@ import javax.swing.SwingUtilities;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -96,13 +95,9 @@ public class ApplicationCoordinator {
         }
     }
 
-    public void updateWorkers(final List<List<String>> workerNames) {
+    public void updateWorkers(@Nonnull final List<String> workerNames) {
         writeCurrentStateToTemporarySaveFile();
-        sharedDataManager.setAvailableWorkerNames(
-            workerNames.stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList())
-        );
+        sharedDataManager.setAvailableWorkerNames(workerNames);
         formControllers.values().stream()
             .filter(controller -> controller.getFormType() != Form.COVENANT) // Covenant uses a different set of workers
             .forEach(controller -> controller.updateWorkers(workerNames));
@@ -110,13 +105,9 @@ public class ApplicationCoordinator {
         refreshWindow();
     }
 
-    public void updateCovenantWorkers(final List<List<String>> covenantWorkerNames) {
+    public void updateCovenantWorkers(@Nonnull final List<String> covenantWorkerNames) {
         writeCurrentStateToTemporarySaveFile();
-        sharedDataManager.setCovenantWorkerNames(
-            covenantWorkerNames.stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList())
-        );
+        sharedDataManager.setCovenantWorkerNames(covenantWorkerNames);
         formControllers.get(Form.COVENANT).updateWorkers(covenantWorkerNames);
         writeCurrentStateToTemporarySaveFile();
         refreshWindow();

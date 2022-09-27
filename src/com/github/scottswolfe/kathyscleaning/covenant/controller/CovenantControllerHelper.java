@@ -2,9 +2,7 @@ package com.github.scottswolfe.kathyscleaning.covenant.controller;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantEntry;
 import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
@@ -16,6 +14,8 @@ import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
+
+import javax.annotation.Nonnull;
 
 public class CovenantControllerHelper implements ControllerHelper<CovenantPanel, CovenantModel> {
 
@@ -115,7 +115,10 @@ public class CovenantControllerHelper implements ControllerHelper<CovenantPanel,
     }
 
     @Override
-    public void updateWorkersOnModel(final CovenantModel covenantModel, final List<List<String>> workerNames) {
-        covenantModel.setWorkers(workerNames.stream().flatMap(Collection::stream).collect(Collectors.toList()));
+    public void updateWorkersOnModel(
+        @Nonnull final CovenantModel covenantModel,
+        @Nonnull final List<String> workerNames
+    ) {
+        covenantModel.setWorkers(workerNames);
     }
 }

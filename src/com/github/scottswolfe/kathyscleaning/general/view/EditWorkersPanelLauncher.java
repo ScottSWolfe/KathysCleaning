@@ -5,10 +5,8 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 import java.awt.event.WindowListener;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**
  *  This is used to launch a panel used to update the names in a list of workers.
@@ -30,7 +28,7 @@ public class EditWorkersPanelLauncher {
         final List<String> availableWorkerNames,
         final boolean allowRepeatSelections,
         final Runnable onCancel,
-        final Consumer<List<List<String>>> onSubmit,
+        final Consumer<List<String>> onSubmit,
         final WindowListener popUpWindowListener
     ) {
         launchPanel(
@@ -52,7 +50,7 @@ public class EditWorkersPanelLauncher {
         final int columnCount,
         final boolean allowRepeatSelections,
         final Runnable onCancel,
-        final Consumer<List<List<String>>> onSubmit,
+        final Consumer<List<String>> onSubmit,
         final WindowListener popUpWindowListener
     ) {
         workerComboBoxesPanel = WorkerComboBoxGridPanel.from(
@@ -72,16 +70,12 @@ public class EditWorkersPanelLauncher {
     }
 
     private void onSubmitInternal(
-        final Consumer<List<List<String>>> onSubmit,
-        final List<List<String>> updatedWorkerNames,
+        final Consumer<List<String>> onSubmit,
+        final List<String> updatedWorkerNames,
         final boolean allowRepeatSelections
     ) {
         if (!allowRepeatSelections) {
-            final List<String> flatListUpdatedWorkerNames = updatedWorkerNames.stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-
-            if (StaticMethods.isRepeatWorker(flatListUpdatedWorkerNames)) {
+            if (StaticMethods.isRepeatWorker(updatedWorkerNames)) {
                 StaticMethods.shareRepeatWorker();
                 throw new PopUpFormLauncher.ButtonListenerException();
             }

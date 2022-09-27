@@ -1,5 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class NW_Data {
@@ -21,9 +22,9 @@ public class NW_Data {
         return dayData;
     }
 
-    public void setWorkers(List<List<String>> workerNames) {
+    public void updateWorkersAndKeepSelections(@Nonnull final List<String> workerNames) {
         for (NW_DayData day : dayData) {
-            day.setWorkers(workerNames);
+            day.updateWorkersAndKeepSelections(workerNames);
         }
     }
 }

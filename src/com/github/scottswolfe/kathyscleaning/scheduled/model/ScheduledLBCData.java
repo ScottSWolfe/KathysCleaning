@@ -3,8 +3,10 @@ package com.github.scottswolfe.kathyscleaning.scheduled.model;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
+import com.github.scottswolfe.kathyscleaning.utility.WorkerSelectionGridHelper;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,17 +35,6 @@ public class ScheduledLBCData {
         return new ScheduledLBCData(meetTime, workerSelectionGrid, scheduledLBCExceptions);
     }
 
-    public static ScheduledLBCData copyOf(
-        final ScheduledLBCData scheduledLBCData,
-        final List<List<String>> workerNames
-    ) {
-        return new ScheduledLBCData(
-            scheduledLBCData.meetTime,
-            getWorkerSelectionGridFromNames(workerNames),
-            scheduledLBCData.getScheduledLBCExceptions()
-        );
-    }
-
     private ScheduledLBCData(
         final String meetTime,
         final List<List<Pair<String, Boolean>>> workerSelectionGrid,
@@ -60,6 +51,10 @@ public class ScheduledLBCData {
 
     public List<List<Pair<String, Boolean>>> getWorkerSelectionGrid() {
         return workerSelectionGrid;
+    }
+
+    public void updateWorkersAndKeepSelections(@Nonnull final List<String> workerNames) {
+        WorkerSelectionGridHelper.getInstance().updateWorkersAndKeepSelections(workerSelectionGrid, workerNames);
     }
 
     public ScheduledLBCExceptions getScheduledLBCExceptions() {

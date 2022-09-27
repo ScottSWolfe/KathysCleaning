@@ -4,10 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
@@ -181,13 +179,9 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
     @Override
     public void updateWorkersOnModel(
         @Nonnull final CompletedModel completedModel,
-        @Nonnull final List<List<String>> workerNames
+        @Nonnull final List<String> workerNames
     ) {
-        completedModel.updateWorkersAndKeepExistingSelections(
-            workerNames.stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList())
-        );
+        completedModel.updateWorkersAndKeepExistingSelections(workerNames);
     }
 
     /**

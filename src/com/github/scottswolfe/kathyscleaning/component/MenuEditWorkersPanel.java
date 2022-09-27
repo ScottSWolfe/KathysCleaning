@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class MenuEditWorkersPanel extends JPanel implements Supplier<List<List<String>>>, FocusableCollection {
+public class MenuEditWorkersPanel extends JPanel implements Supplier<List<String>>, FocusableCollection {
 
     private final WorkerComboBoxGridPanel workerComboBoxGridPanel;
     private final Button loadFromExcelButton;
@@ -53,7 +53,7 @@ public class MenuEditWorkersPanel extends JPanel implements Supplier<List<List<S
     }
 
     @Override
-    public List<List<String>> get() {
+    public List<String> get() {
         return workerComboBoxGridPanel.getSelectedWorkers();
     }
 }

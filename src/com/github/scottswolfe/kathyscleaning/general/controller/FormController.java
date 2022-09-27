@@ -1,6 +1,5 @@
 package com.github.scottswolfe.kathyscleaning.general.controller;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
@@ -132,7 +131,7 @@ public class FormController<View extends JComponent, Model> {
         controllerHelper.writeModelToView(model, view);
     }
 
-    public void updateWorkers(final List<List<String>> workerNames) {
+    public void updateWorkers(@Nonnull final List<String> workerNames) {
         controllerHelper.updateWorkersOnModel(model, workerNames);
         controllerHelper.writeModelToView(model, view);
     }

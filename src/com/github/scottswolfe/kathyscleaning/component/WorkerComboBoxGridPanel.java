@@ -52,7 +52,17 @@ public class WorkerComboBoxGridPanel extends ComboBoxGridPanel {
         return comboBoxSelections;
     }
 
-    public List<List<String>> getSelectedWorkers() {
+    public List<String> getSelectedWorkers() {
+        final List<String> comboBoxSelections = new ArrayList<>();
+        for (int row = 0; row < rowCount(); row++) {
+            for (int column = 0; column < columnCount(); column++) {
+                comboBoxSelections.add(String.valueOf(getComponent(row, column).getSelectedItem()));
+            }
+        }
+        return comboBoxSelections;
+    }
+
+    public List<List<String>> getSelectedWorkersInGrid() {
         final List<List<String>> comboBoxSelections = new ArrayList<>(rowCount());
         for (int row = 0; row < rowCount(); row++) {
             final List<String> comboBoxSelectionsInRow = new ArrayList<>(columnCount());

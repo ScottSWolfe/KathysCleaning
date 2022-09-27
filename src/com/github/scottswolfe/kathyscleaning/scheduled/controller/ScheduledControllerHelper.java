@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
 import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
-import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
@@ -27,6 +26,8 @@ import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.ScheduledTabbedPane;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import org.apache.commons.lang3.tuple.Pair;
+
+import javax.annotation.Nonnull;
 
 public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabbedPane, NW_Data> {
 
@@ -179,8 +180,8 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
     }
 
     @Override
-    public void updateWorkersOnModel(final NW_Data nwData, final List<List<String>> workerNames) {
-        nwData.setWorkers(workerNames);
+    public void updateWorkersOnModel(@Nonnull final NW_Data nwData, @Nonnull final List<String> workerNames) {
+        nwData.updateWorkersAndKeepSelections(workerNames);
     }
 
     private List<WorkerSchedule> getWorkerSchedules(NW_DayPanel dp) {

@@ -6,6 +6,8 @@ import java.util.List;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
+import javax.annotation.Nonnull;
+
 public class NW_DayData {
 
     NW_HeaderData headerData;
@@ -66,12 +68,12 @@ public class NW_DayData {
         return houseData;
     }
 
-    public void setWorkers(List<List<String>> workerNames) {
-        headerData.setDWD(WorkerList.from(workerNames));
-        lbcData = ScheduledLBCData.copyOf(lbcData, workerNames);
+    public void updateWorkersAndKeepSelections(@Nonnull final List<String> workerNames) {
+        headerData.setDWD(WorkerList.from(workerNames, headerData.getDWD().getSelectedWorkerNames()));
+        lbcData.updateWorkersAndKeepSelections(workerNames);
         for (NW_HouseData house : houseData) {
-            house.setWorkerList(WorkerList.from(workerNames));
+            house.setWorkerList(WorkerList.from(workerNames, house.getWorkerList().getSelectedWorkerNames()));
         }
-        cov_worker = WorkerList.from(workerNames);
+        cov_worker = WorkerList.from(workerNames, cov_worker.getSelectedWorkerNames());
     }
 }

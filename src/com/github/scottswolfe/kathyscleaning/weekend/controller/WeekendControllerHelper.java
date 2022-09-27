@@ -14,6 +14,8 @@ import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel;
 import com.github.scottswolfe.kathyscleaning.weekend.view.WeekendPanel.JobPanel;
 
+import javax.annotation.Nonnull;
+
 public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, WeekendModel> {
 
     private final SharedDataManager sharedDataManager;
@@ -109,7 +111,10 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
     }
 
     @Override
-    public void updateWorkersOnModel(final WeekendModel weekendModel, final List<List<String>> workerNames) {
+    public void updateWorkersOnModel(
+        @Nonnull final WeekendModel weekendModel,
+        @Nonnull final List<String> workerNames
+    ) {
         // do nothing
     }
 }
