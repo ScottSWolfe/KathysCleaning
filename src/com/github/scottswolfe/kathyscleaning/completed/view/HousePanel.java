@@ -20,6 +20,7 @@ import com.github.scottswolfe.kathyscleaning.component.Button;
 import com.github.scottswolfe.kathyscleaning.component.HouseNamePanel;
 import com.github.scottswolfe.kathyscleaning.component.HouseRowButtonPanel;
 import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
@@ -73,7 +74,7 @@ public class HousePanel extends JPanel implements FocusableCollection {
         amountEarnedPanel = AmountEarnedPanel.from();
         timePanel = TimeRangePanel.from();
         workerSelectPanel = WorkerSelectPanel.from(
-            GlobalData.getInstance().getDefaultWorkerNames(),
+            SharedDataManager.getInstance().getAvailableWorkerNames(),
             WORKER_SELECTION_ROW_COUNT,
             WORKER_SELECTION_COLUMN_COUNT,
             Settings.BACKGROUND_COLOR

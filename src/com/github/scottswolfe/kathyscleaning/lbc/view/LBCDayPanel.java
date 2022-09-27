@@ -7,6 +7,7 @@ import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.ExceptionsPanelLauncher;
@@ -54,7 +55,7 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
         amountEarnedPanel = AmountEarnedPanel.from();
         timeRangePanel = TimeRangePanel.from();
         workerSelectPanel = WorkerSelectPanel.from(
-            new WorkerList(GlobalData.getInstance().getDefaultWorkerNames()),
+            new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames()),
             Settings.BACKGROUND_COLOR
         );
         exceptionsButton = new KcButton(

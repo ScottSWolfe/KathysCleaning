@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
 /**
@@ -16,7 +16,7 @@ public class CovenantModel {
     List<Double> amountsEarned;
 
     public static CovenantModel from() {
-        final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        final WorkerList workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
 
         final List<CovenantEntry> covenantEntries = new ArrayList<>();
         for (int row = 0; row < CovenantPanel.ROWS; row++) {

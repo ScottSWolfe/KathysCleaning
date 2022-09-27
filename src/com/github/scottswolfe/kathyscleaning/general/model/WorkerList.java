@@ -135,10 +135,13 @@ public class WorkerList implements Iterable<Worker> {
         for (int row = 0; row < rowCount; row++) {
             final List<Pair<String, Boolean>> listOfColumns = new ArrayList<>();
             for (int column = 0; column < columnCount; column++) {
-                listOfColumns.add(Pair.of(
-                    workers.get(workerCount).getName(),
-                    workers.get(workerCount).isSelected())
-                );
+                final Pair<String, Boolean> workerSelection;
+                if (workerCount < workers.size()) {
+                    workerSelection = Pair.of(workers.get(workerCount).getName(), workers.get(workerCount).isSelected());
+                } else {
+                    workerSelection = Pair.of("", false);
+                }
+                listOfColumns.add(workerSelection);
                 workerCount++;
             }
             listOfRows.add(listOfColumns);

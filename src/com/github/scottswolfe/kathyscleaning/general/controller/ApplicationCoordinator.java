@@ -14,13 +14,13 @@ import com.github.scottswolfe.kathyscleaning.scheduled.view.ScheduledTabbedPane;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 import com.github.scottswolfe.kathyscleaning.utility.ModelConverter;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
-import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
 import javax.swing.SwingUtilities;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -98,7 +98,14 @@ public class ApplicationCoordinator {
 
     public void updateWorkers(final List<List<String>> workerNames) {
         writeCurrentStateToTemporarySaveFile();
+        sharedDataManager.setAvailableWorkerNames(
+            workerNames.stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList())
+        );
         formControllers.values().forEach(controller -> controller.updateWorkers(workerNames));
+        writeCurrentStateToTemporarySaveFile();
+        refreshWindow();
     }
 
     public void setStartDate(@Nonnull final Calendar date) {

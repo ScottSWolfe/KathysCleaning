@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.lbc.model;
 
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import com.google.common.collect.ImmutableList;
@@ -19,7 +19,7 @@ public class LBCHeader {
 
     public static LBCHeader from() {
         return new LBCHeader(
-            new WorkerList(GlobalData.getInstance().getDefaultWorkerNames()).getAsWorkerSelectionGrid(
+            new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames()).getAsWorkerSelectionGrid(
                 LBCPanel.LBC_WORKER_ROW_COUNT, LBCPanel.LBC_WORKER_COLUMN_COUNT
             )
         );

@@ -3,21 +3,18 @@ package com.github.scottswolfe.kathyscleaning.scheduled.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
 public class NW_DayData {
 
     NW_HeaderData headerData;
-
     private ScheduledLBCData lbcData;
     public NW_HouseData[] houseData;
     public List<BeginExceptionEntry> beginExceptionList;
     public String meet_location;
     public String meet_time;
-
     public WorkerList cov_worker;
-
     public NoteData covNoteData;
 
     List<WorkerSchedule> ws;
@@ -32,7 +29,7 @@ public class NW_DayData {
         beginExceptionList = new ArrayList<>();
         meet_location = "";
         meet_time = "";
-        cov_worker = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        cov_worker = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
         covNoteData = new NoteData();
         ws = new ArrayList<>();
     }

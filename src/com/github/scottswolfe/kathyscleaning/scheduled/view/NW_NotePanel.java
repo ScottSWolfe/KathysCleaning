@@ -228,7 +228,7 @@ public class NW_NotePanel extends JPanel {
                 note[i] = note_field[i].getText();
             }
 
-            nd = new NoteData(worker, note, dwd);
+            nd = new NoteData(worker, note);
 
             // set nw day panel's note data and listener data
             day_panel.setNoteData(nd);

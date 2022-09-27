@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,7 +23,7 @@ public class HouseData {
         house_pay = 0.0;
         time_begin = "";
         time_end = "";
-        workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
         exception_data = new ExceptionData();
     }
 

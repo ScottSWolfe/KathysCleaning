@@ -7,7 +7,7 @@ import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -72,7 +72,7 @@ public class CompletedTabbedPane extends JTabbedPane {
         final FormController<CompletedTabbedPane, CompletedModel> controller,
         final Calendar completedStartDay
     ) {
-        final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        final WorkerList workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
         return COMPLETED_FORM_DAYS.stream()
             .map(dayOfWeek -> {
                 final Calendar date = CalendarMethods.copy(completedStartDay);

@@ -26,7 +26,7 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -141,7 +141,7 @@ public class CovenantPanel extends JPanel {
 
         String layout_format;
 
-        WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        WorkerList workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
         //worker labels
         for(int i=0; i<rows; i++){
 

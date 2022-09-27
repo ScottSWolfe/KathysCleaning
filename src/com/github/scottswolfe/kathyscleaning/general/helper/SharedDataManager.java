@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.general.helper;
 
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
+import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.ImmutableSharedDataModel;
 import com.github.scottswolfe.kathyscleaning.general.model.SharedDataModel;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
@@ -11,10 +12,12 @@ import com.google.common.collect.ImmutableList;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.Calendar;
+import java.util.List;
 
 public class SharedDataManager {
 
     private static final SharedDataManager sharedDataManagerInstance = new SharedDataManager();
+    private static final GlobalData globalData = GlobalData.getInstance();
 
     private SharedDataModel sharedDataModel;
 
@@ -22,16 +25,11 @@ public class SharedDataManager {
         return sharedDataManagerInstance;
     }
 
-    private SharedDataManager() {
-        sharedDataModel = ImmutableSharedDataModel.builder()
-            .completedStartDay(CalendarMethods.getFirstDayOfWeek())
-            .availableWorkerNames(ImmutableList.of())
-            .build();
-    }
+    private SharedDataManager() {}
 
     public void writeToTemporarySaveFile() {
         JsonMethods.saveToFileJSON(
-            sharedDataModel,
+            getSharedDataModel(),
             SharedDataModel.class,
             SaveFileManager.TEMP_SAVE_FILE,
             SaveType.SESSION
@@ -46,6 +44,15 @@ public class SharedDataManager {
         );
     }
 
+    public List<String> getAvailableWorkerNames() {
+        return ImmutableList.copyOf(getSharedDataModel().availableWorkerNames());
+    }
+
+    public void setAvailableWorkerNames(@Nonnull final List<String> availableWorkerNames) {
+        sharedDataModel = ImmutableSharedDataModel.copyOf(getSharedDataModel())
+            .withAvailableWorkerNames(availableWorkerNames);
+    }
+
     public Calendar readScheduledStartDayFromFile(@Nonnull final File file) {
         final SharedDataModel sharedDataModel = JsonMethods.loadFromFileJSON(
             SharedDataModel.class,
@@ -56,11 +63,11 @@ public class SharedDataManager {
     }
 
     public Calendar getCompletedStartDay() {
-        return CalendarMethods.copy(sharedDataModel.completedStartDay());
+        return CalendarMethods.copy(getSharedDataModel().completedStartDay());
     }
 
     public void setCompletedStartDay(@Nonnull final Calendar completedStartDay) {
-        sharedDataModel = ImmutableSharedDataModel.copyOf(sharedDataModel)
+        sharedDataModel = ImmutableSharedDataModel.copyOf(getSharedDataModel())
             .withCompletedStartDay(CalendarMethods.trim(completedStartDay));
     }
 
@@ -79,5 +86,15 @@ public class SharedDataManager {
         final Calendar scheduledStartDay = CalendarMethods.copy(completedStartDay);
         scheduledStartDay.add(Calendar.DATE, 7);
         return scheduledStartDay;
+    }
+
+    private SharedDataModel getSharedDataModel() {
+        if (sharedDataModel == null) {
+            sharedDataModel = ImmutableSharedDataModel.builder()
+                .completedStartDay(CalendarMethods.getFirstDayOfWeek())
+                .availableWorkerNames(globalData.getDefaultWorkerNames())
+                .build();
+        }
+        return sharedDataModel;
     }
 }

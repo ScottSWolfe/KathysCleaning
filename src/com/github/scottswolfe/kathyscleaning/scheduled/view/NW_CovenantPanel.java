@@ -14,7 +14,7 @@ import javax.swing.border.MatteBorder;
 import com.github.scottswolfe.kathyscleaning.component.EditableWorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
@@ -36,7 +36,7 @@ public class NW_CovenantPanel extends JPanel {
 
     public NW_CovenantPanel(NW_DayPanel day_panel, JFrame container_frame ) {
 
-        final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        final WorkerList workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
 
         this.day_panel = day_panel;
         this.container_frame = container_frame;

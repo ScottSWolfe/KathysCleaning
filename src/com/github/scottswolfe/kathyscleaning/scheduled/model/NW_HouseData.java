@@ -1,6 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.model;
 
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
 public class NW_HouseData {
@@ -10,7 +10,7 @@ public class NW_HouseData {
 
     public NW_HouseData() {
         house_name = "";
-        workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
     }
 
     public String getHouseName() {

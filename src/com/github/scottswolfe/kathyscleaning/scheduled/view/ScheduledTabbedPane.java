@@ -1,7 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.view;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
-import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -40,7 +40,7 @@ public class ScheduledTabbedPane extends JTabbedPane {
             day[i].add(Calendar.DATE, i);
         }
 
-        final WorkerList workers = new WorkerList(GlobalData.getInstance().getDefaultWorkerNames());
+        final WorkerList workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
 
         NW_DayPanel[] day_panel = new NW_DayPanel[5];
         for(int i = 0; i < 5; i++){
