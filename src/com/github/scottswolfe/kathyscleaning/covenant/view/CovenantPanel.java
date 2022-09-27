@@ -141,7 +141,7 @@ public class CovenantPanel extends JPanel {
 
         String layout_format;
 
-        WorkerList workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
+        WorkerList workers = new WorkerList(SharedDataManager.getInstance().getCovenantWorkerNames());
         //worker labels
         for(int i=0; i<rows; i++){
 

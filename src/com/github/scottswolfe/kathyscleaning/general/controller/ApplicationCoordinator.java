@@ -103,7 +103,9 @@ public class ApplicationCoordinator {
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList())
         );
-        formControllers.values().forEach(controller -> controller.updateWorkers(workerNames));
+        formControllers.values().stream()
+            .filter(controller -> controller.getFormType() != Form.COVENANT) // Covenant uses a different set of workers
+            .forEach(controller -> controller.updateWorkers(workerNames));
         writeCurrentStateToTemporarySaveFile();
         refreshWindow();
     }

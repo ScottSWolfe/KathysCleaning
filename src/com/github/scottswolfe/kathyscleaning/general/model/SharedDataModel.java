@@ -11,4 +11,5 @@ import java.util.List;
 public abstract class SharedDataModel {
     public abstract Calendar completedStartDay();
     public abstract List<String> availableWorkerNames();
+    public abstract List<String> covenantWorkerNames();
 }

@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
+import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.general.view.EditWorkersPanelLauncher;
@@ -59,9 +61,9 @@ public class CovenantListeners {
             covPanel.getNameLabels()[i].setText(workers.getName(i));
         }
 
-        covPanel.getParent().revalidate();
-        covPanel.getFrame().pack();
-        covPanel.getParent().repaint();
+        SharedDataManager.getInstance().setCovenantWorkerNames(flatListUpdatedWorkerNames);
+
+        ApplicationCoordinator.getInstance().refreshWindow();
     }
 
     /**

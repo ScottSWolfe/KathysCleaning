@@ -53,6 +53,15 @@ public class SharedDataManager {
             .withAvailableWorkerNames(availableWorkerNames);
     }
 
+    public List<String> getCovenantWorkerNames() {
+        return ImmutableList.copyOf(getSharedDataModel().covenantWorkerNames());
+    }
+
+    public void setCovenantWorkerNames(@Nonnull final List<String> covenantWorkerNames) {
+        sharedDataModel = ImmutableSharedDataModel.copyOf(getSharedDataModel())
+            .withCovenantWorkerNames(covenantWorkerNames);
+    }
+
     public Calendar readScheduledStartDayFromFile(@Nonnull final File file) {
         final SharedDataModel sharedDataModel = JsonMethods.loadFromFileJSON(
             SharedDataModel.class,
@@ -93,6 +102,7 @@ public class SharedDataManager {
             sharedDataModel = ImmutableSharedDataModel.builder()
                 .completedStartDay(CalendarMethods.getFirstDayOfWeek())
                 .availableWorkerNames(globalData.getDefaultWorkerNames())
+                .covenantWorkerNames(globalData.getDefaultWorkerNames())
                 .build();
         }
         return sharedDataModel;
