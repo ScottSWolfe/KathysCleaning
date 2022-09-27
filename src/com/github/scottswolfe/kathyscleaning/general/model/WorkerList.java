@@ -2,6 +2,7 @@ package com.github.scottswolfe.kathyscleaning.general.model;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,17 @@ public class WorkerList implements Iterable<Worker> {
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList())
         );
+    }
+
+    public static WorkerList from(
+        @Nonnull final List<String> workerNames,
+        @Nonnull final List<String> selectedWorkers
+    ) {
+        final WorkerList workerList = new WorkerList();
+        workerNames.stream()
+            .map(name -> new Worker(name, selectedWorkers.contains(name)))
+            .forEach(workerList::add);
+        return workerList;
     }
 
     public WorkerList() {
@@ -66,15 +78,11 @@ public class WorkerList implements Iterable<Worker> {
     /**
      * Adds a worker to the list.
      */
-    public boolean add(Worker worker) {
-
+    public void add(Worker worker) {
         if (worker == null) {
             throw new IllegalArgumentException("Argument is null.");
         }
-        if (workers.contains(worker)) {
-            return false;
-        }
-        return workers.add(worker);
+        workers.add(worker);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.model;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class CompletedModel {
@@ -21,9 +22,9 @@ public class CompletedModel {
 	    this.dayData = dayData;
 	}
 
-    public void setWorkers(List<List<String>> workerNames) {
+    public void updateWorkersAndKeepExistingSelections(@Nonnull final List<String> workerNames) {
         for (DayData day : dayData) {
-            day.setWorkers(workerNames);
+            day.updateWorkersAndKeepExistingSelections(workerNames);
         }
     }
 }

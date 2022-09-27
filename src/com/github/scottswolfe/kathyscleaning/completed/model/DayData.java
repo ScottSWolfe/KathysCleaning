@@ -1,8 +1,8 @@
 package com.github.scottswolfe.kathyscleaning.completed.model;
 
-import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import org.apache.commons.lang3.ArrayUtils;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class DayData {
@@ -38,10 +38,10 @@ public class DayData {
         houseData = ArrayUtils.add(houseData, newHouseData);
     }
 
-    public void setWorkers(List<List<String>> workerNames) {
-        headerData.setWorkers(WorkerList.from(workerNames));
+    public void updateWorkersAndKeepExistingSelections(@Nonnull final List<String> workerNames) {
+        headerData.updateWorkersAndKeepExistingSelections(workerNames);
         for (HouseData house : houseData) {
-            house.setWorkerList(WorkerList.from(workerNames));
+            house.updateWorkersAndKeepExistingSelections(workerNames);
         }
     }
 }

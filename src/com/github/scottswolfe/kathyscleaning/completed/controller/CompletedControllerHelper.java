@@ -4,8 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
@@ -21,6 +23,8 @@ import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
+
+import javax.annotation.Nonnull;
 
 public class CompletedControllerHelper implements ControllerHelper<CompletedTabbedPane, CompletedModel> {
 
@@ -175,8 +179,15 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
     }
 
     @Override
-    public void updateWorkersOnModel(final CompletedModel completedModel, final List<List<String>> workerNames) {
-        completedModel.setWorkers(workerNames);
+    public void updateWorkersOnModel(
+        @Nonnull final CompletedModel completedModel,
+        @Nonnull final List<List<String>> workerNames
+    ) {
+        completedModel.updateWorkersAndKeepExistingSelections(
+            workerNames.stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList())
+        );
     }
 
     /**

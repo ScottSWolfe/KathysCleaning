@@ -9,6 +9,8 @@ import com.github.scottswolfe.kathyscleaning.general.model.Worker;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nonnull;
+
 public class HouseData {
 
     private String house_name;
@@ -78,6 +80,10 @@ public class HouseData {
 
     public void setWorkerList(WorkerList workers) {
         this.workers = workers;
+    }
+
+    public void updateWorkersAndKeepExistingSelections(@Nonnull final List<String> workerNames) {
+        workers = WorkerList.from(workerNames, workers.getSelectedWorkerNames());
     }
 
     public void setExceptionData(ExceptionData exception_data) {
