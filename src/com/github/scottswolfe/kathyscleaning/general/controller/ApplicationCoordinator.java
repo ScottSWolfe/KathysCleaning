@@ -95,6 +95,12 @@ public class ApplicationCoordinator {
         }
     }
 
+    public void redrawViews() {
+        writeCurrentStateToTemporarySaveFile();
+        formControllers.values().forEach(FormController::recreateView);
+        refreshWindow();
+    }
+
     public void updateWorkers(@Nonnull final List<String> workerNames) {
         writeCurrentStateToTemporarySaveFile();
         sharedDataManager.setAvailableWorkerNames(workerNames);

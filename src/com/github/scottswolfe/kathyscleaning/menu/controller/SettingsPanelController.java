@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.menu.model.SettingsModel;
 import com.github.scottswolfe.kathyscleaning.menu.view.MenuPanel;
@@ -169,6 +170,7 @@ public class SettingsPanelController {
             int fontSizeFactor = settingsPanel.getFontSizeSliderValue();
             SettingsModel.setFontSizeFactor(fontSizeFactor);
             SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
+            ApplicationCoordinator.getInstance().redrawViews();
 
             JFrame newMenuFrame = new JFrame();
             MenuPanel menuPanel = new MenuPanel(newMenuFrame);

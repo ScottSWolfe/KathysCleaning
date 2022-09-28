@@ -16,7 +16,6 @@ import javax.swing.SwingUtilities;
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
-import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.lbc.controller.LBCControllerHelper;
@@ -37,7 +36,7 @@ public class FormController<View extends JComponent, Model> {
     /**
      * The view this controller controls
      */
-    private final View view;
+    private View view;
 
     /**
      * The model this controller controls
@@ -47,27 +46,23 @@ public class FormController<View extends JComponent, Model> {
     /**
      * The frame that contains the view
      */
-    private final MainFrame<View, Model> parentFrame;
+    private MainFrame<View, Model> parentFrame;
 
     /**
      * The scroll pane containing the view that this controller controls
      */
-    private final JScrollPane scrollPane;
+    private JScrollPane scrollPane;
 
     /**
      * The helper for this controller
      */
     private final ControllerHelper<View, Model> controllerHelper;
 
-    private final SharedDataManager sharedDataManager;
-
     public static FormController<?, ?> from(final Form type) {
         return new FormController<>(type);
     }
 
     private FormController(final Form type) {
-        sharedDataManager = SharedDataManager.getInstance();
-
         form = type;
 
         if (type == Form.COMPLETED) {
@@ -84,8 +79,13 @@ public class FormController<View extends JComponent, Model> {
             throw new RuntimeException("Unexpected Form type: " + type);
         }
 
-        parentFrame = new MainFrame<>(this);
         model = controllerHelper.initializeModel();
+        initializeView();
+    }
+
+    private void initializeView() {
+        parentFrame = new MainFrame<>(this);
+
         view = controllerHelper.initializeView(this, parentFrame);
 
         scrollPane = new JScrollPane();
@@ -188,13 +188,17 @@ public class FormController<View extends JComponent, Model> {
         window.setVisible(false);
     }
 
+    public void recreateView() {
+        initializeView();
+        controllerHelper.writeModelToView(model, view);
+    }
+
     public Form getFormType() {
         return form;
     }
 
     public void setTitleText() {
-        final MainFrame<View, Model> frame = (MainFrame<View, Model>) SwingUtilities.getWindowAncestor(view);
-        frame.setTitleText(this);
+        parentFrame.setTitleText(this);
     }
 
     public View getView() {
