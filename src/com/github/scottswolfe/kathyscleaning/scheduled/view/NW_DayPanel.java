@@ -147,6 +147,7 @@ public class NW_DayPanel extends JPanel {
         meet_location_box = new JComboBox<String>();
         meet_location_box.setEditable(true);
         meet_location_box.setFont( meet_location_box.getFont().deriveFont( Settings.FONT_SIZE ));
+        meet_location_box.setSelectedItem("");
 
         meet_time_label = new JLabel("Meet Time:");
         meet_time_label.setFont( meet_time_label.getFont().deriveFont(Settings.FONT_SIZE));
@@ -242,14 +243,8 @@ public class NW_DayPanel extends JPanel {
     }
 
     public String getMeetLocation() {
-        if ( String.valueOf(meet_location_box.getSelectedItem()) != null &&
-             String.valueOf(meet_location_box.getSelectedItem()).length() > 0 ) {
-
-            return String.valueOf(meet_location_box.getSelectedItem());
-        }
-        else {
-            return "";
-        }
+        final Object selectedItem = meet_location_box.getSelectedItem();
+        return selectedItem != null ? String.valueOf(selectedItem) : "";
     }
 
     public String getMeetTime() {
