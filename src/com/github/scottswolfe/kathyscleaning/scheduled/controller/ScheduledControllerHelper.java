@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
@@ -316,36 +317,38 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
         }
 
         // add the houses
-        int numHouses = schedule.houseList.size();
+        final List<String> houses = schedule.houseList.stream()
+            .filter(houseName -> !houseName.isEmpty())
+            .collect(Collectors.toList());
+
+        int numHouses = houses.size();
         for (int i = 0; i < numHouses; i++) {
 
-            String house = schedule.houseList.get(i);
-            if (house.length() > 0) {
+            String house = houses.get(i);
 
-                // if last house, don't add a comma
-                if (i >= numHouses - 1) {
+            // if last house, don't add a comma
+            if (i >= numHouses - 1) {
 
-                    s += house;
+                s += house;
 
-                    // ex_note exists that has not yet been written to the string
-                    if (schedule.ex_note_written == false && schedule.ex_note != null &&
-                         schedule.ex_note.length() > 0) {
+                // ex_note exists that has not yet been written to the string
+                if (schedule.ex_note_written == false && schedule.ex_note != null &&
+                     schedule.ex_note.length() > 0) {
 
-                        s += " (" + schedule.ex_note + ")";
-                        schedule.ex_note_written = true;
-                    }
-                }
-                // if first house and ex_note exists and it has not already been written
-                else if (i == 0 && schedule.ex_note_written == false &&
-                        schedule.ex_note != null && schedule.ex_note.length() > 0) {
-
-                    s += house + " (" + schedule.ex_note + "), ";
+                    s += " (" + schedule.ex_note + ")";
                     schedule.ex_note_written = true;
                 }
-                // if every other house, add a comma
-                else {
-                    s += house + ", ";
-                }
+            }
+            // if first house and ex_note exists and it has not already been written
+            else if (i == 0 && schedule.ex_note_written == false &&
+                    schedule.ex_note != null && schedule.ex_note.length() > 0) {
+
+                s += house + " (" + schedule.ex_note + "), ";
+                schedule.ex_note_written = true;
+            }
+            // if every other house, add a comma
+            else {
+                s += house + ", ";
             }
         }
 
