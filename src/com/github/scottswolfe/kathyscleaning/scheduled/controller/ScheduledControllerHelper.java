@@ -8,8 +8,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import com.github.scottswolfe.kathyscleaning.completed.model.DayData;
-import com.github.scottswolfe.kathyscleaning.completed.model.HouseData;
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
@@ -61,14 +59,12 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
         ScheduledTabbedPane tp = view;
 
         NW_DayData[] dayData = new NW_DayData[5];
-        DayData[] completedDayData = new DayData[5];
 
         // for each day
         for (int d = 0; d < dayData.length; d++) {
             NW_DayPanel dp = tp.nw_day_panel[d];
 
             dayData[d] = new NW_DayData();
-            completedDayData[d] = new DayData();
 
             NW_HeaderData header = new NW_HeaderData();
             header.setDWD(dp.header_panel.getWorkerList());
@@ -82,20 +78,14 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
             dayData[d].covNoteData = dp.getNoteData();
 
             NW_HouseData[] houseData = new NW_HouseData[tp.nw_day_panel[d].getNumHousePanels()];
-            HouseData[] completedHouseData = new HouseData[tp.nw_day_panel[d].getNumHousePanels()];
 
             // for each house panel in the day
-            for (int h = 0; h < completedHouseData.length; h++) {
+            for (int h = 0; h < houseData.length; h++) {
                 houseData[h] = new NW_HouseData();
                 houseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName());
                 houseData[h].setWorkerList(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getWorkers());
-
-                completedHouseData[h] = new HouseData();
-                completedHouseData[h].setHouseName(tp.nw_day_panel[d].house_panels.get(h).getHouseName());
-                completedHouseData[h].setWorkerList(tp.nw_day_panel[d].house_panels.get(h).worker_panel.getWorkers());
             }
             dayData[d].setHouseData(houseData);
-            completedDayData[d].setHouseData(completedHouseData);
 
             List<WorkerSchedule> ws = getWorkerSchedules(tp.nw_day_panel[d]);
             dayData[d].setWorkerSchedule(ws);
