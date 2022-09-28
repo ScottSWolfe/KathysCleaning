@@ -19,11 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
-import com.github.scottswolfe.kathyscleaning.utility.FormLauncher;
-import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -39,14 +37,7 @@ public class WeekendPanel extends JPanel {
     JButton submit_button;
     public JobPanel[] jp;
 
-    FormController<WeekendPanel, WeekendModel> controller;
-
-    public WeekendPanel(
-        FormController<WeekendPanel, WeekendModel> controller,
-        @Nonnull final Calendar weekendStartDay
-    ) {
-        this.controller = controller;
-
+    public WeekendPanel(@Nonnull final Calendar weekendStartDay) {
         setLayout(new MigLayout());
         setBackground(Settings.BACKGROUND_COLOR);
 
@@ -75,7 +66,7 @@ public class WeekendPanel extends JPanel {
         submit_button.setFont(submit_button.getFont().deriveFont(Settings.FONT_SIZE));
         submit_button.setBackground(Settings.MAIN_COLOR);
         submit_button.setForeground(Settings.FOREGROUND_COLOR);
-        submit_button.addActionListener((event) -> FormLauncher.from().launchNextForm(controller.getFormType()));
+        submit_button.addActionListener((event) -> ApplicationCoordinator.getInstance().launchNextForm());
 
         panel.add(heading_label, "span, center, wrap");
 

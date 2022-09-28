@@ -16,7 +16,6 @@ import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HeaderPanel;
 import com.github.scottswolfe.kathyscleaning.completed.view.HousePanel;
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
-import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
@@ -41,10 +40,8 @@ public class CompletedControllerHelper implements ControllerHelper<CompletedTabb
     }
 
     @Override
-    public CompletedTabbedPane initializeView(
-        @Nonnull final FormController<CompletedTabbedPane, CompletedModel> controller
-    ) {
-        return CompletedTabbedPane.from(controller, sharedDataManager.getCompletedStartDay());
+    public CompletedTabbedPane initializeView() {
+        return CompletedTabbedPane.from(sharedDataManager.getCompletedStartDay());
     }
 
     @Override

@@ -53,7 +53,7 @@ public class MenuPanelController {
             menuFrame.setVisible(false);
             menuFrame.dispose();
 
-            ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
+            ApplicationCoordinator.getInstance().launchNextForm();
         }
     }
 
@@ -66,7 +66,7 @@ public class MenuPanelController {
             if (shouldCompleteAction) {
                 menuFrame.setVisible(false);
                 menuFrame.dispose();
-                ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
+                ApplicationCoordinator.getInstance().launchNextForm();
             }
         }
     }
@@ -90,7 +90,7 @@ public class MenuPanelController {
         public void actionPerformed( ActionEvent e ) {
             menuFrame.setVisible(false);
             menuFrame.dispose();
-            System.exit(0);
+            ApplicationCoordinator.getInstance().endApplication();
         }
     }
 

@@ -21,17 +21,15 @@ import javax.swing.text.AbstractDocument;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
-import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
+import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
-import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_SubmitWeekListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
-import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 
 import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCData;
@@ -40,8 +38,6 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class NW_DayPanel extends JPanel {
-
-    FormController<ScheduledTabbedPane, NW_Data> controller;
 
     NoteData noteData;
     List<BeginExceptionEntry> beginExceptionList;
@@ -64,13 +60,7 @@ public class NW_DayPanel extends JPanel {
     public JTextField meet_time_field;
     JButton exception_button;
 
-    public NW_DayPanel(
-        FormController<ScheduledTabbedPane, NW_Data> controller,
-        ScheduledTabbedPane tp,
-        WorkerList workers,
-        Calendar date
-    ) {
-        this.controller = controller;
+    public NW_DayPanel(ScheduledTabbedPane tp, WorkerList workers, Calendar date) {
         this.date = date;
         this.tp = tp;
 
@@ -84,7 +74,7 @@ public class NW_DayPanel extends JPanel {
             date,
             new PreviousDayListener(tp),
             new NextDayListener(tp),
-            new NW_SubmitWeekListener(controller)
+            (event) -> ExcelMethods.chooseFileAndGenerateExcelDoc()
         );
         scheduledLBCPanel = ScheduledLBCPanel.from(
             BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK)

@@ -9,7 +9,6 @@ import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
-import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkTime;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
@@ -24,9 +23,7 @@ public class CovenantControllerHelper implements ControllerHelper<CovenantPanel,
     }
 
     @Override
-    public CovenantPanel initializeView(
-        @Nonnull FormController<CovenantPanel, CovenantModel> controller
-    ) {
+    public CovenantPanel initializeView() {
         final CovenantListeners covenantListeners = new CovenantListeners();
         final CovenantPanel covenantPanel = new CovenantPanel(covenantListeners);
         covenantListeners.setCovPanel(covenantPanel);

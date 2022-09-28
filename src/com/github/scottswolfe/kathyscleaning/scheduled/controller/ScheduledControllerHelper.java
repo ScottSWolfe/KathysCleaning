@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
-import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
@@ -45,10 +44,8 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
     }
 
     @Override
-    public ScheduledTabbedPane initializeView(
-        @Nonnull final FormController<ScheduledTabbedPane, NW_Data> controller
-    ) {
-        return ScheduledTabbedPane.from(controller, sharedDataManager.getScheduledStartDay());
+    public ScheduledTabbedPane initializeView() {
+        return ScheduledTabbedPane.from(sharedDataManager.getScheduledStartDay());
     }
 
     @Override

@@ -32,4 +32,8 @@ public class FormLauncher {
 
         ApplicationCoordinator.getInstance().navigateToForm(nextForm);
     }
+
+    public void launchFirstForm() {
+        ApplicationCoordinator.getInstance().navigateToForm(Form.COMPLETED);
+    }
 }

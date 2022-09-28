@@ -11,6 +11,7 @@ import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.ScheduledTabbedPane;
+import com.github.scottswolfe.kathyscleaning.utility.FormLauncher;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;
 import com.github.scottswolfe.kathyscleaning.utility.ModelConverter;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
@@ -31,6 +32,7 @@ public class ApplicationCoordinator {
 
     private static final ApplicationCoordinator applicationCoordinatorInstance = new ApplicationCoordinator();
 
+    private final FormLauncher formLauncher;
     private final ModelConverter modelConverter;
     private final SaveFileManager saveFileManager;
     private final SharedDataManager sharedDataManager;
@@ -43,6 +45,7 @@ public class ApplicationCoordinator {
     }
 
     private ApplicationCoordinator() {
+        formLauncher = FormLauncher.from();
         modelConverter = ModelConverter.from();
         saveFileManager = SaveFileManager.from();
         sharedDataManager = SharedDataManager.getInstance();
@@ -93,6 +96,14 @@ public class ApplicationCoordinator {
     public void unfreezeCurrentWindow() {
         if (currentForm != null) {
             formControllers.get(currentForm).unfreezeWindow();
+        }
+    }
+
+    public void launchNextForm() {
+        if (currentForm != null) {
+            formLauncher.launchNextForm(currentForm);
+        } else {
+            formLauncher.launchFirstForm();
         }
     }
 

@@ -4,9 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
-import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.weekend.model.WeekendEntry;
@@ -34,8 +32,8 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
     }
 
     @Override
-    public WeekendPanel initializeView(@Nonnull final FormController<WeekendPanel, WeekendModel> controller) {
-        return new WeekendPanel(controller, sharedDataManager.getWeekendStartDay());
+    public WeekendPanel initializeView() {
+        return new WeekendPanel(sharedDataManager.getWeekendStartDay());
     }
 
     @Override

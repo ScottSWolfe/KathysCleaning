@@ -3,8 +3,6 @@ package com.github.scottswolfe.kathyscleaning.interfaces;
 import java.io.File;
 import java.util.List;
 
-import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
-
 import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 
@@ -16,9 +14,9 @@ public interface ControllerHelper<View extends JComponent, Model> {
     Model initializeModel();
 
     /**
-     * Creates a view from the given model.
+     * Creates a view with default values.
      */
-    View initializeView(@Nonnull final FormController<View, Model> controller);
+    View initializeView();
 
     /**
      * Called from GeneralController::readViewAndWriteToFile. Allows specific forms to do
