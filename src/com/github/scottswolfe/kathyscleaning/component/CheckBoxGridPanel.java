@@ -43,7 +43,7 @@ public abstract class CheckBoxGridPanel extends ComponentGridPanel<JCheckBox> {
     }
 
     private static String createConstraints(int row, int column, int rowCount, int columnCount) {
-        return "grow";
+        return "grow, w 50::";
     }
 
     protected String getCheckBoxLabel(int row, int column) {
