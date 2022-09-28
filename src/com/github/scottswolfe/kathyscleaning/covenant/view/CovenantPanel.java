@@ -12,7 +12,6 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -22,45 +21,31 @@ import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.DecimalNumberDocFilter;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantListeners;
-import com.github.scottswolfe.kathyscleaning.covenant.model.CovenantModel;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 import net.miginfocom.swing.MigLayout;
 
 /**
  * This is the panel where the user enters beginning and ending times for
- * workers at Covenant Academy.
+ * workers at Covenant.
  */
 public class CovenantPanel extends JPanel {
-
-/* FIELDS =================================================================== */
 
     /**
      * The controller for this panel.
      */
     CovenantListeners controller;
 
-    /**
-     * The frame containing this panel.
-     */
-    MainFrame<CovenantPanel, CovenantModel> covFrame;
-
     public final static int ROWS = 14;
     int rows = ROWS;
     public final static int COLS = 5;
 
     public static String[] day = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
-
-
-
-
-/* COMPONENTS =============================================================== */
 
     /**
      * Names of the workers listed vertically.
@@ -87,16 +72,6 @@ public class CovenantPanel extends JPanel {
     TimeDocumentFilter[][] endTDFs;
 
     /**
-     * Label for final column.
-     */
-    JLabel otherLabel;
-
-    /**
-     * Text fields for any additional input data.
-     */
-    JTextField[] otherTextfields;
-
-    /**
      * Button to edit listed workers.
      */
     JButton editButton;
@@ -115,11 +90,6 @@ public class CovenantPanel extends JPanel {
      * Text fields to enter amount earned each day.
      */
     JTextField[] earnedTextfields;
-
-
-
-
-/* CONSTRUCTOR ============================================================== */
 
     public CovenantPanel(CovenantListeners listeners) {
 
@@ -262,10 +232,6 @@ public class CovenantPanel extends JPanel {
 
     }
 
-
-
-    // CONSTRUCTION METHODS
-
     private JPanel buttonPanel() {
 
         JPanel panel = new JPanel();
@@ -291,7 +257,6 @@ public class CovenantPanel extends JPanel {
 
         return panel;
     }
-
 
     private void addFlexibleFocusListeners () {
 
@@ -423,50 +388,33 @@ public class CovenantPanel extends JPanel {
         }
     }
 
-
-
-
-
     private class TimeFocusListener implements FocusListener {
 
-        // FIELDS
         JTextField tf;
         TempKeyListener tkl;
 
         public static final int BEGIN = 0;
         public static final int END = 1;
 
-
-        // LISTENERS
         @Override
         public void focusGained(FocusEvent e) {
-
             tf.addKeyListener( tkl );
-
         }
 
         @Override
         public void focusLost(FocusEvent e) {
-
             tf.removeKeyListener( tkl );
-
         }
-
-
     }
-
 
     private class TempKeyListener implements KeyListener {
 
-        // FIELDS
         JTextField[][] beginTimeTextfield;
         JTextField[][] endTimeTextfield;
         int row;
         int column;
         int type;
 
-
-        // LISTENERS
         @Override
         public void keyPressed(KeyEvent arg0) {
 
@@ -546,20 +494,11 @@ public class CovenantPanel extends JPanel {
         }
 
         @Override
-        public void keyReleased(KeyEvent arg0) {
-
-        }
+        public void keyReleased(KeyEvent arg0) {}
 
         @Override
-        public void keyTyped(KeyEvent arg0) {
-
-        }
-
+        public void keyTyped(KeyEvent arg0) {}
     }
-
-
-
-/* GETTERS/SETTERS ========================================================== */
 
     /**
      * @return the controller
@@ -568,34 +507,12 @@ public class CovenantPanel extends JPanel {
         return controller;
     }
 
-
-
     /**
      * @param controller the controller to set
      */
     public void setController(CovenantListeners controller) {
         this.controller = controller;
     }
-
-
-
-    /**
-     * @return the covFrame
-     */
-    public JFrame getCovFrame() {
-        return covFrame;
-    }
-
-
-
-    /**
-     * @param covFrame the covFrame to set
-     */
-    public void setCovFrame(MainFrame<CovenantPanel, CovenantModel> covFrame) {
-        this.covFrame = covFrame;
-    }
-
-
 
     /**
      * @return the nameLabels
@@ -610,34 +527,12 @@ public class CovenantPanel extends JPanel {
             .collect(Collectors.toList());
     }
 
-
-
-    /**
-     * @param nameLabels the nameLabels to set
-     */
-    public void setNameLabels(JLabel[] nameLabels) {
-        this.nameLabels = nameLabels;
-    }
-
-
-
     /**
      * @return the beginTimeTextfield
      */
     public JTextField[][] getBeginTimeTextfield() {
         return beginTimeTextfield;
     }
-
-
-
-    /**
-     * @param beginTimeTextfield the beginTimeTextfield to set
-     */
-    public void setBeginTimeTextfield(JTextField[][] beginTimeTextfield) {
-        this.beginTimeTextfield = beginTimeTextfield;
-    }
-
-
 
     /**
      * @return the endTimeTextfield
@@ -646,100 +541,10 @@ public class CovenantPanel extends JPanel {
         return endTimeTextfield;
     }
 
-
-
-    /**
-     * @param endTimeTextfield the endTimeTextfield to set
-     */
-    public void setEndTimeTextfield(JTextField[][] endTimeTextfield) {
-        this.endTimeTextfield = endTimeTextfield;
-    }
-
-
-
-    /**
-     * @return the otherTextfields
-     */
-    public JTextField[] getOtherTextfields() {
-        return otherTextfields;
-    }
-
-
-
-    /**
-     * @param otherTextfields the otherTextfields to set
-     */
-    public void setOtherTextfields(JTextField[] otherTextfields) {
-        this.otherTextfields = otherTextfields;
-    }
-
-
-
-    /**
-     * @return the editButton
-     */
-    public JButton getEditButton() {
-        return editButton;
-    }
-
-
-
-    /**
-     * @param editButton the editButton to set
-     */
-    public void setEditButton(JButton editButton) {
-        this.editButton = editButton;
-    }
-
-
-
-    /**
-     * @return the submitButton
-     */
-    public JButton getSubmitButton() {
-        return submitButton;
-    }
-
-
-
-    /**
-     * @param submitButton the submitButton to set
-     */
-    public void setSubmitButton(JButton submitButton) {
-        this.submitButton = submitButton;
-    }
-
-
-
     /**
      * @return the earnedTextfields
      */
     public JTextField[] getEarnedTextfields() {
         return earnedTextfields;
-    }
-
-
-
-    /**
-     * @param earnedTextfields the earnedTextfields to set
-     */
-    public void setEarnedTextfields(JTextField[] earnedTextfields) {
-        this.earnedTextfields = earnedTextfields;
-    }
-
-    /**
-     * Returns the frame that contains this CovenantPanel
-     * @return
-     */
-    public JFrame getFrame() {
-        return covFrame;
-    }
-
-    /**
-     * Sets the frame that contains this CovenantPanel
-     * @return
-     */
-    public void setFrame(MainFrame<CovenantPanel, CovenantModel> frame) {
-        covFrame = frame;
     }
 }

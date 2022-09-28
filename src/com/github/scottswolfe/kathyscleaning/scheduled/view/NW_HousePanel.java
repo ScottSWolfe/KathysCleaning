@@ -1,11 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.view;
 
-
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -22,18 +20,9 @@ import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_MoveUpListe
 
 import net.miginfocom.swing.MigLayout;
 
-
-@SuppressWarnings("serial")
 public class NW_HousePanel extends JPanel {
 
-
-// INSTANCE VARIABLES
-
-    JFrame parent_frame;
     NW_DayPanel parent_day_panel;
-
-
-// COMPONENTS
 
     public WorkerSelectPanel worker_panel;
     JLabel house_name_label;
@@ -43,13 +32,9 @@ public class NW_HousePanel extends JPanel {
     public JButton add_house;
     public JButton delete_house;
 
-
-// CONSTRUCTOR
-
-    public NW_HousePanel(String house_name, WorkerList workers, NW_DayPanel day_panel, JFrame frame) {
+    public NW_HousePanel(String house_name, WorkerList workers, NW_DayPanel day_panel) {
 
         this.parent_day_panel = day_panel;
-        this.parent_frame = frame;
 
         setBorder(BorderFactory.createTitledBorder( new String() ));
         setBackground(Settings.BACKGROUND_COLOR);
@@ -66,16 +51,11 @@ public class NW_HousePanel extends JPanel {
         add(button_panel, "growy");
     }
 
-    public NW_HousePanel(WorkerList workers, NW_DayPanel day_panel, JFrame frame) {
-        this("", workers, day_panel, frame);
+    public NW_HousePanel(WorkerList workers, NW_DayPanel day_panel) {
+        this("", workers, day_panel);
     }
 
-    public NW_HousePanel() {
-
-    }
-
-
-// PRIVATE METHODS
+    public NW_HousePanel() {}
 
     private JPanel houseNamePanel(String house_name){
         JPanel panel = new JPanel();
@@ -121,20 +101,12 @@ public class NW_HousePanel extends JPanel {
         panel.add(move_down);
         panel.add(delete_house);
 
-        move_up.addActionListener(new NW_MoveUpListener(parent_day_panel, this, workers, parent_frame));
-        add_house.addActionListener(new NW_AddHouseListener(parent_day_panel,this, workers, parent_frame));
-        move_down.addActionListener(new NW_MoveDownListener(parent_day_panel,this, workers, parent_frame));
-        delete_house.addActionListener(new NW_DeleteHouseListener(parent_day_panel,this, workers, parent_frame));
+        move_up.addActionListener(new NW_MoveUpListener(parent_day_panel, this, workers));
+        add_house.addActionListener(new NW_AddHouseListener(parent_day_panel,this, workers));
+        move_down.addActionListener(new NW_MoveDownListener(parent_day_panel,this, workers));
+        delete_house.addActionListener(new NW_DeleteHouseListener(parent_day_panel,this, workers));
 
         return panel;
-    }
-
-
-//  PUBLIC METHODS
-
-    public NW_HousePanel copyPanel() {
-        return new NW_HousePanel(this.getHouseName(), this.worker_panel.getWorkers(),
-                                 this.parent_day_panel, this.parent_frame);
     }
 
     public List<String> getSelectedWorkers() {
@@ -145,10 +117,6 @@ public class NW_HousePanel extends JPanel {
         worker_panel.updateWorkerNames(workerNames);
     }
 
-    public void changeHouseWorkers(WorkerList workers) {
-        worker_panel.setWorkers(workers);
-    }
-
     public String getHouseName() {
         return house_name_text_field.getText();
     }
@@ -156,5 +124,4 @@ public class NW_HousePanel extends JPanel {
     public void setHouseName(String house_name) {
         house_name_text_field.setText(house_name);
     }
-
 }

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
@@ -29,16 +28,14 @@ public class NW_CovenantPanel extends JPanel {
     JButton note_button;
 
     NW_DayPanel day_panel;
-    JFrame container_frame;
 
     private final WorkerSelectPanel workerSelectPanel;
 
-    public NW_CovenantPanel(NW_DayPanel day_panel, JFrame container_frame ) {
+    public NW_CovenantPanel(NW_DayPanel day_panel) {
 
         final WorkerList workers = new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames());
 
         this.day_panel = day_panel;
-        this.container_frame = container_frame;
 
         setLayout(new MigLayout( "insets 0, fill"));
         setBackground(Settings.BACKGROUND_COLOR);
@@ -57,7 +54,7 @@ public class NW_CovenantPanel extends JPanel {
         note_button = new JButton();
         note_button.setText("Note");
         note_button.setFont(note_button.getFont().deriveFont(Settings.FONT_SIZE));
-        note_button.addActionListener(new NW_NoteListener(day_panel, workers, day_panel.getNoteData(), container_frame));
+        note_button.addActionListener(new NW_NoteListener(day_panel, workers, day_panel.getNoteData()));
 
         final JPanel notePanel = new JPanel();
         notePanel.setLayout(new MigLayout("fill, insets 0"));

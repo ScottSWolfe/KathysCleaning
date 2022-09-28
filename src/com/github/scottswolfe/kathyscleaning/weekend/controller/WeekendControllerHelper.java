@@ -34,11 +34,8 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
     }
 
     @Override
-    public WeekendPanel initializeView(FormController<WeekendPanel, WeekendModel> controller, MainFrame<WeekendPanel, WeekendModel> parentFrame) {
-        final WeekendPanel wp = new WeekendPanel(controller, sharedDataManager.getWeekendStartDay());
-        final MainFrame<WeekendPanel, WeekendModel> weekendFrame = new MainFrame<>(controller);
-        wp.setFrame(weekendFrame);
-        return wp;
+    public WeekendPanel initializeView(@Nonnull final FormController<WeekendPanel, WeekendModel> controller) {
+        return new WeekendPanel(controller, sharedDataManager.getWeekendStartDay());
     }
 
     @Override

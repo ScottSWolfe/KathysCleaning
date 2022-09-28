@@ -9,7 +9,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,14 +30,14 @@ public class LBCDaysPanel extends JPanel implements FocusableCollection {
     private static final String DAY_PANEL_CONSTRAINTS_WITH_BOTTOM_PADDING =
         DAY_PANEL_CONSTRAINTS + ", wrap " + PANEL_PADDING;
 
-    public static LBCDaysPanel from(final WindowListener popUpWindowListener) {
-        return new LBCDaysPanel(popUpWindowListener);
+    public static LBCDaysPanel from() {
+        return new LBCDaysPanel();
     }
 
-    private LBCDaysPanel(final WindowListener popUpWindowListener) {
+    private LBCDaysPanel() {
 
         final List<LBCDayPanel> daysCompleted = LBC_DAYS.stream()
-            .map(dayOfWeek -> LBCDayPanel.from(dayOfWeek, popUpWindowListener))
+            .map(dayOfWeek -> LBCDayPanel.from(dayOfWeek))
             .collect(Collectors.toList());
 
         setLayout(new MigLayout("fill, insets 0"));

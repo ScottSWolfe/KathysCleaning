@@ -19,11 +19,8 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 
 import net.miginfocom.swing.MigLayout;
 
-
-@SuppressWarnings("serial")
 public class NW_NotePanel extends JPanel {
 
-    // FIELDS
     JFrame frame;
     NW_DayPanel day_panel;
     WorkerList dwd;
@@ -31,9 +28,6 @@ public class NW_NotePanel extends JPanel {
 
     public static final int ROWS = 8;
 
-
-
-    // COMPONENTS
     JLabel name_label;
     JLabel note_label;
 
@@ -43,26 +37,20 @@ public class NW_NotePanel extends JPanel {
     JButton cancel_button;
     JButton submit_button;
 
-
-
-    //  CONSTRUCTOR
-    @SuppressWarnings("unchecked")
-    public NW_NotePanel( JFrame frame, NW_DayPanel day_panel, WorkerList dwd,
-                         String[] selected_workers, NoteData note_data, NW_NoteListener listener ) {
+    public NW_NotePanel(JFrame frame, NW_DayPanel day_panel, WorkerList dwd, NW_NoteListener listener) {
 
         this.frame = frame;
         this.day_panel = day_panel;
         this.dwd = dwd;
         this.listener = listener;
 
-        note_data = day_panel.noteData;
+        NoteData note_data = day_panel.noteData;
 
         // generating string for migLayout format based on number of rows
         String column_format = "[grow]";
         for(int i=1; i<ROWS; i++) {
             column_format = new String(column_format + "[grow]");
         }
-        //column_format = new String(column_format + "[grow]");
 
         setLayout( new MigLayout("", "[grow]15[grow]", "") );
         setBackground( Settings.BACKGROUND_COLOR );
@@ -79,7 +67,6 @@ public class NW_NotePanel extends JPanel {
 
         name_box = new JComboBox[ROWS];
         note_field = new JTextField[ROWS];
-
 
         for(int i=0; i<ROWS; i++){
 
@@ -135,9 +122,6 @@ public class NW_NotePanel extends JPanel {
         add(p, "span 2, grow");
     }
 
-
-
-    // PRIVATE METHODS
     private void addFlexibleFocusListeners() {
 
         Component box_up = null;
@@ -179,38 +163,22 @@ public class NW_NotePanel extends JPanel {
 
             note_field[i].addFocusListener( ffl2 );
         }
-
     }
-
-
-
-
-    //  PRIVATE LISTENER
 
     // if cancel button is selected
     private class CancelListener implements ActionListener {
 
-    //  FIELDS
         JFrame frame;
 
-
-    //  CONSTRUCTORS
         private CancelListener( JFrame frame ) {
-
             this.frame = frame;
         }
 
-
-    //  LISTENER
         public void actionPerformed(ActionEvent e){
-
             frame.setVisible(false);
             frame.dispose();
-
         }
-
     }
-
 
     // if submit button is selected
     private class SubmitListener implements ActionListener {
@@ -239,6 +207,4 @@ public class NW_NotePanel extends JPanel {
             frame.dispose();
         }
     }
-
 }
-

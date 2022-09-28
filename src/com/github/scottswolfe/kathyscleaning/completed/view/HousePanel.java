@@ -1,7 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
 import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,14 +45,12 @@ public class HousePanel extends JPanel implements FocusableCollection {
     private ExceptionData exceptionData;
 
     public static HousePanel from(
-        final WindowListener exceptionsPopUpWindowListener,
         final Function<HousePanel, ActionListener> buildMoveUpActionListener,
         final Function<HousePanel, ActionListener> buildMoveDownActionListener,
         final Function<HousePanel, ActionListener> buildAddHouseActionListener,
         final Function<HousePanel, ActionListener> buildDeleteHouseActionListener
     ) {
         return new HousePanel(
-            exceptionsPopUpWindowListener,
             buildMoveUpActionListener,
             buildMoveDownActionListener,
             buildAddHouseActionListener,
@@ -62,7 +59,6 @@ public class HousePanel extends JPanel implements FocusableCollection {
     }
 
     private HousePanel(
-        final WindowListener exceptionsPopUpWindowListener,
         final Function<HousePanel, ActionListener> buildMoveUpActionListener,
         final Function<HousePanel, ActionListener> buildMoveDownActionListener,
         final Function<HousePanel, ActionListener> buildAddHouseActionListener,
@@ -86,8 +82,7 @@ public class HousePanel extends JPanel implements FocusableCollection {
                 GlobalData.getInstance().getDefaultWorkerNames(),
                 () -> this.exceptionData,
                 () -> {},
-                this::setExceptionData,
-                exceptionsPopUpWindowListener
+                this::setExceptionData
             )
         );
         houseRowButtonPanel = HouseRowButtonPanel.from(

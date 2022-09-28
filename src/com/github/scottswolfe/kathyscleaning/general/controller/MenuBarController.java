@@ -84,8 +84,7 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
             columnCount,
             allowRepeatSelections,
             () -> {},
-            dataConsumer,
-            new FrameCloseListener(controller.getParentFrame())
+            dataConsumer
         );
     }
 

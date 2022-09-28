@@ -2,10 +2,8 @@ package com.github.scottswolfe.kathyscleaning.lbc.controller;
 
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
-import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCDay;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCHeader;
@@ -27,14 +25,8 @@ public class LBCControllerHelper implements ControllerHelper<LBCPanel, LBCModel>
     }
 
     @Override
-    public LBCPanel initializeView(
-        FormController<LBCPanel, LBCModel> controller,
-        MainFrame<LBCPanel, LBCModel> parentFrame
-    ) {
-        return LBCPanel.from(
-            SubmitFormListener.from(controller),
-            new FrameCloseListener(parentFrame)
-        );
+    public LBCPanel initializeView(@Nonnull FormController<LBCPanel, LBCModel> controller) {
+        return LBCPanel.from(SubmitFormListener.from(controller));
     }
 
     @Override

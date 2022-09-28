@@ -2,9 +2,9 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.completed.view.CompletedTabbedPane;
-import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.helper.FileChooserHelper;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.lbc.model.LBCModel;
 import com.github.scottswolfe.kathyscleaning.lbc.view.LBCPanel;
 import com.github.scottswolfe.kathyscleaning.menu.controller.MenuPanelController;
@@ -81,6 +81,18 @@ public class ApplicationCoordinator {
         if (currentForm != null) {
             final FormController<?, ?> controller = formControllers.get(currentForm);
             controller.hideWindow();
+        }
+    }
+
+    public void freezeCurrentWindow() {
+        if (currentForm != null) {
+            formControllers.get(currentForm).freezeWindow();
+        }
+    }
+
+    public void unfreezeCurrentWindow() {
+        if (currentForm != null) {
+            formControllers.get(currentForm).unfreezeWindow();
         }
     }
 

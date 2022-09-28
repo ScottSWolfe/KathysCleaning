@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 
 import javax.annotation.Nonnull;
 import javax.swing.JComponent;
@@ -19,10 +18,7 @@ public interface ControllerHelper<View extends JComponent, Model> {
     /**
      * Creates a view from the given model.
      */
-    View initializeView(
-        final FormController<View, Model> controller,
-        final MainFrame<View, Model> parentFrame
-    );
+    View initializeView(@Nonnull final FormController<View, Model> controller);
 
     /**
      * Called from GeneralController::readViewAndWriteToFile. Allows specific forms to do

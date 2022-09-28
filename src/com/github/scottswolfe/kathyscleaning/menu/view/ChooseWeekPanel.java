@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
+import com.github.scottswolfe.kathyscleaning.general.controller.PopUpFormWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
@@ -56,7 +57,9 @@ public class ChooseWeekPanel extends JPanel {
         ChooseWeekPanel panel = new ChooseWeekPanel(frame, controller);
         frame.add(panel);
         frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.addWindowListener(new PopUpFormWindowListener());
+        ApplicationCoordinator.getInstance().freezeCurrentWindow();
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

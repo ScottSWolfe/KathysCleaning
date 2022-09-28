@@ -7,7 +7,6 @@ import java.util.List;
 import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
-import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
 import com.github.scottswolfe.kathyscleaning.general.view.EditWorkersPanelLauncher;
 import com.github.scottswolfe.kathyscleaning.utility.FormLauncher;
@@ -29,8 +28,6 @@ public class CovenantListeners {
      */
     public class EditListener implements ActionListener {
         public void actionPerformed ( ActionEvent e ) {
-            covPanel.getCovFrame().setEnabled(false);
-
             EditWorkersPanelLauncher.from().launchPanel(
                 covPanel.getWorkerNames(),
                 GlobalData.getInstance().getDefaultWorkerNames(),
@@ -38,8 +35,7 @@ public class CovenantListeners {
                 1,
                 false,
                 () -> {},
-                CovenantListeners::onEditWorkersSubmit,
-                new FrameCloseListener(covPanel.getCovFrame())
+                CovenantListeners::onEditWorkersSubmit
             );
         }
     }

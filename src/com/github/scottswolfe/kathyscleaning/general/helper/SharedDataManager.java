@@ -1,9 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.general.helper;
 
-import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
-import com.github.scottswolfe.kathyscleaning.general.model.ImmutableSharedDataModel;
 import com.github.scottswolfe.kathyscleaning.general.model.SharedDataModel;
+import com.github.scottswolfe.kathyscleaning.enums.SaveType;
+import com.github.scottswolfe.kathyscleaning.general.model.ImmutableSharedDataModel;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.github.scottswolfe.kathyscleaning.utility.JsonMethods;
 import com.github.scottswolfe.kathyscleaning.utility.SaveFileManager;

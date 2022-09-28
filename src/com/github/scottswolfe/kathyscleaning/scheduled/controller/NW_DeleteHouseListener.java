@@ -3,27 +3,22 @@ package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 
-
 public class NW_DeleteHouseListener implements ActionListener {
 
 	NW_DayPanel day_panel;
 	NW_HousePanel house_panel;
 	WorkerList dwd;
-	JFrame frame;
 
-	public NW_DeleteHouseListener(NW_DayPanel day_panel, NW_HousePanel house_panel, WorkerList dwd, JFrame frame) {
+	public NW_DeleteHouseListener(NW_DayPanel day_panel, NW_HousePanel house_panel, WorkerList dwd) {
 		this.day_panel = day_panel;
 		this.house_panel = house_panel;
 		this.dwd = dwd;
-		this.frame = frame;
 	}
 
 	public void actionPerformed(ActionEvent e){

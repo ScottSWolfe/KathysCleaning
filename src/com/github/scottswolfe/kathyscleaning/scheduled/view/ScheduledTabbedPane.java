@@ -3,7 +3,6 @@ package com.github.scottswolfe.kathyscleaning.scheduled.view;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
@@ -17,15 +16,13 @@ public class ScheduledTabbedPane extends JTabbedPane {
     public NW_DayPanel[] nw_day_panel;
 
     public static ScheduledTabbedPane from(
-        final MainFrame<ScheduledTabbedPane, NW_Data> parentFrame,
         final FormController<ScheduledTabbedPane, NW_Data> controller,
         @Nonnull final Calendar scheduledStartDay
     ) {
-        return new ScheduledTabbedPane(parentFrame, controller, scheduledStartDay);
+        return new ScheduledTabbedPane(controller, scheduledStartDay);
     }
 
     private ScheduledTabbedPane(
-        final MainFrame<ScheduledTabbedPane, NW_Data> parentFrame,
         final FormController<ScheduledTabbedPane, NW_Data> controller,
         @Nonnull final Calendar scheduledStartDay
     ) {
@@ -44,7 +41,7 @@ public class ScheduledTabbedPane extends JTabbedPane {
 
         NW_DayPanel[] day_panel = new NW_DayPanel[5];
         for(int i = 0; i < 5; i++){
-            day_panel[i] = new NW_DayPanel(controller, this, workers, day[i], parentFrame);
+            day_panel[i] = new NW_DayPanel(controller, this, workers, day[i]);
         }
         nw_day_panel = day_panel;
 

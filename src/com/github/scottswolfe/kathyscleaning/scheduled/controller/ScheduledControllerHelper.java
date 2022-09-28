@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import com.github.scottswolfe.kathyscleaning.enums.SaveType;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.interfaces.ControllerHelper;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.NW_Data;
@@ -47,10 +46,9 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
 
     @Override
     public ScheduledTabbedPane initializeView(
-        final FormController<ScheduledTabbedPane, NW_Data> controller,
-        final MainFrame<ScheduledTabbedPane, NW_Data> parentFrame
+        @Nonnull final FormController<ScheduledTabbedPane, NW_Data> controller
     ) {
-        return ScheduledTabbedPane.from(parentFrame, controller, sharedDataManager.getScheduledStartDay());
+        return ScheduledTabbedPane.from(controller, sharedDataManager.getScheduledStartDay());
     }
 
     @Override

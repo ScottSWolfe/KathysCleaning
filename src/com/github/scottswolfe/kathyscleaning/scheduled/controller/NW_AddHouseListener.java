@@ -3,29 +3,24 @@ package com.github.scottswolfe.kathyscleaning.scheduled.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_DayPanel;
 import com.github.scottswolfe.kathyscleaning.scheduled.view.NW_HousePanel;
 
-
 public class NW_AddHouseListener implements ActionListener {
 
     NW_DayPanel day_panel;
     NW_HousePanel house_panel;
     WorkerList dwd;
-    JFrame frame;
 
     public static final int MAX_HOUSE_PANELS = 5;
 
-    public NW_AddHouseListener(NW_DayPanel day_panel, NW_HousePanel house_panel, WorkerList dwd, JFrame frame) {
+    public NW_AddHouseListener(NW_DayPanel day_panel, NW_HousePanel house_panel, WorkerList dwd) {
         this.day_panel = day_panel;
         this.house_panel = house_panel;
         this.dwd = dwd;
-        this.frame = frame;
     }
 
     public void actionPerformed(ActionEvent e){
@@ -49,7 +44,7 @@ public class NW_AddHouseListener implements ActionListener {
         }
 
         // add new house panel
-        day_panel.house_panels.add(index + 1, new NW_HousePanel(day_panel.header_panel.getWorkerList(), day_panel, frame));
+        day_panel.house_panels.add(index + 1, new NW_HousePanel(day_panel.header_panel.getWorkerList(), day_panel));
 
         // reset focus listeners
         day_panel.addFlexibleFocusListeners();

@@ -2,7 +2,6 @@ package com.github.scottswolfe.kathyscleaning.completed.view;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -33,16 +32,14 @@ public class DayPanel extends JPanel implements FocusableCollection {
         final WorkerList workerList,
         final ActionListener previousDayButtonListener,
         final ActionListener nextDayButtonListener,
-        final ActionListener submitFormListener,
-        final WindowListener popUpWindowListener
+        final ActionListener submitFormListener
     ) {
         return new DayPanel(
             date,
             workerList,
             previousDayButtonListener,
             nextDayButtonListener,
-            submitFormListener,
-            popUpWindowListener
+            submitFormListener
         );
     }
 
@@ -51,8 +48,7 @@ public class DayPanel extends JPanel implements FocusableCollection {
         final WorkerList workerList,
         final ActionListener previousDayButtonListener,
         final ActionListener nextDayButtonListener,
-        final ActionListener submitFormListener,
-        final WindowListener popUpWindowListener
+        final ActionListener submitFormListener
     ) {
         headerPanel = HeaderPanel.from(
             date,
@@ -60,12 +56,10 @@ public class DayPanel extends JPanel implements FocusableCollection {
             this::setWorkerSelectionsForAllHouses,
             previousDayButtonListener,
             nextDayButtonListener,
-            popUpWindowListener,
             submitFormListener
         );
 
         scrollPane = HousePanelsScrollPane.from(
-            popUpWindowListener,
             this::moveHousePanelUp,
             this::moveHousePanelDown,
             this::addHousePanel,

@@ -3,7 +3,6 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
-import java.awt.Window;
 import java.io.File;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
 import com.github.scottswolfe.kathyscleaning.covenant.controller.CovenantControllerHelper;
@@ -84,14 +82,17 @@ public class FormController<View extends JComponent, Model> {
     }
 
     private void initializeView() {
+        view = controllerHelper.initializeView(this);
+        scrollPane = initializeScrollPane(view);
         parentFrame = new MainFrame<>(this);
-
-        view = controllerHelper.initializeView(this, parentFrame);
-
-        scrollPane = new JScrollPane();
-        scrollPane.setViewportView(view);
-        scrollPane.setBorder(null);
         parentFrame.add(scrollPane);
+    }
+
+    private JScrollPane initializeScrollPane(@Nonnull final View view) {
+        final JScrollPane newScrollPane = new JScrollPane();
+        newScrollPane.setViewportView(view);
+        newScrollPane.setBorder(null);
+        return newScrollPane;
     }
 
     public void writeViewToTemporarySaveFile() {
@@ -184,8 +185,16 @@ public class FormController<View extends JComponent, Model> {
     }
 
     public void hideWindow() {
-        Window window = SwingUtilities.getWindowAncestor(view);
-        window.setVisible(false);
+        parentFrame.setVisible(false);
+    }
+
+    public void freezeWindow() {
+        parentFrame.setEnabled(false);
+    }
+
+    public void unfreezeWindow() {
+        parentFrame.toFront();
+        parentFrame.setEnabled(true);
     }
 
     public void recreateView() {
@@ -207,9 +216,5 @@ public class FormController<View extends JComponent, Model> {
 
     public Model getModel() {
         return model;
-    }
-
-    public JFrame getParentFrame() {
-        return parentFrame;
     }
 }

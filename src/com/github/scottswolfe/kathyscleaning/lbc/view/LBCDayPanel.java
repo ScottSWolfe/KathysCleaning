@@ -21,7 +21,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -36,17 +35,11 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
     private final WorkerSelectPanel workerSelectPanel;
     private final KcButton exceptionsButton;
 
-    public static LBCDayPanel from(
-        final DayOfWeek dayOfWeek,
-        final WindowListener popUpWindowListener
-    ) {
-        return new LBCDayPanel(dayOfWeek, popUpWindowListener);
+    public static LBCDayPanel from(final DayOfWeek dayOfWeek) {
+        return new LBCDayPanel(dayOfWeek);
     }
 
-    private LBCDayPanel(
-        final DayOfWeek dayOfWeek,
-        final WindowListener popUpWindowListener
-    ) {
+    private LBCDayPanel(final DayOfWeek dayOfWeek) {
         super();
 
         exceptionData = new ExceptionData();
@@ -64,8 +57,7 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
                 GlobalData.getInstance().getDefaultWorkerNames(),
                 () -> this.exceptionData,
                 () -> {},
-                this::setExceptionData,
-                popUpWindowListener
+                this::setExceptionData
             )
         );
 

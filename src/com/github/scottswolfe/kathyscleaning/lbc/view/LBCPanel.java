@@ -8,7 +8,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -24,24 +23,18 @@ public class LBCPanel extends JPanel implements FocusableCollection {
     private final LBCHeaderPanel lbcHeaderPanel;
     private final LBCDaysPanel lbcDaysPanel;
 
-    public static LBCPanel from(
-        final ActionListener submitFormListener,
-        final WindowListener popUpWindowListener
-    ) {
-        return new LBCPanel(submitFormListener, popUpWindowListener);
+    public static LBCPanel from(final ActionListener submitFormListener) {
+        return new LBCPanel(submitFormListener);
     }
 
-    private LBCPanel(
-        final ActionListener submitFormListener,
-        final WindowListener popUpWindowListener
-    ) {
+    private LBCPanel(final ActionListener submitFormListener) {
         super();
 
         lbcHeaderPanel = LBCHeaderPanel.from(
             this::setWorkerSelectionsForAllDays,
             submitFormListener
         );
-        lbcDaysPanel = LBCDaysPanel.from(popUpWindowListener);
+        lbcDaysPanel = LBCDaysPanel.from();
 
         setLayout(new MigLayout("fill, insets 0"));
         setBackground(Settings.BACKGROUND_COLOR);

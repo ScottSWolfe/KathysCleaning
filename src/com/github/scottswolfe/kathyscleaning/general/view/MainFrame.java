@@ -5,10 +5,10 @@ import java.awt.event.WindowListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.MainWindowListener;
 import com.github.scottswolfe.kathyscleaning.general.model.SessionModel;
+import com.github.scottswolfe.kathyscleaning.enums.Form;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
 @SuppressWarnings("serial")

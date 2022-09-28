@@ -10,7 +10,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.Color;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,21 +23,18 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
 
     private final JPanel scrollPanePanel;
 
-    private final WindowListener popUpWindowListener;
     private final Consumer<HousePanel> moveHousePanelUp;
     private final Consumer<HousePanel> moveHousePanelDown;
     private final Consumer<HousePanel> addHousePanel;
     private final Consumer<HousePanel> deleteHousePanel;
 
     public static HousePanelsScrollPane from(
-        final WindowListener popUpWindowListener,
         final Consumer<HousePanel> moveHousePanelUp,
         final Consumer<HousePanel> moveHousePanelDown,
         final Consumer<HousePanel> addHousePanel,
         final Consumer<HousePanel> deleteHousePanel
     ) {
         return new HousePanelsScrollPane(
-            popUpWindowListener,
             moveHousePanelUp,
             moveHousePanelDown,
             addHousePanel,
@@ -47,7 +43,6 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
     }
 
     private HousePanelsScrollPane(
-        final WindowListener popUpWindowListener,
         final Consumer<HousePanel> moveHousePanelUp,
         final Consumer<HousePanel> moveHousePanelDown,
         final Consumer<HousePanel> addHousePanel,
@@ -55,14 +50,12 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
     ) {
         super();
 
-        this.popUpWindowListener = popUpWindowListener;
         this.moveHousePanelUp = moveHousePanelUp;
         this.moveHousePanelDown = moveHousePanelDown;
         this.addHousePanel = addHousePanel;
         this.deleteHousePanel = deleteHousePanel;
 
         scrollPanePanel = createScrollPanePanel(
-            popUpWindowListener,
             moveHousePanelUp,
             moveHousePanelDown,
             addHousePanel,
@@ -79,7 +72,6 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
     }
 
     private static JPanel createScrollPanePanel(
-        final WindowListener popUpWindowListener,
         final Consumer<HousePanel> moveHousePanelUp,
         final Consumer<HousePanel> moveHousePanelDown,
         final Consumer<HousePanel> addHousePanel,
@@ -92,7 +84,6 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
         final List<HousePanel> housePanels = new ArrayList<>(DayPanel.DEFAULT_HOUSE_PANEL_COUNT);
         for (int i = 0; i < DayPanel.DEFAULT_HOUSE_PANEL_COUNT; i++) {
             housePanels.add(buildNewHousePanel(
-                popUpWindowListener,
                 moveHousePanelUp,
                 moveHousePanelDown,
                 addHousePanel,
@@ -164,7 +155,6 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
 
     private HousePanel buildNewHousePanel() {
         return buildNewHousePanel(
-            popUpWindowListener,
             moveHousePanelUp,
             moveHousePanelDown,
             addHousePanel,
@@ -173,14 +163,12 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
     }
 
     private static HousePanel buildNewHousePanel(
-        final WindowListener popUpWindowListener,
         final Consumer<HousePanel> moveHousePanelUp,
         final Consumer<HousePanel> moveHousePanelDown,
         final Consumer<HousePanel> addHousePanel,
         final Consumer<HousePanel> deleteHousePanel
     ) {
         return HousePanel.from(
-            popUpWindowListener,
             (housePanel) -> ((event) -> moveHousePanelUp.accept(housePanel)),
             (housePanel) -> ((event) -> moveHousePanelDown.accept(housePanel)),
             (housePanel) -> ((event) -> addHousePanel.accept(housePanel)),

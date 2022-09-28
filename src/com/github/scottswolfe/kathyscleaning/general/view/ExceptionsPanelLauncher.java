@@ -3,7 +3,6 @@ package com.github.scottswolfe.kathyscleaning.general.view;
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.completed.view.CompletedExceptionsPanel;
 
-import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -25,8 +24,7 @@ public class ExceptionsPanelLauncher {
         final List<String> workerNames,
         final Supplier<ExceptionData> exceptionDataSupplier,
         final Runnable onCancel,
-        final Consumer<ExceptionData> onSubmit,
-        final WindowListener popUpWindowListener
+        final Consumer<ExceptionData> onSubmit
     ) {
         final CompletedExceptionsPanel exceptionsPanel = CompletedExceptionsPanel.from(
             workerNames, exceptionDataSupplier
@@ -35,8 +33,7 @@ public class ExceptionsPanelLauncher {
         popUpFormLauncher.launchPanel(
             exceptionsPanel,
             onCancel,
-            () -> onSubmit.accept(exceptionsPanel.getExceptionData()),
-            popUpWindowListener
+            () -> onSubmit.accept(exceptionsPanel.getExceptionData())
         );
     }
 }

@@ -2,14 +2,12 @@ package com.github.scottswolfe.kathyscleaning.completed.view;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.CompletedModel;
 import com.github.scottswolfe.kathyscleaning.enums.DayOfWeek;
-import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.SubmitFormListener;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
-import com.github.scottswolfe.kathyscleaning.general.view.MainFrame;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.utility.CalendarMethods;
 import com.google.common.collect.ImmutableList;
@@ -42,19 +40,17 @@ public class CompletedTabbedPane extends JTabbedPane {
     );
 
     public static CompletedTabbedPane from(
-        final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
         final FormController<CompletedTabbedPane, CompletedModel> controller,
         final Calendar completedStartDay
     ) {
-        return new CompletedTabbedPane(parentFrame, controller, completedStartDay);
+        return new CompletedTabbedPane(controller, completedStartDay);
     }
 
     private CompletedTabbedPane(
-        final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
         final FormController<CompletedTabbedPane, CompletedModel> controller,
         final Calendar completedStartDay
     ) {
-        final List<DayPanel> dayPanels = createDayPanels(parentFrame, controller, completedStartDay);
+        final List<DayPanel> dayPanels = createDayPanels(controller, completedStartDay);
 
         // todo: remove need for day_panel
         day_panel = dayPanels.toArray(new DayPanel[dayPanels.size()]);
@@ -68,7 +64,6 @@ public class CompletedTabbedPane extends JTabbedPane {
     }
 
     private List<DayPanel> createDayPanels(
-        final MainFrame<CompletedTabbedPane, CompletedModel> parentFrame,
         final FormController<CompletedTabbedPane, CompletedModel> controller,
         final Calendar completedStartDay
     ) {
@@ -82,8 +77,7 @@ public class CompletedTabbedPane extends JTabbedPane {
                     workers,
                     new PreviousDayListener(this),
                     new NextDayListener(this),
-                    SubmitFormListener.from(controller),
-                    new FrameCloseListener(parentFrame)
+                    SubmitFormListener.from(controller)
                 );
             })
             .collect(Collectors.toList());

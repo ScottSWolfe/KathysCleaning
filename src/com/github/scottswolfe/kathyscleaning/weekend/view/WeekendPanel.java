@@ -12,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -35,7 +34,6 @@ public class WeekendPanel extends JPanel {
 
     public static final int MAX_JOB_COUNT = 2;
 
-    public JFrame frame; // todo: temporarily public
     JLabel heading_label;
     public JLabel dateLabel;
     JButton submit_button;
@@ -215,9 +213,5 @@ public class WeekendPanel extends JPanel {
             + (date.get(Calendar.DATE))
             + "/"
             + date.get(Calendar.YEAR);
-    }
-
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
     }
 }

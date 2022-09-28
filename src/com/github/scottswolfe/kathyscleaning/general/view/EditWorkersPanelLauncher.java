@@ -4,7 +4,6 @@ import com.github.scottswolfe.kathyscleaning.component.MenuEditWorkersPanel;
 import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 import javax.annotation.Nonnull;
-import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -26,14 +25,12 @@ public class EditWorkersPanelLauncher {
         final int columnCount,
         final boolean allowRepeatSelections,
         final Runnable onCancel,
-        final Consumer<List<String>> onSubmit,
-        final WindowListener popUpWindowListener
+        final Consumer<List<String>> onSubmit
     ) {
         GenericPanelLauncher.from().launchPanel(
             () -> MenuEditWorkersPanel.from(currentWorkerNames, availableWorkerNames, rowCount, columnCount),
             onCancel,
-            (updatedWorkerNames) -> onSubmitInternal(onSubmit, updatedWorkerNames, allowRepeatSelections),
-            popUpWindowListener
+            (updatedWorkerNames) -> onSubmitInternal(onSubmit, updatedWorkerNames, allowRepeatSelections)
         );
     }
 

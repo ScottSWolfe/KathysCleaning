@@ -1,7 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
 import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -37,7 +36,6 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
         final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
         final ActionListener previousDayButtonListener,
         final ActionListener nextDayButtonListener,
-        final WindowListener popUpWindowListener,
         final ActionListener submitFormListener
     ) {
         return new HeaderPanel(
@@ -46,7 +44,6 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
             onCopyWorkersButtonPress,
             previousDayButtonListener,
             nextDayButtonListener,
-            popUpWindowListener,
             submitFormListener
         );
     }
@@ -57,7 +54,6 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
         final Consumer<List<List<Pair<String, Boolean>>>> onCopyWorkersButtonPress,
         final ActionListener previousDayButtonListener,
         final ActionListener nextDayButtonListener,
-        final WindowListener popUpWindowListener,
         final ActionListener submitFormListener
     ) {
         setLayout(new MigLayout("fillx, gapx 0, insets 0"));

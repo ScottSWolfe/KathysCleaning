@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,7 +20,6 @@ import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
-import com.github.scottswolfe.kathyscleaning.general.controller.FrameCloseListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.FormController;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
@@ -50,7 +48,6 @@ public class NW_DayPanel extends JPanel {
 
     JTabbedPane tp;
     Calendar date;
-    JFrame frame;
 
     private final ScheduledHeaderPanel scheduledHeaderPanel;
     private final ScheduledLBCPanel scheduledLBCPanel;
@@ -67,12 +64,14 @@ public class NW_DayPanel extends JPanel {
     public JTextField meet_time_field;
     JButton exception_button;
 
-    public NW_DayPanel(FormController<ScheduledTabbedPane, NW_Data> controller, ScheduledTabbedPane tp,
-                       WorkerList workers, Calendar date, JFrame frame) {
-
+    public NW_DayPanel(
+        FormController<ScheduledTabbedPane, NW_Data> controller,
+        ScheduledTabbedPane tp,
+        WorkerList workers,
+        Calendar date
+    ) {
         this.controller = controller;
         this.date = date;
-        this.frame = frame;
         this.tp = tp;
 
         beginExceptionList = new ArrayList<>();
@@ -88,16 +87,15 @@ public class NW_DayPanel extends JPanel {
             new NW_SubmitWeekListener(controller)
         );
         scheduledLBCPanel = ScheduledLBCPanel.from(
-            BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK),
-            new FrameCloseListener(frame)
+            BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK)
         );
         header_panel = new ScheduledHousesCopyWorkersPanel(tp, workers, this);
         begin_panel = createBeginPanel(workers);
         house_panels = new ArrayList<NW_HousePanel>();
         for(int i = 0; i < DayPanel.DEFAULT_HOUSE_PANEL_COUNT; i++) {
-            house_panels.add(new NW_HousePanel(workers, this, frame));
+            house_panels.add(new NW_HousePanel(workers, this));
         }
-        cov_panel = new NW_CovenantPanel(this, frame);
+        cov_panel = new NW_CovenantPanel(this);
 
         // creating scroll pane and adding house panels
         jsp_panel = new JPanel();
@@ -164,7 +162,7 @@ public class NW_DayPanel extends JPanel {
         exception_button = new JButton();
         exception_button.setText("Exceptions");
         exception_button.setFont( exception_button.getFont().deriveFont(Settings.FONT_SIZE));
-        exception_button.addActionListener( new NW_ExceptionListener( this, workers, frame ) );
+        exception_button.addActionListener(new NW_ExceptionListener(this, workers));
 
         panel.add(housesBeginLabel);
         panel.add(meet_location_label,"gapx 0, align right");
@@ -185,37 +183,6 @@ public class NW_DayPanel extends JPanel {
         header_panel.setWorkers(WorkerList.from(workerNames));
         house_panels.forEach(house_panel -> house_panel.setWorkers(workerNames));
         cov_panel.setWorkers(WorkerList.from(workerNames));
-    }
-
-    public void changeWorkerPanels(WorkerList new_workers){
-
-        int header_width = header_panel.getWidth();
-        int house_panel_width = house_panels.get(0).getWidth();
-
-        header_panel.setWorkers(new_workers);
-        for (NW_HousePanel house_panel : house_panels) {
-            house_panel.changeHouseWorkers(new_workers);
-        }
-
-        frame.revalidate();
-        frame.repaint();
-
-        int new_header_width = header_panel.getWidth();
-        int new_house_panel_width = house_panels.get(0).getWidth();
-
-        int header_change = new_header_width - header_width;
-        int house_panel_change = new_house_panel_width - house_panel_width;
-        int change = 0;
-        if(header_change > house_panel_change) {
-            change = header_change;
-        }
-        else {
-            change = house_panel_change;
-        }
-
-        frame.setSize( frame.getWidth() + change , frame.getHeight() );
-        frame.revalidate();
-        frame.repaint();
     }
 
     public ScheduledLBCData getLBCData() {
@@ -256,18 +223,6 @@ public class NW_DayPanel extends JPanel {
         }
     }
 
-    public List<String> getExceptionNames() {
-        List<String> s = new ArrayList<>();
-        if (!isBeginException()) {
-            return s;
-        } else {
-            for (BeginExceptionEntry exception : beginExceptionList) {
-                s.add(exception.getName());
-            }
-            return s;
-        }
-    }
-
     public int getNumBeginExceptionEntries() {
         if (beginExceptionList == null) {
             return 0;
@@ -275,12 +230,6 @@ public class NW_DayPanel extends JPanel {
         else {
             return beginExceptionList.size();
         }
-    }
-
-    // this method returns the number of unique employees for a given day
-    public int getNumberUniqueWorkers() {
-        List<String> workers = getUniqueWorkersForDay();
-        return workers.size();
     }
 
     // this method returns a list of the unique employees for a given day
@@ -408,19 +357,6 @@ public class NW_DayPanel extends JPanel {
     public int getNumHousePanels() {
         return house_panels.size();
     }
-
-    public List<NW_HousePanel> copyHousePanels() {
-        List<NW_HousePanel> list = new ArrayList<>();
-        for (NW_HousePanel house_panel : house_panels) {
-            list.add(house_panel.copyPanel());
-        }
-        return list;
-    }
-
-    public WorkerList getHeaderPanelWorkerList() {
-        return header_panel.getWorkerList();
-    }
-
 }
 
 
