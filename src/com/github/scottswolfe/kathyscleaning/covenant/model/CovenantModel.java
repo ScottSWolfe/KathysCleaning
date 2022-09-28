@@ -7,9 +7,8 @@ import com.github.scottswolfe.kathyscleaning.covenant.view.CovenantPanel;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 
-/**
- * Model for Covenant Academy data and workers.
- */
+import javax.annotation.Nonnull;
+
 public class CovenantModel {
 
     List<CovenantEntry> covenantEntries;
@@ -58,9 +57,15 @@ public class CovenantModel {
         return covenantEntries;
     }
 
-    public void setWorkers(final List<String> workerNames) {
-        for (int count = 0; count < workerNames.size() && count < covenantEntries.size(); count++) {
-            covenantEntries.get(count).setWorker(workerNames.get(count));
+    public void setWorkers(@Nonnull final List<String> workerNames) {
+        for (int count = 0; count < covenantEntries.size(); count++) {
+            final String workerName;
+            if (count < workerNames.size()) {
+                workerName = workerNames.get(count);
+            } else {
+                workerName = "";
+            }
+            covenantEntries.get(count).setWorker(workerName);
         }
     }
 }

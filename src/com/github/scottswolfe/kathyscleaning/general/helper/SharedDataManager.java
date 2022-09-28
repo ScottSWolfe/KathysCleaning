@@ -62,6 +62,24 @@ public class SharedDataManager {
             .withCovenantWorkerNames(covenantWorkerNames);
     }
 
+    public List<String> readAvailableWorkersFromFile(@Nonnull final File file) {
+        final SharedDataModel sharedDataModel = JsonMethods.loadFromFileJSON(
+            SharedDataModel.class,
+            file,
+            SaveType.SESSION
+        );
+        return ImmutableList.copyOf(sharedDataModel.availableWorkerNames());
+    }
+
+    public List<String> readCovenantWorkersFromFile(@Nonnull final File file) {
+        final SharedDataModel sharedDataModel = JsonMethods.loadFromFileJSON(
+            SharedDataModel.class,
+            file,
+            SaveType.SESSION
+        );
+        return ImmutableList.copyOf(sharedDataModel.covenantWorkerNames());
+    }
+
     public Calendar readScheduledStartDayFromFile(@Nonnull final File file) {
         final SharedDataModel sharedDataModel = JsonMethods.loadFromFileJSON(
             SharedDataModel.class,

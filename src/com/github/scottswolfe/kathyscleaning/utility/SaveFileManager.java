@@ -138,9 +138,10 @@ public class SaveFileManager {
     public boolean saveAndOpen() {
         final boolean shouldCompleteAction = askUserIfSaveBeforeAction(Action.OPEN_FILE);
         if (shouldCompleteAction) {
-            open();
+            return open();
+        } else {
+            return false;
         }
-        return shouldCompleteAction;
     }
 
     private void load(@Nonnull final File file) {

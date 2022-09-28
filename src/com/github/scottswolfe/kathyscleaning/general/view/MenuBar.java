@@ -99,8 +99,11 @@ public class MenuBar<View extends JComponent, Model> extends JMenuBar {
     private Menu createEditMenu() {
         Menu fileMenu = new Menu("Edit");
         addChangeDateMenuItem(fileMenu);
+        fileMenu.addSeparator();
         addEditWorkersMenuItem(fileMenu);
+        addCopyWorkersMenuItem(fileMenu);
         if (ApplicationCoordinator.getInstance().shouldDisplayLoadScheduleMenuItem(form)) {
+            fileMenu.addSeparator();
             addLoadScheduleMenuItem(fileMenu);
         }
         return fileMenu;
@@ -117,6 +120,12 @@ public class MenuBar<View extends JComponent, Model> extends JMenuBar {
         MenuItem editWorkersMenuItem = new MenuItem("Edit Workers");
         editWorkersMenuItem.addActionListener(menuController.new EditWorkersItemListener());
         fileMenu.add(editWorkersMenuItem);
+    }
+
+    private void addCopyWorkersMenuItem(Menu fileMenu) {
+        MenuItem copyWorkersMenuItem = new MenuItem("Copy Workers from File");
+        copyWorkersMenuItem.addActionListener(menuController.new CopyWorkersItemListener());
+        fileMenu.add(copyWorkersMenuItem);
     }
 
     private void addLoadScheduleMenuItem(Menu fileMenu) {

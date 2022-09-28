@@ -89,6 +89,10 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
         );
     }
 
+    private void menuItemCopyWorkers() {
+        applicationCoordinator.copyWorkersFromFile();
+    }
+
     public void menuItemGoHouses() {
         applicationCoordinator.navigateToForm(Form.COMPLETED);
     }
@@ -152,6 +156,13 @@ public class MenuBarController <ViewObject extends JComponent, ModelObject> impl
         @Override
         public void actionPerformed(ActionEvent e) {
             menuItemEditWorkers();
+        }
+    }
+
+    public class CopyWorkersItemListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            menuItemCopyWorkers();
         }
     }
 

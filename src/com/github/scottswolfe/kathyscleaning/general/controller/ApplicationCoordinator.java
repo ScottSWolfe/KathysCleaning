@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -104,18 +106,14 @@ public class ApplicationCoordinator {
 
     public void updateWorkers(@Nonnull final List<String> workerNames) {
         writeCurrentStateToTemporarySaveFile();
-        sharedDataManager.setAvailableWorkerNames(workerNames);
-        formControllers.values().stream()
-            .filter(controller -> controller.getFormType() != Form.COVENANT) // Covenant uses a different set of workers
-            .forEach(controller -> controller.updateWorkers(workerNames));
+        updateWorkers(workerNames, sharedDataManager::setAvailableWorkerNames, (form) -> form != Form.COVENANT);
         writeCurrentStateToTemporarySaveFile();
         refreshWindow();
     }
 
     public void updateCovenantWorkers(@Nonnull final List<String> covenantWorkerNames) {
         writeCurrentStateToTemporarySaveFile();
-        sharedDataManager.setCovenantWorkerNames(covenantWorkerNames);
-        formControllers.get(Form.COVENANT).updateWorkers(covenantWorkerNames);
+        updateWorkers(covenantWorkerNames, sharedDataManager::setCovenantWorkerNames, (form) -> form == Form.COVENANT);
         writeCurrentStateToTemporarySaveFile();
         refreshWindow();
     }
@@ -168,9 +166,9 @@ public class ApplicationCoordinator {
     private boolean open(@Nonnull final Supplier<Boolean> openMethod) {
         writeCurrentStateToTemporarySaveFile();
         final boolean shouldCompleteAction = openMethod.get();
+        updateWindowTitle();
         if (shouldCompleteAction) {
             loadCurrentStateFromTemporarySaveFile();
-            updateWindowTitle();
             refreshWindow();
         }
         return shouldCompleteAction;
@@ -179,7 +177,7 @@ public class ApplicationCoordinator {
     public void loadSchedule() {
         writeCurrentStateToTemporarySaveFile();
 
-        final File file = FileChooserHelper.open(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
+        final File file = FileChooserHelper.selectFile(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
         if (file == null) {
             return;
         }
@@ -208,6 +206,31 @@ public class ApplicationCoordinator {
         refreshWindow();
     }
 
+    public void copyWorkersFromFile() {
+        writeCurrentStateToTemporarySaveFile();
+
+        final File file = FileChooserHelper.selectFile(FileChooserHelper.SAVE_FILE_DIR, FileChooserHelper.KC);
+        if (file == null) {
+            return;
+        }
+
+        final List<String> availableWorkerNames = sharedDataManager.readAvailableWorkersFromFile(file);
+        final List<String> covenantWorkerNames = sharedDataManager.readCovenantWorkersFromFile(file);
+
+        if (availableWorkerNames.isEmpty() || covenantWorkerNames.isEmpty()) {
+            StaticMethods.shareErrorMessage(
+                "Cannot copy workers from the selected file. It was created before this feature was added."
+            );
+            return;
+        }
+
+        updateWorkers(availableWorkerNames, sharedDataManager::setAvailableWorkerNames, (form) -> form != Form.COVENANT);
+        updateWorkers(covenantWorkerNames, sharedDataManager::setCovenantWorkerNames, (form) -> form == Form.COVENANT);
+
+        writeCurrentStateToTemporarySaveFile();
+        refreshWindow();
+    }
+
     public boolean shouldDisplayLoadScheduleMenuItem(@Nonnull final Form form) {
         return form == Form.COMPLETED || form == Form.LBC;
     }
@@ -226,5 +249,16 @@ public class ApplicationCoordinator {
         if (currentForm != null) {
             formControllers.get(currentForm).setTitleText();
         }
+    }
+
+    private void updateWorkers(
+        @Nonnull final List<String> updatedWorkerNames,
+        @Nonnull final Consumer<List<String>> workerNameConsumer,
+        @Nonnull final Function<Form, Boolean> formFilter
+    ) {
+        workerNameConsumer.accept(updatedWorkerNames);
+        formControllers.values().stream()
+            .filter(controller -> formFilter.apply(controller.getFormType()))
+            .forEach(controller -> controller.updateWorkers(updatedWorkerNames));
     }
 }
