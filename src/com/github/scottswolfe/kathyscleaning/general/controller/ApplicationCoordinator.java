@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ApplicationCoordinator {
@@ -157,22 +158,22 @@ public class ApplicationCoordinator {
     }
 
     public boolean open() {
-        writeCurrentStateToTemporarySaveFile();
-        final boolean shouldCompleteAction = saveFileManager.open();
-        if (shouldCompleteAction) {
-            loadCurrentStateFromTemporarySaveFile();
-        }
-        updateWindowTitle();
-        return shouldCompleteAction;
+        return open(saveFileManager::open);
     }
 
     public void saveAndOpen() {
+        open(saveFileManager::saveAndOpen);
+    }
+
+    private boolean open(@Nonnull final Supplier<Boolean> openMethod) {
         writeCurrentStateToTemporarySaveFile();
-        final boolean shouldCompleteAction = saveFileManager.saveAndOpen();
+        final boolean shouldCompleteAction = openMethod.get();
         if (shouldCompleteAction) {
             loadCurrentStateFromTemporarySaveFile();
+            updateWindowTitle();
+            refreshWindow();
         }
-        updateWindowTitle();
+        return shouldCompleteAction;
     }
 
     public void loadSchedule() {
