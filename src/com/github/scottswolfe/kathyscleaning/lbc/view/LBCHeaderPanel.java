@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.lbc.view;
 
 import com.github.scottswolfe.kathyscleaning.component.CopyWorkersPanel;
+import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.component.SubmitFormPanel;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -41,6 +42,8 @@ public class LBCHeaderPanel extends JPanel implements FocusableCollection {
     ) {
         super();
 
+        final RowLabelPanel lbcLabel = RowLabelPanel.from("LBC");
+
         copyWorkersPanel = CopyWorkersPanel.from(
             new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames()),
             LBCPanel.LBC_WORKER_ROW_COUNT,
@@ -50,13 +53,15 @@ public class LBCHeaderPanel extends JPanel implements FocusableCollection {
 
         submitFormPanel = SubmitFormPanel.from(submitFormListener);
 
-        setLayout(new MigLayout("fill, insets 0", "[grow][][grow]", "[grow]"));
+        setLayout(new MigLayout("fillx, gapx 0, insets 0"));
         setBackground(Settings.BACKGROUND_COLOR);
         setBorder(BorderFactory.createLineBorder(null, 1));
 
-        add(copyWorkersPanel, "center");
-        add(new JSeparator(SwingConstants.VERTICAL), "grow, center, gapx 10 10");
-        add(submitFormPanel, "center");
+        add(lbcLabel, "growx");
+        add(new JSeparator(SwingConstants.VERTICAL), "growy");
+        add(copyWorkersPanel, "growx");
+        add(new JSeparator(SwingConstants.VERTICAL), "growy");
+        add(submitFormPanel, "growx");
 
         connectFocusableComponents();
     }

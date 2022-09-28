@@ -60,7 +60,7 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
         final WindowListener popUpWindowListener,
         final ActionListener submitFormListener
     ) {
-        setLayout(new MigLayout("fillx, gap 0 px, insets 1"));
+        setLayout(new MigLayout("fillx, gapx 0, insets 0"));
         setBackground(Settings.HEADER_BACKGROUND);
 
         datePanel = DatePanel.from(date);
@@ -75,13 +75,13 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
 
         int day_panel_width_min = 133 + (int) Settings.FONT_SIZE; // temp fix
 
-        add(datePanel,"growy, growx, wmin " + day_panel_width_min +", ay center");
+        add(datePanel,"grow, wmin " + day_panel_width_min + ", ay center");
         add(new JSeparator(SwingConstants.VERTICAL), "growy");
-        add(copyWorkersPanel, "growy");
+        add(copyWorkersPanel, "growx");
         add(new JSeparator(SwingConstants.VERTICAL), "growy");
-        add(changeDayPanel, "growy");
+        add(changeDayPanel, "growx");
         add(new JSeparator(SwingConstants.VERTICAL), "growy");
-        add(submitFormPanel, "growy");
+        add(submitFormPanel, "growx");
 
         connectFocusableComponents();
     }
