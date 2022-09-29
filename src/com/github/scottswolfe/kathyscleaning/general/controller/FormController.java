@@ -121,7 +121,7 @@ public class FormController<View extends JComponent, Model> {
     public void launchForm() {
         refreshWindow();
         setTitleText();
-        parentFrame.setLocationRelativeTo(null);
+        setWindowLocation();
         parentFrame.setVisible(true);
     }
 
@@ -181,6 +181,30 @@ public class FormController<View extends JComponent, Model> {
         final double newWidth = isFrameWiderThanScreen ? effectiveScreenSize.getWidth() : parentFrame.getWidth();
         final double newHeight = isFrameTallerThanScreen ? effectiveScreenSize.getHeight() : parentFrame.getHeight();
         parentFrame.setSize(new Dimension((int) newWidth, (int) newHeight));
+    }
+
+    private void setWindowLocation() {
+        setToDefaultWindowLocation();
+    }
+
+    /**
+     * The default window location is centered on the x-axis. On the y-axis 1/4 of the non-window
+     * screen is above the window and 3/4 is below the window.
+     */
+    private void setToDefaultWindowLocation() {
+        final Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+        final int centerX = (int) effectiveScreenSize.getCenterX();
+        final int topLeftX = centerX - (parentFrame.getWidth() / 2);
+        final int xScreenOverlap = (topLeftX + parentFrame.getWidth()) - (int) effectiveScreenSize.getWidth();
+        final int adjustedTopLeftX = xScreenOverlap > 0 ? Math.max(topLeftX - xScreenOverlap, 0) : topLeftX;
+
+        final int yDiff = effectiveScreenSize.height - parentFrame.getHeight();
+        final int topLeftY = yDiff / 4;
+        final int yScreenOverlap = (topLeftY + parentFrame.getHeight()) - (int) effectiveScreenSize.getHeight();
+        final int adjustedTopLeftY = yScreenOverlap > 0 ? Math.max(topLeftY - yScreenOverlap, 0) : topLeftY;
+
+        parentFrame.setLocation(adjustedTopLeftX, adjustedTopLeftY);
     }
 
     public void hideWindow() {
