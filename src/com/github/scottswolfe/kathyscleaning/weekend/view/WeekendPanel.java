@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -121,24 +122,6 @@ public class WeekendPanel extends JPanel {
             customer_combobox.setFont(customer_combobox.getFont().deriveFont(Settings.FONT_SIZE));
             customer_combobox.setEditable(true);
             customer_combobox.addItem("");
-
-            // TODO temporary, move this elsewhere
-            List<String> weekendCustomers = new ArrayList<>();
-
-            try {
-                File file = new File((System.getProperty("user.dir") + "\\save\\WeekendWorkSaveFile"));
-                Scanner input = new Scanner(file);
-                while(input.hasNext()) {
-                    weekendCustomers.add(input.nextLine());
-                }
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            for (String customer : weekendCustomers) {
-                customer_combobox.addItem(customer);
-            }
 
             jobpaid_field = new JTextField();
             jobpaid_field.setColumns(5);

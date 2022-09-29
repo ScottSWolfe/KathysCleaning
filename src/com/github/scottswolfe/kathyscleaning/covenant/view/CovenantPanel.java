@@ -192,31 +192,12 @@ public class CovenantPanel extends JPanel {
             earnedTextfields[i] = new JTextField();
             earnedTextfields[i].setFont( earnedTextfields[i].getFont().deriveFont(Settings.FONT_SIZE) );
             earnedTextfields[i].setColumns(7);
+            earnedTextfields[i].setText("");
             AbstractDocument amount_earned_doc = (AbstractDocument) earnedTextfields[i].getDocument();
             amount_earned_doc.setDocumentFilter(DecimalNumberDocFilter.from());
 
             layout_format = new String("cell " + (i+1+num_v_sep) + " " + (rows+1) + ", center" );
             add(earnedTextfields[i], layout_format);
-
-            try {
-                FileInputStream inp = new FileInputStream(Settings.COVENANT_EARNED_SAVE_FILE);
-                Scanner scanner = new Scanner(inp);
-
-                String amount = "";
-
-                for (int m=0; m<i+1; m++) {
-                    amount = scanner.nextLine();
-                }
-
-                earnedTextfields[i].setText( amount );
-
-                scanner.close();
-                inp.close();
-            }
-            catch (Exception e1) {
-                e1.printStackTrace();
-            }
-
 
             if ( i < day.length - 1) {
                 add( new JSeparator(SwingConstants.VERTICAL), "cell " + (i+2+num_v_sep) + " " + 1 + ", span 1 " + (rows+1) + ", growy, gapx 10" );

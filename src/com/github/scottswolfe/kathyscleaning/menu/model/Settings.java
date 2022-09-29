@@ -15,8 +15,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
  */
 public class Settings {
 
-/* DEFAULT PROJECT SETTINGS ================================================= */
-
     /**
      * Default Look and Feel
      */
@@ -56,18 +54,6 @@ public class Settings {
      * Settings and Data Save Files
      */
     public static final File SETTINGS_SAVE_FILE = new File(System.getProperty("user.dir") + "\\save\\settings\\SettingsSaveFile" );
-    public static final File SUBMIT_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekASubmitWeekSaveFile");
-    public static final File NEXT_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekANextWeekSaveFile");
-    public static final File WEEKEND_WEEK_A = new File(System.getProperty("user.dir") + "\\save\\WeekAWeekendSaveFile");
-    public static final File SUBMIT_WEEK_B = new File(System.getProperty("user.dir") + "\\save\\WeekBSubmitWeekSaveFile");
-    public static final File NEXT_WEEK_B = new File(System.getProperty("user.dir") + "\\save\\WeekBNextWeekSaveFile");
-    public static final File WEEKEND_WEEK_B = new File(System.getProperty("user.dir") + "\\save\\WeekBWeekendSaveFile");
-    public static final File SAVED_SCHEDULE = new File(System.getProperty("user.dir") + "\\save\\SavedSchedule");
-    public static final File COV_WORKER_SAVE = new File(System.getProperty("user.dir") + "\\save\\CovenantWorkerSaveFile");
-    public static final File COVENANT_EARNED_SAVE_FILE = new File( System.getProperty("user.dir") + "\\save\\CovenantEarnedSaveFile" );
-    public static final File LBC_WORKER_SAVE = new File(System.getProperty("user.dir") + "\\save\\LBCWorkerSaveFile");
-    public static final File LBC_EARNED_SAVE_FILE = new File( System.getProperty("user.dir") + "\\save\\LBCEarnedSaveFile" );
-
 
     /**
      * Default Excel Template.
@@ -82,54 +68,9 @@ public class Settings {
             new File(System.getProperty("user.home") + "\\Desktop");
 
     /**
-     * Current Covenant Save File
-     */
-    public static final File CURRENT_COVENANT_DATA =
-            new File(System.getProperty("user.dir") +
-                    "\\save\\current\\CurrentCovenantData.txt");
-
-    /**
-     * Current Completed Houses Save File
-     */
-    public static final File CURRENT_SCHEDULED_DATA =
-            new File(System.getProperty("user.dir") +
-                    "\\save\\current\\CurrentScheduledData.txt");
-
-    /**
-     * Current Completed Houses Save File
-     */
-    public static final File CURRENT_WEEKEND_DATA =
-            new File(System.getProperty("user.dir") +
-                    "\\save\\current\\CurrentScheduledData.txt");
-
-
-    /**
      * Default Text Size Factor.
      */
     public static final int DEFAULT_TEXT_SIZE_FACTOR = 2;
-
-    /**
-     *  Flags for whether editing default autofill data or submitting new data.
-     */
-    public static final int TRUE_MODE = 0;
-    public static final int EDIT_MODE = 1;
-
-    /**
-     * Flags for whether editing house workers or covenant workers.
-     */
-    public static final int HOUSES_WORKERS = 0;
-    public static final int COVENANT_WORKERS = 1;
-
-    /**
-     * Flags for whether week A, B, or Neither.
-     */
-    public static final int WEEK_A = 0;
-    public static final int WEEK_B = 1;
-    public static final int NEITHER = 2;
-
-
-
-/* PUBLIC METHODS =========================================================== */
 
     /**
      * Static method to change Look and Feel to Program Default.
@@ -152,7 +93,6 @@ public class Settings {
             }
         }
     }
-
 
     /**
      * Static method to change Look and Feel to System Default.
@@ -183,5 +123,4 @@ public class Settings {
                     new Font("System", Font.PLAIN, 24));
         }
     }
-
 }
