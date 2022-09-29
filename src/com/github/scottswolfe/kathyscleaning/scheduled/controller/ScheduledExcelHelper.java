@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -123,7 +124,10 @@ public class ScheduledExcelHelper implements ExcelHelper<NW_Data> {
                     nnum++;
                     nrow = sheet.getRow(nnum);
                     if (nnum > 5000) {
-                        JOptionPane.showMessageDialog(new JFrame(), "Employee " + ws.getName() + " does not match any name in the Excel file");
+                        JOptionPane.showMessageDialog(
+                            ApplicationCoordinator.getInstance().getWindow(),
+                            "Employee " + ws.getName() + " does not match any name in the Excel file"
+                        );
                         d1 = true;
                     }
                 }

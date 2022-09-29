@@ -19,6 +19,7 @@ import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import javax.annotation.Nonnull;
 import javax.swing.SwingUtilities;
 import java.awt.Point;
+import java.awt.Window;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -266,6 +267,14 @@ public class ApplicationCoordinator {
 
     public boolean shouldDisplayLoadScheduleMenuItem(@Nonnull final Form form) {
         return form == Form.COMPLETED || form == Form.LBC;
+    }
+
+    public Window getWindow() {
+        if (currentForm != null) {
+            return formControllers.get(currentForm).getFrame();
+        } else {
+            return null;
+        }
     }
 
     private void writeCurrentStateToTemporarySaveFile() {

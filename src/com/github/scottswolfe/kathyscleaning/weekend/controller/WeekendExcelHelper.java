@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
@@ -49,7 +50,12 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
             if (entry.isWorkedIsChecked()) {
 
                 if (job_num >= num_jobs_cap ) {
-                    JOptionPane.showMessageDialog( new JFrame(), "Error: the number of weekend jobs you chose will not fit in the Excel Sheet.\nYou need to modify the Excel sheet if you want to include that many unique jobs.", null, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                        ApplicationCoordinator.getInstance().getWindow(),
+                        "Error: the number of weekend jobs you chose will not fit in the Excel Sheet.\nYou need to modify the Excel sheet if you want to include that many unique jobs.",
+                        null,
+                        JOptionPane.ERROR_MESSAGE
+                    );
                     break;
                 }
 
@@ -100,7 +106,12 @@ public class WeekendExcelHelper implements ExcelHelper<WeekendModel> {
 
                             String message = "Error: the selected employee " + entry.getEmployee() +
                                     " is not on the Excel Sheet. Please modify the Excel sheet as needed.";
-                            JOptionPane.showMessageDialog(new JFrame(), message, null, JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(
+                                ApplicationCoordinator.getInstance().getWindow(),
+                                message,
+                                null,
+                                JOptionPane.ERROR_MESSAGE
+                            );
                             break;
                         }
 

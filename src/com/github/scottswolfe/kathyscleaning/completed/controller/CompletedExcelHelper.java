@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
 import com.github.scottswolfe.kathyscleaning.utility.TimeWindow;
 import org.apache.commons.lang3.tuple.Pair;
@@ -215,7 +216,12 @@ public class CompletedExcelHelper implements ExcelHelper<CompletedModel> {
                                              " from the exception at " + completedModel.dayData[d].houseData[h].getHouseName() +
                                              " could not be found on the excel document.\n" +
                                              "You will need to enter the data manually.";
-                            JOptionPane.showMessageDialog(new JFrame(), message, null, JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(
+                                ApplicationCoordinator.getInstance().getWindow(),
+                                message,
+                                null,
+                                JOptionPane.ERROR_MESSAGE
+                            );
                             break;
                         }
                         // else move on to the next cell

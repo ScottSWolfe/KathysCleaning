@@ -60,10 +60,16 @@ public class SettingsPanelController {
                 Desktop.getDesktop().open(SettingsModel.getExcelTemplateFile());
             } catch (IllegalArgumentException e1) {
                 e1.printStackTrace();
-                JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen file could not be opened");
+                JOptionPane.showMessageDialog(
+                    ApplicationCoordinator.getInstance().getWindow(),
+                    "Error: the chosen file could not be opened"
+                );
             } catch (IOException e2) {
                 e2.printStackTrace();
-                JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen file could not be opened");
+                JOptionPane.showMessageDialog(
+                    ApplicationCoordinator.getInstance().getWindow(),
+                    "Error: the chosen file could not be opened"
+                );
             }
         }
 
@@ -77,9 +83,15 @@ public class SettingsPanelController {
             try {
                 Desktop.getDesktop().open(SettingsModel.getExcelSaveLocation());
             } catch (IOException e1) {
-                JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen folder could not be viewed.");
+                JOptionPane.showMessageDialog(
+                    ApplicationCoordinator.getInstance().getWindow(),
+                    "Error: the chosen folder could not be viewed."
+                );
             } catch(NullPointerException e2) {
-                JOptionPane.showMessageDialog(new JFrame(), "Error: the chosen folder could not be viewed.");
+                JOptionPane.showMessageDialog(
+                    ApplicationCoordinator.getInstance().getWindow(),
+                    "Error: the chosen folder could not be viewed."
+                );
             }
         }
 

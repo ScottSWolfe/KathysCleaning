@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.utility.TimeWindow;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Cell;
@@ -87,7 +88,10 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                         workTime.getEndTime()
                     );
                     JOptionPane.showMessageDialog(
-                        new JFrame(), message, null, JOptionPane.ERROR_MESSAGE
+                        ApplicationCoordinator.getInstance().getWindow(),
+                        message,
+                        null,
+                        JOptionPane.ERROR_MESSAGE
                     );
                     continue;
                 }
@@ -133,8 +137,12 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                                                 "to enter the Employee's payroll data manually on the Excel Sheet.\n" +
                                                 "Please correct the employee's name so that it matches the Excel Sheet.";
 
-                                        JOptionPane.showMessageDialog( new JFrame(), message,
-                                                null, JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(
+                                            ApplicationCoordinator.getInstance().getWindow(),
+                                            message,
+                                            null,
+                                            JOptionPane.ERROR_MESSAGE
+                                        );
 
                                         row = sheet.getRow(row.getRowNum() - 1);
                                         missing_employee = true;
@@ -155,8 +163,12 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                     }
                     else {
                         String message = "Tell Scott to remove this infinite loop!";
-                        JOptionPane.showMessageDialog( new JFrame(), message,
-                                null, JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(
+                            ApplicationCoordinator.getInstance().getWindow(),
+                            message,
+                            null,
+                            JOptionPane.ERROR_MESSAGE
+                        );
                     }
 
                 }

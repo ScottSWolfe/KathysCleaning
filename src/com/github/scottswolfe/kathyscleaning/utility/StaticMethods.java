@@ -1,5 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.utility;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
+
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
@@ -13,18 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class StaticMethods {
-
-    public static boolean confirmSubmitWeek() {
-        String message = new String("<html>Are you sure you are ready<br>to submit the week?");
-        String[] options = {"Cancel", "Confirm"};
-        JFrame f = new JFrame();
-        StaticMethods.findSetLocation(f);
-        int value = JOptionPane.showOptionDialog(f, message, null, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 0);
-        if (value == 0 || value == JOptionPane.CLOSED_OPTION) {
-            return false;
-        }
-        return true;
-    }
 
     // findSetLocation divides the screen into 9 rectangles and determines
     // where a new frame should be located based on the mouses' location
@@ -161,6 +151,11 @@ public class StaticMethods {
     }
 
     public static void shareErrorMessage(final String message) {
-        JOptionPane.showMessageDialog(new JFrame(), message, null, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+            ApplicationCoordinator.getInstance().getWindow(),
+            message,
+            null,
+            JOptionPane.ERROR_MESSAGE
+        );
     }
 }

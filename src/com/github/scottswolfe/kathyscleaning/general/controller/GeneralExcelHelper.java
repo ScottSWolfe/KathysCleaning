@@ -74,12 +74,16 @@ public class GeneralExcelHelper {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(new JFrame(),
-                    "Error: Excel template could not be found.");
+            JOptionPane.showMessageDialog(
+                ApplicationCoordinator.getInstance().getWindow(),
+                "Error: Excel template could not be found."
+            );
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(new JFrame(),
-                    "Error: Excel document was not created properly.");
+            JOptionPane.showMessageDialog(
+                ApplicationCoordinator.getInstance().getWindow(),
+                "Error: Excel document was not created properly."
+            );
 
         }
     }
@@ -92,16 +96,22 @@ public class GeneralExcelHelper {
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(new JFrame(),
-                    "Error: Excel document was not created properly.");
+            JOptionPane.showMessageDialog(
+                ApplicationCoordinator.getInstance().getWindow(),
+                "Error: Excel document was not created properly."
+            );
             if (e.getMessage().contains("it is being used by another process")) {
-                JOptionPane.showMessageDialog(new JFrame(),
-                        "The Excel document must be closed in order to be saved");
+                JOptionPane.showMessageDialog(
+                    ApplicationCoordinator.getInstance().getWindow(),
+                    "The Excel document must be closed in order to be saved"
+                );
             }
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(new JFrame(),
-                    "Error: Excel document was not created properly.");
+            JOptionPane.showMessageDialog(
+                ApplicationCoordinator.getInstance().getWindow(),
+                "Error: Excel document was not created properly."
+            );
         }
     }
 

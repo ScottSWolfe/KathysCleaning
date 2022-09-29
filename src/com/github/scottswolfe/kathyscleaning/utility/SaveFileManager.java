@@ -206,7 +206,7 @@ public class SaveFileManager {
         final String message  = "<html>Are you sure you want to overwrite " + file.getName() + "?";
 
         final int response = JOptionPane.showOptionDialog(
-            new JFrame(),
+            ApplicationCoordinator.getInstance().getWindow(),
             message,
             null,
             JOptionPane.DEFAULT_OPTION,
@@ -278,7 +278,7 @@ public class SaveFileManager {
         }
 
         int response = JOptionPane.showOptionDialog(
-            new JFrame(),
+            ApplicationCoordinator.getInstance().getWindow(),
             message,
             null,
             JOptionPane.DEFAULT_OPTION,

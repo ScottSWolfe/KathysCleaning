@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import org.apache.commons.io.FilenameUtils;
 
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
@@ -40,7 +41,6 @@ public class FileChooserHelper {
      * accept button says "Select".
      *
      * @param directory the default directory
-     * @param title the title for the dialog window
      * @param extension the file extension for filtering; null for no filtering
      * @return the chosen file or null if no file is chosen
      */
@@ -58,7 +58,6 @@ public class FileChooserHelper {
      * accept button says "Select".
      *
      * @param directory the default directory
-     * @param title the title for the dialog window
      * @return the chosen directory or null if no file is chosen
      */
     public static File selectDirectory(File directory) {
@@ -75,7 +74,6 @@ public class FileChooserHelper {
      * if the file does not exist. The file chooser accept button says "Save".
      *
      * @param directory the default directory
-     * @param title the title for the dialog window
      * @param fileName the suggested name for the file
      * @return the chosen or created file or null if no file is chosen
      */
@@ -115,9 +113,7 @@ public class FileChooserHelper {
      * button says "Open".
      *
      * @param directory the default directory
-     * @param title the title for the dialog window
      * @param extension the file extension for filtering; null for no filtering
-     * @param createFile true if user can create new files, false otherwise
      * @return the chosen or created file or null if no file is chosen
      */
     public static File open(File directory, String extension) {
@@ -148,9 +144,9 @@ public class FileChooserHelper {
         chooser.setFileFilter(filter);
     }
 
-    private static File chooseFile(JFileChooser chooser,
-                                   boolean createFile, Method method) {
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+    private static File chooseFile(JFileChooser chooser, boolean createFile, Method method) {
+        final int selectedOption = chooser.showOpenDialog(ApplicationCoordinator.getInstance().getWindow());
+        if (selectedOption == JFileChooser.APPROVE_OPTION) {
             return getSelectedFile(chooser, createFile, method);
         } else {
             return null;

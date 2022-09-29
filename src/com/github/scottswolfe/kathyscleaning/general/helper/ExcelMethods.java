@@ -45,7 +45,10 @@ public class ExcelMethods {
 
         final boolean shouldCompleteAction;
         if (saveFileManager.isCurrentFileDefaultTemplate()) {
-            JOptionPane.showMessageDialog(null, "First, save as a new file.");
+            JOptionPane.showMessageDialog(
+                ApplicationCoordinator.getInstance().getWindow(),
+                "First, save as a new file."
+            );
             shouldCompleteAction = ApplicationCoordinator.getInstance().saveAsNew();
         } else {
             shouldCompleteAction = ApplicationCoordinator.getInstance().askIfSaveBeforeClose();
@@ -54,7 +57,10 @@ public class ExcelMethods {
             return;
         }
 
-        JOptionPane.showMessageDialog(null, "Choose the Excel document to create.");
+        JOptionPane.showMessageDialog(
+            ApplicationCoordinator.getInstance().getWindow(),
+            "Choose the Excel document to create."
+        );
 
         File file = FileChooserHelper.saveAs(
             SettingsModel.getExcelSaveLocation(),
@@ -64,7 +70,10 @@ public class ExcelMethods {
 
         if (file != null) {
 
-            JOptionPane.showMessageDialog(null, "Now generating the Excel document...");
+            JOptionPane.showMessageDialog(
+                ApplicationCoordinator.getInstance().getWindow(),
+                "Now generating the Excel document..."
+            );
             ApplicationCoordinator.getInstance().hideCurrentWindow();
 
             try {

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import com.github.scottswolfe.kathyscleaning.completed.controller.CompletedControllerHelper;
@@ -266,5 +267,9 @@ public class FormController<View extends JComponent, Model> {
 
     public Model getModel() {
         return model;
+    }
+
+    public JFrame getFrame() {
+        return parentFrame;
     }
 }
