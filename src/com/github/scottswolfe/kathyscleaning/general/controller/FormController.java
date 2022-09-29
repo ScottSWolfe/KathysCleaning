@@ -2,9 +2,11 @@ package com.github.scottswolfe.kathyscleaning.general.controller;
 
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.swing.JComponent;
@@ -118,10 +120,10 @@ public class FormController<View extends JComponent, Model> {
         controllerHelper.writeModelToView(model, view);
     }
 
-    public void launchForm() {
+    public void launchForm(@Nonnull final Optional<Point> centerPoint) {
         refreshWindow();
         setTitleText();
-        setWindowLocation();
+        setWindowLocation(centerPoint);
         parentFrame.setVisible(true);
     }
 
@@ -183,8 +185,26 @@ public class FormController<View extends JComponent, Model> {
         parentFrame.setSize(new Dimension((int) newWidth, (int) newHeight));
     }
 
-    private void setWindowLocation() {
-        setToDefaultWindowLocation();
+    private void setWindowLocation(@Nonnull final Optional<Point> centerPoint) {
+        if (centerPoint.isPresent()) {
+            setWindowLocation(centerPoint.get());
+        } else {
+            setToDefaultWindowLocation();
+        }
+    }
+
+    private void setWindowLocation(@Nonnull final Point centerPoint) {
+        final Rectangle effectiveScreenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+        final int topLeftX = Math.max(centerPoint.x - (parentFrame.getWidth() / 2), 0);
+        final int xScreenOverlap = (topLeftX + parentFrame.getWidth()) - (int) effectiveScreenSize.getWidth();
+        final int adjustedTopLeftX = xScreenOverlap > 0 ? Math.max(topLeftX - xScreenOverlap, 0) : topLeftX;
+
+        final int topLeftY = Math.max(centerPoint.y - (parentFrame.getHeight() / 2), 0);
+        final int yScreenOverlap = (topLeftY + parentFrame.getHeight()) - (int) effectiveScreenSize.getHeight();
+        final int adjustedTopLeftY = yScreenOverlap > 0 ? Math.max(topLeftY - yScreenOverlap, 0) : topLeftY;
+
+        parentFrame.setLocation(adjustedTopLeftX, adjustedTopLeftY);
     }
 
     /**
@@ -223,6 +243,13 @@ public class FormController<View extends JComponent, Model> {
     public void recreateView() {
         initializeView();
         controllerHelper.writeModelToView(model, view);
+    }
+
+    public Point getCenterPoint() {
+        return new Point(
+            parentFrame.getWidth() / 2 + parentFrame.getX(),
+            parentFrame.getHeight() / 2 + parentFrame.getY()
+        );
     }
 
     public Form getFormType() {

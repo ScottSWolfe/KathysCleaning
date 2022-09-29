@@ -18,11 +18,13 @@ import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 
 import javax.annotation.Nonnull;
 import javax.swing.SwingUtilities;
+import java.awt.Point;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -109,10 +111,18 @@ public class ApplicationCoordinator {
 
     public void navigateToForm(final Form targetForm) {
         writeCurrentStateToTemporarySaveFile();
+
+        final Optional<Point> sourceWindowCenterPoint;
+        if (currentForm != null) {
+            sourceWindowCenterPoint = Optional.of(formControllers.get(currentForm).getCenterPoint());
+        } else {
+            sourceWindowCenterPoint = Optional.empty();
+        }
+
         hideCurrentWindow();
         currentForm = targetForm;
         final FormController<?, ?> targetController = formControllers.get(targetForm);
-        SwingUtilities.invokeLater(targetController::launchForm);
+        SwingUtilities.invokeLater(() -> targetController.launchForm(sourceWindowCenterPoint));
     }
 
     public void refreshWindow() {
