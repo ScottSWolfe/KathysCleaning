@@ -2,7 +2,7 @@ package com.github.scottswolfe.kathyscleaning.covenant.controller;
 
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.annotation.Nonnull;
 import javax.swing.JOptionPane;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
@@ -48,32 +48,29 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
         Row row;
         Cell cell;
         boolean day_complete;
-        boolean missing_employee = false;
-        String s1;
-        String s2;
 
         List<CovenantEntry> entries = model.getEntries();
         CovenantEntry entry;
-        String worker;
         List<WorkTime> workTimes;
-        WorkTime workTime;
-        String beginTime;
-        String endTime;
 
         // iterate through each entry
         for (int i = 0; i < entries.size(); i++) {
+
+            boolean missingEmployee = false;
 
             entry = entries.get(i);
             workTimes = entry.getWorkTimes();
             row = sheet.getRow(0);
 
+            final String worker = entry.getWorker();
+            if (worker == null || worker.isEmpty()) {
+                continue;
+            }
+
             // iterate through each day of the week
             for (int j = 0; j < days.length; j++) {
 
-                worker = entry.getWorker();
-                workTime = workTimes.get(j);
-                beginTime = workTime.getBeginTime();
-                endTime = workTime.getEndTime();
+                final WorkTime workTime = workTimes.get(j);
 
                 if (workTime.getBeginTime().isEmpty() && workTime.getEndTime().isEmpty()) {
                     continue;
@@ -100,7 +97,7 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                 while (day_match == false) {
 
                     // making sure the row and columns are not null
-                    if (row != null && row.getCell(COVENANT_SHEET_DAY_COLUMN) != null) {        // TODO infinite loop here!!!
+                    if (row != null && row.getCell(COVENANT_SHEET_DAY_COLUMN) != null) {
 
                         cell = row.getCell(COVENANT_SHEET_DAY_COLUMN);
 
@@ -118,7 +115,7 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                                 if (row != null && row.getCell(COVENANT_SHEET_WORKER_COLUMN) != null) {
 
                                     // checking for the cell that matches the current worker
-                                    if (row.getCell(COVENANT_SHEET_WORKER_COLUMN).getStringCellValue().equals(entry.getWorker())) {
+                                    if (row.getCell(COVENANT_SHEET_WORKER_COLUMN).getStringCellValue().equals(worker)) {
 
                                         Pair<String, String> times = TimeMethods.convertTo24HourFormat(
                                             workTime.getBeginTime(), workTime.getEndTime(), TimeWindow.COVENANT
@@ -126,34 +123,19 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                                         row.getCell(COVENANT_SHEET_BEGIN_TIME_COLUMN).setCellValue(DateUtil.convertTime(times.getLeft()));
                                         row.getCell(COVENANT_SHEET_END_TIME_COLUMN).setCellValue(DateUtil.convertTime(times.getRight()));
 
-                                        day_complete = true;
                                         break;
                                     }
                                     // or if the next day comes first; the worker is missing from the excel sheet
                                     else if (j < 4 && row.getCell(0).getStringCellValue().equals(days[j + 1])) {
-
-                                        String message = "Error: The selected employee " + worker +
-                                                " cannot be found on the Excel Document.\nYou will need " +
-                                                "to enter the Employee's payroll data manually on the Excel Sheet.\n" +
-                                                "Please correct the employee's name so that it matches the Excel Sheet.";
-
-                                        JOptionPane.showMessageDialog(
-                                            ApplicationCoordinator.getInstance().getWindow(),
-                                            message,
-                                            null,
-                                            JOptionPane.ERROR_MESSAGE
-                                        );
-
                                         row = sheet.getRow(row.getRowNum() - 1);
-                                        missing_employee = true;
+                                        missingEmployee = true;
                                     }
 
-                                    if (missing_employee == true) {
+                                    if (missingEmployee == true) {
                                         break;
                                     }
                                 }
                                 row = sheet.getRow(row.getRowNum() + 1);
-
 
                             }
                             row = sheet.getRow(row.getRowNum() + 1);
@@ -162,23 +144,16 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                         row = sheet.getRow(row.getRowNum() + 1);
                     }
                     else {
-                        String message = "Tell Scott to remove this infinite loop!";
-                        JOptionPane.showMessageDialog(
-                            ApplicationCoordinator.getInstance().getWindow(),
-                            message,
-                            null,
-                            JOptionPane.ERROR_MESSAGE
-                        );
+                        // This is the case where we went too far below Friday because the employee does not exist
+                        missingEmployee = true;
+                        break;
                     }
-
                 }
-                if (missing_employee == true) {
-                    missing_employee = false;
+                if (missingEmployee) {
+                    alertUserAboutMissingEmployee(worker);
                     break;
                 }
-
             }
-
         }
 
         // adding in amount earned
@@ -207,7 +182,6 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                 row_num++;
                 counter++;
             }
-
 
             counter = 0;
             while (counter < 11) {
@@ -260,26 +234,38 @@ public class CovenantExcelHelper implements ExcelHelper<CovenantModel> {
                      .getStringCellValue()
                      .equals(COVENANT_SHEET_INCOME_LABEL)
             ) {
-
                 for (Double earned : amounts) {
                         total += earned;
                 }
 
                 row.getCell(COVENANT_SHEET_INCOME_VALUE_COLUMN).setCellValue(total);
 
-                row_num++;
                 break;
-
             }
             else {
                 counter++;
                 row_num++;
             }
-
         }
 
         XSSFFormulaEvaluator.evaluateAllFormulaCells(wb);
-
     }
 
+    private void alertUserAboutMissingEmployee(@Nonnull final String workerName) {
+
+        final String message = "Error: The selected employee " + workerName + " cannot be found on the Excel sheet."
+            + "\n"
+            + "You will need to enter the Employee's payroll data manually on the Excel sheet."
+            + "\n"
+            + "Please correct the employee's name so that it matches the Excel Sheet"
+            + "\n"
+            + "or correct the name on the Excel template.";
+
+        JOptionPane.showMessageDialog(
+            ApplicationCoordinator.getInstance().getWindow(),
+            message,
+            null,
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
 }
