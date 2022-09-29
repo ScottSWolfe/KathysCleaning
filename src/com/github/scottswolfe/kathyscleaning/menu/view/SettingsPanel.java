@@ -129,7 +129,7 @@ public class SettingsPanel extends JPanel {
         excel_selection_field.setFont(
                 excel_selection_field.getFont().deriveFont(Settings.FONT_SIZE));
         excel_selection_field.setEditable( false );
-        excel_selection_field.setColumns(15);
+        excel_selection_field.setColumns(25);
 
         excel_view_button = new JButton();
         excel_view_button.setText( "View" );
@@ -167,7 +167,7 @@ public class SettingsPanel extends JPanel {
         save_selection_field.setFont(
                 save_selection_field.getFont().deriveFont(Settings.FONT_SIZE));
         save_selection_field.setEditable( false );
-        save_selection_field.setColumns(15);
+        save_selection_field.setColumns(25);
 
         save_view_button = new JButton();
         save_view_button.setText("View");
@@ -194,7 +194,7 @@ public class SettingsPanel extends JPanel {
     private JPanel createAppearancePanel() {
 
         JPanel panel = new JPanel();
-        panel.setLayout(new MigLayout("center"));
+        panel.setLayout(new MigLayout("fillx, center"));
         panel.setBackground(Settings.BACKGROUND_COLOR);
 
         font_size_tag_label = new JLabel();
