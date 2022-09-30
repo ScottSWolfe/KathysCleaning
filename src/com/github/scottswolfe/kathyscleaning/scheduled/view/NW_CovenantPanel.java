@@ -44,7 +44,7 @@ public class NW_CovenantPanel extends JPanel {
         MatteBorder mborder = BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK);
         setBorder(mborder);
 
-        final RowLabelPanel covenantLabelPanel = RowLabelPanel.from("Covenant");
+        final RowLabelPanel covenantLabelPanel = RowLabelPanel.from("Covenant", "align left");
 
         workerSelectPanel = WorkerSelectPanel.from(
             workers,
