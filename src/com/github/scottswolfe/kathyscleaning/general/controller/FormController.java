@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -93,7 +94,7 @@ public class FormController<View extends JComponent, Model> {
     private JScrollPane initializeScrollPane(@Nonnull final View view) {
         final JScrollPane newScrollPane = new JScrollPane();
         newScrollPane.setViewportView(view);
-        newScrollPane.setBorder(null);
+        newScrollPane.setBorder(BorderFactory.createEmptyBorder());
         return newScrollPane;
     }
 
