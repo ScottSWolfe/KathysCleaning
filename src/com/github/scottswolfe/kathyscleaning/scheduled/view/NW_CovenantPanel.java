@@ -5,14 +5,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import com.github.scottswolfe.kathyscleaning.component.Button;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
 import com.github.scottswolfe.kathyscleaning.general.helper.SharedDataManager;
+import com.github.scottswolfe.kathyscleaning.general.model.ButtonColors;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_NoteListener;
@@ -25,7 +27,7 @@ public class NW_CovenantPanel extends JPanel {
     public static final int WORKER_SELECT_ROW_COUNT = 2;
     public static final int WORKER_SELECT_COLUMN_COUNT = 7;
 
-    JButton note_button;
+    private final Button note_button;
 
     NW_DayPanel day_panel;
 
@@ -51,10 +53,12 @@ public class NW_CovenantPanel extends JPanel {
             Settings.BACKGROUND_COLOR
         );
 
-        note_button = new JButton();
-        note_button.setText("Note");
-        note_button.setFont(note_button.getFont().deriveFont(Settings.FONT_SIZE));
-        note_button.addActionListener(new NW_NoteListener(day_panel, workers, day_panel.getNoteData()));
+        // todo: rewrite code from NW_NoteListener so we are not triggering an action on a listener
+        note_button = Button.from(
+            "Note",
+            Settings.QUIET_BUTTON_COLORS,
+            () -> new NW_NoteListener(day_panel, workers, day_panel.getNoteData()).actionPerformed(null)
+        );
 
         final JPanel notePanel = new JPanel();
         notePanel.setLayout(new MigLayout("fill, insets 0"));
@@ -88,7 +92,7 @@ public class NW_CovenantPanel extends JPanel {
             .collect(Collectors.toList());
     }
 
-    public void setNoteButtonColor(Color color) {
-        note_button.setBackground(color);
+    public void setNoteButtonColor(@Nonnull final ButtonColors colors) {
+        note_button.setColors(colors);
     }
 }

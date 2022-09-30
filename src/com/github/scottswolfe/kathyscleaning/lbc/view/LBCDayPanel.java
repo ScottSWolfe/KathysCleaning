@@ -2,7 +2,7 @@ package com.github.scottswolfe.kathyscleaning.lbc.view;
 
 import com.github.scottswolfe.kathyscleaning.completed.model.ExceptionData;
 import com.github.scottswolfe.kathyscleaning.component.AmountEarnedPanel;
-import com.github.scottswolfe.kathyscleaning.component.KcButton;
+import com.github.scottswolfe.kathyscleaning.component.Button;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.component.TimeRangePanel;
 import com.github.scottswolfe.kathyscleaning.component.WorkerSelectPanel;
@@ -33,7 +33,7 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
     private final AmountEarnedPanel amountEarnedPanel;
     private final TimeRangePanel timeRangePanel;
     private final WorkerSelectPanel workerSelectPanel;
-    private final KcButton exceptionsButton;
+    private final Button exceptionsButton;
 
     public static LBCDayPanel from(final DayOfWeek dayOfWeek) {
         return new LBCDayPanel(dayOfWeek);
@@ -51,9 +51,10 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
             new WorkerList(SharedDataManager.getInstance().getAvailableWorkerNames()),
             Settings.BACKGROUND_COLOR
         );
-        exceptionsButton = new KcButton(
+        exceptionsButton = Button.from(
             "Exceptions",
-            (event) -> ExceptionsPanelLauncher.from().launchPanel(
+            Settings.QUIET_BUTTON_COLORS,
+            () -> ExceptionsPanelLauncher.from().launchPanel(
                 GlobalData.getInstance().getDefaultWorkerNames(),
                 () -> this.exceptionData,
                 () -> {},
@@ -119,9 +120,9 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
     public void setExceptionData(final ExceptionData exceptionData) {
         this.exceptionData.setEntries(exceptionData.getEntries());
         if (exceptionData.isException()) {
-            exceptionsButton.setBackground(Settings.EDITED_BUTTON_COLOR);
+            exceptionsButton.setColors(Settings.LOUD_BUTTON_COLORS);
         } else {
-            exceptionsButton.setBackground(Settings.DEFAULT_BUTTON_COLOR);
+            exceptionsButton.setColors(Settings.QUIET_BUTTON_COLORS);
         }
     }
 

@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +18,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.text.AbstractDocument;
 
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
+import com.github.scottswolfe.kathyscleaning.component.Button;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
@@ -58,7 +58,7 @@ public class NW_DayPanel extends JPanel {
     public JComboBox<String> meet_location_box;
     JLabel meet_time_label;
     public JTextField meet_time_field;
-    JButton exception_button;
+    private Button exception_button;
 
     public NW_DayPanel(ScheduledTabbedPane tp, WorkerList workers, Calendar date) {
         this.date = date;
@@ -149,10 +149,12 @@ public class NW_DayPanel extends JPanel {
         ad.setDocumentFilter(tdf);
         meet_time_field.addKeyListener( new TimeKeyListener( tdf ) );
 
-        exception_button = new JButton();
-        exception_button.setText("Exceptions");
-        exception_button.setFont( exception_button.getFont().deriveFont(Settings.FONT_SIZE));
-        exception_button.addActionListener(new NW_ExceptionListener(this, workers));
+        // todo: rewrite code from NW_ExceptionListener so we are not triggering an action on a listener
+        exception_button = Button.from(
+            "Exceptions",
+            Settings.QUIET_BUTTON_COLORS,
+            () -> new NW_ExceptionListener(this, workers).actionPerformed(null)
+        );
 
         panel.add(housesBeginLabel);
         panel.add(meet_location_label,"gapx 0, align right");
@@ -266,9 +268,9 @@ public class NW_DayPanel extends JPanel {
     public void setNoteData(NoteData noteData) {
         this.noteData = noteData;
         if (noteData.isBlank()) {
-            cov_panel.setNoteButtonColor(Settings.DEFAULT_BUTTON_COLOR);
+            cov_panel.setNoteButtonColor(Settings.QUIET_BUTTON_COLORS);
         } else {
-            cov_panel.setNoteButtonColor(Settings.EDITED_BUTTON_COLOR);
+            cov_panel.setNoteButtonColor(Settings.LOUD_BUTTON_COLORS);
         }
     }
 
@@ -279,9 +281,9 @@ public class NW_DayPanel extends JPanel {
     public void setBeginExceptionList(List<BeginExceptionEntry> beginExceptions) {
         this.beginExceptionList = beginExceptions;
         if (isBeginException()) {
-            exception_button.setBackground(Settings.EDITED_BUTTON_COLOR);
+            exception_button.setColors(Settings.LOUD_BUTTON_COLORS);
         } else {
-            exception_button.setBackground(Settings.DEFAULT_BUTTON_COLOR);
+            exception_button.setColors(Settings.QUIET_BUTTON_COLORS);
         }
     }
 
