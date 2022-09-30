@@ -89,16 +89,17 @@ public class NW_DayPanel extends JPanel {
 
         // creating scroll pane and adding house panels
         jsp_panel = new JPanel();
-        jsp_panel.setLayout(new MigLayout("fillx"));
+        jsp_panel.setLayout(new MigLayout("fillx, insets 4 0 0 0"));
         jsp_panel.setBackground(Settings.BACKGROUND_COLOR);
 
-        for(NW_HousePanel house_panel : house_panels) {
-            jsp_panel.add(house_panel, "wrap " + DayPanel.PANEL_PADDING + ", growx");
+        for (int index = 0; index < house_panels.size(); index++) {
+            jsp_panel.add(house_panels.get(index), getHousePanelConstraints(house_panels.size(), index));
         }
 
         jsp = new JScrollPane(jsp_panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );
         jsp.setBackground( Settings.BACKGROUND_COLOR );
+        jsp.setBorder(BorderFactory.createEmptyBorder());
 
         addFlexibleFocusListeners();
 
@@ -115,6 +116,11 @@ public class NW_DayPanel extends JPanel {
         add(scheduledLBCPanel, "growx, wrap 0 ");
         add(housesPanel, "grow, pushy, wrap 0");
         add(cov_panel, "growx");
+    }
+
+    private String getHousePanelConstraints(final int housePanelCount, final int index) {
+        final int padding = index < housePanelCount - 1 ? DayPanel.PANEL_PADDING : 0;
+        return "wrap " + padding + ", growx";
     }
 
     protected JPanel createBeginPanel(WorkerList workers) {

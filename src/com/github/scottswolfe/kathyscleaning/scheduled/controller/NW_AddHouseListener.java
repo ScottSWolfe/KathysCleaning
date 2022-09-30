@@ -50,10 +50,18 @@ public class NW_AddHouseListener implements ActionListener {
         day_panel.addFlexibleFocusListeners();
 
         // add panels back to scroll pane
-        for(NW_HousePanel house_panel : day_panel.house_panels) {
-            day_panel.jsp_panel.add(house_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", growx") );
+        for (int houseCount = 0; houseCount < day_panel.house_panels.size(); houseCount++) {
+            day_panel.jsp_panel.add(
+                day_panel.house_panels.get(houseCount),
+                getHousePanelConstraints(day_panel.house_panels.size(), houseCount)
+            );
         }
 
         ApplicationCoordinator.getInstance().refreshWindow();
+    }
+
+    private String getHousePanelConstraints(final int housePanelCount, final int index) {
+        final int padding = index < housePanelCount - 1 ? DayPanel.PANEL_PADDING : 0;
+        return "wrap " + padding + ", growx";
     }
 }
