@@ -2,10 +2,14 @@ package com.github.scottswolfe.kathyscleaning.utility;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
+import com.google.common.collect.ImmutableList;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class FocusableConnector {
 
@@ -21,20 +25,48 @@ public class FocusableConnector {
         final List<List<? extends JComponent>> components = focusableCollection.getComponentsAsGrid();
         validateGrid(components);
 
+        clearExistingConnections(focusableCollection);
+
         final int rowCount = components.size();
         final int columnCount = components.get(0).size();
 
         for (int row = 0; row < rowCount; row++) {
             for (int column = 0; column < columnCount; column++) {
-                connectComponentsInDirection(components, row, column, Direction.LEFT);
-                connectComponentsInDirection(components, row, column, Direction.RIGHT);
-                connectComponentsInDirection(components, row, column, Direction.ABOVE);
-                connectComponentsInDirection(components, row, column, Direction.BELOW);
+                connectComponentsInDirection(focusableCollection, components, row, column, Direction.LEFT);
+                connectComponentsInDirection(focusableCollection, components, row, column, Direction.RIGHT);
+                connectComponentsInDirection(focusableCollection, components, row, column, Direction.ABOVE);
+                connectComponentsInDirection(focusableCollection, components, row, column, Direction.BELOW);
             }
         }
     }
 
+    private void clearExistingConnections(@Nonnull final FocusableCollection focusableCollection) {
+        focusableCollection.getComponentsAsGrid().stream()
+            .flatMap(Collection::stream)
+            .flatMap(component -> {
+                if (component instanceof FocusableCollection) {
+                    return ImmutableList.builder()
+                        .addAll(((FocusableCollection) component).getComponentsAbove())
+                        .addAll(((FocusableCollection) component).getComponentsOnRight())
+                        .addAll(((FocusableCollection) component).getComponentsBelow())
+                        .addAll(((FocusableCollection) component).getComponentsOnLeft())
+                        .build()
+                        .stream();
+                } else {
+                    return Stream.of(component);
+                }
+            })
+            .map(component -> (JComponent) component)
+            .forEach(component ->
+                focusableCollection.getListenersForComponent(component)
+                    .forEach(component::removeFocusListener)
+            );
+
+        focusableCollection.clearFocusListenerTracking();
+    }
+
     private <T extends JComponent> void connectComponentsInDirection(
+        final FocusableCollection focusableCollection,
         final List<List<? extends JComponent>> components,
         final int row,
         final int column,
@@ -86,7 +118,7 @@ public class FocusableConnector {
                 throw createUnexpectedDirectionException(direction);
         }
 
-        connectComponents(componentsThatTransferFocus, componentsThatReceiveFocus, direction);
+        connectComponents(focusableCollection, componentsThatTransferFocus, componentsThatReceiveFocus, direction);
     }
 
     private List<? extends JComponent> getComponentsOnEdge(
@@ -215,6 +247,7 @@ public class FocusableConnector {
     }
 
     private void connectComponents(
+        final FocusableCollection focusableCollection,
         final List<? extends JComponent> componentsThatTransferFocus,
         final List<? extends JComponent> componentsThatReceiveFocus,
         final Direction direction
@@ -238,6 +271,7 @@ public class FocusableConnector {
                 null
             );
 
+            focusableCollection.addListenerToMap(focusSourceComponent, keyboardFocusListener);
             focusSourceComponent.addFocusListener(keyboardFocusListener);
         }
     }

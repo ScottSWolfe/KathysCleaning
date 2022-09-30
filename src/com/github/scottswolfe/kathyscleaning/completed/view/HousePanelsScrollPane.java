@@ -116,6 +116,7 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
         final HousePanel newHousePanel = buildNewHousePanel();
         scrollPanePanel.add(newHousePanel, newHouseIndex);
         updateHousePanelConstraints();
+        connectFocusableComponents();
         scrollPanePanel.invalidate();
         ApplicationCoordinator.getInstance().refreshWindow();
     }
@@ -123,6 +124,7 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
     public void deleteHousePanel(final int houseIndex) {
         scrollPanePanel.remove(houseIndex);
         updateHousePanelConstraints();
+        connectFocusableComponents();
         scrollPanePanel.invalidate();
         ApplicationCoordinator.getInstance().refreshWindow();
     }
@@ -141,6 +143,7 @@ public class HousePanelsScrollPane extends JScrollPane implements FocusableColle
         scrollPanePanel.add(housePanel1, higherIndex);
 
         updateHousePanelConstraints();
+        connectFocusableComponents();
         scrollPanePanel.invalidate();
         ApplicationCoordinator.getInstance().refreshWindow();
     }

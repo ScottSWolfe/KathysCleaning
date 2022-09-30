@@ -2,19 +2,50 @@ package com.github.scottswolfe.kathyscleaning.interfaces;
 
 import com.github.scottswolfe.kathyscleaning.utility.FocusableConnector;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
+import java.awt.event.FocusListener;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public interface FocusableCollection {
 
     JComponent GAP = new JComponent() {};
 
+    Map<FocusableCollection, Map<JComponent, Set<FocusListener>>> componentToListenerMap = new HashMap<>();
+
     List<List<? extends JComponent>> getComponentsAsGrid();
 
     default void connectFocusableComponents() {
         FocusableConnector.from().connect(this);
+    }
+
+    default <T extends JComponent> void addListenerToMap(
+        @Nonnull final JComponent component,
+        @Nonnull final FocusListener listener
+    ) {
+        if (!componentToListenerMap.containsKey(this)) {
+            componentToListenerMap.put(this, new HashMap<>());
+        }
+
+        if (!componentToListenerMap.get(this).containsKey(component)) {
+            componentToListenerMap.get(this).put(component, new HashSet<>());
+        }
+
+        componentToListenerMap.get(this).get(component).add(listener);
+    }
+
+    default Set<FocusListener> getListenersForComponent(@Nonnull final JComponent component) {
+        return componentToListenerMap.getOrDefault(this, new HashMap<>()).getOrDefault(component, new HashSet<>());
+    }
+
+    default void clearFocusListenerTracking() {
+        componentToListenerMap.getOrDefault(this, new HashMap<>()).clear();
     }
 
     default List<? extends JComponent> getComponentsOnLeft() {
