@@ -198,8 +198,13 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
                 .getExceptionIfExists(worker)
                 .ifPresent(exception -> {
                     schedule.setLBCSelected(true);
-                    schedule.setLbcTime(exception.getMeetTime());
                     schedule.setLbcNote(exception.getNote());
+
+                    if (exception.getMeetTime() != null && !exception.getMeetTime().isEmpty()) {
+                        schedule.setLbcTime(exception.getMeetTime());
+                    } else if (!dp.getLBCData().getMeetTime().isEmpty()) {
+                        schedule.setLbcTime(dp.getLBCData().getMeetTime());
+                    }
                 });
 
             // for each house of the day
@@ -239,10 +244,16 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
             for (BeginExceptionEntry entry : dp.getBeginExceptionList()) {
                 // if worker matches an exception
                 if (entry.getName().equals(worker)) {
-                    schedule.setTime(entry.getTime());
                     schedule.setMeetLocation(entry.getMeetLocation());
                     schedule.ex_note = entry.getNote();
                     hasException = true;
+
+                    if (entry.getTime() != null && !entry.getTime().isEmpty()) {
+                        schedule.setTime(entry.getTime());
+                    } else if (dp.getMeetTime() != null && !dp.getMeetTime().isEmpty()) {
+                        schedule.setTime(dp.getMeetTime());
+                    }
+
                     break;
                 }
             }
@@ -276,13 +287,23 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
             s += schedule.time;
         }
 
+        if (!s.isEmpty()) {
+            s += " ";
+        }
+
+        final List<String> houses = schedule.houseList.stream()
+            .filter(houseName -> !houseName.isEmpty())
+            .collect(Collectors.toList());
+
         // add the meeting location
         if (schedule.isLBCSelected()) {
-            s += " LBC";
+            s += "LBC";
             if (!schedule.getLbcNote().isEmpty()) {
                 s += " (" + schedule.getLbcNote() + ")";
             }
-            s += "...";
+            if (!houses.isEmpty()) {
+                s += ", ";
+            }
         } else if (schedule.getMeetLocation() != null &&
             schedule.getMeetLocation().length() > 0 &&
             schedule.getHouseList().size() > 0 &&
@@ -290,32 +311,24 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
 
             // if has an exception note
             if (schedule.ex_note != null && schedule.ex_note.length() > 0) {
-                s += " " + schedule.getMeetLocation() + " (" + schedule.ex_note + ")...";
+                s += schedule.getMeetLocation() + " (" + schedule.ex_note + ")";
                 schedule.ex_note_written = true;
             }
             // if no exception note
             else {
-                s += " " + schedule.getMeetLocation() + "...";
+                s += schedule.getMeetLocation();
             }
 
+            if (!houses.isEmpty() || schedule.working_covenant) {
+                s += "...";
+            }
         }
         // if no meeting location
         else {
-            // if time has already been written
-            if (schedule.time != null && schedule.time.length() > 2) {
-                s += "...";
-            }
-            // if time has not been written
-            else {
-                // do nothing
-            }
+            // do nothing
         }
 
         // add the houses
-        final List<String> houses = schedule.houseList.stream()
-            .filter(houseName -> !houseName.isEmpty())
-            .collect(Collectors.toList());
-
         int numHouses = houses.size();
         for (int i = 0; i < numHouses; i++) {
 
@@ -350,7 +363,7 @@ public class ScheduledControllerHelper implements ControllerHelper<ScheduledTabb
         // add Covenant Info
         if (schedule.working_covenant == true) {
             // if employee worked at houses as well, add a comma
-            if(schedule.getHouseList().size() > 0) {
+            if (schedule.getHouseList().size() > 0 || schedule.isLBCSelected()) {
                 s += ", Covenant" ;
             }
             // if employee only working at Covenant, no comma
