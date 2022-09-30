@@ -208,7 +208,7 @@ public class NW_DayPanel extends JPanel {
     }
 
     public String getMeetLocation() {
-        final Object selectedItem = meet_location_box.getSelectedItem();
+        final Object selectedItem = meet_location_box.getEditor().getItem();
         return selectedItem != null ? String.valueOf(selectedItem) : "";
     }
 

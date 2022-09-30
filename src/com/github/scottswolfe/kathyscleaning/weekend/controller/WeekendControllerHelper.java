@@ -48,7 +48,7 @@ public class WeekendControllerHelper implements ControllerHelper<WeekendPanel, W
             jp = view.jp[i];
 
             entry.setWorkedIsChecked(jp.worked_checkbox.isSelected());
-            entry.setCustomer(String.valueOf(jp.customer_combobox.getSelectedItem()));
+            entry.setCustomer(String.valueOf(jp.customer_combobox.getEditor().getItem()));
             if (!jp.jobpaid_field.getText().isEmpty()) {
                 entry.setAmountReceived(Double.parseDouble(jp.jobpaid_field.getText()));
             } else {
