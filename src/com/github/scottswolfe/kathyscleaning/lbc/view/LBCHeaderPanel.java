@@ -11,10 +11,10 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Collections;
@@ -75,7 +75,7 @@ public class LBCHeaderPanel extends JPanel implements FocusableCollection {
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Collections.singletonList(
             Arrays.asList(copyWorkersPanel, submitFormPanel)
         );

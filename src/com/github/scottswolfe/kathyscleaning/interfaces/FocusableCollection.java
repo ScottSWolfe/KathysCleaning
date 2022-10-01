@@ -3,7 +3,7 @@ package com.github.scottswolfe.kathyscleaning.interfaces;
 import com.github.scottswolfe.kathyscleaning.utility.FocusableConnector;
 
 import javax.annotation.Nonnull;
-import javax.swing.JComponent;
+import java.awt.Component;
 import java.awt.event.FocusListener;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 
 public interface FocusableCollection {
 
-    JComponent GAP = new JComponent() {};
+    Component GAP = new Component() {};
 
-    Map<FocusableCollection, Map<JComponent, Set<FocusListener>>> componentToListenerMap = new HashMap<>();
+    Map<FocusableCollection, Map<Component, Set<FocusListener>>> componentToListenerMap = new HashMap<>();
 
-    List<List<? extends JComponent>> getComponentsAsGrid();
+    List<List<? extends Component>> getComponentsAsGrid();
 
     default void connectFocusableComponents() {
         FocusableConnector.from().connect(this);
     }
 
-    default <T extends JComponent> void addListenerToMap(
-        @Nonnull final JComponent component,
+    default <T extends Component> void addListenerToMap(
+        @Nonnull final Component component,
         @Nonnull final FocusListener listener
     ) {
         if (!componentToListenerMap.containsKey(this)) {
@@ -40,7 +40,7 @@ public interface FocusableCollection {
         componentToListenerMap.get(this).get(component).add(listener);
     }
 
-    default Set<FocusListener> getListenersForComponent(@Nonnull final JComponent component) {
+    default Set<FocusListener> getListenersForComponent(@Nonnull final Component component) {
         return componentToListenerMap.getOrDefault(this, new HashMap<>()).getOrDefault(component, new HashSet<>());
     }
 
@@ -48,7 +48,7 @@ public interface FocusableCollection {
         componentToListenerMap.getOrDefault(this, new HashMap<>()).clear();
     }
 
-    default List<? extends JComponent> getComponentsOnLeft() {
+    default List<? extends Component> getComponentsOnLeft() {
         return getComponentsAsGrid().stream()
             .map(row -> row.get(0))
             .map(component -> component instanceof FocusableCollection ?
@@ -58,7 +58,7 @@ public interface FocusableCollection {
             .collect(Collectors.toList());
     }
 
-    default List<? extends JComponent> getComponentsOnRight() {
+    default List<? extends Component> getComponentsOnRight() {
         return getComponentsAsGrid().stream()
             .map(row -> row.get(getComponentsAsGrid().get(0).size() - 1))
             .map(component -> component instanceof FocusableCollection ?
@@ -68,7 +68,7 @@ public interface FocusableCollection {
             .collect(Collectors.toList());
     }
 
-    default List<? extends JComponent> getComponentsAbove() {
+    default List<? extends Component> getComponentsAbove() {
         return getComponentsAsGrid().get(0).stream()
             .map(component -> component instanceof FocusableCollection ?
                 ((FocusableCollection) component).getComponentsAbove()
@@ -77,7 +77,7 @@ public interface FocusableCollection {
             .collect(Collectors.toList());
     }
 
-    default List<? extends JComponent> getComponentsBelow() {
+    default List<? extends Component> getComponentsBelow() {
         return getComponentsAsGrid().get(getComponentsAsGrid().size() - 1).stream()
             .map(component -> component instanceof FocusableCollection ?
                 ((FocusableCollection) component).getComponentsBelow()
@@ -86,19 +86,19 @@ public interface FocusableCollection {
             .collect(Collectors.toList());
     }
 
-    default JComponent getComponentOnLeft() {
+    default Component getComponentOnLeft() {
         return getComponentsOnLeft().get(0);
     }
 
-    default JComponent getComponentOnRight() {
+    default Component getComponentOnRight() {
         return getComponentsOnRight().get(0);
     }
 
-    default JComponent getComponentAbove() {
+    default Component getComponentAbove() {
         return getComponentsAbove().get(0);
     }
 
-    default JComponent getComponentBelow() {
+    default Component getComponentBelow() {
         return getComponentsBelow().get(0);
     }
 }

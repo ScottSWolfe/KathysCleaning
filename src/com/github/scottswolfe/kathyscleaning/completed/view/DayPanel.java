@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -8,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
@@ -170,7 +170,7 @@ public class DayPanel extends JPanel implements FocusableCollection {
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Arrays.asList(
             Collections.singletonList(headerPanel),
             Collections.singletonList(scrollPane)

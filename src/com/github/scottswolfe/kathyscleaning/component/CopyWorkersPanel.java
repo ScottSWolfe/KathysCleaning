@@ -6,8 +6,8 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
+import java.awt.Component;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -71,7 +71,7 @@ public class CopyWorkersPanel extends JPanel implements FocusableCollection {
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Collections.singletonList(Arrays.asList(workerSelectPanel, copyWorkersButton));
     }
 }

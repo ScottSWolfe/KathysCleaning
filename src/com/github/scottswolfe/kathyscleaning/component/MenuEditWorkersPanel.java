@@ -6,8 +6,8 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
 import javax.annotation.Nonnull;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
+import java.awt.Component;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +56,7 @@ public class MenuEditWorkersPanel extends JPanel implements Supplier<List<String
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Arrays.asList(
             Collections.singletonList(workerComboBoxGridPanel),
             Collections.singletonList(loadFromExcelButton)

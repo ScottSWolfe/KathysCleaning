@@ -14,9 +14,9 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCExcepti
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import java.awt.Component;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -106,7 +106,7 @@ public class ScheduledLBCPanel extends JPanel implements FocusableCollection {
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Collections.singletonList(
             Arrays.asList(meetTimePanel, workerSelectPanel, exceptionsButtonPanel)
         );

@@ -1,12 +1,9 @@
 package com.github.scottswolfe.kathyscleaning.weekend.view;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.awt.Component;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.annotation.Nonnull;
 import javax.swing.BorderFactory;
@@ -22,14 +19,16 @@ import javax.swing.border.LineBorder;
 
 import com.github.scottswolfe.kathyscleaning.general.controller.ApplicationCoordinator;
 import com.github.scottswolfe.kathyscleaning.general.model.GlobalData;
+import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 
+import com.google.common.collect.ImmutableList;
 import net.miginfocom.swing.MigLayout;
 
 /**
  * Panel in which user can enter other cleaning jobs.
  */
-public class WeekendPanel extends JPanel {
+public class WeekendPanel extends JPanel implements FocusableCollection {
 
     public static final int MAX_JOB_COUNT = 2;
 
@@ -44,6 +43,8 @@ public class WeekendPanel extends JPanel {
 
         add(createHeaderPanel(weekendStartDay), "grow, wrap 0");
         add(createJobsWorkedPanel(), "grow");
+
+        connectFocusableComponents();
     }
 
     private JPanel createHeaderPanel(@Nonnull final Calendar weekendStartDay) {
@@ -100,7 +101,20 @@ public class WeekendPanel extends JPanel {
         return panel;
     }
 
-    public static class JobPanel extends JPanel {
+    @Override
+    public List<List<? extends Component>> getComponentsAsGrid() {
+        final ImmutableList.Builder<List<? extends Component>> listBuilder = ImmutableList.builder();
+
+        listBuilder.add(ImmutableList.of(submit_button));
+
+        Arrays.stream(jp)
+            .map(ImmutableList::of)
+            .forEach(listBuilder::add);
+
+        return listBuilder.build();
+    }
+
+    public static class JobPanel extends JPanel implements FocusableCollection {
 
         public JCheckBox worked_checkbox;
         public JComboBox<String> customer_combobox;
@@ -173,6 +187,21 @@ public class WeekendPanel extends JPanel {
             add(jobpaid_field, "");
             add(employee_combobox, "");
             add(workerpaid_field, "");
+
+            connectFocusableComponents();
+        }
+
+        @Override
+        public List<List<? extends Component>> getComponentsAsGrid() {
+            return ImmutableList.of(
+                ImmutableList.of(
+                    worked_checkbox,
+                    customer_combobox.getEditor().getEditorComponent(),
+                    jobpaid_field,
+                    employee_combobox,
+                    workerpaid_field
+                )
+            );
         }
     }
 

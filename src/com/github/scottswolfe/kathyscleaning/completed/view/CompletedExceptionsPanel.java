@@ -1,5 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -128,7 +128,7 @@ public class CompletedExceptionsPanel extends JPanel implements FocusableCollect
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return exceptionRows.stream()
             .map(exceptionRow -> Arrays.asList(exceptionRow.nameComboBox, exceptionRow.beginTime, exceptionRow.endTime))
             .collect(Collectors.toList());

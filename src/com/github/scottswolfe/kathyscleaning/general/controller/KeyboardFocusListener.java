@@ -50,16 +50,6 @@ public class KeyboardFocusListener implements FocusListener {
         final Component componentBelow,
         final Component componentOnEnter
     ) {
-        // todo: remove commented out code once verified it's not necessary
-        /*
-        if (thisComponent instanceof JComboBox) {
-            final JComboBox comboBox = (JComboBox) thisComponent;
-            this.thisComponent = comboBox.getEditor().getEditorComponent();
-        } else {F
-            this.thisComponent = thisComponent;
-        }
-         */
-
         this.thisComponent = thisComponent;
         this.componentOnLeft = componentOnLeft;
         this.componentOnRight = componentOnRight;
@@ -73,15 +63,26 @@ public class KeyboardFocusListener implements FocusListener {
     @Override
     public void focusGained(FocusEvent arg0) {
 
-        thisComponent.addKeyListener(keyListener);
+        if (thisComponent instanceof JComboBox) {
+            final JComboBox comboBox = (JComboBox) thisComponent;
+
+            comboBox.getEditor().selectAll();
+
+            if (comboBox.isEditable()) {
+                // Do nothing. In this case you should add a focus listener to the ComboBox's
+                // editor component directly.
+            } else {
+                thisComponent.addKeyListener(keyListener);
+            }
+            return;
+        }
 
         if (thisComponent instanceof JTextField) {
             final JTextField textField = (JTextField) thisComponent;
             textField.selectAll();
-        } else if (thisComponent instanceof JComboBox) {
-            final JComboBox comboBox = (JComboBox) thisComponent;
-            comboBox.getEditor().selectAll();
         }
+
+        thisComponent.addKeyListener(keyListener);
     }
 
     @Override

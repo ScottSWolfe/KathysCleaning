@@ -5,7 +5,7 @@ import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
-import javax.swing.JComponent;
+import java.awt.Component;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +22,7 @@ public class FocusableConnector {
     private FocusableConnector() {}
 
     public void connect(final FocusableCollection focusableCollection) {
-        final List<List<? extends JComponent>> components = focusableCollection.getComponentsAsGrid();
+        final List<List<? extends Component>> components = focusableCollection.getComponentsAsGrid();
         validateGrid(components);
 
         clearExistingConnections(focusableCollection);
@@ -56,7 +56,7 @@ public class FocusableConnector {
                     return Stream.of(component);
                 }
             })
-            .map(component -> (JComponent) component)
+            .map(component -> (Component) component)
             .forEach(component ->
                 focusableCollection.getListenersForComponent(component)
                     .forEach(component::removeFocusListener)
@@ -65,9 +65,9 @@ public class FocusableConnector {
         focusableCollection.clearFocusListenerTracking();
     }
 
-    private <T extends JComponent> void connectComponentsInDirection(
+    private <T extends Component> void connectComponentsInDirection(
         final FocusableCollection focusableCollection,
-        final List<List<? extends JComponent>> components,
+        final List<List<? extends Component>> components,
         final int row,
         final int column,
         final Direction direction
@@ -75,16 +75,16 @@ public class FocusableConnector {
         final int rowCount = components.size();
         final int columnCount = components.get(0).size();
 
-        final JComponent component = components.get(row).get(column);
+        final Component component = components.get(row).get(column);
         if (component == null || component == FocusableCollection.GAP) {
             return;
         }
 
-        final List<? extends JComponent> componentsThatTransferFocus = getComponentsOnEdge(
+        final List<? extends Component> componentsThatTransferFocus = getComponentsOnEdge(
             components, row, column, direction
         );
 
-        List<? extends JComponent> componentsThatReceiveFocus = Collections.emptyList();
+        List<? extends Component> componentsThatReceiveFocus = Collections.emptyList();
         switch (direction) {
             case LEFT:
                 if (column > 0) {
@@ -121,13 +121,13 @@ public class FocusableConnector {
         connectComponents(focusableCollection, componentsThatTransferFocus, componentsThatReceiveFocus, direction);
     }
 
-    private List<? extends JComponent> getComponentsOnEdge(
-        final List<List<? extends JComponent>> components,
+    private List<? extends Component> getComponentsOnEdge(
+        final List<List<? extends Component>> components,
         final int row,
         final int column,
         final Direction direction
     ) {
-        final JComponent component = findNonGapComponent(components, row, column, direction);
+        final Component component = findNonGapComponent(components, row, column, direction);
 
         if (component == FocusableCollection.GAP) {
             return Collections.emptyList();
@@ -153,13 +153,13 @@ public class FocusableConnector {
         }
     }
 
-    private JComponent findNonGapComponent(
-        final List<List<? extends JComponent>> components,
+    private Component findNonGapComponent(
+        final List<List<? extends Component>> components,
         final int row,
         final int column,
         final Direction direction
     ) {
-        JComponent currentComponent = components.get(row).get(column);
+        Component currentComponent = components.get(row).get(column);
         if (currentComponent != FocusableCollection.GAP) {
             return currentComponent;
         }
@@ -200,15 +200,15 @@ public class FocusableConnector {
         return currentComponent;
     }
 
-    private JComponent lookInDirectionForNonGapComponent(
-        final List<List<? extends JComponent>> components,
+    private Component lookInDirectionForNonGapComponent(
+        final List<List<? extends Component>> components,
         int row,
         int column,
         final Direction direction
     ) {
         int currentRow = row;
         int currentColumn = column;
-        JComponent currentComponent = components.get(currentRow).get(currentColumn);
+        Component currentComponent = components.get(currentRow).get(currentColumn);
 
         while (currentComponent == FocusableCollection.GAP) {
             switch (direction) {
@@ -248,8 +248,8 @@ public class FocusableConnector {
 
     private void connectComponents(
         final FocusableCollection focusableCollection,
-        final List<? extends JComponent> componentsThatTransferFocus,
-        final List<? extends JComponent> componentsThatReceiveFocus,
+        final List<? extends Component> componentsThatTransferFocus,
+        final List<? extends Component> componentsThatReceiveFocus,
         final Direction direction
     ) {
         if (componentsThatTransferFocus.isEmpty() || componentsThatReceiveFocus.isEmpty()) {
@@ -259,8 +259,8 @@ public class FocusableConnector {
         final double offsetRate = (double) componentsThatReceiveFocus.size() / (double) componentsThatTransferFocus.size();
 
         for (int index = 0; index < componentsThatTransferFocus.size(); index++) {
-            final JComponent focusSourceComponent = componentsThatTransferFocus.get(index);
-            final JComponent focusTargetComponent = componentsThatReceiveFocus.get((int) (index * offsetRate));
+            final Component focusSourceComponent = componentsThatTransferFocus.get(index);
+            final Component focusTargetComponent = componentsThatReceiveFocus.get((int) (index * offsetRate));
 
             final KeyboardFocusListener keyboardFocusListener = KeyboardFocusListener.from(
                 focusSourceComponent,
@@ -276,7 +276,7 @@ public class FocusableConnector {
         }
     }
 
-    private void validateGrid(final List<List<? extends JComponent>> grid) {
+    private void validateGrid(final List<List<? extends Component>> grid) {
         final int rowCount = grid.size();
         if (rowCount == 0) {
             throw new IllegalArgumentException("Number of rows must be greater than 0.");
@@ -286,7 +286,7 @@ public class FocusableConnector {
         if (columnCount == 0) {
             throw new IllegalArgumentException("Number of columns must be greater than 0.");
         }
-        for (List<? extends JComponent> row : grid) {
+        for (List<? extends Component> row : grid) {
             if (row.size() != columnCount) {
                 throw new IllegalArgumentException("All rows must have the same number of columns.");
             }

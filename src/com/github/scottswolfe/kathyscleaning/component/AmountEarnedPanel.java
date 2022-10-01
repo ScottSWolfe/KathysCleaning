@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
+import java.awt.Component;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class AmountEarnedPanel extends JPanel implements FocusableCollection {
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Collections.singletonList(Collections.singletonList(amountEarnedTextField));
     }
 }

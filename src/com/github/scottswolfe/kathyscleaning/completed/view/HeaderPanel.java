@@ -1,5 +1,6 @@
 package com.github.scottswolfe.kathyscleaning.completed.view;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -7,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -99,7 +99,7 @@ public class HeaderPanel extends JPanel implements FocusableCollection {
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Collections.singletonList(
             Arrays.asList(copyWorkersPanel, changeDayPanel, submitFormPanel)
         );

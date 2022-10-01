@@ -4,8 +4,8 @@ import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +54,7 @@ public class HouseRowButtonPanel extends JPanel implements FocusableCollection {
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Arrays.asList(
             Arrays.asList(moveUpButton, addHouseButton),
             Arrays.asList(moveDownButton, deleteHouseButton)

@@ -17,10 +17,10 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import java.awt.Component;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -127,9 +127,9 @@ public class LBCDayPanel extends JPanel implements FocusableCollection {
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Collections.singletonList(
-            Arrays.asList(timeRangePanel, dayOfWeekLabelPanel, workerSelectPanel, exceptionsButton)
+            Arrays.asList(amountEarnedPanel, timeRangePanel, dayOfWeekLabelPanel, workerSelectPanel, exceptionsButton)
         );
     }
 }

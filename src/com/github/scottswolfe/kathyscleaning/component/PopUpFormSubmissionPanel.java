@@ -5,8 +5,8 @@ import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
+import java.awt.Component;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class PopUpFormSubmissionPanel extends JPanel implements FocusableCollect
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return Arrays.asList(
             Arrays.asList(formPanel, FocusableCollection.GAP),
             Arrays.asList(cancelButton, submitButton)

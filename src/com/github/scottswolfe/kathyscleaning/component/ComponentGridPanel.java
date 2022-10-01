@@ -10,6 +10,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -130,7 +131,7 @@ public abstract class ComponentGridPanel<T extends JComponent> extends JPanel im
     }
 
     @Override
-    public List<List<? extends JComponent>> getComponentsAsGrid() {
+    public List<List<? extends Component>> getComponentsAsGrid() {
         return components.stream().map(ArrayList::new).collect(Collectors.toList());
     }
 
