@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.scheduled.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -20,13 +21,13 @@ import javax.swing.text.AbstractDocument;
 import com.github.scottswolfe.kathyscleaning.completed.view.DayPanel;
 import com.github.scottswolfe.kathyscleaning.component.Button;
 import com.github.scottswolfe.kathyscleaning.component.RowLabelPanel;
-import com.github.scottswolfe.kathyscleaning.general.controller.KeyboardFocusListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.NextDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.PreviousDayListener;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeDocumentFilter;
 import com.github.scottswolfe.kathyscleaning.general.controller.TimeKeyListener;
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelMethods;
 import com.github.scottswolfe.kathyscleaning.general.model.WorkerList;
+import com.github.scottswolfe.kathyscleaning.interfaces.FocusableCollection;
 import com.github.scottswolfe.kathyscleaning.menu.model.Settings;
 import com.github.scottswolfe.kathyscleaning.scheduled.controller.NW_ExceptionListener;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.BeginExceptionEntry;
@@ -34,10 +35,11 @@ import com.github.scottswolfe.kathyscleaning.scheduled.model.NoteData;
 
 import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCData;
 import com.github.scottswolfe.kathyscleaning.scheduled.model.ScheduledLBCException;
+import com.google.common.collect.ImmutableList;
 import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class NW_DayPanel extends JPanel {
+public class NW_DayPanel extends JPanel implements FocusableCollection {
 
     NoteData noteData;
     List<BeginExceptionEntry> beginExceptionList;
@@ -100,8 +102,6 @@ public class NW_DayPanel extends JPanel {
                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );
         jsp.setBackground( Settings.BACKGROUND_COLOR );
         jsp.setBorder(BorderFactory.createEmptyBorder());
-
-        addFlexibleFocusListeners();
 
         final JPanel housesPanel = new JPanel();
         housesPanel.setLayout(new MigLayout("fill, insets 0"));
@@ -293,68 +293,22 @@ public class NW_DayPanel extends JPanel {
         }
     }
 
-    public void addFlexibleFocusListeners() {
-
-        for (int i = 0; i < house_panels.size(); i++) {
-            NW_HousePanel hp = house_panels.get(i);
-
-            NW_HousePanel hp_up;
-            NW_HousePanel hp_down;
-
-            if (i > 0) {
-                hp_up = house_panels.get(i - 1);
-            }
-            else {
-                hp_up = new NW_HousePanel();  // all null fields
-            }
-            if (i < house_panels.size() - 1) {
-                hp_down = house_panels.get(i + 1);
-            }
-            else {
-                hp_down = new NW_HousePanel(); // all null fields
-            }
-
-            hp.house_name_text_field.addFocusListener(KeyboardFocusListener.from(
-                hp.house_name_text_field,
-                null,
-                hp.worker_panel.getComponentOnLeft(),
-                hp_up.house_name_text_field,
-                hp_down.house_name_text_field,
-                null
-            ));
-        }
-
-        meet_location_box.getEditor().getEditorComponent().addFocusListener(KeyboardFocusListener.from(
-            meet_location_box,
-            null,
-            meet_time_field,
-            null,
-            null,
-            null
-        ));
-
-        meet_time_field.addFocusListener(KeyboardFocusListener.from(
-            meet_time_field,
-            meet_location_box,
-            exception_button,
-            null,
-            null,
-            null
-        ));
-
-        exception_button.addFocusListener(KeyboardFocusListener.from(
-            exception_button,
-            meet_time_field,
-            null,
-            null,
-            null,
-            null
-        ));
-    }
-
     public int getNumHousePanels() {
         return house_panels.size();
     }
+
+    @Override
+    public List<List<? extends Component>> getComponentsAsGrid() {
+
+        // todo: make all of the following components implement FocusableCollection
+
+        return ImmutableList.of(
+            ImmutableList.of(scheduledHeaderPanel),
+            ImmutableList.of(scheduledLBCPanel),
+            ImmutableList.of(begin_panel),
+            ImmutableList.of(header_panel),
+            ImmutableList.of(jsp_panel),
+            ImmutableList.of(cov_panel)
+        );
+    }
 }
-
-

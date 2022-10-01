@@ -44,9 +44,6 @@ public class NW_DeleteHouseListener implements ActionListener {
 		// delete house panel
 		day_panel.house_panels.remove(index);
 
-		// resetting focus listeners
-		day_panel.addFlexibleFocusListeners();
-
 		// add panels back to scroll pane
         for (int houseCount = 0; houseCount < day_panel.house_panels.size(); houseCount++) {
             day_panel.jsp_panel.add(

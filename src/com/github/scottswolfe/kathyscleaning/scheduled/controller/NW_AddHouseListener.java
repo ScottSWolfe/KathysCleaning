@@ -46,9 +46,6 @@ public class NW_AddHouseListener implements ActionListener {
         // add new house panel
         day_panel.house_panels.add(index + 1, new NW_HousePanel(day_panel.header_panel.getWorkerList(), day_panel));
 
-        // reset focus listeners
-        day_panel.addFlexibleFocusListeners();
-
         // add panels back to scroll pane
         for (int houseCount = 0; houseCount < day_panel.house_panels.size(); houseCount++) {
             day_panel.jsp_panel.add(

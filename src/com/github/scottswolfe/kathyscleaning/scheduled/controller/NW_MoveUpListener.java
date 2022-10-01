@@ -44,9 +44,6 @@ public class NW_MoveUpListener implements ActionListener {
 
         Collections.swap(day_panel.house_panels, index, index - 1);
 
-        // resetting focus listeners
-        day_panel.addFlexibleFocusListeners();
-
         // add panels back to scroll pane
         for(NW_HousePanel house_panel : day_panel.house_panels) {
             day_panel.jsp_panel.add(house_panel, new String("wrap " + DayPanel.PANEL_PADDING + ", growx") );
