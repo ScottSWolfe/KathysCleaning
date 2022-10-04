@@ -1,4 +1,5 @@
 *.iml
+*.jar
 */META-INF/
 .idea/
 bin/
@@ -6,6 +7,8 @@ classes/
 generated/
 generated_tests/
 lib/
+results/
 save/
 todo
+templates/
 versions/
