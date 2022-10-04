@@ -122,7 +122,7 @@ public class JsonMethods {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            // do nothing
+            // todo: throw this so clients can handle it as needed
         }
         return lines;
     }
