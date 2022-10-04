@@ -1,6 +1,7 @@
 package com.github.scottswolfe.kathyscleaning.general.model;
 
 import com.github.scottswolfe.kathyscleaning.general.helper.ExcelPayTabHelper;
+import com.github.scottswolfe.kathyscleaning.utility.StaticMethods;
 import com.google.common.collect.ImmutableList;
 
 import java.io.IOException;
@@ -22,8 +23,20 @@ public class GlobalData {
 
     private GlobalData() {}
 
-    public void initializeData() throws IOException {
-        excelWorkerNames = ImmutableList.copyOf(ExcelPayTabHelper.from().getExcelWorkerNames());
+    public void initializeData() {
+        try {
+            excelWorkerNames = ImmutableList.copyOf(ExcelPayTabHelper.from().getExcelWorkerNames());
+        } catch (IOException e) {
+            StaticMethods.shareErrorMessage(
+                "Could not get worker names from the Excel sheet. Make sure the Excel"
+                    + "\n"
+                    + "template is selected in the Settings menu and that the Excel sheet is"
+                    + "\n"
+                    + "correctly formatted. Then restart the program."
+            );
+            e.printStackTrace();
+            excelWorkerNames = ImmutableList.of();
+        }
     }
 
     public List<String> getDefaultWorkerNames() {

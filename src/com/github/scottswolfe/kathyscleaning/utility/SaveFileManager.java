@@ -19,7 +19,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.annotation.Nonnull;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
@@ -165,18 +164,7 @@ public class SaveFileManager {
             SettingsModel.save(Settings.SETTINGS_SAVE_FILE);
         }
 
-        try {
-            GlobalData.getInstance().initializeData();
-        } catch (Exception e) {
-            StaticMethods.shareErrorMessage(
-                "Could not get worker names from the Excel sheet. Make sure the Excel"
-                    + "\n"
-                    + "template is selected in the Settings menu and that the Excel sheet is"
-                    + "\n"
-                    + "correctly formatted."
-            );
-            e.printStackTrace();
-        }
+        GlobalData.getInstance().initializeData();
 
         CompletedModel completed = new CompletedModel();
         CovenantModel covenant = CovenantModel.from();
